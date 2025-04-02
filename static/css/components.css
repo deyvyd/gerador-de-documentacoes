@@ -84,8 +84,8 @@
   }
 
   .activities-table thead {
-    @apply bg-blue-100;
-    @apply dark:bg-gray-800;
+    @apply bg-[#dbeafe];
+    @apply dark:bg-[#1e3a5f];
   }
 
   .activities-table tbody tr {

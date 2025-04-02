@@ -163,7 +163,7 @@ body {
 }
 
 .dark .activities-table thead {
-  background-color: var(--dark-bg-tertiary);
+  background-color: #1e3a5f;
 }
 
 .activities-table th {
