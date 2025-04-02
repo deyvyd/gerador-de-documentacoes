@@ -24,7 +24,7 @@ body {
   box-shadow: 0 1px 3px var(--light-box-shadow);
   padding: 1rem;
   width: 100%;
-  max-width: 850px;
+  max-width: 1050px;
   margin: 0 auto;
 }
 
@@ -755,5 +755,76 @@ body.modal-open {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+/* Estilos para truncamento com tooltip na coluna Local */
+
+/* Garantir layout de tabela fixo */
+.activities-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* Container para o texto truncado */
+.truncate-text-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: default; /* Indica que há um tooltip disponível */
+}
+
+/* Estilo para o texto truncado com reticências */
+.truncate-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* Melhora a aparência do tooltip nativo do navegador */
+.truncate-text-container[title] {
+  position: relative;
+}
+
+/* Estilo para destacar levemente ao passar o mouse */
+.truncate-text-container:hover .truncate-text {
+  color: var(--btn-primary);
+}
+
+.dark .truncate-text-container:hover .truncate-text {
+  color: var(--dark-edit-btn);
+}
+
+/* Ajustes de largura para os diferentes tamanhos de coluna */
+.activities-table th.w-3\/12,
+.activities-table td.w-3\/12 {
+  width: 25%;
+}
+
+.activities-table th.w-2\/12,
+.activities-table td.w-2\/12 {
+  width: 16.666667%;
+}
+
+/* Garantir que a tabela não ultrapasse o card */
+.activities-table-container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Estilos específicos para navegadores baseados em WebKit (Chrome, Safari) */
+@supports (-webkit-line-clamp: 2) {
+  .truncate-text-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    pointer-events: none;
   }
 }

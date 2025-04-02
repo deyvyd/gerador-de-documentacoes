@@ -408,6 +408,16 @@ const DataTable = {
       type: Array,
       default: () => [],
     },
+    // NOVO: Habilitar truncamento de texto com tooltip em todas as colunas
+    enableTruncation: {
+      type: Boolean,
+      default: true,
+    },
+    // NOVO: Colunas que devem ignorar o truncamento (array de keys)
+    nonTruncatedColumns: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -441,7 +451,17 @@ const DataTable = {
             >
               <!-- Conteúdo da célula: text, buttons ou custom -->
               <div v-if="col.type === 'text'" :class="{'pl-2 py-2': col.align === 'text-left'}">
-                {{ getValueByPath(item, col.key) }}
+                <!-- NOVO: Aplicar truncamento com tooltip apenas para colunas de texto -->
+                <div 
+                  v-if="enableTruncation && !nonTruncatedColumns.includes(col.key)"
+                  class="truncate-text-container" 
+                  :title="getValueByPath(item, col.key)"
+                >
+                  <span class="truncate-text">{{ getValueByPath(item, col.key) }}</span>
+                </div>
+                <template v-else>
+                  {{ getValueByPath(item, col.key) }}
+                </template>
               </div>
               
               <div v-else-if="col.type === 'buttons'" class="text-center">

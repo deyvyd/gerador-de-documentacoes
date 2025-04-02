@@ -115,13 +115,16 @@
               :items="requisitos"
               :columns="[
                           { key: 'id', label: '#', width: 'w-2/12', align: 'text-center', type: 'text' },
-                          { key: 'nome', label: 'Nome', width: 'w-4/12', align: 'text-left', type: 'text' },
-                          { key: 'tipo', label: 'Tipo', width: 'w-3/12', align: 'text-center', type: 'text' },
-                          { key: 'actions', label: 'Ações', width: 'w-3/12', align: 'text-center', type: 'buttons', actions: { view: true, edit: true, delete: true } }
+                          { key: 'nome', label: 'Nome', width: 'w-3/12', align: 'text-left', type: 'text' },
+                          { key: 'local', label: 'Local', width: 'w-3/12', align: 'text-left', type: 'text' },
+                          { key: 'tipo', label: 'Tipo', width: 'w-2/12', align: 'text-center', type: 'text' },
+                          { key: 'actions', label: 'Ações', width: 'w-2/12', align: 'text-center', type: 'buttons', actions: { view: true, edit: true, delete: true } }
                         ]"
               :key-function="(requisito) => requisito.id"
               drag-ref="dragArea"
               :draggable="true"
+              :enable-truncation="true"
+              :non-truncated-columns="['actions']"
               @view="visualizarRequisito"
               @edit="editarRequisito"
               @delete="removerRequisito"
