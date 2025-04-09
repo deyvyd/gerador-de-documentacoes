@@ -28,7 +28,7 @@ const app = createApp({
         horas: "",
       },
       atividades: [],
-      isLoading: false,
+      isSubmitting: false,
       status: {
         message: "",
         type: "info",
@@ -418,8 +418,8 @@ const app = createApp({
 
     // Submissão do formulário
     // Modificação no método submitForm para registrar e exibir o tempo de processamento
-    async gerarDocumento() {
-      if (this.isLoading) return;
+    async submitForm() {
+      if (this.isSubmitting) return;
 
       // Reset do status
       this.status.message = "";
@@ -472,7 +472,7 @@ const app = createApp({
       // Inicializa o tempo de processamento
       const tempoInicio = new Date();
 
-      this.isLoading = true;
+      this.isSubmitting = true;
       // Não mostramos mensagem de status durante o processamento, apenas o spinner no botão
 
       try {
@@ -542,7 +542,7 @@ const app = createApp({
         }. Tempo de processamento: ${tempoTotal}s`;
         this.status.type = "error";
       } finally {
-        this.isLoading = false;
+        this.isSubmitting = false;
       }
     },
 

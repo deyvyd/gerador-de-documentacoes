@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerador de Documentações</title>
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+
+    <!-- 1. Carrega primeiro as definições de cores -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/colors.css') }}"
+    />
+
+    <!-- 2. Carrega os estilos principais -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+
+    <!-- 3. Carrega os estilos de modais e toasts -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/modal.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/toast.css') }}"
+    />
+
+    <!-- 4. Carrega o CSS do Quill -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css"
+      rel="stylesheet"
+    />
+
+    <!-- 5. Carrega as sobrescrições para o Quill por último -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/quill-overrides.css') }}"
+    />
+
+    <!-- Tailwind CSS CLI -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/tailwind.css') }}"
+    />
+
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/maska@2.1.10/dist/maska.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+  </head>
+
+  <body>
+    {% raw %}
+    <div id="app">
+      <!-- Toggle de Tema -->
+      <button @click="toggleTheme" class="theme-toggle">
+        <svg
+          v-if="isDark"
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+          />
+        </svg>
+        <svg
+          v-else
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          />
+        </svg>
+      </button>
+
+      <div class="container">
+        <div class="main-card">
+          <div class="flex items-center justify-center gap-2 mb-6">
+            <h1 class="title">📝 Gerador de Documentações Técnicas</h1>
+            <div class="relative inline-block group">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-blue-500 hover:text-blue-600 cursor-help"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+
+              <!-- Tooltip - Modificamos o posicionamento aqui -->
+              <div
+                class="absolute z-10 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 bg-blue-800 dark:bg-blue-900 text-white rounded-lg p-4 w-80 left-6 top-0 transform -translate-y-1/4 shadow-lg"
+              >
+                <div class="relative">
+                  <!-- Seta do tooltip - Ajustamos a posição da seta -->
+                  <div
+                    class="absolute top-1/2 -left-2 w-4 h-4 bg-blue-800 dark:bg-blue-900 transform rotate-45 -translate-y-1/2"
+                  ></div>
+
+                  <!-- Conteúdo -->
+                  <div class="relative z-20">
+                    <p class="font-medium mb-2">
+                      Este sistema gera um arquivo .zip com os seguintes
+                      documentos:
+                    </p>
+                    <ul class="space-y-1 text-sm">
+                      <li>• Estimativa de Esforço e Cronograma</li>
+                      <li>• Estratégia de Solução</li>
+                      <li>• Relatório de Acompanhamento de Projeto</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Formulário principal -->
+          <form>
+            <!-- Seção de Informações básicas da SS -->
+            <div class="activities-section mb-4">
+              <h2 class="activities-title">Informações básicas da SS</h2>
+
+              <!-- Primeira linha: Número SS, Ano SS e Título -->
+              <div class="form-grid grid-7-7-86">
+                <div class="form-group">
+                  <label class="form-label">Número</label>
+                  <input
+                    type="text"
+                    v-model="formData.numeroSS"
+                    maxlength="3"
+                    placeholder="000"
+                    @input="handleInput"
+                    @blur="formatSS"
+                    class="form-input text-center"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Ano</label>
+                  <input
+                    type="number"
+                    v-model="formData.anoSS"
+                    class="form-input text-center"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Título</label>
+                  <input
+                    type="text"
+                    v-model="formData.tituloSS"
+                    class="form-input"
+                    placeholder="Título informado no e-mail de abertura da SS"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Segunda linha: Descrição -->
+              <div class="form-group">
+                <label class="form-label">Descrição</label>
+                <textarea
+                  v-model="formData.descricao"
+                  class="form-input form-textarea"
+                  placeholder="Ações realizadas para atualização do (SISTEMA) para que (OBJETIVO)."
+                  rows="2"
+                  required
+                ></textarea>
+              </div>
+
+              <!-- Terceira linha: Data Início, Data Fim e Link -->
+              <div class="form-grid grid-18-18-64">
+                <div class="form-group">
+                  <label class="form-label">Data de Início</label>
+                  <input
+                    ref="dataInicioInput"
+                    type="date"
+                    v-model="formData.dataInicio"
+                    class="form-input"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Data de Fim</label>
+                  <input
+                    type="date"
+                    v-model="formData.dataFim"
+                    class="form-input"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Link do board</label>
+                  <input
+                    type="url"
+                    v-model="formData.linkBoard"
+                    placeholder="https://gitlab.com/chesf.gov.br/..."
+                    class="form-input"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Quarta linha: Autor(es) -->
+            <div class="form-group">
+              <label class="form-label">Autor(es)</label>
+              <div class="relative">
+                <div
+                  class="form-input flex flex-wrap items-center gap-2 min-h-[42px]"
+                >
+                  <!-- Tags dos autores selecionados -->
+                  <span
+                    v-for="autor in selectedAutores"
+                    :key="autor.nome"
+                    class="inline-flex items-center bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded px-2 py-1 text-sm"
+                  >
+                    {{ autor.nome }}
+                    <button
+                      @click.prevent="removeAutor(autor)"
+                      class="ml-1 text-blue-600 dark:text-blue-300 hover:text-blue-800 dark:hover:text-blue-100"
+                    >
+                      ×
+                    </button>
+                  </span>
+                  <!-- Input para digitar -->
+                  <input
+                    type="text"
+                    v-model="autorInput"
+                    @input="handleAutorInput"
+                    @focus="showSuggestions = true"
+                    @blur="handleAutorBlur"
+                    @keydown.down.prevent="navigateList('down')"
+                    @keydown.up.prevent="navigateList('up')"
+                    @keydown.enter.prevent="selectHighlighted"
+                    @keydown.backspace="handleBackspace"
+                    placeholder="Digite o nome do autor..."
+                    class="flex-1 min-w-[120px] outline-none bg-transparent border-none p-0 m-0"
+                  />
+                </div>
+
+                <!-- Lista de sugestões -->
+                <div
+                  v-if="showSuggestions && filteredAutores.length > 0"
+                  class="suggestions-list text-sm absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg"
+                >
+                  <div
+                    v-for="(autor, index) in filteredAutores"
+                    :key="autor.nome"
+                    @mousedown="selectAutor(autor)"
+                    @mouseover="highlightedIndex = index"
+                    :class="[
+                        'px-4 py-2 cursor-pointer',
+                        highlightedIndex === index ? 'bg-blue-100 dark:bg-blue-900' : 'hover:bg-gray-100 dark:hover:bg-gray-700'
+                      ]"
+                  >
+                    {{ autor.nome }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Seção de Atividades (fora do formulário principal) -->
+          <div class="activities-section">
+            <h2 class="activities-title">Gerenciar Atividades</h2>
+
+            <!-- Formulário de Atividade -->
+            <form @submit.prevent="submitAtividade" class="activity-form">
+              <div class="activity-inputs">
+                <div class="form-group w-8/12">
+                  <label class="form-label">Atividade</label>
+                  <input
+                    ref="atividadeInput"
+                    v-model="novaAtividade.nome"
+                    type="text"
+                    required
+                    class="form-input"
+                    placeholder="Nome da atividade"
+                  />
+                </div>
+
+                <div class="form-group w-2/12">
+                  <label class="form-label">Estimativa de horas</label>
+                  <input
+                    v-model.number="novaAtividade.horas"
+                    type="number"
+                    required
+                    min="0"
+                    class="form-input text-center"
+                    placeholder="0"
+                  />
+                </div>
+
+                <div class="form-group w-2/12">
+                  <label class="form-label">&nbsp;</label>
+                  <button
+                    type="submit"
+                    class="btn"
+                    :class="editingIndex !== null ? 'btn-update' : 'btn-primary'"
+                  >
+                    {{ editingIndex !== null ? 'Atualizar' : 'Adicionar' }}
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <!-- Lista de Atividades -->
+            <div
+              v-if="atividades.length > 0"
+              class="activities-table-container"
+            >
+              <table class="activities-table" ref="dragArea">
+                <thead>
+                  <tr>
+                    <th class="w-8/12 text-left pl-8">Atividade</th>
+                    <th class="w-2/12 text-center">Estimativa de horas</th>
+                    <th class="w-2/12 text-center">Ações</th>
+                  </tr>
+                </thead>
+                <tbody ref="dragArea" class="text-sm">
+                  <tr
+                    v-for="(atividade, index) in atividades"
+                    :key="atividade.nome + '-' + index"
+                    class="cursor-move"
+                  >
+                    <td class="relative group">
+                      <!-- Texto da atividade com padding consistente -->
+                      <div class="pl-2 py-2">{{ atividade.nome }}</div>
+                    </td>
+                    <td class="text-center">{{ atividade.horas }}</td>
+                    <td class="text-center">
+                      <button
+                        @click="editarAtividade(index)"
+                        class="action-button edit-button"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path
+                            d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                          />
+                          <path
+                            d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        @click="removerAtividade(index)"
+                        class="action-button delete-button"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                        >
+                          <path d="M3 6h18" />
+                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="1" class="text-center font-medium">
+                      <span class="total-label">Total de horas: </span>
+                      <span class="total-value">{{ totalHoras }}</span>
+                    </td>
+                    <td colspan="2" class="text-center font-medium">
+                      <span class="total-label">Quantidade de PF: </span>
+                      <span class="total-value">{{ pontosFuncao }}</span>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+
+          <!-- Seção de formatos e botão Gerar Documentos -->
+          <div class="mt-6">
+            <!-- Container flex para alinhar os elementos -->
+            <div class="flex justify-center items-center gap-4">
+              <!-- Seção de Formato dos arquivos -->
+              <div class="format-section">
+                <div class="flex items-center gap-4">
+                  <h3 class="format-title whitespace-nowrap">
+                    Formato dos arquivos
+                  </h3>
+                  <div class="flex gap-4">
+                    <label class="checkbox-container">
+                      <input
+                        type="checkbox"
+                        v-model="formatos.docx"
+                        class="checkbox-input"
+                      />
+                      <span class="checkbox-label">DOCX</span>
+                    </label>
+                    <label class="checkbox-container">
+                      <input
+                        type="checkbox"
+                        v-model="formatos.pdf"
+                        class="checkbox-input"
+                      />
+                      <span class="checkbox-label">PDF</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botão Gerar Documento com spinner -->
+              <button
+                @click="submitForm"
+                class="btn btn-primary w-64"
+                :disabled="isSubmitting || !isFormatoValido"
+              >
+                <template v-if="isSubmitting">
+                  <svg
+                    class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    ></circle>
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Processando
+                </template>
+                <template v-else> Gerar Documento </template>
+              </button>
+            </div>
+          </div>
+
+          <!-- Mensagem de status -->
+          <div
+            v-if="status.message"
+            :class="['status-message mt-4', status.type === 'error' ? 'status-error' : 'status-success']"
+          >
+            <div class="flex items-center justify-center gap-2">
+              <!-- Ícone de status -->
+              <div v-if="status.type === 'success'" class="status-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+              <div v-else-if="status.type === 'error'" class="status-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+
+              <!-- Mensagem -->
+              <span>{{ status.message }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endraw %}
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>

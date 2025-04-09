@@ -91,14 +91,14 @@ const PageHeader = {
         </svg>
 
         <!-- Tooltip -->
-        <div
-          class="absolute z-10 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 bg-blue-700 dark:bg-blue-700 text-white rounded-lg p-4 w-80 left-6 top-0 transform -translate-y-1/4 shadow-lg"
-        >
-          <div class="relative">
-            <!-- Seta do tooltip -->
-            <div
-              class="absolute top-1/2 -left-2 w-4 h-4 bg-blue-700 dark:bg-blue-700 transform rotate-45 -translate-y-1/2"
-            ></div>
+<div
+  class="absolute z-10 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 bg-blue-700 dark:bg-blue-700 text-white rounded-lg p-4 w-80 left-6 top-0 transform -translate-y-1/4 shadow-lg"
+>
+  <div class="relative">
+    <!-- Seta do tooltip -->
+    <div
+      class="absolute top-1/2 -left-2 w-4 h-4 bg-blue-700 dark:bg-blue-700 transform rotate-45 -translate-y-1/2"
+    ></div>
 
             <!-- Conteúdo -->
             <div class="relative z-20">

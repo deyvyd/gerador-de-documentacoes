@@ -179,6 +179,35 @@
           ></form-submit-section>
         </div>
       </div>
+
+      <!-- Modal de Requisito Funcional com Abas -->
+      <modal-requisito
+        ref="modalRequisito"
+        :show="showModal"
+        :titulo="modalTitulo"
+        :requisito="requisitoAtual"
+        :modo-visualizacao="modoVisualizacao"
+        :total-requisitos="requisitos.length"
+        @fechar="fecharModalRequisito"
+        @add-requisito="adicionarRequisito"
+        @update-requisito="atualizarRequisito"
+        @upload-imagem="handleFileUpload"
+        @remover-imagem="removerImagem"
+      ></modal-requisito>
+
+      <!-- Modal de Mensagem para confirmação -->
+      <modal-message
+        :show="showMessageModal"
+        :titulo="messageTitle"
+        :mensagem="messageContent"
+        tipo="caution"
+        :texto-botao-confirmar="'Remover'"
+        :texto-botao-cancelar="'Cancelar'"
+        :show-cancel-button="true"
+        :fechar-ao-clicar-fora="false"
+        @confirmar="confirmarModalMensagem"
+        @cancelar="cancelarModalMensagem"
+      ></modal-message>
     </div>
     {% endraw %}
 

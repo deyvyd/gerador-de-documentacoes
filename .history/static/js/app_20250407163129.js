@@ -1,3 +1,20 @@
+// Configuração do Tailwind
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        dark: {
+          "bg-primary": "var(--dark-bg-primary)",
+          "bg-secondary": "var(--dark-bg-secondary)",
+          "text-primary": "var(--dark-text-primary)",
+          "text-secondary": "var(--dark-text-secondary)",
+        },
+      },
+    },
+  },
+};
+
 // Criação da aplicação Vue
 const { createApp } = Vue;
 
@@ -20,15 +37,13 @@ const app = createApp({
         dataFim: "",
         linkBoard: "",
         descricao: "",
-        gerarDocx: true, // DOCX marcado por padrão
-        gerarPdf: false, // PDF desmarcado por padrão
       },
       novaAtividade: {
         nome: "",
         horas: "",
       },
       atividades: [],
-      isLoading: false,
+      isSubmitting: false,
       status: {
         message: "",
         type: "info",
@@ -52,17 +67,11 @@ const app = createApp({
         { nome: "Paulla Rachel Gomes de Oliveira", iniciais: "PRO" },
       ],
       highlightedIndex: 0,
+      formatos: {
+        docx: true, // DOCX marcado por padrão
+        pdf: false,
+      },
     };
-  },
-
-  components: {
-    "theme-toggle": window.AppComponents.ThemeToggle,
-    "page-header": window.AppComponents.PageHeader,
-    "basic-form-section": window.AppComponents.BasicFormSection,
-    "data-table": window.AppComponents.DataTable,
-    "form-submit-section": window.AppComponents.FormSubmitSection,
-    "modal-requisito": window.AppComponents.ModalRequisito,
-    "modal-message": window.AppComponents.ModalMessage,
   },
 
   computed: {
@@ -83,7 +92,7 @@ const app = createApp({
     },
     isFormatoValido() {
       // Pelo menos um formato deve estar selecionado
-      return this.formatos.docx || this.formatos.gerarPdf;
+      return this.formatos.docx || this.formatos.pdf;
     },
     // Propriedades para conversão de data
     dataInicioFormatada: {
@@ -116,11 +125,27 @@ const app = createApp({
       },
       deep: true,
     },
+    formatos: {
+      handler(newFormatos) {
+        if (!newFormatos.docx && !newFormatos.pdf) {
+          // Se tentar desmarcar os dois, marca o último que estava marcado
+          if (this.lastFormat === "docx") {
+            this.formatos.docx = true;
+          } else {
+            this.formatos.pdf = true;
+          }
+        }
+        // Guarda o último formato que foi marcado
+        if (newFormatos.docx) this.lastFormat = "docx";
+        if (newFormatos.pdf) this.lastFormat = "pdf";
+      },
+      deep: true,
+    },
   },
 
   created() {
     // Inicializa o último formato como DOCX já que é o padrão
-    this.lastFormat = "gerarDocx";
+    this.lastFormat = "docx";
   },
 
   mounted() {
@@ -418,8 +443,8 @@ const app = createApp({
 
     // Submissão do formulário
     // Modificação no método submitForm para registrar e exibir o tempo de processamento
-    async gerarDocumento() {
-      if (this.isLoading) return;
+    async submitForm() {
+      if (this.isSubmitting) return;
 
       // Reset do status
       this.status.message = "";
@@ -472,7 +497,7 @@ const app = createApp({
       // Inicializa o tempo de processamento
       const tempoInicio = new Date();
 
-      this.isLoading = true;
+      this.isSubmitting = true;
       // Não mostramos mensagem de status durante o processamento, apenas o spinner no botão
 
       try {
@@ -488,8 +513,8 @@ const app = createApp({
         formData.append("totalHoras", this.totalHoras.toString());
 
         // Adiciona os formatos selecionados
-        formData.append("gerar_docx", this.formatos.gerarDocx);
-        formData.append("gerar_pdf", this.formatos.gerarPdf);
+        formData.append("gerar_docx", this.formatos.docx);
+        formData.append("gerar_pdf", this.formatos.pdf);
 
         const response = await fetch("/gerar_relatorio", {
           method: "POST",
@@ -542,7 +567,7 @@ const app = createApp({
         }. Tempo de processamento: ${tempoTotal}s`;
         this.status.type = "error";
       } finally {
-        this.isLoading = false;
+        this.isSubmitting = false;
       }
     },
 

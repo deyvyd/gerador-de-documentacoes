@@ -1,3 +1,20 @@
+// Configuração do Tailwind
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        dark: {
+          "bg-primary": "var(--dark-bg-primary)",
+          "bg-secondary": "var(--dark-bg-secondary)",
+          "text-primary": "var(--dark-text-primary)",
+          "text-secondary": "var(--dark-text-secondary)",
+        },
+      },
+    },
+  },
+};
+
 // Criação da aplicação Vue
 const { createApp } = Vue;
 
@@ -20,15 +37,13 @@ const app = createApp({
         dataFim: "",
         linkBoard: "",
         descricao: "",
-        gerarDocx: true, // DOCX marcado por padrão
-        gerarPdf: false, // PDF desmarcado por padrão
       },
       novaAtividade: {
         nome: "",
         horas: "",
       },
       atividades: [],
-      isLoading: false,
+      isSubmitting: false,
       status: {
         message: "",
         type: "info",
@@ -52,6 +67,10 @@ const app = createApp({
         { nome: "Paulla Rachel Gomes de Oliveira", iniciais: "PRO" },
       ],
       highlightedIndex: 0,
+      formatos: {
+        gerarDocx: true, // DOCX marcado por padrão
+        gerarPdf: false,
+      },
     };
   },
 
@@ -113,6 +132,22 @@ const app = createApp({
             this.initSortable();
           });
         }
+      },
+      deep: true,
+    },
+    formatos: {
+      handler(newFormatos) {
+        if (!newFormatos.gerarDocx && !newFormatos.gerarPdf) {
+          // Se tentar desmarcar os dois, marca o último que estava marcado
+          if (this.lastFormat === "gerarDocx") {
+            this.formatos.gerarDocx = true;
+          } else {
+            this.formatos.gerarPdf = true;
+          }
+        }
+        // Guarda o último formato que foi marcado
+        if (newFormatos.gerarDocx) this.lastFormat = "gerarDocx";
+        if (newFormatos.gerarPdf) this.lastFormat = "gerarPdf";
       },
       deep: true,
     },
@@ -418,8 +453,8 @@ const app = createApp({
 
     // Submissão do formulário
     // Modificação no método submitForm para registrar e exibir o tempo de processamento
-    async gerarDocumento() {
-      if (this.isLoading) return;
+    async submitForm() {
+      if (this.isSubmitting) return;
 
       // Reset do status
       this.status.message = "";
@@ -472,7 +507,7 @@ const app = createApp({
       // Inicializa o tempo de processamento
       const tempoInicio = new Date();
 
-      this.isLoading = true;
+      this.isSubmitting = true;
       // Não mostramos mensagem de status durante o processamento, apenas o spinner no botão
 
       try {
@@ -542,7 +577,7 @@ const app = createApp({
         }. Tempo de processamento: ${tempoTotal}s`;
         this.status.type = "error";
       } finally {
-        this.isLoading = false;
+        this.isSubmitting = false;
       }
     },
 

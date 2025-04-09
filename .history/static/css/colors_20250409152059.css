@@ -50,7 +50,6 @@
 
   /* Cores específicas da aplicação, que não são parte de uma escala */
   --color-app-blue-link: #0000ff;
-  --light-tooltip-bg: #1e40af;
   --color-app-view-btn: #4f46e5;
   --color-app-view-hover: #6366f1;
   --color-app-bg-hover-table: #3b83f646;
@@ -69,6 +68,7 @@
   --color-app-campo-vazio-bg-dark: #334155;
   --color-app-campo-vazio-color-dark: #64748b;
   --color-app-campo-vazio-border-dark: #475569;
+  --light-tooltip-bg: #1e40af;
 }
 
 /* Variáveis específicas de componentes que usam a paleta base */
