@@ -342,23 +342,14 @@ window.AppComponents.ModalRequisito = {
       this.tabAtiva = id;
 
       // Limpar estilos de erro quando trocar de aba
-      const camposComErro = document.querySelectorAll(
-        ".border-red-500, .campo-erro"
-      );
+      const camposComErro = document.querySelectorAll(".border-red-500");
       camposComErro.forEach((campo) => {
         campo.classList.remove(
           "border-red-500",
           "focus:border-red-500",
           "focus:ring-red-500",
-          "border-2",
-          "campo-erro"
+          "border-2"
         );
-
-        // Remover estilos inline adicionados diretamente
-        campo.style.borderColor = "";
-        campo.style.borderWidth = "";
-        campo.style.borderTopWidth = "";
-        campo.style.borderBottomWidth = "";
       });
 
       // Focar no primeiro campo da aba após a troca
@@ -375,26 +366,6 @@ window.AppComponents.ModalRequisito = {
           this.focarPrimeiroElementoDaAba();
         }
       });
-    },
-
-    // Método para limpar estilos de erro do editor Quill
-    limparErroEditor() {
-      const editorContainer = document.querySelector(".ql-container");
-      const editorToolbar = document.querySelector(".ql-toolbar");
-
-      if (editorContainer) {
-        editorContainer.classList.remove("campo-erro");
-        editorContainer.style.borderColor = "";
-        editorContainer.style.borderWidth = "";
-        editorContainer.style.borderTopWidth = "";
-      }
-
-      if (editorToolbar) {
-        editorToolbar.classList.remove("campo-erro");
-        editorToolbar.style.borderColor = "";
-        editorToolbar.style.borderWidth = "";
-        editorToolbar.style.borderBottomWidth = "";
-      }
     },
 
     fecharModal() {
@@ -500,15 +471,6 @@ window.AppComponents.ModalRequisito = {
               }
             }
 
-            // Adiciona estilo direto para garantir que a borda vermelha seja visível
-            editorContainer.style.borderColor = "var(--error-color)";
-            editorContainer.style.borderWidth = "2px";
-            editorContainer.style.borderTopWidth = "0";
-
-            if (this.isDarkMode) {
-              editorContainer.style.borderColor = "var(--error-color-dark)";
-            }
-
             // Modifica esta parte para evitar o erro de foco no editor
             try {
               // Verifica se o editor existe antes de tentar focar
@@ -568,11 +530,6 @@ window.AppComponents.ModalRequisito = {
       this.descricaoContent = content;
       // Atualizar diretamente o valor no objeto requisito
       this.requisito.descricao = content;
-
-      // Se o conteúdo não estiver mais vazio, remover os estilos de erro
-      if (content && content.trim() !== "") {
-        this.limparErroEditor();
-      }
     },
 
     // Gerenciamento de navegação por teclado
@@ -603,17 +560,6 @@ window.AppComponents.ModalRequisito = {
 
     onEditorReady(editor) {
       this.editor = editor;
-
-      // Adiciona um ouvinte de evento para limpar o estilo de erro quando o usuário começar a editar
-      if (editor) {
-        editor.on("text-change", () => {
-          // Verifica se o texto não está vazio antes de limpar os estilos de erro
-          const text = editor.getText().trim();
-          if (text !== "") {
-            this.limparErroEditor();
-          }
-        });
-      }
     },
   },
 

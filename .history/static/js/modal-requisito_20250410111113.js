@@ -568,11 +568,6 @@ window.AppComponents.ModalRequisito = {
       this.descricaoContent = content;
       // Atualizar diretamente o valor no objeto requisito
       this.requisito.descricao = content;
-
-      // Se o conteúdo não estiver mais vazio, remover os estilos de erro
-      if (content && content.trim() !== "") {
-        this.limparErroEditor();
-      }
     },
 
     // Gerenciamento de navegação por teclado
@@ -603,17 +598,6 @@ window.AppComponents.ModalRequisito = {
 
     onEditorReady(editor) {
       this.editor = editor;
-
-      // Adiciona um ouvinte de evento para limpar o estilo de erro quando o usuário começar a editar
-      if (editor) {
-        editor.on("text-change", () => {
-          // Verifica se o texto não está vazio antes de limpar os estilos de erro
-          const text = editor.getText().trim();
-          if (text !== "") {
-            this.limparErroEditor();
-          }
-        });
-      }
     },
   },
 

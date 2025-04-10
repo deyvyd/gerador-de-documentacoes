@@ -603,17 +603,6 @@ window.AppComponents.ModalRequisito = {
 
     onEditorReady(editor) {
       this.editor = editor;
-
-      // Adiciona um ouvinte de evento para limpar o estilo de erro quando o usuário começar a editar
-      if (editor) {
-        editor.on("text-change", () => {
-          // Verifica se o texto não está vazio antes de limpar os estilos de erro
-          const text = editor.getText().trim();
-          if (text !== "") {
-            this.limparErroEditor();
-          }
-        });
-      }
     },
   },
 
