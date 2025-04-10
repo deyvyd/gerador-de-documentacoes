@@ -1,6 +1,23 @@
 // Criação da aplicação Vue
 const { createApp } = Vue;
 
+// Serviço de notificação
+const notificationService = {
+  toasts: [],
+  showToast(message, type = 'info', duration = 3000) {
+    const id = Date.now();
+    const toast = { id, message, type };
+    this.toasts.push(toast);
+    setTimeout(() => this.closeToast(id), duration);
+  },
+  closeToast(id) {
+    const index = this.toasts.findIndex(toast => toast.id === id);
+    if (index !== -1) {
+      this.toasts.splice(index, 1);
+    }
+  }
+};
+
 const app = createApp({
   data() {
     return {
@@ -52,6 +69,17 @@ const app = createApp({
         { nome: "Paulla Rachel Gomes de Oliveira", iniciais: "PRO" },
       ],
       highlightedIndex: 0,
+      notificationService: {
+        toasts: [],
+        show(message, type = 'info') {
+          const id = Date.now();
+          this.toasts.push({ id, message, type });
+          setTimeout(() => this.closeToast(id), 5000);
+        },
+        closeToast(id) {
+          this.toasts = this.toasts.filter(toast => toast.id !== id);
+        }
+      }
     };
   },
 
@@ -63,6 +91,7 @@ const app = createApp({
     "form-submit-section": window.AppComponents.FormSubmitSection,
     "modal-requisito": window.AppComponents.ModalRequisito,
     "modal-message": window.AppComponents.ModalMessage,
+    "toast-notification": window.AppComponents.ToastNotification,
   },
 
   computed: {
@@ -116,6 +145,16 @@ const app = createApp({
       },
       deep: true,
     },
+    selectedAutores: {
+      handler(newVal) {
+        if (newVal.length === 0) {
+          this.setAutorFieldError();
+        } else {
+          this.resetAutorFieldError();
+        }
+      },
+      immediate: true
+    }
   },
 
   created() {
@@ -258,10 +297,11 @@ const app = createApp({
     },
 
     handleAutorBlur(event) {
-      // Pequeno delay para permitir o clique na sugestão
       setTimeout(() => {
-        this.showSuggestions = false;
-        this.highlightedIndex = 0; // Reseta o índice ao perder o foco
+        this.$emit("show-suggestions", false);
+        if (this.selectedAutores.length === 0) {
+          this.setAutorFieldError();
+        }
       }, 200);
     },
 
@@ -445,10 +485,6 @@ const app = createApp({
     async gerarDocumento() {
       if (this.isLoading) return;
 
-      // Limpa mensagens de status anteriores
-      this.status.message = "";
-      this.status.type = "";
-
       // Limpa estilos de erro anteriores
       this.resetFieldErrors();
 
@@ -456,6 +492,7 @@ const app = createApp({
       const basicFormSection = this.$refs.basicFormSection;
       if (!basicFormSection) {
         console.error("Componente BasicFormSection não encontrado");
+        notificationService.showToast("Erro ao acessar o formulário", "error");
         return;
       }
 
@@ -475,6 +512,7 @@ const app = createApp({
           if (elemento) {
             elemento.classList.add("campo-erro");
             elemento.focus();
+            notificationService.showToast(`O campo ${campo.label} é obrigatório`, "error");
             return;
           } else {
             console.error(`Elemento com ref ${campo.ref} não encontrado`);
@@ -491,48 +529,47 @@ const app = createApp({
         if (elemento) {
           elemento.classList.add("campo-erro");
           elemento.focus();
-          this.status.message =
-            "A data de início não pode ser posterior à data de fim";
-          this.status.type = "error";
+          notificationService.showToast("A data de início não pode ser posterior à data de fim", "error");
         }
         return;
       }
 
       // Validação de autores
       if (this.selectedAutores.length === 0) {
-        // Adicionar classe de erro ao container de autores
         if (this.setAutorFieldError()) {
-          // Focar no input de autor
           const autorInput = basicFormSection.$refs.autorInput;
           if (autorInput) {
             autorInput.focus();
           }
         } else {
-          console.error(
-            "Não foi possível aplicar o estilo de erro ao campo de autores"
-          );
+          console.error("Não foi possível aplicar o estilo de erro ao campo de autores");
         }
+        notificationService.showToast("Selecione pelo menos um autor", "error");
         return;
       }
 
       // Validação de atividades
       if (this.atividades.length === 0) {
-        this.status.message = "Adicione pelo menos uma atividade";
-        this.status.type = "error";
+        if (this.setAtividadeFieldError()) {
+          const atividadeInput = this.$refs.atividadeInput;
+          if (atividadeInput) {
+            atividadeInput.focus();
+          }
+        } else {
+          console.error("Não foi possível aplicar o estilo de erro ao campo de atividades");
+        }
+        notificationService.showToast("Adicione pelo menos uma atividade", "error");
         return;
       }
 
       // Validação dos formatos de arquivo
       if (!this.formData.gerarDocx && !this.formData.gerarPdf) {
-        this.status.message =
-          "Selecione pelo menos um formato de arquivo (DOCX ou PDF)";
-        this.status.type = "error";
+        notificationService.showToast("Selecione pelo menos um formato de arquivo (DOCX ou PDF)", "error");
         return;
       }
 
       this.isLoading = true;
-      this.status.message = "Gerando documento...";
-      this.status.type = "info";
+      notificationService.showToast("Gerando documento...", "info");
 
       try {
         const formData = new FormData();
@@ -564,33 +601,13 @@ const app = createApp({
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
 
-        this.status.message = "Documento gerado com sucesso!";
-        this.status.type = "success";
+        notificationService.showToast("Documento gerado com sucesso!", "success");
       } catch (error) {
         console.error("Erro:", error);
-        this.status.message = "Erro ao gerar documento";
-        this.status.type = "error";
+        notificationService.showToast("Erro ao gerar documento", "error");
       } finally {
         this.isLoading = false;
       }
-    },
-
-    // Método auxiliar para limpar o formulário (opcional)
-    limparFormulario() {
-      this.formData = {
-        numeroSS: "",
-        anoSS: new Date().getFullYear(),
-        iniciaisAutor: "",
-        tituloSS: "",
-        dataInicio: "",
-        dataFim: "",
-        linkBoard: "",
-        descricao: "",
-      };
-      this.atividades = [];
-      this.modeloFile = null;
-      this.selectedAutores = [];
-      this.autorInput = "";
     },
 
     // Método para limpar estilos de erro dos campos
@@ -615,6 +632,9 @@ const app = createApp({
 
         // Limpar o container de autores
         this.resetAutorFieldError();
+        
+        // Limpar o container de atividades
+        this.resetAtividadeFieldError();
       }
 
       // Limpar mensagens de status
@@ -662,6 +682,11 @@ const app = createApp({
         const container = basicFormSection.$el.querySelector(selector);
         if (container) {
           container.classList.add("campo-erro");
+          // Focar no input de autor
+          const autorInput = basicFormSection.$refs.autorInput;
+          if (autorInput) {
+            autorInput.focus();
+          }
           return true;
         }
       }
@@ -670,15 +695,42 @@ const app = createApp({
       const labels = basicFormSection.$el.querySelectorAll("label");
       for (const label of labels) {
         if (label.textContent.includes("Autor(es)")) {
-          const container =
-            label.nextElementSibling?.querySelector(".form-input");
+          const container = label.nextElementSibling?.querySelector(".form-input");
           if (container) {
             container.classList.add("campo-erro");
+            // Focar no input de autor
+            const autorInput = basicFormSection.$refs.autorInput;
+            if (autorInput) {
+              autorInput.focus();
+            }
             return true;
           }
         }
       }
 
+      return false;
+    },
+
+    resetAtividadeFieldError() {
+      // Encontrar o container de atividades
+      const atividadeContainer = document.querySelector('.activity-form .form-group .form-input');
+      if (atividadeContainer) {
+        atividadeContainer.classList.remove('campo-erro');
+      }
+    },
+
+    setAtividadeFieldError() {
+      // Encontrar o container de atividades
+      const atividadeContainer = document.querySelector('.activity-form .form-group .form-input');
+      if (atividadeContainer) {
+        atividadeContainer.classList.add('campo-erro');
+        // Focar no input de atividade
+        const atividadeInput = this.$refs.atividadeInput;
+        if (atividadeInput) {
+          atividadeInput.focus();
+        }
+        return true;
+      }
       return false;
     },
   },

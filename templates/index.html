@@ -58,8 +58,8 @@
   </head>
 
   <body>
-    {% raw %}
     <div id="app">
+      <toast-notification :toasts="notificationService.toasts"></toast-notification>
       <!-- Toggle de Tema -->
       <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
 
@@ -134,7 +134,7 @@
                     class="btn"
                     :class="editingIndex !== null ? 'btn-update' : 'btn-primary'"
                   >
-                    {{ editingIndex !== null ? 'Atualizar' : 'Adicionar' }}
+                    {% raw %}{{ editingIndex !== null ? 'Atualizar' : 'Adicionar' }}{% endraw %}
                   </button>
                 </div>
               </div>
@@ -180,7 +180,6 @@
         </div>
       </div>
     </div>
-    {% endraw %}
 
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/components.js') }}"></script>
