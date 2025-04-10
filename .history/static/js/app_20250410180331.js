@@ -512,6 +512,8 @@ const app = createApp({
             "Não foi possível aplicar o estilo de erro ao campo de autores"
           );
         }
+        this.status.message = "Selecione pelo menos um autor";
+        this.status.type = "error";
         return;
       }
 

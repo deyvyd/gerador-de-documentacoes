@@ -498,6 +498,13 @@ const app = createApp({
         return;
       }
 
+      // Validação de atividades
+      if (this.atividades.length === 0) {
+        this.status.message = "Adicione pelo menos uma atividade";
+        this.status.type = "error";
+        return;
+      }
+
       // Validação de autores
       if (this.selectedAutores.length === 0) {
         // Adicionar classe de erro ao container de autores
@@ -512,12 +519,7 @@ const app = createApp({
             "Não foi possível aplicar o estilo de erro ao campo de autores"
           );
         }
-        return;
-      }
-
-      // Validação de atividades
-      if (this.atividades.length === 0) {
-        this.status.message = "Adicione pelo menos uma atividade";
+        this.status.message = "Selecione pelo menos um autor";
         this.status.type = "error";
         return;
       }

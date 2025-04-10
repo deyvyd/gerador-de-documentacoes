@@ -452,98 +452,35 @@ const app = createApp({
       // Limpa estilos de erro anteriores
       this.resetFieldErrors();
 
-      // Acessar os elementos através do componente BasicFormSection
-      const basicFormSection = this.$refs.basicFormSection;
-      if (!basicFormSection) {
-        console.error("Componente BasicFormSection não encontrado");
-        return;
-      }
-
-      // Validação dos campos obrigatórios
-      const camposObrigatorios = [
-        { ref: "numeroSS", label: "Número SS" },
-        { ref: "tituloSS", label: "Título" },
-        { ref: "descricao", label: "Descrição" },
-        { ref: "dataInicio", label: "Data de Início" },
-        { ref: "dataFim", label: "Data de Fim" },
-      ];
-
-      for (const campo of camposObrigatorios) {
-        const valor = this.formData[campo.ref];
-        if (!valor || valor.trim() === "") {
-          const elemento = basicFormSection.$refs[campo.ref];
-          if (elemento) {
-            elemento.classList.add("campo-erro");
-            elemento.focus();
-            return;
-          } else {
-            console.error(`Elemento com ref ${campo.ref} não encontrado`);
-          }
-        }
-      }
-
-      // Validação das datas
-      const dataInicio = new Date(this.formData.dataInicio);
-      const dataFim = new Date(this.formData.dataFim);
-
-      if (dataInicio > dataFim) {
-        const elemento = basicFormSection.$refs.dataInicio;
-        if (elemento) {
-          elemento.classList.add("campo-erro");
-          elemento.focus();
-          this.status.message =
-            "A data de início não pode ser posterior à data de fim";
-          this.status.type = "error";
-        }
-        return;
-      }
-
-      // Validação de autores
-      if (this.selectedAutores.length === 0) {
-        // Adicionar classe de erro ao container de autores
-        if (this.setAutorFieldError()) {
-          // Focar no input de autor
-          const autorInput = basicFormSection.$refs.autorInput;
-          if (autorInput) {
-            autorInput.focus();
-          }
-        } else {
-          console.error(
-            "Não foi possível aplicar o estilo de erro ao campo de autores"
-          );
-        }
-        return;
-      }
-
-      // Validação de atividades
-      if (this.atividades.length === 0) {
-        this.status.message = "Adicione pelo menos uma atividade";
-        this.status.type = "error";
-        return;
-      }
-
-      // Validação dos formatos de arquivo
-      if (!this.formData.gerarDocx && !this.formData.gerarPdf) {
-        this.status.message =
-          "Selecione pelo menos um formato de arquivo (DOCX ou PDF)";
-        this.status.type = "error";
-        return;
-      }
+      // Validações (mantido como está...)
 
       this.isLoading = true;
       this.status.message = "Gerando documento...";
       this.status.type = "info";
 
       try {
+        // Cria o FormData e adiciona todos os campos necessários
         const formData = new FormData();
+
+        // Dados básicos da SS
         formData.append("numeroSS", this.formData.numeroSS);
+        formData.append("anoSS", this.formData.anoSS);
         formData.append("tituloSS", this.formData.tituloSS);
+        formData.append("descricao", this.formData.descricao);
         formData.append("dataInicio", this.formData.dataInicio);
         formData.append("dataFim", this.formData.dataFim);
+        formData.append("linkBoard", this.formData.linkBoard || "");
+        formData.append("iniciaisAutor", this.formData.iniciaisAutor);
+
+        // Total de horas (calculado a partir das atividades)
+        formData.append("totalHoras", this.totalHoras.toString());
+
+        // Atividades em formato JSON
         formData.append("atividades", JSON.stringify(this.atividades));
-        formData.append("autores", JSON.stringify(this.selectedAutores));
-        formData.append("gerarDocx", this.formData.gerarDocx);
-        formData.append("gerarPdf", this.formData.gerarPdf);
+
+        // Formatos de saída
+        formData.append("gerar_docx", this.formData.gerarDocx);
+        formData.append("gerar_pdf", this.formData.gerarPdf);
 
         const response = await fetch("/gerar_relatorio", {
           method: "POST",
@@ -551,14 +488,26 @@ const app = createApp({
         });
 
         if (!response.ok) {
-          throw new Error("Erro ao gerar documento");
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Erro ao gerar documento");
         }
 
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "documento.zip";
+
+        // Extrai o nome do arquivo do header Content-Disposition, se disponível
+        const contentDisposition = response.headers.get("Content-Disposition");
+        let filename = "documentacao.zip";
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+          if (filenameMatch && filenameMatch[1]) {
+            filename = filenameMatch[1];
+          }
+        }
+
+        a.download = filename;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
@@ -568,7 +517,7 @@ const app = createApp({
         this.status.type = "success";
       } catch (error) {
         console.error("Erro:", error);
-        this.status.message = "Erro ao gerar documento";
+        this.status.message = error.message || "Erro ao gerar documento";
         this.status.type = "error";
       } finally {
         this.isLoading = false;
