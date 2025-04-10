@@ -216,26 +216,24 @@
               </div>
             </div>
 
-            <!-- Aba 3: Total de PF's -->
-            <div v-if="requisitosTabAtiva === 2">
-              <div class="flex justify-center">
-                <div class="form-group w-48">
-                  <!-- Largura fixa em pixels -->
-                  <label class="form-label mb-2 text-center block">
-                    Total de Pontos de Função
-                  </label>
-                  <input
-                    type="text"
-                    inputmode="decimal"
-                    v-model="totalPontosFuncaoFormatado"
-                    @input="formatarNumeroDecimal"
-                    class="form-input text-center font-medium text-lg"
-                    placeholder="0,00"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+           <!-- Aba 3: Total de PF's -->
+<div v-if="requisitosTabAtiva === 2">
+  <div class="flex justify-center">
+    <div class="form-group w-1/3">
+      <label class="form-label mb-2 text-center block">
+        Total de Pontos de Função
+      </label>
+      <input
+        type="number"
+        step="0.01"
+        v-model="totalPontosFuncao"
+        class="form-input text-center font-medium text-lg"
+        placeholder="0.00"
+        min="0"
+      />
+    </div>
+  </div>
+</div>
 
           <!-- Seção de formatos e botão Gerar Documentos -->
           <form-submit-section

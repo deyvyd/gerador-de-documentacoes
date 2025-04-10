@@ -46,7 +46,6 @@ const app = Vue.createApp({
         descricao: "",
       },
       totalPontosFuncao: 0,
-      totalPontosFuncaoFormatado: "",
 
       listaRequisitosNaoFuncionais: [],
 
@@ -128,29 +127,6 @@ const app = Vue.createApp({
   },
 
   methods: {
-    formatarNumeroDecimal(event) {
-      // Remove qualquer caractere que não seja número ou vírgula
-      let valor = event.target.value.replace(/[^\d,]/g, "");
-
-      // Garante que haja apenas uma vírgula
-      const partes = valor.split(",");
-      if (partes.length > 2) {
-        valor = partes[0] + "," + partes.slice(1).join("");
-      }
-
-      // Limita a duas casas decimais
-      if (partes.length > 1 && partes[1].length > 2) {
-        valor = partes[0] + "," + partes[1].substring(0, 2);
-      }
-
-      // Atualiza o valor formatado
-      this.totalPontosFuncaoFormatado = valor;
-
-      // Converte para número e armazena
-      const numeroDecimal = parseFloat(valor.replace(",", ".")) || 0;
-      this.totalPontosFuncao = numeroDecimal;
-    },
-
     adicionarRequisitoNaoFuncional() {
       // Validar se os campos estão preenchidos
       if (
@@ -176,45 +152,6 @@ const app = Vue.createApp({
       // Limpar o formulário
       this.requisitosNaoFuncionais.titulo = "";
       this.requisitosNaoFuncionais.descricao = "";
-    },
-
-    reordenarRequisitosNaoFuncionais({ oldIndex, newIndex }) {
-      console.log(`Reordenando RNF de ${oldIndex} para ${newIndex}`);
-
-      // Faz uma cópia profunda da lista para garantir que todos os objetos
-      // e suas propriedades sejam copiados sem referências
-      const listaAtualizada = JSON.parse(
-        JSON.stringify(this.listaRequisitosNaoFuncionais)
-      );
-
-      // Remove o item do índice antigo e o insere no novo índice
-      const [itemRemovido] = listaAtualizada.splice(oldIndex, 1);
-      listaAtualizada.splice(newIndex, 0, itemRemovido);
-
-      // Atualiza a lista principal com a nova ordem
-      this.listaRequisitosNaoFuncionais = [...listaAtualizada];
-
-      // Atualiza os IDs sequenciais
-      this.$nextTick(() => {
-        // Agora atualize os IDs
-        for (let i = 0; i < this.listaRequisitosNaoFuncionais.length; i++) {
-          this.listaRequisitosNaoFuncionais[i].id = `RNF-${String(
-            i + 1
-          ).padStart(2, "0")}`;
-        }
-
-        // Forçar novamente a renderização após a atualização dos IDs
-        this.listaRequisitosNaoFuncionais = [
-          ...this.listaRequisitosNaoFuncionais,
-        ];
-
-        console.log(
-          "RNFs reordenados e IDs atualizados:",
-          this.listaRequisitosNaoFuncionais
-            .map((req) => `${req.id} - ${req.titulo}`)
-            .join(", ")
-        );
-      });
     },
 
     // Função para reordenar requisitos e atualizar os IDs sequenciais

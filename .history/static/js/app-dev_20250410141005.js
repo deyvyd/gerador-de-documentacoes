@@ -130,26 +130,27 @@ const app = Vue.createApp({
   methods: {
     formatarNumeroDecimal(event) {
       // Remove qualquer caractere que não seja número ou vírgula
-      let valor = event.target.value.replace(/[^\d,]/g, "");
-
+      let valor = event.target.value.replace(/[^\d,]/g, '');
+      
       // Garante que haja apenas uma vírgula
-      const partes = valor.split(",");
+      const partes = valor.split(',');
       if (partes.length > 2) {
-        valor = partes[0] + "," + partes.slice(1).join("");
+        valor = partes[0] + ',' + partes.slice(1).join('');
       }
-
+      
       // Limita a duas casas decimais
       if (partes.length > 1 && partes[1].length > 2) {
-        valor = partes[0] + "," + partes[1].substring(0, 2);
+        valor = partes[0] + ',' + partes[1].substring(0, 2);
       }
-
+      
       // Atualiza o valor formatado
       this.totalPontosFuncaoFormatado = valor;
-
+      
       // Converte para número e armazena
-      const numeroDecimal = parseFloat(valor.replace(",", ".")) || 0;
+      const numeroDecimal = parseFloat(valor.replace(',', '.')) || 0;
       this.totalPontosFuncao = numeroDecimal;
-    },
+    }
+  }
 
     adicionarRequisitoNaoFuncional() {
       // Validar se os campos estão preenchidos
