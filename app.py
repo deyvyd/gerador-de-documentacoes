@@ -1,26 +1,25 @@
 # Imports
 ## Imports da Flask
-from flask import Flask, render_template, request, send_file, send_from_directory
+import json
+import logging
+import os
+import re
+import shutil
+import tempfile
+import zipfile
+from copy import deepcopy
+## Imports da biblioteca padrão Python
+from datetime import date, datetime
+from urllib.parse import quote
 
+import docx.opc.constants
+import docx.oxml.shared
 ## Imports relacionados ao python-docx
 from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
-import docx.oxml.shared
-import docx.opc.constants
-
-## Imports da biblioteca padrão Python
-from datetime import datetime, date
-import os
-import tempfile
-import shutil
-import re
-import json
-import logging
-from copy import deepcopy
-from urllib.parse import quote
-import zipfile
-
+from flask import (Flask, render_template, request, send_file,
+                   send_from_directory)
 ## Imports de terceiros
 from unidecode import unidecode
 
@@ -868,7 +867,7 @@ def remover_paragrafo_link_board(doc):
     from docx.enum.text import WD_BREAK
     from docx.oxml import OxmlElement
     from docx.oxml.ns import qn
-    
+
     # Lista de parágrafos que contêm o marcador e devem ser removidos
     paragrafos_para_remover = []
     indices_paragrafos = []
@@ -1022,7 +1021,169 @@ def gerar_nome_arquivo(tipo_documento, numero_ss, ano_ss):
     
     return nome_final_arquivo
 
-def atualizar_sumario_com_python_docx(caminho_arquivo, titulo_documento=None):
+def obter_titulos_sumario(caminho_arquivo, titulo_documento=None):
+    doc = None
+
+    doc = Document(caminho_arquivo)
+    logger.debug(f"Documento carregado com sucesso: {caminho_arquivo}")
+    
+    if titulo_documento and hasattr(doc, 'core_properties'):
+        doc.core_properties.title = titulo_documento
+        logger.debug(f"Título do documento atualizado para: {titulo_documento}")
+    
+    # 1. Identificar quebras de página no documento
+    quebras_pagina = identificar_quebras_pagina(doc)
+    logger.info(f"Identificadas {len(quebras_pagina)} quebras de página explícitas no documento")
+    
+    # 2. Encontrar início do sumário (parágrafo com o título "Sumário")
+    sumario_inicio = None
+    for i, paragrafo in enumerate(doc.paragraphs):
+        if paragrafo.text.strip().lower() == "sumário":
+            sumario_inicio = i
+            logger.info(f"Título do sumário encontrado no parágrafo {i}")
+            break
+    
+    if sumario_inicio is None:
+        # Busca alternativa por parágrafo com estilo TOC_Heading
+        for i, paragrafo in enumerate(doc.paragraphs):
+            if hasattr(paragrafo, 'style') and paragrafo.style and "TOC" in str(paragrafo.style.name):
+                sumario_inicio = i
+                logger.info(f"Título do sumário encontrado por estilo no parágrafo {i}")
+                break
+    
+    if sumario_inicio is None:
+        # Última tentativa: localizar pelo contexto do documento
+        for i, paragrafo in enumerate(doc.paragraphs):
+            if paragrafo.text.strip().lower() in ["índice", "conteúdo", "table of contents"]:
+                sumario_inicio = i
+                logger.info(f"Possível título do sumário encontrado no parágrafo {i}: '{paragrafo.text}'")
+                break
+
+    if sumario_inicio is None:
+        logger.error("Título do sumário não encontrado no documento!")
+        return False
+    
+    # 3. Encontrar fim do sumário atual
+    sumario_fim = None
+    
+    for i in range(sumario_inicio + 1, len(doc.paragraphs)):
+        p = doc.paragraphs[i]
+        texto = p.text.strip()
+        estilo = p.style.name if hasattr(p, 'style') and p.style and hasattr(p.style, 'name') else ""
+        
+        if (estilo == 'Title' and texto.startswith("1")) or \
+            re.match(r'^1\s*[-–]', texto) or \
+            texto.lower().startswith("introdução"):
+            sumario_fim = i
+            logger.info(f"Introdução encontrada no parágrafo {i}: '{texto}'")
+            break
+            
+    if sumario_fim is None:
+        sumario_fim = sumario_inicio + 3
+        logger.warning(f"Introdução não encontrada após o sumário. Usando valor relativo {sumario_fim}.")
+    
+    # 4. Criar mapa de páginas baseado nas quebras de página
+    pagina_atual = 1
+    mapa_paragrafos_paginas = {}
+    
+    # Definimos o primeiro parágrafo como página 1
+    for i in range(len(doc.paragraphs)):
+        # Verifica se há uma quebra de página neste parágrafo
+        if i in quebras_pagina:
+            pagina_atual += 1
+        mapa_paragrafos_paginas[i] = pagina_atual
+    
+    # 5. Coletar todos os títulos, suas páginas corretas e criar marcadores para links
+    titulos = []
+    marcadores_titulos = {}
+    
+    # Primeiro, vamos adicionar marcadores (bookmarks) a todos os títulos
+    for i, p in enumerate(doc.paragraphs):
+        # Ignoramos parágrafos dentro do sumário
+        if sumario_inicio <= i < sumario_fim:
+            continue
+            
+        texto = p.text.strip()
+        estilo = p.style.name if hasattr(p, 'style') and p.style and hasattr(p.style, 'name') else ""
+        
+        # Determinamos a página do título baseada no mapa de quebras de página
+        pagina_do_titulo = mapa_paragrafos_paginas.get(i, 1)
+        
+        # Verifica se é um título
+        eh_titulo = False
+        nivel_titulo = 0
+        
+        if (estilo == 'Title' or estilo == 'Heading 1') and texto:
+            eh_titulo = True
+            nivel_titulo = 1
+        elif estilo == 'Heading 2' and texto:
+            eh_titulo = True
+            nivel_titulo = 2
+        elif estilo == 'Heading 3' and texto:
+            eh_titulo = True
+            nivel_titulo = 3
+        
+        # Se é um título, cria um marcador (bookmark)
+        if eh_titulo:
+            # Gera um ID único para o título
+            import hashlib
+            marcador_id = f"titulo_{hashlib.md5(texto.encode()).hexdigest()[:8]}"
+            
+            # Adiciona um marcador (bookmark) para o título
+            from docx.oxml.shared import OxmlElement, qn
+
+            # Cria marcador de início
+            start = OxmlElement('w:bookmarkStart')
+            start.set(qn('w:id'), str(i))  # Usando o índice como ID único
+            start.set(qn('w:name'), marcador_id)
+            
+            # Cria marcador de fim
+            end = OxmlElement('w:bookmarkEnd')
+            end.set(qn('w:id'), str(i))
+            
+            # Insere o marcador no início do parágrafo
+            p._p.insert(0, start)
+            p._p.append(end)
+            
+            # Guarda o ID do marcador para usá-lo nos links
+            marcadores_titulos[i] = marcador_id
+            
+            # Processamento específico para títulos de nível 1
+            if nivel_titulo == 1:
+                numero_match = re.match(r'(\d+(?:\.\d+)*)\s*[-–—]?\s*(.*)', texto)
+                
+                if numero_match:
+                    numero, titulo_texto = numero_match.groups()
+                    titulos.append({
+                        'nivel': 1,
+                        'numero': numero,
+                        'texto': titulo_texto.strip(),
+                        'pagina': pagina_do_titulo,
+                        'marcador': marcador_id,
+                        'indice': i
+                    })
+                else:
+                    titulos.append({
+                        'nivel': 1,
+                        'numero': None,
+                        'texto': texto,
+                        'pagina': pagina_do_titulo,
+                        'marcador': marcador_id,
+                        'indice': i
+                    })
+            elif nivel_titulo > 1:
+                titulos.append({
+                    'nivel': nivel_titulo,
+                    'numero': None,
+                    'texto': texto,
+                    'pagina': pagina_do_titulo,
+                    'marcador': marcador_id,
+                    'indice': i
+                })
+
+    return titulos
+
+def atualizar_sumario_com_python_docx(caminho_arquivo, titulo_documento=None, titulos=None):
     """
     Atualiza o sumário de um documento usando python-docx e detecção de quebras de página.
     
@@ -1104,15 +1265,7 @@ def atualizar_sumario_com_python_docx(caminho_arquivo, titulo_documento=None):
         pagina_atual = 1
         mapa_paragrafos_paginas = {}
         
-        # Definimos o primeiro parágrafo como página 1
-        for i in range(len(doc.paragraphs)):
-            # Verifica se há uma quebra de página neste parágrafo
-            if i in quebras_pagina:
-                pagina_atual += 1
-            mapa_paragrafos_paginas[i] = pagina_atual
-        
         # 5. Coletar todos os títulos, suas páginas corretas e criar marcadores para links
-        titulos = []
         marcadores_titulos = {}
         
         # Primeiro, vamos adicionar marcadores (bookmarks) a todos os títulos
@@ -1125,21 +1278,16 @@ def atualizar_sumario_com_python_docx(caminho_arquivo, titulo_documento=None):
             estilo = p.style.name if hasattr(p, 'style') and p.style and hasattr(p.style, 'name') else ""
             
             # Determinamos a página do título baseada no mapa de quebras de página
-            pagina_do_titulo = mapa_paragrafos_paginas.get(i, 1)
             
             # Verifica se é um título
             eh_titulo = False
-            nivel_titulo = 0
             
             if (estilo == 'Title' or estilo == 'Heading 1') and texto:
                 eh_titulo = True
-                nivel_titulo = 1
             elif estilo == 'Heading 2' and texto:
                 eh_titulo = True
-                nivel_titulo = 2
             elif estilo == 'Heading 3' and texto:
                 eh_titulo = True
-                nivel_titulo = 3
             
             # Se é um título, cria um marcador (bookmark)
             if eh_titulo:
@@ -1149,7 +1297,7 @@ def atualizar_sumario_com_python_docx(caminho_arquivo, titulo_documento=None):
                 
                 # Adiciona um marcador (bookmark) para o título
                 from docx.oxml.shared import OxmlElement, qn
-                
+
                 # Cria marcador de início
                 start = OxmlElement('w:bookmarkStart')
                 start.set(qn('w:id'), str(i))  # Usando o índice como ID único
@@ -1165,39 +1313,17 @@ def atualizar_sumario_com_python_docx(caminho_arquivo, titulo_documento=None):
                 
                 # Guarda o ID do marcador para usá-lo nos links
                 marcadores_titulos[i] = marcador_id
-                
-                # Processamento específico para títulos de nível 1
-                if nivel_titulo == 1:
-                    numero_match = re.match(r'(\d+(?:\.\d+)*)\s*[-–—]?\s*(.*)', texto)
-                    
-                    if numero_match:
-                        numero, titulo_texto = numero_match.groups()
-                        titulos.append({
-                            'nivel': 1,
-                            'numero': numero,
-                            'texto': titulo_texto.strip(),
-                            'pagina': pagina_do_titulo,
-                            'marcador': marcador_id,
-                            'indice': i
-                        })
-                    else:
-                        titulos.append({
-                            'nivel': 1,
-                            'numero': None,
-                            'texto': texto,
-                            'pagina': pagina_do_titulo,
-                            'marcador': marcador_id,
-                            'indice': i
-                        })
-                elif nivel_titulo > 1:
-                    titulos.append({
-                        'nivel': nivel_titulo,
-                        'numero': None,
-                        'texto': texto,
-                        'pagina': pagina_do_titulo,
-                        'marcador': marcador_id,
-                        'indice': i
-                    })
+                for tit in titulos:
+                    if(tit["texto"] == texto):
+                        tit["marcador"] = marcador_id 
+                        break
+
+        # Definimos o primeiro parágrafo como página 1
+        for i in range(len(doc.paragraphs)):
+            # Verifica se há uma quebra de página neste parágrafo
+            if i in quebras_pagina:
+                pagina_atual += 1
+            mapa_paragrafos_paginas[i] = pagina_atual
         
         # 6. Remover os parágrafos do sumário antigo EXCETO o título TOC
         logger.info(f"Removendo sumário antigo do parágrafo {sumario_inicio+1} ao {sumario_fim-1}")
@@ -1211,11 +1337,12 @@ def atualizar_sumario_com_python_docx(caminho_arquivo, titulo_documento=None):
                 logger.warning(f"Erro ao remover parágrafo {i}: {str(e)}")
         
         # 7. Criar itens do sumário com hyperlinks
-        from docx.shared import Pt, Cm, RGBColor
-        from docx.enum.text import WD_LINE_SPACING, WD_TAB_ALIGNMENT, WD_TAB_LEADER
+        import docx.opc.constants
+        from docx.enum.text import (WD_LINE_SPACING, WD_TAB_ALIGNMENT,
+                                    WD_TAB_LEADER)
         from docx.oxml import OxmlElement
         from docx.oxml.ns import qn
-        import docx.opc.constants
+        from docx.shared import Cm, Pt, RGBColor
         
         logger.info(f"Criando novo sumário com {len(titulos)} títulos")
         
@@ -1445,6 +1572,39 @@ def identificar_quebras_pagina(doc):
     
     return quebras_pagina
 
+def create_element(name):
+    return OxmlElement(name)
+
+def create_attribute(element, name, value):
+    from docx.oxml import ns
+    element.set(ns.qn(name), value)
+
+def add_page_count(paragraph):
+    from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+    from docx.shared import Pt, RGBColor
+
+
+    paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+    page_num_run = paragraph.add_run()
+    
+    page_num_run.font.name = "Calibri"
+    page_num_run.font.size = Pt(12)
+    page_num_run.font.color.rgb = RGBColor.from_string('F6F6F6')
+    fldChar1 = create_element('w:fldChar')
+    create_attribute(fldChar1, 'w:fldCharType', 'begin')
+
+    instrText = create_element('w:instrText')
+    create_attribute(instrText, 'xml:space', 'preserve')
+    instrText.text = "PAGE"
+
+    fldChar2 = create_element('w:fldChar')
+    create_attribute(fldChar2, 'w:fldCharType', 'end')
+
+    page_num_run._r.append(fldChar1)
+    page_num_run._r.append(instrText)
+    page_num_run._r.append(fldChar2)
+
 
 def gerar_pdf_do_docx(caminho_arquivo):
     """
@@ -1459,11 +1619,11 @@ def gerar_pdf_do_docx(caminho_arquivo):
     """
     logger.info(f"Iniciando geração de PDF: {caminho_arquivo}")
     
-    import subprocess
+    import glob
     import os
     import platform
-    import glob
-    
+    import subprocess
+
     # Define o caminho do PDF a ser gerado
     pdf_path = os.path.splitext(caminho_arquivo)[0] + '.pdf'
     diretorio = os.path.dirname(os.path.abspath(caminho_arquivo))
@@ -1586,6 +1746,31 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                              'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+
+def encontrar_pagina_pdf(file, text, pag_min):
+    import re
+
+    import PyPDF2
+
+    pdf = PyPDF2.PdfReader(file)
+
+    num_pages = len(pdf.pages)
+    for i in range(0, num_pages):
+        page = pdf.pages[i]
+        page_text = page.extract_text()
+        if re.search(text, page_text) and i >= pag_min - 1:
+            return i
+    return None
+
+def obter_paginas_pdf(caminho_pdf, titulos):
+    titulos_aux = []
+    for titulo in titulos:
+        pagina = encontrar_pagina_pdf(caminho_pdf, titulo["texto"], titulo["pagina"])
+        if pagina is not None:
+            titulo["pagina"] = pagina + 1
+        titulos_aux.append(titulo)
+    return titulos_aux
+
 @app.route('/gerar_relatorio', methods=['POST'])
 def gerar_relatorio():
     """
@@ -1677,13 +1862,18 @@ def gerar_relatorio():
                     
                     # Define o caminho do arquivo temporário final
                     temp_final = os.path.join(tempfile.gettempdir(), nome_arquivo)
-                    
+                    add_page_count(doc.sections[0].footer.add_paragraph())
+
                     # Salvamos o documento com as substituições
                     doc.save(temp_final)
+                    pdf_pre_sumario = gerar_pdf_do_docx(temp_final)
+                    titulos_sumario = obter_titulos_sumario(temp_final)
+                    titulos_atualizados = obter_paginas_pdf(pdf_pre_sumario, titulos_sumario)
+
                     temp_files.append(temp_final)
                     
                     # Atualizamos o sumário - SEMPRE, independente se vai gerar PDF ou não
-                    atualizar_sumario_com_python_docx(temp_final, titulo_documento)
+                    atualizar_sumario_com_python_docx(temp_final, titulo_documento, titulos_atualizados)
                         
                     # Adiciona o DOCX aos arquivos de saída se solicitado
                     if gerar_docx:
@@ -1775,10 +1965,6 @@ def gerar_relatorio():
                 os.unlink(zip_path)
         except:
             pass
-
-@app.route('/dev')
-def documentacao_dev():
-    return render_template('index-dev.html')
 
 if __name__ == '__main__':
     app.run(debug=False)
