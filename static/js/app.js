@@ -130,6 +130,9 @@ const app = createApp({
       this.updateTheme();
     }
     this.initSortable();
+
+    // Aplica o tema inicial
+    this.updateTheme();
   },
 
   beforeUnmount() {
@@ -325,10 +328,11 @@ const app = createApp({
     },
 
     removeAutor(autor) {
-      this.selectedAutores = this.selectedAutores.filter(
-        (a) => a.nome !== autor.nome
-      );
-      this.updateFormDataAutores();
+      const index = this.selectedAutores.findIndex((a) => a.nome === autor.nome);
+      if (index !== -1) {
+        this.selectedAutores.splice(index, 1);
+        this.updateFormDataAutores();
+      }
     },
 
     addAutor(event) {
@@ -436,176 +440,135 @@ const app = createApp({
     },
 
     // Método completo para geração de documento
-    gerarDocumento() {
+    async gerarDocumento() {
       if (this.isLoading) return;
 
-      // Reset do status
-      this.status.message = "";
-      this.status.type = "info";
+      // Limpa mensagens de status anteriores
+      this.status.message = '';
+      this.status.type = '';
 
-      // Debug - verificar valores
-      console.log("Valores de data:", {
-        dataInicio: this.formData.dataInicio,
-        dataFim: this.formData.dataFim,
-        dataInicioTipo: typeof this.formData.dataInicio,
-        dataFimTipo: typeof this.formData.dataFim,
-      });
+      // Limpa estilos de erro anteriores
+      this.resetFieldErrors();
 
-      // Validar datas
-      if (!this.formData.dataInicio || !this.formData.dataFim) {
-        console.log("Datas não preenchidas!", this.formData);
-        this.status.message = "As datas de início e fim são obrigatórias";
-        this.status.type = "error";
+      // Acessar os elementos através do componente BasicFormSection
+      const basicFormSection = this.$refs.basicFormSection;
+      if (!basicFormSection) {
+        console.error('Componente BasicFormSection não encontrado');
         return;
       }
 
-      // Validar se a data de início é menor que a data de fim
+      // Validação dos campos obrigatórios
+      const camposObrigatorios = [
+        { ref: 'numeroSS', label: 'Número SS' },
+        { ref: 'tituloSS', label: 'Título' },
+        { ref: 'descricao', label: 'Descrição' },
+        { ref: 'dataInicio', label: 'Data de Início' },
+        { ref: 'dataFim', label: 'Data de Fim' }
+      ];
+
+      for (const campo of camposObrigatorios) {
+        const valor = this.formData[campo.ref];
+        if (!valor || valor.trim() === '') {
+          const elemento = basicFormSection.$refs[campo.ref];
+          if (elemento) {
+            elemento.classList.add('campo-erro');
+            elemento.focus();
+            this.status.message = `O campo ${campo.label} é obrigatório`;
+            this.status.type = 'error';
+            return;
+          } else {
+            console.error(`Elemento com ref ${campo.ref} não encontrado`);
+          }
+        }
+      }
+
+      // Validação das datas
       const dataInicio = new Date(this.formData.dataInicio);
       const dataFim = new Date(this.formData.dataFim);
 
       if (dataInicio > dataFim) {
-        this.status.message =
-          "A data de início não pode ser maior que a data de fim";
-        this.status.type = "error";
-        this.$refs.dataInicioInput?.focus();
+        const elemento = basicFormSection.$refs.dataInicio;
+        if (elemento) {
+          elemento.classList.add('campo-erro');
+          elemento.focus();
+          this.status.message = 'A data de início não pode ser posterior à data de fim';
+          this.status.type = 'error';
+        }
         return;
       }
 
-      // Validar se tem pelo menos uma atividade
+      // Validação de atividades
       if (this.atividades.length === 0) {
-        this.status.message =
-          "É necessário adicionar pelo menos uma atividade antes de gerar os documentos";
-        this.status.type = "error";
-        this.$refs.atividadeInput?.focus();
+        this.status.message = 'Adicione pelo menos uma atividade';
+        this.status.type = 'error';
         return;
       }
 
-      // Validar se há autor selecionado
+      // Validação de autores
       if (this.selectedAutores.length === 0) {
-        this.status.message = "Por favor, selecione pelo menos um autor";
-        this.status.type = "error";
+        // Adicionar classe de erro ao container de autores
+        if (this.setAutorFieldError()) {
+          // Focar no input de autor
+          const autorInput = basicFormSection.$refs.autorInput;
+          if (autorInput) {
+            autorInput.focus();
+          }
+        } else {
+          console.error('Não foi possível aplicar o estilo de erro ao campo de autores');
+        }
+        this.status.message = 'Selecione pelo menos um autor';
+        this.status.type = 'error';
         return;
       }
 
-      // Verificar se pelo menos um formato foi selecionado
+      // Validação dos formatos de arquivo
       if (!this.formData.gerarDocx && !this.formData.gerarPdf) {
-        this.status.message =
-          "Selecione pelo menos um formato de arquivo (DOCX ou PDF)";
-        this.status.type = "error";
+        this.status.message = 'Selecione pelo menos um formato de arquivo (DOCX ou PDF)';
+        this.status.type = 'error';
         return;
       }
-
-      // Inicializa o tempo de processamento
-      const tempoInicio = new Date();
 
       this.isLoading = true;
-      // Não mostramos mensagem de status durante o processamento, apenas o spinner no botão
+      this.status.message = 'Gerando documento...';
+      this.status.type = 'info';
 
       try {
         const formData = new FormData();
-        formData.append("atividades", JSON.stringify(this.atividades));
+        formData.append('numeroSS', this.formData.numeroSS);
+        formData.append('tituloSS', this.formData.tituloSS);
+        formData.append('dataInicio', this.formData.dataInicio);
+        formData.append('dataFim', this.formData.dataFim);
+        formData.append('atividades', JSON.stringify(this.atividades));
+        formData.append('autores', JSON.stringify(this.selectedAutores));
+        formData.append('gerarDocx', this.formData.gerarDocx);
+        formData.append('gerarPdf', this.formData.gerarPdf);
 
-        // Adicionar campos do formulário
-        for (const [key, value] of Object.entries(this.formData)) {
-          // Tratamento especial para valores booleanos
-          if (typeof value === "boolean") {
-            formData.append(key, value.toString()); // Converter boolean para string "true" ou "false"
-          } else {
-            formData.append(key, value);
-          }
+        const response = await fetch('/gerar_relatorio', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao gerar documento');
         }
 
-        // Adicionar total de horas
-        formData.append("totalHoras", this.totalHoras.toString());
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'documento.zip';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
 
-        // Explicitamente definir os formatos como strings "true" ou "false"
-        formData.append("gerar_docx", this.formData.gerarDocx.toString());
-        formData.append("gerar_pdf", this.formData.gerarPdf.toString());
-
-        // Debugging - imprime todos os pares chave/valor do FormData
-        console.log("FormData sendo enviado:");
-        for (const pair of formData.entries()) {
-          console.log(`${pair[0]}: ${pair[1]}`);
-        }
-
-        console.log("Verificação de formatos:");
-        console.log(
-          `gerarDocx tipo: ${typeof this.formData.gerarDocx}, valor: ${
-            this.formData.gerarDocx
-          }`
-        );
-        console.log(
-          `gerarPdf tipo: ${typeof this.formData.gerarPdf}, valor: ${
-            this.formData.gerarPdf
-          }`
-        );
-        console.log(`gerar_docx do FormData: ${formData.get("gerar_docx")}`);
-        console.log(`gerar_pdf do FormData: ${formData.get("gerar_pdf")}`);
-
-        fetch("/gerar_relatorio", {
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => {
-            if (!response.ok) {
-              const contentType = response.headers.get("content-type");
-              if (contentType && contentType.includes("application/json")) {
-                return response.json().then((error) => {
-                  throw new Error(error.error || "Erro ao gerar documentos");
-                });
-              }
-              throw new Error(
-                `Erro ${response.status}: ${response.statusText}`
-              );
-            }
-
-            // Download do arquivo ZIP
-            return response.blob();
-          })
-          .then((blob) => {
-            // Criar o nome do arquivo formatado
-            const zipFilename = `SS ${this.formData.numeroSS.padStart(
-              3,
-              "0"
-            )}-${this.formData.anoSS}.zip`;
-
-            // Criar link de download
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = zipFilename;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-
-            // Calcula o tempo de processamento
-            const tempoFim = new Date();
-            const tempoTotal = ((tempoFim - tempoInicio) / 1000).toFixed(1);
-
-            // Mensagem de sucesso com tempo de processamento
-            this.status.message = `Documentos gerados com sucesso! Tempo de processamento: ${tempoTotal}s`;
-            this.status.type = "success";
-          })
-          .catch((error) => {
-            console.error("Erro completo:", error);
-
-            // Calcula o tempo de processamento mesmo em caso de erro
-            const tempoFim = new Date();
-            const tempoTotal = ((tempoFim - tempoInicio) / 1000).toFixed(1);
-
-            this.status.message = `${
-              error.message || "Erro ao gerar documentos"
-            }. Tempo de processamento: ${tempoTotal}s`;
-            this.status.type = "error";
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
+        this.status.message = 'Documento gerado com sucesso!';
+        this.status.type = 'success';
       } catch (error) {
-        console.error("Erro ao preparar a requisição:", error);
-        this.status.message = "Erro ao preparar a requisição";
-        this.status.type = "error";
+        console.error('Erro:', error);
+        this.status.message = 'Erro ao gerar documento';
+        this.status.type = 'error';
+      } finally {
         this.isLoading = false;
       }
     },
@@ -626,6 +589,91 @@ const app = createApp({
       this.modeloFile = null;
       this.selectedAutores = [];
       this.autorInput = "";
+    },
+
+    // Método para limpar estilos de erro dos campos
+    resetFieldErrors() {
+      // Limpar estilos de erro dos elementos dentro do BasicFormSection
+      const basicFormSection = this.$refs.basicFormSection;
+      if (basicFormSection) {
+        // Limpar refs individuais
+        const refs = ['numeroSS', 'tituloSS', 'descricao', 'dataInicio', 'dataFim'];
+        refs.forEach(ref => {
+          const elemento = basicFormSection.$refs[ref];
+          if (elemento) {
+            elemento.classList.remove('campo-erro');
+          }
+        });
+        
+        // Limpar o container de autores
+        this.resetAutorFieldError();
+      }
+
+      // Limpar mensagens de status
+      this.status.message = '';
+      this.status.type = '';
+    },
+
+    resetAutorFieldError() {
+      const basicFormSection = this.$refs.basicFormSection;
+      if (!basicFormSection) return;
+      
+      // Tentar diferentes seletores para encontrar o container de autores
+      const selectors = [
+        '.form-group:nth-child(4) .form-input'
+      ];
+      
+      for (const selector of selectors) {
+        const container = basicFormSection.$el.querySelector(selector);
+        if (container) {
+          container.classList.remove('campo-erro');
+          return;
+        }
+      }
+      
+      // Se os seletores não funcionarem, tentar encontrar pelo texto do label
+      const labels = basicFormSection.$el.querySelectorAll('label');
+      for (const label of labels) {
+        if (label.textContent.includes('Autor(es)')) {
+          const container = label.nextElementSibling?.querySelector('.form-input');
+          if (container) {
+            container.classList.remove('campo-erro');
+            return;
+          }
+        }
+      }
+    },
+
+    setAutorFieldError() {
+      const basicFormSection = this.$refs.basicFormSection;
+      if (!basicFormSection) return false;
+      
+      // Tentar diferentes seletores para encontrar o container de autores
+      const selectors = [
+        '.form-group:nth-child(4) .form-input'
+      ];
+      
+      for (const selector of selectors) {
+        const container = basicFormSection.$el.querySelector(selector);
+        if (container) {
+          container.classList.add('campo-erro');
+          return true;
+        }
+      }
+      
+      // Se os seletores não funcionarem, tentar encontrar pelo texto do label
+      const labels = basicFormSection.$el.querySelectorAll('label');
+      for (const label of labels) {
+        if (label.textContent.includes('Autor(es)')) {
+          const container = label.nextElementSibling?.querySelector('.form-input');
+          if (container) {
+            container.classList.add('campo-erro');
+            return true;
+          }
+        }
+      }
+      
+      return false;
     },
   },
 });

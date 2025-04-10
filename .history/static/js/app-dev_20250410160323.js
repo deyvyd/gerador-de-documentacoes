@@ -596,35 +596,6 @@ const app = Vue.createApp({
     gerarDocumento() {
       // Reset any previous error states
       this.resetFieldErrors();
-
-      // Validate required fields
-      const requiredFields = [
-        { field: "numeroSS", selector: "input[type='text'][v-model='formData.numeroSS']" },
-        { field: "tituloSS", selector: "input[type='text'][v-model='formData.tituloSS']" },
-        { field: "dataInicio", selector: "input[type='date'][v-model='formData.dataInicio']" },
-        { field: "dataFim", selector: "input[type='date'][v-model='formData.dataFim']" },
-        { field: "iniciaisAutor", selector: "input[type='text'][v-model='inputValue']" }
-      ];
-
-      // Check each required field
-      for (const field of requiredFields) {
-        if (!this.formData[field.field]) {
-          // Add error class to the field
-          const element = this.$refs.basicFormSection.$el.querySelector(field.selector);
-          if (element) {
-            element.classList.add("campo-erro");
-            element.focus();
-          }
-          return;
-        }
-      }
-
-      // Check if at least one format is selected
-      if (!this.formData.gerarDocx && !this.formData.gerarPdf) {
-        this.status.message = "Selecione pelo menos um formato de documento.";
-        this.status.type = "error";
-        return;
-      }
       // Validar campos obrigatórios
       if (
         !this.formData.numeroSS ||

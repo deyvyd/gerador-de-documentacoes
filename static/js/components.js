@@ -161,6 +161,7 @@ const BasicFormSection = {
             <input
               type="text"
               v-model="formData.numeroSS"
+              ref="numeroSS"
               maxlength="3"
               placeholder="000"
               @input="handleInput"
@@ -191,6 +192,7 @@ const BasicFormSection = {
             <input
               type="text"
               v-model="formData.tituloSS"
+              ref="tituloSS"
               class="form-input"
               placeholder="Título informado no e-mail de abertura da SS"
               required
@@ -206,6 +208,7 @@ const BasicFormSection = {
           </label>
           <textarea
             v-model="formData.descricao"
+            ref="descricao"
             class="form-input form-textarea"
             placeholder="Ações realizadas para atualização do (SISTEMA) para que (OBJETIVO)."
             rows="2"
@@ -221,7 +224,7 @@ const BasicFormSection = {
               <span class="text-red-600">*</span>
             </label>
             <input
-              ref="dataInicioInput"
+              ref="dataInicio"
               type="date"
               v-model="formData.dataInicio"
               class="form-input"
@@ -235,6 +238,7 @@ const BasicFormSection = {
               <span class="text-red-600">*</span>
             </label>
             <input
+              ref="dataFim"
               type="date"
               v-model="formData.dataFim"
               class="form-input"

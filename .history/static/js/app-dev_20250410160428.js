@@ -599,31 +599,38 @@ const app = Vue.createApp({
 
       // Validate required fields
       const requiredFields = [
-        { field: "numeroSS", selector: "input[type='text'][v-model='formData.numeroSS']" },
-        { field: "tituloSS", selector: "input[type='text'][v-model='formData.tituloSS']" },
-        { field: "dataInicio", selector: "input[type='date'][v-model='formData.dataInicio']" },
-        { field: "dataFim", selector: "input[type='date'][v-model='formData.dataFim']" },
-        { field: "iniciaisAutor", selector: "input[type='text'][v-model='inputValue']" }
+        {
+          field: "numeroSS",
+          ref: "basicFormSection",
+          element: "numeroSSInput",
+        },
+        {
+          field: "tituloSS",
+          ref: "basicFormSection",
+          element: "tituloSSInput",
+        },
+        {
+          field: "dataInicio",
+          ref: "basicFormSection",
+          element: "dataInicioInput",
+        },
+        { field: "dataFim", ref: "basicFormSection", element: "dataFimInput" },
+        {
+          field: "iniciaisAutor",
+          ref: "basicFormSection",
+          element: "autorInput",
+        },
       ];
 
       // Check each required field
       for (const field of requiredFields) {
         if (!this.formData[field.field]) {
           // Add error class to the field
-          const element = this.$refs.basicFormSection.$el.querySelector(field.selector);
-          if (element) {
-            element.classList.add("campo-erro");
-            element.focus();
-          }
+          const element = this.$refs[field.ref].$refs[field.element];
+          element.classList.add("campo-erro");
+          element.focus();
           return;
         }
-      }
-
-      // Check if at least one format is selected
-      if (!this.formData.gerarDocx && !this.formData.gerarPdf) {
-        this.status.message = "Selecione pelo menos um formato de documento.";
-        this.status.type = "error";
-        return;
       }
       // Validar campos obrigatórios
       if (
