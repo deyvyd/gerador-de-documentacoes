@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gerador de Documentações de Desenvolvimento</title>
+    <title>Gerador de Documentações</title>
 
     <link
       rel="icon"
@@ -52,7 +52,7 @@
     />
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/maska@2.1.10/dist/maska.umd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
@@ -67,7 +67,7 @@
       <div class="container">
         <div class="main-card">
           <page-header
-            title="Gerador de Documentações de Desenvolvimento"
+            title="Gerador de Documentações Técnicas"
             icon="📝"
             tooltip-title="Este sistema gera um arquivo .zip com documentos de desenvolvimento:"
             :tooltip-items="[
@@ -77,6 +77,7 @@
                             ]"
           ></page-header>
 
+          <!-- Formulário de Informações básicas da SS -->
           <basic-form-section
             :form-data="formData"
             :selected-autores="selectedAutores"
@@ -95,43 +96,75 @@
             @remove-autor="removeAutor($event)"
           ></basic-form-section>
 
-          <!-- Seção de Requisitos Funcionais -->
-          <div class="activities-section mb-4">
-            <!-- Cabeçalho com título e botão alinhados -->
-            <div class="flex justify-between items-center mb-4">
-              <h2 class="activities-title">Requisitos Funcionais</h2>
-              <button
-                @click="abrirModalRequisito"
-                type="button"
-                class="btn btn-primary text-sm px-4 py-2 w-auto"
-                id="btnAddRequisito"
-                ref="btnAddRequisito"
-              >
-                Adicionar
-              </button>
-            </div>
+          <!-- Seção de Atividades (fora do formulário principal) -->
+          <div class="activities-section">
+            <h2 class="activities-title">Gerenciar Atividades</h2>
 
+            <!-- Formulário de Atividade -->
+            <form @submit.prevent="submitAtividade" class="activity-form">
+              <div class="activity-inputs">
+                <div class="form-group w-8/12">
+                  <label class="form-label">Atividade</label>
+                  <input
+                    ref="atividadeInput"
+                    v-model="novaAtividade.nome"
+                    type="text"
+                    required
+                    class="form-input"
+                    placeholder="Nome da atividade"
+                  />
+                </div>
+
+                <div class="form-group w-2/12">
+                  <label class="form-label">Estimativa de horas</label>
+                  <input
+                    v-model.number="novaAtividade.horas"
+                    type="number"
+                    required
+                    min="0"
+                    class="form-input text-center"
+                    placeholder="0"
+                  />
+                </div>
+
+                <div class="form-group w-2/12">
+                  <label class="form-label">&nbsp;</label>
+                  <button
+                    type="submit"
+                    class="btn"
+                    :class="editingIndex !== null ? 'btn-update' : 'btn-primary'"
+                  >
+                    {{ editingIndex !== null ? 'Atualizar' : 'Adicionar' }}
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <!-- Lista de Atividades -->
             <data-table
-              :items="requisitos"
+              v-if="atividades.length > 0"
+              :items="atividades"
               :columns="[
-                          { key: 'id', label: '#', width: 'w-2/12', align: 'text-center', type: 'text' },
-                          { key: 'nome', label: 'Nome', width: 'w-3/12', align: 'text-left', type: 'text' },
-                          { key: 'local', label: 'Local', width: 'w-3/12', align: 'text-left', type: 'text' },
-                          { key: 'tipo', label: 'Tipo', width: 'w-2/12', align: 'text-center', type: 'text' },
-                          { key: 'actions', label: 'Ações', width: 'w-2/12', align: 'text-center', type: 'buttons', actions: { view: true, edit: true, delete: true } }
-                        ]"
-              :key-function="(requisito) => requisito.id"
-              drag-ref="dragArea"
+              { key: 'nome', label: 'Atividade', width: 'w-8/12', align: 'text-left', type: 'text' },
+              { key: 'horas', label: 'Estimativa de horas', width: 'w-2/12', align: 'text-center', type: 'text' },
+              { key: 'actions', label: 'Ações', width: 'w-2/12', align: 'text-center', type: 'buttons', actions: { edit: true, delete: true } }
+            ]"
+              :key-function="(item, index) => `atividade-${index}`"
+              :drag-ref="'dragArea'"
               :draggable="true"
-              :enable-truncation="true"
-              :non-truncated-columns="['actions']"
-              @view="visualizarRequisito"
-              @edit="editarRequisito"
-              @delete="removerRequisito"
-              @reorder="reordenarRequisitos"
+              :show-footer="true"
+              :footer-items="[
+              { label: 'Total de horas', value: totalHoras, colspan: 1 },
+              { label: 'Quantidade de PF', value: pontosFuncao, colspan: 2 }
+            ]"
+              @edit="editarAtividade"
+              @delete="removerAtividade"
+              @reorder="reordenarAtividades"
             >
             </data-table>
           </div>
+
+          <!-- Seção de formatos e botão Gerar Documentos -->
 
           <!-- Seção de formatos e botão Gerar Documentos -->
           <form-submit-section
@@ -148,43 +181,14 @@
           ></form-submit-section>
         </div>
       </div>
-
-      <!-- Modal de Requisito Funcional com Abas -->
-      <modal-requisito
-        ref="modalRequisito"
-        :show="showModal"
-        :titulo="modalTitulo"
-        :requisito="requisitoAtual"
-        :modo-visualizacao="modoVisualizacao"
-        :total-requisitos="requisitos.length"
-        @fechar="fecharModalRequisito"
-        @add-requisito="adicionarRequisito"
-        @update-requisito="atualizarRequisito"
-        @upload-imagem="handleFileUpload"
-        @remover-imagem="removerImagem"
-      ></modal-requisito>
-
-      <!-- Modal de Mensagem para confirmação -->
-      <modal-message
-        :show="showMessageModal"
-        :titulo="messageTitle"
-        :mensagem="messageContent"
-        tipo="caution"
-        :texto-botao-confirmar="'Remover'"
-        :texto-botao-cancelar="'Cancelar'"
-        :show-cancel-button="true"
-        :fechar-ao-clicar-fora="false"
-        @confirmar="confirmarModalMensagem"
-        @cancelar="cancelarModalMensagem"
-      ></modal-message>
     </div>
     {% endraw %}
 
-    <!-- Scripts da aplicação -->
+    <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/components.js') }}"></script>
     <script src="{{ url_for('static', filename='js/modal-confirmacao.js') }}"></script>
     <script src="{{ url_for('static', filename='js/modal-message.js') }}"></script>
     <script src="{{ url_for('static', filename='js/modal-requisito.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/app-dev.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   </body>
 </html>

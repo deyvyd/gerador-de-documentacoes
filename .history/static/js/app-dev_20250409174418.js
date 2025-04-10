@@ -32,8 +32,8 @@ const app = Vue.createApp({
         dataFim: "",
         linkBoard: "",
         iniciaisAutor: "",
-        gerarDocx: true, // Adicione estas propriedades
-        gerarPdf: false, // Adicione estas propriedades
+        gerarDocx: true,
+        gerarPdf: false,
       },
       isLoading: false, // substitui isSubmitting
 

@@ -416,22 +416,15 @@ const app = createApp({
       }
     },
 
-    // Método completo para geração de documento
+    // Submissão do formulário
+    // Modificação no método submitForm para registrar e exibir o tempo de processamento
     gerarDocumento() {
       if (this.isLoading) return;
-
+    
       // Reset do status
       this.status.message = "";
       this.status.type = "info";
-
-      // Debug - verificar valores
-      console.log("Valores de data:", {
-        dataInicio: this.formData.dataInicio,
-        dataFim: this.formData.dataFim,
-        dataInicioTipo: typeof this.formData.dataInicio,
-        dataFimTipo: typeof this.formData.dataFim,
-      });
-
+    
       // Validar datas
       if (!this.formData.dataInicio || !this.formData.dataFim) {
         console.log("Datas não preenchidas!", this.formData);
@@ -439,11 +432,11 @@ const app = createApp({
         this.status.type = "error";
         return;
       }
-
+    
       // Validar se a data de início é menor que a data de fim
       const dataInicio = new Date(this.formData.dataInicio);
       const dataFim = new Date(this.formData.dataFim);
-
+    
       if (dataInicio > dataFim) {
         this.status.message =
           "A data de início não pode ser maior que a data de fim";
@@ -451,7 +444,7 @@ const app = createApp({
         this.$refs.dataInicioInput?.focus();
         return;
       }
-
+    
       // Validar se tem pelo menos uma atividade
       if (this.atividades.length === 0) {
         this.status.message =
@@ -460,133 +453,95 @@ const app = createApp({
         this.$refs.atividadeInput?.focus();
         return;
       }
-
+    
       // Validar se há autor selecionado
       if (this.selectedAutores.length === 0) {
         this.status.message = "Por favor, selecione pelo menos um autor";
         this.status.type = "error";
         return;
       }
-
-      // Verificar se pelo menos um formato foi selecionado
+      
+      // Verificar se pelo menos um formato está selecionado
+      // CORREÇÃO: Aqui estava o problema - usando this.formatos ao invés de this.formData
       if (!this.formData.gerarDocx && !this.formData.gerarPdf) {
-        this.status.message =
-          "Selecione pelo menos um formato de arquivo (DOCX ou PDF)";
+        this.status.message = "Selecione pelo menos um formato de arquivo (DOCX ou PDF)";
         this.status.type = "error";
         return;
       }
-
+    
       // Inicializa o tempo de processamento
       const tempoInicio = new Date();
-
+    
       this.isLoading = true;
       // Não mostramos mensagem de status durante o processamento, apenas o spinner no botão
-
+    
       try {
         const formData = new FormData();
         formData.append("atividades", JSON.stringify(this.atividades));
-
+    
         // Adicionar campos do formulário
         for (const [key, value] of Object.entries(this.formData)) {
-          // Tratamento especial para valores booleanos
-          if (typeof value === "boolean") {
-            formData.append(key, value.toString()); // Converter boolean para string "true" ou "false"
-          } else {
-            formData.append(key, value);
-          }
+          formData.append(key, value);
         }
-
+    
         // Adicionar total de horas
         formData.append("totalHoras", this.totalHoras.toString());
+    
+        // CORREÇÃO: formatos corrigido para formData
+        formData.append("gerar_docx", this.formData.gerarDocx);
+        formData.append("gerar_pdf", this.formData.gerarPdf);
 
-        // Explicitamente definir os formatos como strings "true" ou "false"
-        formData.append("gerar_docx", this.formData.gerarDocx.toString());
-        formData.append("gerar_pdf", this.formData.gerarPdf.toString());
-
-        // Debugging - imprime todos os pares chave/valor do FormData
-        console.log("FormData sendo enviado:");
-        for (const pair of formData.entries()) {
-          console.log(`${pair[0]}: ${pair[1]}`);
-        }
-
-        console.log("Verificação de formatos:");
-        console.log(
-          `gerarDocx tipo: ${typeof this.formData.gerarDocx}, valor: ${
-            this.formData.gerarDocx
-          }`
-        );
-        console.log(
-          `gerarPdf tipo: ${typeof this.formData.gerarPdf}, valor: ${
-            this.formData.gerarPdf
-          }`
-        );
-        console.log(`gerar_docx do FormData: ${formData.get("gerar_docx")}`);
-        console.log(`gerar_pdf do FormData: ${formData.get("gerar_pdf")}`);
-
-        fetch("/gerar_relatorio", {
+        const response = await fetch("/gerar_relatorio", {
           method: "POST",
           body: formData,
-        })
-          .then((response) => {
-            if (!response.ok) {
-              const contentType = response.headers.get("content-type");
-              if (contentType && contentType.includes("application/json")) {
-                return response.json().then((error) => {
-                  throw new Error(error.error || "Erro ao gerar documentos");
-                });
-              }
-              throw new Error(
-                `Erro ${response.status}: ${response.statusText}`
-              );
-            }
+        });
 
-            // Download do arquivo ZIP
-            return response.blob();
-          })
-          .then((blob) => {
-            // Criar o nome do arquivo formatado
-            const zipFilename = `SS ${this.formData.numeroSS.padStart(
-              3,
-              "0"
-            )}-${this.formData.anoSS}.zip`;
+        if (!response.ok) {
+          const contentType = response.headers.get("content-type");
+          if (contentType && contentType.includes("application/json")) {
+            const error = await response.json();
+            throw new Error(error.error || "Erro ao gerar documentos");
+          }
+          throw new Error(`Erro ${response.status}: ${response.statusText}`);
+        }
 
-            // Criar link de download
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = zipFilename;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
+        // Download do arquivo ZIP
+        const blob = await response.blob();
 
-            // Calcula o tempo de processamento
-            const tempoFim = new Date();
-            const tempoTotal = ((tempoFim - tempoInicio) / 1000).toFixed(1);
+        // Criar o nome do arquivo formatado
+        const zipFilename = `SS ${this.formData.numeroSS.padStart(3, "0")}-${
+          this.formData.anoSS
+        }.zip`;
 
-            // Mensagem de sucesso com tempo de processamento
-            this.status.message = `Documentos gerados com sucesso! Tempo de processamento: ${tempoTotal}s`;
-            this.status.type = "success";
-          })
-          .catch((error) => {
-            console.error("Erro completo:", error);
+        // Criar link de download
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = zipFilename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
 
-            // Calcula o tempo de processamento mesmo em caso de erro
-            const tempoFim = new Date();
-            const tempoTotal = ((tempoFim - tempoInicio) / 1000).toFixed(1);
+        // Calcula o tempo de processamento
+        const tempoFim = new Date();
+        const tempoTotal = ((tempoFim - tempoInicio) / 1000).toFixed(1);
 
-            this.status.message = `${
-              error.message || "Erro ao gerar documentos"
-            }. Tempo de processamento: ${tempoTotal}s`;
-            this.status.type = "error";
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
+        // Mensagem de sucesso com tempo de processamento
+        this.status.message = `Documentos gerados com sucesso! Tempo de processamento: ${tempoTotal}s`;
+        this.status.type = "success";
       } catch (error) {
-        console.error("Erro ao preparar a requisição:", error);
-        this.status.message = "Erro ao preparar a requisição";
+        console.error("Erro completo:", error);
+
+        // Calcula o tempo de processamento mesmo em caso de erro
+        const tempoFim = new Date();
+        const tempoTotal = ((tempoFim - tempoInicio) / 1000).toFixed(1);
+
+        this.status.message = `${
+          error.message || "Erro ao gerar documentos"
+        }. Tempo de processamento: ${tempoTotal}s`;
         this.status.type = "error";
+      } finally {
         this.isLoading = false;
       }
     },

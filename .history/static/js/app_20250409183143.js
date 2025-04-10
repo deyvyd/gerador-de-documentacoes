@@ -488,42 +488,13 @@ const app = createApp({
 
         // Adicionar campos do formulário
         for (const [key, value] of Object.entries(this.formData)) {
-          // Tratamento especial para valores booleanos
-          if (typeof value === "boolean") {
-            formData.append(key, value.toString()); // Converter boolean para string "true" ou "false"
-          } else {
-            formData.append(key, value);
-          }
+          formData.append(key, value);
         }
 
         // Adicionar total de horas
         formData.append("totalHoras", this.totalHoras.toString());
 
-        // Explicitamente definir os formatos como strings "true" ou "false"
-        formData.append("gerar_docx", this.formData.gerarDocx.toString());
-        formData.append("gerar_pdf", this.formData.gerarPdf.toString());
-
-        // Debugging - imprime todos os pares chave/valor do FormData
-        console.log("FormData sendo enviado:");
-        for (const pair of formData.entries()) {
-          console.log(`${pair[0]}: ${pair[1]}`);
-        }
-
-        console.log("Verificação de formatos:");
-        console.log(
-          `gerarDocx tipo: ${typeof this.formData.gerarDocx}, valor: ${
-            this.formData.gerarDocx
-          }`
-        );
-        console.log(
-          `gerarPdf tipo: ${typeof this.formData.gerarPdf}, valor: ${
-            this.formData.gerarPdf
-          }`
-        );
-        console.log(`gerar_docx do FormData: ${formData.get("gerar_docx")}`);
-        console.log(`gerar_pdf do FormData: ${formData.get("gerar_pdf")}`);
-
-        fetch("/gerar_relatorio", {
+        const response = fetch("/gerar_relatorio", {
           method: "POST",
           body: formData,
         })
