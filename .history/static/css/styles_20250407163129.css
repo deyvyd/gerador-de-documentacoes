@@ -687,15 +687,6 @@ textarea.form-input,
   z-index: 20;
 }
 
-.dark .suggestions-list {
-  background-color: rgb(31 41 55); /* Equivalente a bg-gray-800 */
-}
-
-.dark .suggestions-list div.highlighted,
-.dark .suggestions-list div:hover {
-  background-color: rgb(55 65 81); /* Equivalente a bg-gray-700 */
-}
-
 /* ===== Sortable (arraste e solte) ===== */
 .sortable-ghost {
   opacity: 0.5;
