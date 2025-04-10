@@ -467,6 +467,21 @@ window.AppComponents.ModalRequisito = {
         return;
       }
 
+      // 7. Verificar imagens
+      if (!this.requisito.imagens || this.requisito.imagens.length === 0) {
+        this.tabAtiva = 1;
+        setTimeout(() => {
+          const uploadArea = this.$refs.uploadArea;
+          if (uploadArea) {
+            uploadArea.classList.add("campo-erro");
+            if (this.$refs.uploadButton) {
+              this.$refs.uploadButton.focus();
+            }
+          }
+        }, 50);
+        return;
+      }
+
       // Se chegou aqui, todos os campos estão preenchidos
       const editIndex = this.requisito.id
         ? parseInt(this.requisito.id.split("-")[1]) - 1
@@ -723,6 +738,7 @@ window.AppComponents.ModalRequisito = {
             <div class="form-group mb-0" v-if="!modoVisualizacao">
               <label class="form-label mb-1" for="btn-select-images" :class="isDarkMode ? 'text-gray-200' : 'text-gray-700'">
                 Imagens
+                <span class="text-red-600">*</span>
               </label>
               <div
                 ref="uploadArea"
@@ -781,6 +797,7 @@ window.AppComponents.ModalRequisito = {
             <div class="form-group" v-if="modoVisualizacao">
               <label class="form-label" :class="isDarkMode ? 'text-gray-200' : 'text-gray-700'">
                 Imagens
+                <span class="text-red-600">*</span>
               </label>
               <!-- Quando há imagens -->
               <div 

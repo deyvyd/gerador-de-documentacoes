@@ -723,6 +723,7 @@ window.AppComponents.ModalRequisito = {
             <div class="form-group mb-0" v-if="!modoVisualizacao">
               <label class="form-label mb-1" for="btn-select-images" :class="isDarkMode ? 'text-gray-200' : 'text-gray-700'">
                 Imagens
+                <span class="text-red-600">*</span>
               </label>
               <div
                 ref="uploadArea"
@@ -781,6 +782,7 @@ window.AppComponents.ModalRequisito = {
             <div class="form-group" v-if="modoVisualizacao">
               <label class="form-label" :class="isDarkMode ? 'text-gray-200' : 'text-gray-700'">
                 Imagens
+                <span class="text-red-600">*</span>
               </label>
               <!-- Quando há imagens -->
               <div 
