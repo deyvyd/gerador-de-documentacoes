@@ -12,7 +12,7 @@ const app = Vue.createApp({
       requisitos: [],
       requisitoAtual: {
         id: "",
-        tituloRF: "",
+        titulo_rf: "",
         tipo: "",
         local: "",
         usuario: "",
@@ -427,7 +427,7 @@ const app = Vue.createApp({
 
     // Método para remover requisito usando o ModalMessage do tipo caution
     removerRequisito(index) {
-      const requisitoNome = this.requisitos[index].tituloRF;
+      const requisitoNome = this.requisitos[index].titulo_rf;
       const requisitoId = this.requisitos[index].id;
 
       this.mostrarModalMensagem(
