@@ -262,16 +262,6 @@ const app = Vue.createApp({
       }
     },
 
-    handleAutorInputUpdate(value) {
-      this.autorInput = value;
-      // Forçar atualização das sugestões filtradas
-      this.showSuggestions = true;
-    },
-
-    toggleSuggestions(show) {
-      this.showSuggestions = show;
-    },
-
     removeAutor(autor) {
       this.selectedAutores = this.selectedAutores.filter(
         (a) => a.nome !== autor.nome

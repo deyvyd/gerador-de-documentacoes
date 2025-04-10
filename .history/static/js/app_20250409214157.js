@@ -301,27 +301,10 @@ const app = createApp({
         !this.selectedAutores.some((selected) => selected.nome === autor.nome)
       ) {
         this.selectedAutores.push(autor);
-        this.autorInput = ""; // Limpa o input
-        this.updateFormDataAutores(); // Atualiza as iniciais
-
-        // Mantém o estado das sugestões, mas limpa o valor do input
-        this.$nextTick(() => {
-          const basicFormSection = this.$refs.basicFormSection;
-          if (basicFormSection && basicFormSection.$refs.autorInput) {
-            basicFormSection.$refs.autorInput.focus();
-          }
-        });
+        this.autorInput = "";
+        this.showSuggestions = false;
+        this.updateFormDataAutores();
       }
-    },
-
-    handleAutorInputUpdate(value) {
-      this.autorInput = value;
-      // Forçar atualização das sugestões filtradas
-      this.showSuggestions = true;
-    },
-
-    toggleSuggestions(show) {
-      this.showSuggestions = show;
     },
 
     removeAutor(autor) {

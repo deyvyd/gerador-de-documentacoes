@@ -268,10 +268,6 @@ const app = Vue.createApp({
       this.showSuggestions = true;
     },
 
-    toggleSuggestions(show) {
-      this.showSuggestions = show;
-    },
-
     removeAutor(autor) {
       this.selectedAutores = this.selectedAutores.filter(
         (a) => a.nome !== autor.nome

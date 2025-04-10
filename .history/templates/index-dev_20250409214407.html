@@ -78,7 +78,6 @@
           ></page-header>
 
           <basic-form-section
-            ref="basicFormSection"
             :form-data="formData"
             :selected-autores="selectedAutores"
             :autor-input="autorInput"
@@ -87,8 +86,8 @@
             :highlighted-index="highlightedIndex"
             @update:numero-ss="formData.numeroSS = $event"
             @format-ss="formatSS"
-            @update:autor-input="handleAutorInputUpdate"
-            @show-suggestions="toggleSuggestions"
+            @update:autor-input="autorInput = $event"
+            @show-suggestions="showSuggestions = $event"
             @navigate-list="navigateList($event)"
             @highlight-index="highlightedIndex = $event"
             @handle-backspace="handleBackspace"
@@ -135,18 +134,24 @@
           </div>
 
           <!-- Seção de formatos e botão Gerar Documentos -->
-          <form-submit-section
-            :formatos="formData"
-            :is-loading="isLoading"
-            :is-formato-valido="formData.gerarDocx || formData.gerarPdf"
-            :status-message="status.message"
-            :status-type="status.type"
-            button-text="Gerar Documento"
-            loading-text="Processando..."
-            @submit="gerarDocumento"
-            @update:docx="formData.gerarDocx = $event"
-            @update:pdf="formData.gerarPdf = $event"
-          ></form-submit-section>
+          <basic-form-section
+            ref="basicFormSection"
+            :form-data="formData"
+            :selected-autores="selectedAutores"
+            :autor-input="autorInput"
+            :show-suggestions="showSuggestions"
+            :filtered-autores="filteredAutores"
+            :highlighted-index="highlightedIndex"
+            @update:numero-ss="formData.numeroSS = $event"
+            @format-ss="formatSS"
+            @update:autor-input="handleAutorInputUpdate"
+            @show-suggestions="toggleSuggestions"
+            @navigate-list="navigateList($event)"
+            @highlight-index="highlightedIndex = $event"
+            @handle-backspace="handleBackspace"
+            @select-autor="selectAutor($event)"
+            @remove-autor="removeAutor($event)"
+          ></basic-form-section>
         </div>
       </div>
 
