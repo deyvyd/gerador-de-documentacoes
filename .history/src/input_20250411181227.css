@@ -27,6 +27,14 @@
     @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
   }
 
+  /* ===== Campo com erro ===== */
+  .campo-erro {
+    @apply border-danger border-2;
+    @apply dark:border-red-400;
+    @apply focus:border-danger focus:ring-danger;
+    @apply dark:focus:border-red-400 dark:focus:ring-red-400;
+  }
+
   /* Cores da tabela */
   .activities-table thead {
     @apply bg-[#DBEAFE] dark:bg-[#1E3A5F];

@@ -24,7 +24,6 @@
   /* Inputs e formulários */
   .form-input {
     @apply w-full p-2 border rounded-md bg-white dark:bg-[#151C25] text-gray-800 dark:text-white border-gray-300 dark:border-gray-600;
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
   }
 
   /* Cores da tabela */

@@ -5,11 +5,11 @@
 @layer components {
   /* Cards e seções */
   .main-card {
-    @apply bg-white dark:bg-[var(--dark-bg-secondary)] rounded-lg shadow p-4 w-full max-w-[1050px] mx-auto;
+    @apply bg-white dark:bg-[#1F2937] rounded-lg shadow p-4 w-full max-w-[1050px] mx-auto;
   }
 
   .activities-section {
-    @apply bg-gray-50 dark:bg-[var(--dark-bg-secondary)] rounded-lg border dark:border-gray-700 p-4 my-4;
+    @apply bg-gray-50 dark:bg-[#1F2937] rounded-lg border dark:border-gray-700 p-4 my-4;
   }
 
   /* Botões */
@@ -18,7 +18,7 @@
   }
 
   .btn-primary {
-    @apply bg-[var(--btn-primary)] text-white hover:bg-[#var(--btn-primary-hover)];
+    @apply bg-[#2563eb] text-white hover:bg-[#1d4ed8];
   }
 
   /* Inputs e formulários */
@@ -33,7 +33,7 @@
   }
 
   .activities-table tbody tr {
-    @apply bg-gray-50 dark:bg-[var(--dark-bg-secondary)];
+    @apply bg-gray-50 dark:bg-[#1F2937];
   }
 
   .activities-table tbody tr:hover {

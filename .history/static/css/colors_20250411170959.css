@@ -1,0 +1,129 @@
+/* 
+ * Arquivo de definição de cores e temas
+ * Este arquivo define a paleta de cores base e as variáveis específicas dos temas
+ */
+
+:root {
+  /* Paleta de cores base */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Escala de cinzas */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937; /* Usado como fundo principal no modo escuro */
+  --color-gray-900: #111827;
+
+  /* Escala de azuis */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe; /* Usado em cabeçalhos de tabela no modo claro */
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6; /* Usado para foco de elementos */
+  --color-blue-600: #2563eb; /* Cor principal para botões */
+  --color-blue-700: #1d4ed8; /* Cor hover para botões */
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a5f; /* Usado em cabeçalhos de tabela no modo escuro */
+
+  /* Escala de vermelhos */
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-red-900: #7f1d1d;
+
+  /* Escala de verdes */
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+
+  /* Cores personalizadas para o modo escuro */
+  --color-dark-bg-primary: #0e1621; /* Fundo principal do modo escuro */
+  --color-dark-bg-secondary: #151c25; /* Fundo secundário do modo escuro */
+  --color-dark-bg-tertiary: #1f2937; /* Fundo terciário do modo escuro */
+
+  /* Outras cores específicas da aplicação */
+  --color-hover-light: rgba(
+    59,
+    130,
+    246,
+    0.3
+  ); /* Cor de hover para linhas da tabela no modo claro */
+}
+
+/* Variáveis específicas de componentes que usam a paleta base */
+:root {
+  /* Cores do tema claro */
+  --light-bg-primary: var(--color-white);
+  --light-bg-secondary: var(--color-gray-50);
+  --light-bg-tertiary: var(--color-gray-100);
+  --light-text-primary: var(--color-gray-800);
+  --light-text-secondary: var(--color-gray-600);
+  --light-text-tertiary: var(--color-gray-500);
+  --light-border-primary: var(--color-gray-200);
+  --light-border-secondary: var(--color-gray-300);
+
+  /* Cores relacionadas a ações */
+  --light-btn-primary: var(--color-blue-600);
+  --light-btn-primary-hover: var(--color-blue-700);
+  --light-focus-ring: var(--color-blue-500);
+  --light-focus-border: var(--color-blue-500);
+
+  /* Cores para tabelas */
+  --light-table-header: var(--color-blue-100);
+  --light-table-body: var(--color-gray-50);
+  --light-table-hover: var(--color-hover-light);
+  --light-table-footer: var(--color-blue-100);
+
+  /* Cores para estados */
+  --light-error: var(--color-red-600);
+  --light-success: var(--color-green-600);
+  --light-error-bg: var(--color-red-50);
+  --light-success-bg: var(--color-green-50);
+
+  /* Cores do tema escuro */
+  --dark-bg-primary: var(--color-dark-bg-primary);
+  --dark-bg-secondary: var(--color-dark-bg-tertiary);
+  --dark-bg-tertiary: var(--color-gray-700);
+  --dark-text-primary: var(--color-white);
+  --dark-text-secondary: var(--color-gray-300);
+  --dark-text-tertiary: var(--color-gray-400);
+  --dark-border-primary: var(--color-gray-700);
+  --dark-border-secondary: var(--color-gray-600);
+
+  /* Cores relacionadas a ações no tema escuro */
+  --dark-btn-primary: var(--color-blue-600);
+  --dark-btn-primary-hover: var(--color-blue-700);
+  --dark-focus-ring: var(--color-blue-400);
+  --dark-focus-border: var(--color-blue-400);
+
+  /* Cores para tabelas no tema escuro */
+  --dark-table-header: var(--color-blue-900);
+  --dark-table-body: var(--color-dark-bg-tertiary);
+  --dark-table-hover: var(--color-gray-700);
+  --dark-table-footer: var(--color-blue-900);
+
+  /* Cores para estados no tema escuro */
+  --dark-error: var(--color-red-400);
+  --dark-success: var(--color-green-400);
+  --dark-error-bg: var(--color-red-900);
+  --dark-success-bg: var(--color-green-900);
+
+  /* Cores para inputs no tema escuro */
+  --dark-input-bg: var(--color-dark-bg-secondary);
+}
