@@ -607,11 +607,8 @@ const app = createApp({
         formData.append("totalHoras", this.totalHoras.toString());
 
         // Formatos de saída
-        formData.append(
-          "gerar_docx",
-          this.formData.gerarDocx ? "true" : "false"
-        );
-        formData.append("gerar_pdf", this.formData.gerarPdf ? "true" : "false");
+        formData.append("gerarDocx", this.formData.gerarDocx);
+        formData.append("gerarPdf", this.formData.gerarPdf);
 
         const response = await fetch("/gerar_relatorio", {
           method: "POST",

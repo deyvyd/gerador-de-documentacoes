@@ -577,7 +577,7 @@ const app = createApp({
 
       // Validação dos formatos de arquivo
       if (!this.formData.gerarDocx && !this.formData.gerarPdf) {
-        this.notificationService.showToast(
+        notificationService.showToast(
           "Selecione pelo menos um formato de arquivo (DOCX ou PDF)",
           "error"
         );
@@ -600,18 +600,15 @@ const app = createApp({
         formData.append("dataFim", this.formData.dataFim);
         formData.append("linkBoard", this.formData.linkBoard);
 
-        // Atividades
-        formData.append("atividades", JSON.stringify(this.atividades));
-
         // Total de horas calculado a partir das atividades
         formData.append("totalHoras", this.totalHoras.toString());
 
+        // Atividades
+        formData.append("atividades", JSON.stringify(this.atividades));
+
         // Formatos de saída
-        formData.append(
-          "gerar_docx",
-          this.formData.gerarDocx ? "true" : "false"
-        );
-        formData.append("gerar_pdf", this.formData.gerarPdf ? "true" : "false");
+        formData.append("gerarDocx", this.formData.gerarDocx);
+        formData.append("gerarPdf", this.formData.gerarPdf);
 
         const response = await fetch("/gerar_relatorio", {
           method: "POST",
@@ -657,14 +654,6 @@ const app = createApp({
       } finally {
         this.isLoading = false;
       }
-    },
-
-    pdateDocx(checked) {
-      this.formData.gerarDocx = checked;
-    },
-
-    updatePdf(checked) {
-      this.formData.gerarPdf = checked;
     },
 
     // Método para limpar estilos de erro dos campos
