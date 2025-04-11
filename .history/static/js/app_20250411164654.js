@@ -547,6 +547,10 @@ const app = createApp({
           const elemento = basicFormSection.$refs[campo.ref];
           if (elemento) {
             elemento.classList.add("campo-erro");
+            // Remove classes de foco do Tailwind
+            elemento.classList.remove("focus:ring-2");
+            elemento.classList.remove("focus:ring-blue-500");
+            elemento.classList.remove("focus:border-blue-500");
             elemento.focus();
             notificationService.showToast(
               `O campo ${campo.label} é obrigatório`,

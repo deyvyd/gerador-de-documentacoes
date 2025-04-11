@@ -471,6 +471,10 @@ const app = createApp({
       if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
         if (horasInput) {
           horasInput.classList.add("campo-erro");
+          // Remove classes de foco do Tailwind
+          horasInput.classList.remove("focus:ring-2");
+          horasInput.classList.remove("focus:ring-blue-500");
+          horasInput.classList.remove("focus:border-blue-500");
           if (isValid) {
             // Se nome já está preenchido, focar no input de horas
             horasInput.focus();
