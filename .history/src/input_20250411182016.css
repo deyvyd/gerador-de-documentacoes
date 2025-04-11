@@ -24,8 +24,7 @@
   /* Inputs e formulários */
   .form-input {
     @apply w-full p-2 border rounded-md bg-white dark:bg-[#151C25] text-gray-800 dark:text-white border-gray-300 dark:border-gray-600;
-    @apply focus:outline-none focus:ring-0 focus:border-blue-500 focus:border;
-    @apply transition-colors duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
   }
 
   /* Campo com erro de validação */
@@ -35,7 +34,7 @@
   }
 
   .campo-erro:focus {
-    @apply outline-none border-red-600 ring-red-600;
+    @apply border-red-600 ring-red-600;
     @apply dark:border-red-400 dark:ring-red-400;
   }
 
