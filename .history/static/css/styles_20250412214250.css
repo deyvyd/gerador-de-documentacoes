@@ -391,7 +391,7 @@ body {
 }
 
 .dark .btn-erro {
-  animation: pulseErrorDark 3s ease-in-out;
+  animation: pulseButtonDark 3s ease-in-out;
 }
 
 @keyframes pulseButtonDark {

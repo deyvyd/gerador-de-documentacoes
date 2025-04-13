@@ -674,7 +674,6 @@ const app = createApp({
         // Caso 3: Ambos preenchidos, mas não adicionados à lista
         else if (adicionarBtn) {
           // Destaca o botão Adicionar
-          horasInput.classList.remove("campo-erro");
           adicionarBtn.classList.add("btn-erro");
           atividadeBtn.focus();
           setTimeout(() => {
@@ -857,6 +856,25 @@ const app = createApp({
       if (atividadeContainer) {
         atividadeContainer.classList.remove("campo-erro");
       }
+    },
+
+    setAtividadeFieldError() {
+      // Encontrar o container de atividades
+      const atividadeContainer = document.querySelector(
+        ".activity-form .form-group .form-input"
+      );
+      if (atividadeContainer) {
+        // Usar o método aplicarErroTemporario
+        this.aplicarErroTemporario(atividadeContainer);
+
+        // Focar no input de atividade
+        const atividadeInput = this.$refs.atividadeInput;
+        if (atividadeInput) {
+          atividadeInput.focus();
+        }
+        return true;
+      }
+      return false;
     },
 
     aplicarErroTemporarioAutores(duracao = 3000) {

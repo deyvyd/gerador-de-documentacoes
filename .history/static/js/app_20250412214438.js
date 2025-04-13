@@ -640,7 +640,6 @@ const app = createApp({
         // Verificamos se os campos de nova atividade estão preenchidos
         const atividadeInput = this.$refs.atividadeInput;
         const horasInput = this.$refs.horasInput;
-        const atividadeBtn = this.$refs.activityButton;
         const adicionarBtn = document.querySelector(".activity-form .btn");
 
         // Caso 1: Campo de atividade vazio
@@ -674,12 +673,32 @@ const app = createApp({
         // Caso 3: Ambos preenchidos, mas não adicionados à lista
         else if (adicionarBtn) {
           // Destaca o botão Adicionar
-          horasInput.classList.remove("campo-erro");
           adicionarBtn.classList.add("btn-erro");
-          atividadeBtn.focus();
           setTimeout(() => {
             adicionarBtn.classList.remove("btn-erro");
           }, 3000);
+
+          // Dispara animação de pulso no botão
+          adicionarBtn.animate(
+            [
+              {
+                transform: "scale(1)",
+                boxShadow: "0 0 0 0 rgba(220, 38, 38, 0.4)",
+              },
+              {
+                transform: "scale(1.05)",
+                boxShadow: "0 0 0 5px rgba(220, 38, 38, 0.2)",
+              },
+              {
+                transform: "scale(1)",
+                boxShadow: "0 0 0 0 rgba(220, 38, 38, 0)",
+              },
+            ],
+            {
+              duration: 1500,
+              iterations: 2,
+            }
+          );
 
           notificationService.showToast(
             "Clique em 'Adicionar' para incluir a atividade na lista",
@@ -857,6 +876,25 @@ const app = createApp({
       if (atividadeContainer) {
         atividadeContainer.classList.remove("campo-erro");
       }
+    },
+
+    setAtividadeFieldError() {
+      // Encontrar o container de atividades
+      const atividadeContainer = document.querySelector(
+        ".activity-form .form-group .form-input"
+      );
+      if (atividadeContainer) {
+        // Usar o método aplicarErroTemporario
+        this.aplicarErroTemporario(atividadeContainer);
+
+        // Focar no input de atividade
+        const atividadeInput = this.$refs.atividadeInput;
+        if (atividadeInput) {
+          atividadeInput.focus();
+        }
+        return true;
+      }
+      return false;
     },
 
     aplicarErroTemporarioAutores(duracao = 3000) {
