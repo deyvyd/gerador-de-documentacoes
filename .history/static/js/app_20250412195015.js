@@ -148,7 +148,7 @@ const app = createApp({
     selectedAutores: {
       handler(newVal) {
         if (newVal.length === 0) {
-          this.aplicarErroTemporarioAutores();
+          this.setAutorFieldError();
         } else {
           this.resetAutorFieldError();
         }
@@ -179,23 +179,6 @@ const app = createApp({
   },
 
   methods: {
-    aplicarErroTemporario(elemento, duracao = 3000) {
-      if (!elemento) return;
-
-      // Adiciona a classe de erro
-      elemento.classList.add("campo-erro");
-
-      // Foca no elemento para mostrar ao usuário onde está o problema
-      elemento.focus();
-
-      // Define um timeout para remover a classe após a duração especificada
-      setTimeout(() => {
-        elemento.classList.remove("campo-erro");
-      }, duracao);
-
-      return true;
-    },
-
     initSortable() {
       return new Promise((resolve) => {
         this.$nextTick(() => {
@@ -317,7 +300,7 @@ const app = createApp({
       setTimeout(() => {
         this.$emit("show-suggestions", false);
         if (this.selectedAutores.length === 0) {
-          this.aplicarErroTemporarioAutores();
+          this.setAutorFieldError();
         }
       }, 200);
     },
@@ -479,12 +462,19 @@ const app = createApp({
 
       if (!this.novaAtividade.nome || this.novaAtividade.nome.trim() === "") {
         if (atividadeInput) {
-          this.aplicarErroTemporario(atividadeInput);
+          atividadeInput.classList.add("campo-erro");
+          atividadeInput.focus();
         }
         isValid = false;
-      } else if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
+      }
+
+      if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
         if (horasInput) {
-          this.aplicarErroTemporario(horasInput);
+          horasInput.classList.add("campo-erro");
+          if (isValid) {
+            // Se nome já está preenchido, focar no input de horas
+            horasInput.focus();
+          }
         }
         isValid = false;
       }
@@ -556,7 +546,8 @@ const app = createApp({
         if (!valor || valor.trim() === "") {
           const elemento = basicFormSection.$refs[campo.ref];
           if (elemento) {
-            this.aplicarErroTemporario(elemento);
+            elemento.classList.add("campo-erro");
+            elemento.focus();
             notificationService.showToast(
               `O campo ${campo.label} é obrigatório`,
               "error"
@@ -575,7 +566,8 @@ const app = createApp({
       if (dataInicio > dataFim) {
         const elemento = basicFormSection.$refs.dataInicio;
         if (elemento) {
-          this.aplicarErroTemporario(elemento);
+          elemento.classList.add("campo-erro");
+          elemento.focus();
           notificationService.showToast(
             "A data de início não pode ser posterior à data de fim",
             "error"
@@ -586,26 +578,32 @@ const app = createApp({
 
       // Validação de autores
       if (this.selectedAutores.length === 0) {
-        this.aplicarErroTemporarioAutores();
-
+        if (this.setAutorFieldError()) {
+          const autorInput = basicFormSection.$refs.autorInput;
+          if (autorInput) {
+            autorInput.focus();
+          }
+        } else {
+          console.error(
+            "Não foi possível aplicar o estilo de erro ao campo de autores"
+          );
+        }
         notificationService.showToast("Selecione pelo menos um autor", "error");
         return;
       }
 
       // Validação de atividades
       if (this.atividades.length === 0) {
-        const atividadeContainer = document.querySelector(
-          ".activity-form .form-group .form-input"
-        );
-        if (atividadeContainer) {
-          this.aplicarErroTemporario(atividadeContainer);
-
+        if (this.setAtividadeFieldError()) {
           const atividadeInput = this.$refs.atividadeInput;
           if (atividadeInput) {
             atividadeInput.focus();
           }
+        } else {
+          console.error(
+            "Não foi possível aplicar o estilo de erro ao campo de atividades"
+          );
         }
-
         notificationService.showToast(
           "Adicione pelo menos uma atividade",
           "error"
@@ -766,6 +764,51 @@ const app = createApp({
       }
     },
 
+    setAutorFieldError() {
+      const basicFormSection = this.$refs.basicFormSection;
+      if (!basicFormSection) return false;
+
+      // Tentar diferentes seletores para encontrar o container de autores
+      const selectors = [".form-group:nth-child(4) .form-input"];
+
+      for (const selector of selectors) {
+        const container = basicFormSection.$el.querySelector(selector);
+        if (container) {
+          // Usar o método aplicarErroTemporario
+          this.aplicarErroTemporario(container);
+
+          // Focar no input de autor
+          const autorInput = basicFormSection.$refs.autorInput;
+          if (autorInput) {
+            autorInput.focus();
+          }
+          return true;
+        }
+      }
+
+      // Se os seletores não funcionarem, tentar encontrar pelo texto do label
+      const labels = basicFormSection.$el.querySelectorAll("label");
+      for (const label of labels) {
+        if (label.textContent.includes("Autor(es)")) {
+          const container =
+            label.nextElementSibling?.querySelector(".form-input");
+          if (container) {
+            // Usar o método aplicarErroTemporario
+            this.aplicarErroTemporario(container);
+
+            // Focar no input de autor
+            const autorInput = basicFormSection.$refs.autorInput;
+            if (autorInput) {
+              autorInput.focus();
+            }
+            return true;
+          }
+        }
+      }
+
+      return false;
+    },
+
     resetAtividadeFieldError() {
       // Encontrar o container de atividades
       const atividadeContainer = document.querySelector(
@@ -782,9 +825,7 @@ const app = createApp({
         ".activity-form .form-group .form-input"
       );
       if (atividadeContainer) {
-        // Usar o método aplicarErroTemporario
-        this.aplicarErroTemporario(atividadeContainer);
-
+        atividadeContainer.classList.add("campo-erro");
         // Focar no input de atividade
         const atividadeInput = this.$refs.atividadeInput;
         if (atividadeInput) {
@@ -793,48 +834,6 @@ const app = createApp({
         return true;
       }
       return false;
-    },
-
-    aplicarErroTemporarioAutores(duracao = 3000) {
-      const basicFormSection = this.$refs.basicFormSection;
-      if (!basicFormSection) return false;
-
-      // Encontrar o campo de autores pela label
-      const labels = basicFormSection.$el.querySelectorAll("label");
-      let autorLabel = null;
-
-      for (const label of labels) {
-        if (label.textContent.includes("Autor(es)")) {
-          autorLabel = label;
-          break;
-        }
-      }
-
-      if (!autorLabel) return false;
-
-      // Obter o form-group pai da label
-      const formGroup = autorLabel.closest(".form-group");
-      if (!formGroup) return false;
-
-      // Encontrar o container do input específico
-      const inputContainer = formGroup.querySelector(".form-input");
-      if (!inputContainer) return false;
-
-      // Aplicar a classe de erro
-      inputContainer.classList.add("campo-erro");
-
-      // Focar no campo
-      const autorInput = basicFormSection.$refs.autorInput;
-      if (autorInput) {
-        autorInput.focus();
-      }
-
-      // Remover a classe após o tempo definido
-      setTimeout(() => {
-        inputContainer.classList.remove("campo-erro");
-      }, duracao);
-
-      return true;
     },
   },
 });

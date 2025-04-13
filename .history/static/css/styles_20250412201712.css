@@ -468,32 +468,6 @@ body {
     box-shadow 0.3s ease !important;
 }
 
-/* Garantir que a cor da borda seja aplicada com !important */
-input.campo-erro,
-.form-input.campo-erro,
-.activity-form .form-input.campo-erro,
-.activity-form input.campo-erro {
-  border-color: #dc2626 !important; /* Vermelho explícito caso a variável não funcione */
-  border-width: 2px !important;
-  border-style: solid !important;
-  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.2) !important;
-}
-
-/* Para o tema escuro */
-.dark input.campo-erro,
-.dark .form-input.campo-erro,
-.dark .activity-form .form-input.campo-erro,
-.dark .activity-form input.campo-erro {
-  border-color: #ef4444 !important; /* Vermelho mais claro para o tema escuro */
-  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2) !important;
-}
-
-/* Aplicar a animação diretamente */
-input.campo-erro,
-.form-input.campo-erro {
-  animation: pulseError 3s ease-in-out;
-}
-
 /* ===== Seção de formato dos arquivos ===== */
 .format-section {
   background-color: var(--light-bg-secondary);

@@ -148,7 +148,7 @@ const app = createApp({
     selectedAutores: {
       handler(newVal) {
         if (newVal.length === 0) {
-          this.aplicarErroTemporarioAutores();
+          this.setAutorFieldError();
         } else {
           this.resetAutorFieldError();
         }
@@ -317,7 +317,7 @@ const app = createApp({
       setTimeout(() => {
         this.$emit("show-suggestions", false);
         if (this.selectedAutores.length === 0) {
-          this.aplicarErroTemporarioAutores();
+          this.setAutorFieldError();
         }
       }, 200);
     },
@@ -482,7 +482,9 @@ const app = createApp({
           this.aplicarErroTemporario(atividadeInput);
         }
         isValid = false;
-      } else if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
+      }
+
+      if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
         if (horasInput) {
           this.aplicarErroTemporario(horasInput);
         }
@@ -586,7 +588,17 @@ const app = createApp({
 
       // Validação de autores
       if (this.selectedAutores.length === 0) {
-        this.aplicarErroTemporarioAutores();
+        const autorContainer = basicFormSection.$el.querySelector(
+          ".form-group:nth-child(4) .form-input"
+        );
+        if (autorContainer) {
+          this.aplicarErroTemporario(autorContainer);
+
+          const autorInput = basicFormSection.$refs.autorInput;
+          if (autorInput) {
+            autorInput.focus();
+          }
+        }
 
         notificationService.showToast("Selecione pelo menos um autor", "error");
         return;
@@ -764,6 +776,51 @@ const app = createApp({
           }
         }
       }
+    },
+
+    setAutorFieldError() {
+      const basicFormSection = this.$refs.basicFormSection;
+      if (!basicFormSection) return false;
+
+      // Tentar diferentes seletores para encontrar o container de autores
+      const selectors = [".form-group:nth-child(4) .form-input"];
+
+      for (const selector of selectors) {
+        const container = basicFormSection.$el.querySelector(selector);
+        if (container) {
+          // Usar o método aplicarErroTemporario
+          this.aplicarErroTemporario(container);
+
+          // Focar no input de autor
+          const autorInput = basicFormSection.$refs.autorInput;
+          if (autorInput) {
+            autorInput.focus();
+          }
+          return true;
+        }
+      }
+
+      // Se os seletores não funcionarem, tentar encontrar pelo texto do label
+      const labels = basicFormSection.$el.querySelectorAll("label");
+      for (const label of labels) {
+        if (label.textContent.includes("Autor(es)")) {
+          const container =
+            label.nextElementSibling?.querySelector(".form-input");
+          if (container) {
+            // Usar o método aplicarErroTemporario
+            this.aplicarErroTemporario(container);
+
+            // Focar no input de autor
+            const autorInput = basicFormSection.$refs.autorInput;
+            if (autorInput) {
+              autorInput.focus();
+            }
+            return true;
+          }
+        }
+      }
+
+      return false;
     },
 
     resetAtividadeFieldError() {

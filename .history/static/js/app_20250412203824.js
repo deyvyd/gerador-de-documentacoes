@@ -482,7 +482,9 @@ const app = createApp({
           this.aplicarErroTemporario(atividadeInput);
         }
         isValid = false;
-      } else if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
+      }
+
+      if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
         if (horasInput) {
           this.aplicarErroTemporario(horasInput);
         }

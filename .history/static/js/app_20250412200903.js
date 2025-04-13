@@ -148,7 +148,7 @@ const app = createApp({
     selectedAutores: {
       handler(newVal) {
         if (newVal.length === 0) {
-          this.aplicarErroTemporarioAutores();
+          this.aplicarErroTemporarioAutoresor();
         } else {
           this.resetAutorFieldError();
         }
@@ -482,7 +482,9 @@ const app = createApp({
           this.aplicarErroTemporario(atividadeInput);
         }
         isValid = false;
-      } else if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
+      }
+
+      if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
         if (horasInput) {
           this.aplicarErroTemporario(horasInput);
         }

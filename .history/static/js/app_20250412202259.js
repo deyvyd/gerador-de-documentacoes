@@ -185,12 +185,28 @@ const app = createApp({
       // Adiciona a classe de erro
       elemento.classList.add("campo-erro");
 
+      // Para debugging - forçar a cor diretamente
+      elemento.style.borderColor = "#dc2626";
+      elemento.style.borderWidth = "2px";
+      elemento.style.borderStyle = "solid";
+
+      // Imprime no console que a classe foi adicionada
+      console.log("Classe campo-erro adicionada a:", elemento);
+      console.log("Classes atuais:", elemento.className);
+
       // Foca no elemento para mostrar ao usuário onde está o problema
       elemento.focus();
 
       // Define um timeout para remover a classe após a duração especificada
       setTimeout(() => {
         elemento.classList.remove("campo-erro");
+
+        // Remover também o estilo inline
+        elemento.style.borderColor = "";
+        elemento.style.borderWidth = "";
+        elemento.style.borderStyle = "";
+
+        console.log("Classe campo-erro removida");
       }, duracao);
 
       return true;
@@ -479,12 +495,34 @@ const app = createApp({
 
       if (!this.novaAtividade.nome || this.novaAtividade.nome.trim() === "") {
         if (atividadeInput) {
+          // Usar o método aplicarErroTemporario
           this.aplicarErroTemporario(atividadeInput);
+          console.log("Aplicando erro no campo de nome da atividade");
+        } else {
+          // Seletor alternativo se a referência não funcionar
+          const nameInput = document.querySelector(
+            ".activity-form .form-group:first-child input"
+          );
+          if (nameInput) {
+            this.aplicarErroTemporario(nameInput);
+          }
         }
         isValid = false;
-      } else if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
+      }
+
+      if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
         if (horasInput) {
+          // Usar o método aplicarErroTemporario
           this.aplicarErroTemporario(horasInput);
+          console.log("Aplicando erro no campo de horas da atividade");
+        } else {
+          // Seletor alternativo se a referência não funcionar
+          const hoursInput = document.querySelector(
+            ".activity-form .form-group:nth-child(2) input"
+          );
+          if (hoursInput) {
+            this.aplicarErroTemporario(hoursInput);
+          }
         }
         isValid = false;
       }

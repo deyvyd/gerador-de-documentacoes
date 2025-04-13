@@ -479,12 +479,34 @@ const app = createApp({
 
       if (!this.novaAtividade.nome || this.novaAtividade.nome.trim() === "") {
         if (atividadeInput) {
+          // Usar o método aplicarErroTemporario
           this.aplicarErroTemporario(atividadeInput);
+          console.log("Aplicando erro no campo de nome da atividade");
+        } else {
+          // Seletor alternativo se a referência não funcionar
+          const nameInput = document.querySelector(
+            ".activity-form .form-group:first-child input"
+          );
+          if (nameInput) {
+            this.aplicarErroTemporario(nameInput);
+          }
         }
         isValid = false;
-      } else if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
+      }
+
+      if (!this.novaAtividade.horas || isNaN(this.novaAtividade.horas)) {
         if (horasInput) {
+          // Usar o método aplicarErroTemporario
           this.aplicarErroTemporario(horasInput);
+          console.log("Aplicando erro no campo de horas da atividade");
+        } else {
+          // Seletor alternativo se a referência não funcionar
+          const hoursInput = document.querySelector(
+            ".activity-form .form-group:nth-child(2) input"
+          );
+          if (hoursInput) {
+            this.aplicarErroTemporario(hoursInput);
+          }
         }
         isValid = false;
       }

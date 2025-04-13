@@ -135,13 +135,11 @@
                   <form @submit.prevent="submitAtividade">
                     <!-- Outros campos do formulário -->
                     <button
-                      type="button"
-                      @click="submitAtividade"
+                      type="submit"
                       class="btn"
                       :class="editingIndex !== null ? 'btn-update' : 'btn-primary'"
                     >
-                      {% raw %}{{ editingIndex !== null ? 'Atualizar' :
-                      'Adicionar' }}{% endraw %}
+                      {{ editingIndex !== null ? 'Atualizar' : 'Adicionar' }}
                     </button>
                   </form>
                 </div>
