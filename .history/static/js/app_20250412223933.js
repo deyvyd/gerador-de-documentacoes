@@ -642,7 +642,7 @@ const app = createApp({
           atividadeBtn.focus();
           setTimeout(() => {
             adicionarBtn.classList.remove("btn-erro");
-          }, 2000);
+          }, 3000);
 
           notificationService.showToast(
             "Clique em 'Adicionar' para incluir a atividade na lista",

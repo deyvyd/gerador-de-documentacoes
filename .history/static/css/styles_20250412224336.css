@@ -369,7 +369,7 @@ body {
 .dark .btn-erro {
   border: 2px solid var(--error-color-dark) !important;
   box-shadow: 0 0 5px var(--error-color-dark) !important;
-  animation: pulseErrorDark 3s ease-in-out;
+  animation: pulseError 3s ease-in-out;
 }
 
 /* ===== Mensagens de status ===== */

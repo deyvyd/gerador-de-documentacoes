@@ -363,13 +363,11 @@ body {
 .btn-erro {
   border: 2px solid var(--error-color) !important;
   box-shadow: 0 0 5px var(--error-color) !important;
-  animation: pulseError 3s ease-in-out;
 }
 
 .dark .btn-erro {
   border: 2px solid var(--error-color-dark) !important;
   box-shadow: 0 0 5px var(--error-color-dark) !important;
-  animation: pulseErrorDark 3s ease-in-out;
 }
 
 /* ===== Mensagens de status ===== */
