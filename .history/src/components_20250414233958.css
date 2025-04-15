@@ -63,7 +63,7 @@
 
   /* Tag para cada autor selecionado */
   .author-tag {
-    @apply inline-flex items-center bg-blue-100 dark:bg-blue-750 text-blue-800 dark:text-blue-100 rounded px-2 py-1 text-sm;
+    @apply inline-flex items-center bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded px-2 py-1 text-sm;
   }
 
   /* Botão de remover dentro da tag de autor */

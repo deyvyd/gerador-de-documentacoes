@@ -63,7 +63,7 @@
 
   /* Tag para cada autor selecionado */
   .author-tag {
-    @apply inline-flex items-center bg-blue-100 dark:bg-blue-750 text-blue-800 dark:text-blue-100 rounded px-2 py-1 text-sm;
+    @apply inline-flex items-center bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded px-2 py-1 text-sm;
   }
 
   /* Botão de remover dentro da tag de autor */
@@ -137,6 +137,25 @@
     @apply dark:bg-blue-800;
     @apply hover:bg-blue-50/30;
     @apply dark:hover:bg-gray-700;
+  }
+
+  .activities-table tfoot {
+    @apply bg-blue-100;
+    @apply dark:bg-table-header-dark;
+  }
+
+  /* Cores da tabela */
+  .activities-table thead {
+    @apply bg-blue-100;
+    @apply dark:bg-table-header-dark;
+  }
+
+  .activities-table tbody tr {
+    @apply bg-gray-50 dark:bg-blue-800;
+  }
+
+  .activities-table tbody tr:hover {
+    @apply bg-blue-50/30 dark:bg-gray-700;
   }
 
   .activities-table tfoot {

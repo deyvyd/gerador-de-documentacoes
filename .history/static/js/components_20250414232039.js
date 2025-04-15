@@ -264,7 +264,7 @@ const BasicFormSection = {
           <span class="text-red-600">*</span>
         </label>
         <div class="author-selector-container">
-          <div class="author-input-area">
+          <div class="form-input author-input-area">
             <!-- Tags dos autores selecionados -->
             <span
               v-for="autor in selectedAutores"
