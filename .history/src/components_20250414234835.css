@@ -10,11 +10,13 @@
 @layer components {
   /* ===== Botões ===== */
   .btn {
-    @apply px-4 h-10 rounded-md font-medium cursor-pointer transition-colors flex items-center justify-center gap-2 border-none;
+    @apply px-4 py-0 h-10 rounded-md font-medium cursor-pointer transition-colors duration-200;
+    @apply flex items-center justify-center gap-2 border-none;
   }
 
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-600;
+    @apply bg-primary text-white;
+    @apply hover:bg-primary-hover;
   }
 
   .btn-secondary {
@@ -100,7 +102,8 @@
   }
 
   .activities-section {
-    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border dark:border-gray-700 p-4 my-4;
+    @apply bg-gray-50 rounded-lg border p-4 mt-3 mb-6;
+    @apply dark:bg-gray-800 dark:border-gray-700;
   }
 
   .activities-title {

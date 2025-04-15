@@ -5,7 +5,7 @@
 
 /* Estilos específicos para garantir que certas cores sejam fixas */
 html.dark {
-  @apply bg-blue-900;
+  @apply bg-blue-900; /* Fundo escuro específico */
 }
 
 body {

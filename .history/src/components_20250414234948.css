@@ -14,7 +14,7 @@
   }
 
   .btn-primary {
-    @apply bg-blue-600 text-white hover:bg-blue-600;
+    @apply bg-[var(--btn-primary)] text-white hover:bg-[#var(--btn-primary-hover)];
   }
 
   .btn-secondary {
