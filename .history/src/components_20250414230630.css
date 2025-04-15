@@ -54,7 +54,7 @@
 
   /* Classe para o container da lista de sugestões */
   .suggestions-list {
-    @apply text-sm absolute z-10 w-full mt-1 bg-white dark:bg-dark-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto;
+    @apply text-sm absolute z-10 w-full mt-1 bg-white dark:bg-dark-400 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-y-auto;
   }
 
   /* Classe para cada item da lista de sugestões */
@@ -64,12 +64,12 @@
 
   /* Classe para o item destacado/selecionado */
   .suggestion-item-highlighted {
-    @apply bg-blue-100 dark:bg-blue-750;
+    @apply bg-blue-100 dark:bg-blue-900;
   }
 
   /* Classe para o efeito hover nos itens */
   .suggestion-item:hover:not(.suggestion-item-highlighted) {
-    @apply bg-gray-100 dark:bg-blue-750;
+    @apply bg-gray-100 dark:bg-blue-700;
   }
 
   /* ===== Seções e Cards ===== */

@@ -271,7 +271,7 @@ const BasicFormSection = {
             <span
               v-for="autor in selectedAutores"
               :key="autor.nome"
-              class="inline-flex items-center bg-blue-100 dark:bg-blue-750 text-blue-800 dark:text-blue-100 rounded px-2 py-1 text-sm"
+              class="inline-flex items-center bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded px-2 py-1 text-sm"
             >
               {{ autor.nome }}
               <button

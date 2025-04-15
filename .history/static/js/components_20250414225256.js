@@ -271,7 +271,7 @@ const BasicFormSection = {
             <span
               v-for="autor in selectedAutores"
               :key="autor.nome"
-              class="inline-flex items-center bg-blue-100 dark:bg-blue-750 text-blue-800 dark:text-blue-100 rounded px-2 py-1 text-sm"
+              class="inline-flex items-center bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded px-2 py-1 text-sm"
             >
               {{ autor.nome }}
               <button
@@ -301,7 +301,7 @@ const BasicFormSection = {
           <!-- Lista de sugestões -->
           <div
             v-if="showSuggestions && filteredAutores.length > 0"
-            class="suggestions-list"
+            class="suggestions-list text-sm absolute z-10 w-full mt-1 bg-white dark:bg-blue-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg"
           >
             <div
               v-for="(autor, index) in filteredAutores"
@@ -309,9 +309,10 @@ const BasicFormSection = {
               @mousedown="selectAutor(autor)"
               @mouseover="$emit('highlight-index', index)"
               :class="[
-                'suggestion-item',
-                highlightedIndex === index ? 'suggestion-item-highlighted' : ''
-              ]"
+                  'px-4 py-2 cursor-pointer',
+                  // 'px-4 py-2 cursor-pointer bg-option-select',
+                  highlightedIndex === index ? 'bg-blue-100 dark:bg-blue-900' : 'hover:bg-gray-100 dark:hover:bg-blue-700'
+                ]"
             >
               {{ autor.nome }}
             </div>

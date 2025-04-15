@@ -69,7 +69,7 @@
 
   /* Classe para o efeito hover nos itens */
   .suggestion-item:hover:not(.suggestion-item-highlighted) {
-    @apply bg-gray-100 dark:bg-blue-750;
+    @apply bg-gray-100 dark:bg-blue-700;
   }
 
   /* ===== Seções e Cards ===== */

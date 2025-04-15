@@ -15,7 +15,6 @@ module.exports = {
           500: "#3b82f6",
           600: "#2563eb", // Azul principal usado nos botões
           700: "#1d4ed8",
-          750: "#1e3a87",
           800: "#1f2937",
           900: "#0e1621",
         },
