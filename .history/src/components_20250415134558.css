@@ -61,8 +61,7 @@
   .info-toggle {
     @apply fixed top-16 right-4 p-2 rounded-lg cursor-pointer transition-all duration-200;
     @apply border border-gray-300 dark:border-gray-600 z-10;
-    @apply text-gray-600;
-    @apply hover:bg-blue-50 hover:text-blue-700;
+    @apply hover:bg-blue-600 hover:text-white;
     @apply flex items-center justify-center;
     @apply w-10 h-10 bg-transparent;
     @apply dark:bg-gray-900 dark:text-white;
@@ -70,7 +69,7 @@
   }
 
   .info-icon {
-    @apply h-6 w-6;
+    @apply h-6 w-6 text-gray-800 dark:text-white;
     @apply transition-colors duration-200;
   }
 
@@ -80,14 +79,12 @@
 
   .info-tooltip {
     @apply absolute invisible opacity-0 top-full right-0 mt-2 w-80;
-    @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
-    @apply dark:bg-blue-700 dark:text-white;
+    @apply bg-blue-700 text-white rounded-lg p-4 shadow-lg;
     @apply transition-all duration-300 z-50 text-left;
   }
 
   .tooltip-arrow {
-    @apply absolute -top-2 right-3 w-4 h-4 bg-blue-200 transform rotate-45;
-    @apply dark:bg-blue-700;
+    @apply absolute -top-2 right-3 w-4 h-4 bg-blue-700 transform rotate-45;
   }
 
   .tooltip-content {
