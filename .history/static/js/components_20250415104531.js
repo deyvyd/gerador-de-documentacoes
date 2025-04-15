@@ -48,7 +48,7 @@ const ThemeToggle = {
   },
 };
 
-// Componente InfoButton refeito usando o mesmo padrão do ThemeToggle
+// Componente para o botão de informação
 const InfoButton = {
   props: {
     tooltipTitle: {
@@ -61,31 +61,46 @@ const InfoButton = {
     },
   },
   template: `
-    <button class="info-toggle">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="info-icon"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
-      <div class="info-tooltip">
-        <div class="tooltip-arrow"></div>
-        <div class="tooltip-content">
-          <p class="tooltip-title">{{ tooltipTitle }}</p>
-          <ul class="tooltip-list">
-            <li v-for="(item, index) in tooltipItems" :key="index" class="tooltip-item">• {{ item }}</li>
-          </ul>
+    <div class="info-toggle fixed top-[calc(1rem+40px)] right-4 p-2 rounded-lg cursor-pointer transition-colors duration-200 border border-gray-300 dark:border-gray-600 z-10" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+      <div class="relative inline-block group">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 text-blue-500 hover:text-blue-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+
+        <!-- Tooltip -->
+        <div
+          class="absolute z-10 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 bg-blue-700 dark:bg-blue-700 text-white rounded-lg p-4 w-80 left-0 top-8 shadow-lg"
+        >
+          <div class="relative">
+            <!-- Seta do tooltip -->
+            <div
+              class="absolute -top-2 left-4 w-4 h-4 bg-blue-700 dark:bg-blue-700 transform rotate-45"
+            ></div>
+
+            <!-- Conteúdo -->
+            <div class="relative z-20">
+              <p class="font-medium mb-2">
+                {{ tooltipTitle }}
+              </p>
+              <ul class="space-y-1 text-sm">
+                <li v-for="(item, index) in tooltipItems" :key="index">• {{ item }}</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-    </button>
+    </div>
   `,
 };
 

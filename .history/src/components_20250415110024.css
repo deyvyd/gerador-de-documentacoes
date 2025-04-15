@@ -49,16 +49,9 @@
 
   /* ===== Info Button e Tooltip ===== */
   .info-toggle {
-    @apply fixed top-16 right-4 p-2 rounded-lg cursor-pointer transition-all duration-200;
-    @apply border border-gray-300 dark:border-gray-600 z-10;
+    @apply fixed top-16 right-4 p-2 rounded-lg cursor-pointer transition-colors duration-200 border border-gray-300 dark:border-gray-600 z-10;
     @apply flex items-center justify-center;
-    @apply w-10 h-10 bg-transparent;
-  }
-
-  .info-icon {
-    @apply h-6 w-6 text-gray-800 dark:text-white;
-    @apply hover:text-blue-600 dark:hover:text-blue-500;
-    @apply transition-colors duration-200;
+    @apply w-10 h-10;
   }
 
   .info-toggle:hover .info-tooltip {
@@ -66,9 +59,7 @@
   }
 
   .info-tooltip {
-    @apply absolute invisible opacity-0 top-full right-0 mt-2 w-80;
-    @apply bg-blue-700 text-white rounded-lg p-4 shadow-lg;
-    @apply transition-all duration-300 z-50 text-left;
+    @apply absolute invisible opacity-0 top-full right-0 mt-2 w-80 bg-blue-700 text-white rounded-lg p-4 shadow-lg transition-all duration-300 z-50;
   }
 
   .tooltip-arrow {
@@ -76,19 +67,7 @@
   }
 
   .tooltip-content {
-    @apply relative z-20 text-left;
-  }
-
-  .tooltip-title {
-    @apply font-medium mb-2 text-left;
-  }
-
-  .tooltip-list {
-    @apply space-y-1 text-sm text-left;
-  }
-
-  .tooltip-item {
-    @apply text-left;
+    @apply relative z-20;
   }
 
   /* ===== Input de sugestões de Autores ===== */

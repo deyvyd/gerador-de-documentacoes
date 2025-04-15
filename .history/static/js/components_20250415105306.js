@@ -61,10 +61,10 @@ const InfoButton = {
     },
   },
   template: `
-    <button class="info-toggle">
+    <button class="theme-toggle" style="top: 4rem; background-color: transparent;">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="info-icon"
+        class="h-6 w-6 text-blue-500 hover:text-blue-600"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -76,13 +76,20 @@ const InfoButton = {
           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      <div class="info-tooltip">
-        <div class="tooltip-arrow"></div>
-        <div class="tooltip-content">
-          <p class="tooltip-title">{{ tooltipTitle }}</p>
-          <ul class="tooltip-list">
-            <li v-for="(item, index) in tooltipItems" :key="index" class="tooltip-item">• {{ item }}</li>
-          </ul>
+      
+      <!-- Tooltip que aparece ao passar o mouse -->
+      <div class="fixed invisible group-hover:visible opacity-0 group-hover:opacity-100 right-12 top-16 w-80 bg-blue-700 text-white rounded-lg p-4 shadow-lg transition-all duration-300 z-50">
+        <div class="relative">
+          <!-- Seta do tooltip -->
+          <div class="absolute -top-2 right-4 w-4 h-4 bg-blue-700 transform rotate-45"></div>
+          
+          <!-- Conteúdo -->
+          <div class="relative z-20">
+            <p class="font-medium mb-2">{{ tooltipTitle }}</p>
+            <ul class="space-y-1 text-sm">
+              <li v-for="(item, index) in tooltipItems" :key="index">• {{ item }}</li>
+            </ul>
+          </div>
         </div>
       </div>
     </button>

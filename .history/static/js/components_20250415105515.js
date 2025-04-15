@@ -61,10 +61,10 @@ const InfoButton = {
     },
   },
   template: `
-    <button class="info-toggle">
+    <button class="theme-toggle info-toggle">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="info-icon"
+        class="h-6 w-6 text-blue-500 hover:text-blue-600"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -76,17 +76,74 @@ const InfoButton = {
           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
+    </button>
+  `,
+  mounted() {
+    // Adicionar o tooltip usando um método mais tradicional para evitar problemas
+    const tooltipHTML = `
       <div class="info-tooltip">
         <div class="tooltip-arrow"></div>
         <div class="tooltip-content">
-          <p class="tooltip-title">{{ tooltipTitle }}</p>
-          <ul class="tooltip-list">
-            <li v-for="(item, index) in tooltipItems" :key="index" class="tooltip-item">• {{ item }}</li>
+          <p class="font-medium mb-2">${this.tooltipTitle}</p>
+          <ul class="space-y-1 text-sm">
+            ${this.tooltipItems.map((item) => `<li>• ${item}</li>`).join("")}
           </ul>
         </div>
       </div>
-    </button>
-  `,
+    `;
+
+    // Adicionar estilos CSS para o tooltip
+    const style = document.createElement("style");
+    style.textContent = `
+      .info-toggle {
+        top: 4rem !important;
+        position: fixed;
+        right: 1rem;
+        z-index: 50;
+      }
+      
+      .info-toggle:hover .info-tooltip {
+        visibility: visible;
+        opacity: 1;
+      }
+      
+      .info-tooltip {
+        position: absolute;
+        visibility: hidden;
+        opacity: 0;
+        top: 0;
+        right: 100%;
+        margin-right: 10px;
+        width: 320px;
+        background-color: #1e40af;
+        color: white;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transition: opacity 0.3s, visibility 0.3s;
+        z-index: 55;
+      }
+      
+      .tooltip-arrow {
+        position: absolute;
+        top: 50%;
+        right: -8px;
+        transform: translateY(-50%) rotate(45deg);
+        width: 16px;
+        height: 16px;
+        background-color: #1e40af;
+      }
+      
+      .tooltip-content {
+        position: relative;
+        z-index: 2;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Adicionar o tooltip ao botão
+    this.$el.insertAdjacentHTML("beforeend", tooltipHTML);
+  },
 };
 
 const PageHeader = {

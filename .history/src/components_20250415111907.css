@@ -57,7 +57,7 @@
 
   .info-icon {
     @apply h-6 w-6 text-gray-800 dark:text-white;
-    @apply hover:text-blue-600 dark:hover:text-blue-500;
+    @apply hover:text-blue-500 dark:hover:text-blue-400;
     @apply transition-colors duration-200;
   }
 

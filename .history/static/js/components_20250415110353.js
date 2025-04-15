@@ -64,7 +64,7 @@ const InfoButton = {
     <button class="info-toggle">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="info-icon"
+        class="h-6 w-6 text-blue-500 hover:text-blue-600"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -78,10 +78,10 @@ const InfoButton = {
       </svg>
       <div class="info-tooltip">
         <div class="tooltip-arrow"></div>
-        <div class="tooltip-content">
-          <p class="tooltip-title">{{ tooltipTitle }}</p>
-          <ul class="tooltip-list">
-            <li v-for="(item, index) in tooltipItems" :key="index" class="tooltip-item">• {{ item }}</li>
+        <div class="tooltip-content text-left">
+          <p class="font-medium mb-2 text-left">{{ tooltipTitle }}</p>
+          <ul class="space-y-1 text-sm text-left">
+            <li v-for="(item, index) in tooltipItems" :key="index" class="text-left">• {{ item }}</li>
           </ul>
         </div>
       </div>
