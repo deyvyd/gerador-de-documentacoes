@@ -65,8 +65,8 @@
     @apply hover:bg-purple-50 hover:text-purple-700;
     @apply flex items-center justify-center;
     @apply w-10 h-10 bg-transparent;
-    @apply dark:bg-white dark:text-purple-600;
-    @apply dark:hover:text-purple-300 dark:hover:bg-purple-700;
+    @apply dark:bg-gray-900 dark:text-purple-400;
+    @apply dark:hover:text-purple-300 dark:hover:bg-purple-900;
   }
 
   .upload-icon {
