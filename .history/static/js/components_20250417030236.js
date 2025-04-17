@@ -684,7 +684,7 @@ const FormSubmitSection = {
     },
   },
   computed: {
-    // Propriedade computada para determinar dinamicamente o texto do botão
+    // Nova propriedade computada para determinar dinamicamente o texto do botão
     dynamicButtonText() {
       // Se apenas JSON estiver selecionado (JSON é sempre true, mas os outros são false)
       if (!this.formatos.gerarDocx && !this.formatos.gerarPdf) {
@@ -739,7 +739,7 @@ const FormSubmitSection = {
           </div>
         </div>
 
-        <!-- Botão com texto dinâmico e ícone de download -->
+        <!-- Botão Gerar Documento com spinner - texto dinâmico -->
         <button
           @click="$emit('submit')"
           class="btn btn-primary w-64"
@@ -768,24 +768,7 @@ const FormSubmitSection = {
             </svg>
             {{loadingText}}
           </template>
-          <template v-else>
-            <!-- Ícone de download -->
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              class="h-5 w-5 mr-2" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path 
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2" 
-                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" 
-              />
-            </svg>
-            {{ dynamicButtonText }}
-          </template>
+          <template v-else>{{ dynamicButtonText }}</template>
         </button>
       </div>
     </div>

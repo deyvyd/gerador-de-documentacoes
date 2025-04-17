@@ -742,7 +742,7 @@ const FormSubmitSection = {
         <!-- Botão com texto dinâmico e ícone de download -->
         <button
           @click="$emit('submit')"
-          class="btn btn-primary w-64"
+          class="btn btn-primary w-48"
           :disabled="isLoading"
         >
           <template v-if="isLoading">
