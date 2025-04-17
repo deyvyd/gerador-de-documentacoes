@@ -560,7 +560,7 @@ window.AppBase = (function () {
     },
 
     // ===== Operações de submissão =====
-    prepareFormData(onlyJson = false, tipo = "tecnica") {
+    prepareFormData(onlyJson = false, tipo = "tecnico") {
       const formData = new FormData();
 
       // Adiciona o tipo de documento

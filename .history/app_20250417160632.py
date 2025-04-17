@@ -1765,7 +1765,7 @@ def gerar_relatorio():
         # Obtém os dados do formulário
         dados = request.form
         
-        # Obtém o tipo de formulário (tecnica ou desenvolvimento)
+        # Obtém o tipo de formulário (tecnico ou desenvolvimento)
         tipo_formulario = dados.get('tipo', 'tecnica')
         
         # Processa as opções de formato selecionadas pelo usuário
