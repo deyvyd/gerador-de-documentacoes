@@ -674,6 +674,7 @@ const FormSubmitSection = {
   props: {
     formatos: Object,
     isLoading: Boolean,
+    statusMessage: String,
     statusType: String,
     buttonText: {
       type: String,

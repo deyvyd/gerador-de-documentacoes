@@ -920,7 +920,7 @@ const app = createApp({
       }
     },
 
-    updateDocx(checked) {
+    pdateDocx(checked) {
       this.formData.gerarDocx = checked;
     },
 
