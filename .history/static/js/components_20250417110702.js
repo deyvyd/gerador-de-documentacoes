@@ -887,7 +887,6 @@ const ToastNotification = {
 // Exportar os componentes
 window.AppComponents = {
   ThemeToggle,
-  UploadButton,
   InfoButton,
   PageHeader,
   BasicFormSection,
