@@ -79,7 +79,7 @@
   }
 
   .upload-tooltip {
-    @apply absolute invisible opacity-0 top-0 left-full ml-2 w-60;
+    @apply absolute invisible opacity-0 top-0 right-full ml-2 w-60;
     @apply bg-purple-100 text-purple-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-purple-900 dark:text-purple-100;
     @apply transition-all duration-300 z-50 text-left;

@@ -79,14 +79,14 @@
   }
 
   .upload-tooltip {
-    @apply absolute invisible opacity-0 top-0 left-full ml-2 w-60;
+    @apply absolute invisible opacity-0 top-full right-0 mt-2 w-60;
     @apply bg-purple-100 text-purple-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-purple-900 dark:text-purple-100;
     @apply transition-all duration-300 z-50 text-left;
   }
 
   .upload-tooltip .tooltip-arrow {
-    @apply absolute top-3 -left-2 w-4 h-4 bg-purple-100 transform rotate-45;
+    @apply absolute -top-2 right-3 w-4 h-4 bg-purple-100 transform rotate-45;
     @apply dark:bg-purple-900;
   }
 
@@ -112,14 +112,14 @@
   }
 
   .info-tooltip {
-    @apply absolute invisible opacity-0 top-0 left-full ml-2 w-80;
+    @apply absolute invisible opacity-0 top-full right-0 mt-2 w-80;
     @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-700 dark:text-white;
     @apply transition-all duration-300 z-50 text-left;
   }
 
-  .info-tooltip .tooltip-arrow {
-    @apply absolute top-3 -left-2 w-4 h-4 bg-blue-200 transform rotate-45;
+  .tooltip-arrow {
+    @apply absolute -top-2 right-3 w-4 h-4 bg-blue-200 transform rotate-45;
     @apply dark:bg-blue-700;
   }
 
