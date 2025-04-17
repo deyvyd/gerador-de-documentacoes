@@ -23,13 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
           horas: "",
         },
         atividades: [],
-
-        // Estados do modal de confirmação
-        showMessageModal: false,
-        messageTitle: "",
-        messageContent: "",
-        messageCallback: null,
-        messageCancelCallback: null,
       };
     },
 
@@ -379,21 +372,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         return true;
-      },
-
-      // Métodos para o modal de confirmação
-      confirmarModalMensagem() {
-        if (this.messageCallback) {
-          this.messageCallback();
-        }
-        this.showMessageModal = false;
-      },
-
-      cancelarModalMensagem() {
-        if (this.messageCancelCallback) {
-          this.messageCancelCallback();
-        }
-        this.showMessageModal = false;
       },
 
       // ===== Método para geração de documento =====

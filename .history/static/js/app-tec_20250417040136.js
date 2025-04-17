@@ -382,19 +382,19 @@ document.addEventListener("DOMContentLoaded", function () {
       },
 
       // Métodos para o modal de confirmação
-      confirmarModalMensagem() {
-        if (this.messageCallback) {
-          this.messageCallback();
-        }
-        this.showMessageModal = false;
-      },
-
-      cancelarModalMensagem() {
-        if (this.messageCancelCallback) {
-          this.messageCancelCallback();
-        }
-        this.showMessageModal = false;
-      },
+  confirmarModalMensagem() {
+    if (this.messageCallback) {
+      this.messageCallback();
+    }
+    this.showMessageModal = false;
+  },
+  
+  cancelarModalMensagem() {
+    if (this.messageCancelCallback) {
+      this.messageCancelCallback();
+    }
+    this.showMessageModal = false;
+  }
 
       // ===== Método para geração de documento =====
       async gerarDocumento() {

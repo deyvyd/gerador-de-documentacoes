@@ -23,13 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
           horas: "",
         },
         atividades: [],
-
-        // Estados do modal de confirmação
-        showMessageModal: false,
-        messageTitle: "",
-        messageContent: "",
-        messageCallback: null,
-        messageCancelCallback: null,
       };
     },
 
@@ -207,38 +200,14 @@ document.addEventListener("DOMContentLoaded", function () {
       },
 
       removerAtividade(index) {
-        // Evitar a remoção direta, mostrar confirmação primeiro
-        const atividadeNome = this.atividades[index].nome;
-
-        // Usar modal de mensagem para confirmação
-        this.showMessageModal = true;
-        this.messageTitle = "Remover Atividade";
-        this.messageContent = `Tem certeza que deseja remover a atividade "${atividadeNome}"?`;
-
-        // Função a ser chamada quando o usuário confirmar
-        this.messageCallback = () => {
-          // Remove a atividade do array
-          this.atividades.splice(index, 1);
-
-          // Se estiver editando esta atividade, limpa o formulário
-          if (this.editingIndex === index) {
-            this.novaAtividade = { nome: "", horas: "" };
-            this.editingIndex = null;
-          }
-
-          // Recalcula os índices de edição que são maiores que o índice removido
-          if (this.editingIndex > index) {
-            this.editingIndex--;
-          }
-
-          // Resetar o estado do modal
-          this.showMessageModal = false;
-        };
-
-        // Função a ser chamada quando o usuário cancelar
-        this.messageCancelCallback = () => {
-          this.showMessageModal = false;
-        };
+        this.atividades.splice(index, 1);
+        if (this.editingIndex === index) {
+          this.novaAtividade = {
+            nome: "",
+            horas: "",
+          };
+          this.editingIndex = null;
+        }
       },
 
       cancelarEdicao() {
@@ -379,21 +348,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         return true;
-      },
-
-      // Métodos para o modal de confirmação
-      confirmarModalMensagem() {
-        if (this.messageCallback) {
-          this.messageCallback();
-        }
-        this.showMessageModal = false;
-      },
-
-      cancelarModalMensagem() {
-        if (this.messageCancelCallback) {
-          this.messageCancelCallback();
-        }
-        this.showMessageModal = false;
       },
 
       // ===== Método para geração de documento =====
