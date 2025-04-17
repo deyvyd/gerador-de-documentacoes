@@ -392,7 +392,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Validar se a data de início é menor que a data de fim
         if (this.formData.dataInicio > this.formData.dataFim) {
-          this.notificationService.show(
+          this.showStatus(
             "A data de início não pode ser maior que a data de fim",
             "error"
           );
@@ -439,13 +439,10 @@ document.addEventListener("DOMContentLoaded", function () {
             return response.json();
           })
           .then((data) => {
-            this.notificationService.show(
-              "Dados salvos em JSON com sucesso!",
-              "success"
-            );
+            this.showStatus("Dados salvos em JSON com sucesso!", "success");
           })
           .catch((error) => {
-            this.notificationService.show(error.message, "error");
+            this.showStatus(error.message, "error");
             console.error("Erro:", error);
           })
           .finally(() => {
@@ -503,10 +500,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 a.click();
                 window.URL.revokeObjectURL(url);
 
-                this.notificationService.show(
-                  "Documentação gerada com sucesso!",
-                  "success"
-                );
+                this.showStatus("Documentação gerada com sucesso!", "success");
               });
             } else {
               return response.json();
@@ -514,11 +508,11 @@ document.addEventListener("DOMContentLoaded", function () {
           })
           .then((data) => {
             if (data && data.message) {
-              this.notificationService.show(data.message, "success");
+              this.showStatus(data.message, "success");
             }
           })
           .catch((error) => {
-            this.notificationService.show(error.message, "error");
+            this.showStatus(error.message, "error");
             console.error("Erro:", error);
           })
           .finally(() => {
