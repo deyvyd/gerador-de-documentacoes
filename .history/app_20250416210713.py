@@ -19,7 +19,7 @@ from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from flask import (Flask, render_template, request, send_file,
-                   send_from_directory, jsonify)
+                   send_from_directory)
 ## Imports de terceiros
 from unidecode import unidecode
 
@@ -1767,84 +1767,13 @@ def gerar_relatorio():
         atividades = json.loads(dados.get('atividades', '[]'))
         
         # Processa as opções de formato selecionadas pelo usuário
-        gerar_json = request.form.get('gerar_json', 'true').lower() == 'true'  # Por padrão, sempre gera JSON
         gerar_docx = request.form.get('gerar_docx', 'false').lower() == 'true'
         gerar_pdf = request.form.get('gerar_pdf', 'false').lower() == 'true'
-        apenas_json = request.form.get('apenas_json', 'false').lower() == 'true'
-
-        if apenas_json:
-            try:
-                # Criamos um dicionário com os dados disponíveis (mesmo que incompletos)
-                dados_json = {
-                    'info': {
-                        'numeroSS': dados.get('numeroSS', ''),
-                        'anoSS': dados.get('anoSS', ''), 
-                        'tituloSS': dados.get('tituloSS', ''),
-                        'descricao': dados.get('descricao', ''),
-                        'dataInicio': dados.get('dataInicio', ''),
-                        'dataFim': dados.get('dataFim', ''),
-                        'totalHoras': dados.get('totalHoras', 0),
-                        'linkBoard': dados.get('linkBoard', ''),
-                        'iniciaisAutor': dados.get('iniciaisAutor', '')
-                    },
-                    'atividades': atividades or []
-                }
-                
-                # Caminho e nome do arquivo JSON
-                json_filename = f"SS {dados.get('numeroSS', '').zfill(3)}-{dados.get('anoSS', '')}.json"
-                json_path = os.path.join(tempfile.gettempdir(), json_filename)
-                
-                # Salvar arquivo JSON
-                with open(json_path, 'w', encoding='utf-8') as json_file:
-                    json.dump(dados_json, json_file, ensure_ascii=False, indent=2)
-                
-                # Retornar resposta JSON com confirmação
-                return send_file(
-                    json_path,
-                    as_attachment=True,
-                    download_name=json_filename,
-                    mimetype='application/json'
-                )
-                
-            except Exception as e:
-                logger.error(f"Erro ao gerar arquivo JSON: {str(e)}")
-                return jsonify({"error": f"Erro ao gerar JSON: {str(e)}"}), 500
-
-        json_path = None
-        try:
-            # Criamos um dicionário com todos os dados
-            dados_json = {
-                'info': {
-                    'numeroSS': dados['numeroSS'],
-                    'anoSS': dados['anoSS'], 
-                    'tituloSS': dados['tituloSS'],
-                    'descricao': dados['descricao'],
-                    'dataInicio': dados['dataInicio'],
-                    'dataFim': dados['dataFim'],
-                    'totalHoras': totalHoras,
-                    'linkBoard': dados['linkBoard'],
-                    'iniciaisAutor': dados['iniciaisAutor']
-                },
-                'atividades': atividades
-            }
-            
-            # Caminho do arquivo JSON
-            json_path = os.path.join(tempfile.gettempdir(), f"SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json")
-            
-            # Salvar arquivo JSON
-            with open(json_path, 'w', encoding='utf-8') as json_file:
-                json.dump(dados_json, json_file, ensure_ascii=False, indent=2)
-            
-            # Adicionar à lista de arquivos temporários e de saída
-            temp_files.append(json_path)
-            output_files.append({
-                'path': json_path,
-                'filename': os.path.basename(json_path)
-            })
-            
-        except Exception as e:
-            logger.error(f"Erro ao gerar arquivo JSON: {str(e)}")
-
+        
+        # Validação de segurança - pelo menos um formato deve estar selecionado
+        if not gerar_docx and not gerar_pdf:
+            return {"error": "Pelo menos um formato de arquivo deve ser selecionado"}, 400
+        
         # Cria instância do relatório com os dados fornecidos
         relatorio = RelatorioAcompanhamentoProjeto(
             numero_ss=dados['numeroSS'],

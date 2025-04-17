@@ -821,27 +821,6 @@ const FormSubmitSection = {
   },
 };
 
-// Componente de notificação toast
-const ToastNotification = {
-  props: {
-    toasts: {
-      type: Array,
-      required: true,
-    },
-  },
-  template: `
-    <div class="toast-container">
-      <transition-group name="toast">
-        <div v-for="toast in toasts" 
-             :key="toast.id" 
-             :class="['toast', toast.type]">
-          {{ toast.message }}
-        </div>
-      </transition-group>
-    </div>
-  `,
-};
-
 // Exportar os componentes
 window.AppComponents = {
   ThemeToggle,

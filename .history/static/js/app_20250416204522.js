@@ -112,6 +112,9 @@ const app = createApp({
     filteredAutores() {
       return this.filterAutores();
     },
+    isFormatoValido() {
+      return true;
+    },
     // Propriedades para conversão de data
     dataInicioFormatada: {
       get() {
@@ -535,187 +538,174 @@ const app = createApp({
     async gerarDocumento() {
       if (this.isLoading) return;
 
+      // Limpa estilos de erro anteriores
+      this.resetFieldErrors();
+
+      // Acessar os elementos através do componente BasicFormSection
+      const basicFormSection = this.$refs.basicFormSection;
+      if (!basicFormSection) {
+        console.error("Componente BasicFormSection não encontrado");
+        notificationService.showToast("Erro ao acessar o formulário", "error");
+        return;
+      }
+
+      // Validação dos campos obrigatórios
+      const camposObrigatorios = [
+        { ref: "numeroSS", label: "Número SS" },
+        { ref: "tituloSS", label: "Título" },
+        { ref: "descricao", label: "Descrição" },
+        { ref: "dataInicio", label: "Data de Início" },
+        { ref: "dataFim", label: "Data de Fim" },
+      ];
+
+      for (const campo of camposObrigatorios) {
+        const valor = this.formData[campo.ref];
+        if (!valor || valor.trim() === "") {
+          const elemento = basicFormSection.$refs[campo.ref];
+          if (elemento) {
+            this.aplicarErroTemporario(elemento);
+            notificationService.showToast(
+              `O campo ${campo.label} é obrigatório`,
+              "error"
+            );
+            return;
+          } else {
+            console.error(`Elemento com ref ${campo.ref} não encontrado`);
+          }
+        }
+      }
+
+      // Validação das datas
+      const dataInicio = new Date(this.formData.dataInicio);
+      const dataFim = new Date(this.formData.dataFim);
+
+      if (dataInicio > dataFim) {
+        const elemento = basicFormSection.$refs.dataInicio;
+        if (elemento) {
+          this.aplicarErroTemporario(elemento);
+          notificationService.showToast(
+            "A data de início não pode ser posterior à data de fim",
+            "error"
+          );
+        }
+        return;
+      }
+
+      // Validação de autores
+      if (this.selectedAutores.length === 0) {
+        this.aplicarErroTemporarioAutores();
+
+        notificationService.showToast("Selecione pelo menos um autor", "error");
+
+        // Focar explicitamente no campo de autores
+        const basicFormSection = this.$refs.basicFormSection;
+        if (basicFormSection && basicFormSection.$refs.autorInput) {
+          basicFormSection.$refs.autorInput.focus();
+        }
+
+        return;
+      }
+
+      // Validação de atividades
+      if (this.atividades.length === 0) {
+        // Verificamos se os campos de nova atividade estão preenchidos
+        const atividadeInput = this.$refs.atividadeInput;
+        const horasInput = this.$refs.horasInput;
+        const atividadeBtn = this.$refs.activityButton;
+        const adicionarBtn = document.querySelector(".activity-form .btn");
+
+        // Caso 1: Campo de atividade vazio
+        if (!this.novaAtividade.nome || this.novaAtividade.nome.trim() === "") {
+          if (atividadeInput) {
+            this.aplicarErroTemporario(atividadeInput);
+            atividadeInput.focus();
+            notificationService.showToast(
+              "Adicione pelo menos uma atividade",
+              "error"
+            );
+            return;
+          }
+        }
+        // Caso 2: Campo de horas vazio
+        else if (
+          !this.novaAtividade.horas ||
+          isNaN(this.novaAtividade.horas) ||
+          this.novaAtividade.horas <= 0
+        ) {
+          if (horasInput) {
+            this.aplicarErroTemporario(horasInput);
+            horasInput.focus();
+            notificationService.showToast(
+              "Informe o número de horas para a atividade",
+              "error"
+            );
+            return;
+          }
+        }
+        // Caso 3: Ambos preenchidos, mas não adicionados à lista
+        else if (adicionarBtn) {
+          // Destaca o botão Adicionar
+          horasInput.classList.remove("campo-erro");
+          adicionarBtn.classList.add("btn-erro");
+          atividadeBtn.focus();
+          setTimeout(() => {
+            adicionarBtn.classList.remove("btn-erro");
+          }, 2000);
+
+          notificationService.showToast(
+            "Clique em 'Adicionar' para incluir a atividade na lista",
+            "error"
+          );
+          return;
+        } else {
+          // Fallback genérico
+          notificationService.showToast(
+            "Adicione pelo menos uma atividade",
+            "error"
+          );
+          return;
+        }
+      }
+
+      // Validação dos formatos de arquivo
+      if (!this.formData.gerarDocx && !this.formData.gerarPdf) {
+        this.notificationService.showToast(
+          "Selecione pelo menos um formato de arquivo adicional (DOCX ou PDF)",
+          "error"
+        );
+        return;
+      }
+
       this.isLoading = true;
+      notificationService.showToast("Gerando documento...", "info");
 
       try {
-        // Prepara o FormData para envio
         const formData = new FormData();
 
-        // Verifica se pelo menos um formato adicional está selecionado
-        const formatosAdicionais =
-          this.formData.gerarDocx || this.formData.gerarPdf;
-
-        // Adiciona formatos ao FormData
-        formData.append("gerar_json", "true"); // JSON sempre true
-        formData.append(
-          "gerar_docx",
-          this.formData.gerarDocx ? "true" : "false"
-        );
-        formData.append("gerar_pdf", this.formData.gerarPdf ? "true" : "false");
-        formData.append("apenas_json", formatosAdicionais ? "false" : "true");
-
-        // Adiciona dados básicos da SS sempre
+        // Dados básicos da SS
         formData.append("numeroSS", this.formData.numeroSS);
         formData.append("anoSS", this.formData.anoSS);
-        formData.append("iniciaisAutor", this.formData.iniciaisAutor);
         formData.append("tituloSS", this.formData.tituloSS);
+        formData.append("iniciaisAutor", this.formData.iniciaisAutor);
         formData.append("descricao", this.formData.descricao);
         formData.append("dataInicio", this.formData.dataInicio);
         formData.append("dataFim", this.formData.dataFim);
         formData.append("linkBoard", this.formData.linkBoard);
 
-        // Se temos formatos adicionais, precisamos realizar validações completas
-        if (formatosAdicionais) {
-          // Limpa estilos de erro anteriores
-          this.resetFieldErrors();
+        // Atividades
+        formData.append("atividades", JSON.stringify(this.atividades));
 
-          // Validação dos campos obrigatórios
-          const basicFormSection = this.$refs.basicFormSection;
-          if (!basicFormSection) {
-            console.error("Componente BasicFormSection não encontrado");
-            notificationService.showToast(
-              "Erro ao acessar o formulário",
-              "error"
-            );
-            this.isLoading = false;
-            return;
-          }
+        // Total de horas calculado a partir das atividades
+        formData.append("totalHoras", this.totalHoras.toString());
 
-          // Lista de validações de campos obrigatórios
-          const camposObrigatorios = [
-            { ref: "numeroSS", label: "Número SS" },
-            { ref: "tituloSS", label: "Título" },
-            { ref: "descricao", label: "Descrição" },
-            { ref: "dataInicio", label: "Data de Início" },
-            { ref: "dataFim", label: "Data de Fim" },
-          ];
-
-          for (const campo of camposObrigatorios) {
-            const valor = this.formData[campo.ref];
-            if (!valor || valor.trim() === "") {
-              const elemento = basicFormSection.$refs[campo.ref];
-              if (elemento) {
-                this.aplicarErroTemporario(elemento);
-                notificationService.showToast(
-                  `O campo ${campo.label} é obrigatório`,
-                  "error"
-                );
-                this.isLoading = false;
-                return;
-              }
-            }
-          }
-
-          // Validação das datas
-          const dataInicio = new Date(this.formData.dataInicio);
-          const dataFim = new Date(this.formData.dataFim);
-
-          if (dataInicio > dataFim) {
-            const elemento = basicFormSection.$refs.dataInicio;
-            if (elemento) {
-              this.aplicarErroTemporario(elemento);
-              notificationService.showToast(
-                "A data de início não pode ser posterior à data de fim",
-                "error"
-              );
-              this.isLoading = false;
-              return;
-            }
-          }
-
-          // Validação de autores
-          if (this.selectedAutores.length === 0) {
-            this.aplicarErroTemporarioAutores();
-            notificationService.showToast(
-              "Selecione pelo menos um autor",
-              "error"
-            );
-            this.isLoading = false;
-            return;
-          }
-
-          // Validação de atividades
-          if (this.atividades.length === 0) {
-            // Verificamos se os campos de nova atividade estão preenchidos
-            const atividadeInput = this.$refs.atividadeInput;
-            const horasInput = this.$refs.horasInput;
-            const atividadeBtn = this.$refs.activityButton;
-            const adicionarBtn = document.querySelector(".activity-form .btn");
-
-            // Caso 1: Campo de atividade vazio
-            if (
-              !this.novaAtividade.nome ||
-              this.novaAtividade.nome.trim() === ""
-            ) {
-              if (atividadeInput) {
-                this.aplicarErroTemporario(atividadeInput);
-                atividadeInput.focus();
-                notificationService.showToast(
-                  "Adicione pelo menos uma atividade",
-                  "error"
-                );
-                this.isLoading = false;
-                return;
-              }
-            }
-            // Caso 2: Campo de horas vazio
-            else if (
-              !this.novaAtividade.horas ||
-              isNaN(this.novaAtividade.horas) ||
-              this.novaAtividade.horas <= 0
-            ) {
-              if (horasInput) {
-                this.aplicarErroTemporario(horasInput);
-                horasInput.focus();
-                notificationService.showToast(
-                  "Informe o número de horas para a atividade",
-                  "error"
-                );
-                this.isLoading = false;
-                return;
-              }
-            }
-            // Caso 3: Ambos preenchidos, mas não adicionados à lista
-            else if (adicionarBtn) {
-              // Destaca o botão Adicionar
-              horasInput.classList.remove("campo-erro");
-              adicionarBtn.classList.add("btn-erro");
-              atividadeBtn.focus();
-              setTimeout(() => {
-                adicionarBtn.classList.remove("btn-erro");
-              }, 2000);
-
-              notificationService.showToast(
-                "Clique em 'Adicionar' para incluir a atividade na lista",
-                "error"
-              );
-              this.isLoading = false;
-              return;
-            } else {
-              // Fallback genérico
-              notificationService.showToast(
-                "Adicione pelo menos uma atividade",
-                "error"
-              );
-              this.isLoading = false;
-              return;
-            }
-          }
-
-          // Adiciona atividades ao FormData
-          formData.append("atividades", JSON.stringify(this.atividades));
-
-          // Adiciona total de horas
-          formData.append("totalHoras", this.totalHoras.toString());
-        }
-
-        // Notifica o usuário que estamos processando
-        notificationService.showToast(
-          formatosAdicionais ? "Gerando documentos..." : "Gerando JSON...",
-          "info"
+        // Formatos de saída
+        formData.append("gerar_json", "true"); // Sempre enviar JSON
+        formData.append(
+          "gerar_docx",
+          this.formData.gerarDocx ? "true" : "false"
         );
+        formData.append("gerar_pdf", this.formData.gerarPdf ? "true" : "false");
 
-        // Envia a requisição
         const response = await fetch("/gerar_relatorio", {
           method: "POST",
           body: formData,
@@ -726,43 +716,31 @@ const app = createApp({
           throw new Error(errorData.error || "Erro ao gerar documento");
         }
 
-        if (formatosAdicionais) {
-          // Se temos formatos adicionais, processamos para download do ZIP
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
 
-          // Obtém o nome sugerido do arquivo do cabeçalho Content-Disposition
-          const contentDisposition = response.headers.get(
-            "Content-Disposition"
-          );
-          let filename = "documentos.zip";
-          if (contentDisposition) {
-            const filenameMatch = contentDisposition.match(/filename="(.+)"/);
-            if (filenameMatch && filenameMatch[1]) {
-              filename = filenameMatch[1];
-            }
+        // Obtém o nome sugerido do arquivo do cabeçalho Content-Disposition
+        const contentDisposition = response.headers.get("Content-Disposition");
+        let filename = "documentos.zip";
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+          if (filenameMatch && filenameMatch[1]) {
+            filename = filenameMatch[1];
           }
-
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-          document.body.removeChild(a);
-
-          notificationService.showToast(
-            "Documento gerado com sucesso!",
-            "success"
-          );
-        } else {
-          // Se temos apenas JSON, mostramos uma mensagem de sucesso
-          const data = await response.json();
-          notificationService.showToast(
-            "Dados salvos em JSON com sucesso!",
-            "success"
-          );
         }
+
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        notificationService.showToast(
+          "Documento gerado com sucesso!",
+          "success"
+        );
       } catch (error) {
         console.error("Erro:", error);
         notificationService.showToast(

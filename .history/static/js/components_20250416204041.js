@@ -674,6 +674,7 @@ const FormSubmitSection = {
   props: {
     formatos: Object,
     isLoading: Boolean,
+    isFormatoValido: Boolean,
     statusMessage: String,
     statusType: String,
     buttonText: {
@@ -734,7 +735,7 @@ const FormSubmitSection = {
         <button
           @click="$emit('submit')"
           class="btn btn-primary w-64"
-          :disabled="isLoading"
+          :disabled="isLoading || !isFormatoValido"
         >
           <template v-if="isLoading">
             <svg
@@ -819,27 +820,6 @@ const FormSubmitSection = {
       this.$emit("update:pdf", checked);
     },
   },
-};
-
-// Componente de notificação toast
-const ToastNotification = {
-  props: {
-    toasts: {
-      type: Array,
-      required: true,
-    },
-  },
-  template: `
-    <div class="toast-container">
-      <transition-group name="toast">
-        <div v-for="toast in toasts" 
-             :key="toast.id" 
-             :class="['toast', toast.type]">
-          {{ toast.message }}
-        </div>
-      </transition-group>
-    </div>
-  `,
 };
 
 // Exportar os componentes

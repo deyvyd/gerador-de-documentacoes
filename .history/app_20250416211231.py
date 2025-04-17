@@ -1799,12 +1799,11 @@ def gerar_relatorio():
                     json.dump(dados_json, json_file, ensure_ascii=False, indent=2)
                 
                 # Retornar resposta JSON com confirmação
-                return send_file(
-                    json_path,
-                    as_attachment=True,
-                    download_name=json_filename,
-                    mimetype='application/json'
-                )
+                return jsonify({
+                    "success": True,
+                    "message": "Dados salvos em JSON com sucesso",
+                    "filename": json_filename
+                })
                 
             except Exception as e:
                 logger.error(f"Erro ao gerar arquivo JSON: {str(e)}")
