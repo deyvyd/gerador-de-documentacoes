@@ -470,17 +470,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Preparar dados para envio
         const formData = this.prepareFormData(false, "desenvolvimento");
 
-        // Adicionar requisitos funcionais
+        // Adicionar requisitos
         formData.append("requisitos", JSON.stringify(this.requisitos));
-
-        // Adicionar requisitos não funcionais
-        formData.append(
-          "requisitosNaoFuncionais",
-          JSON.stringify(this.listaRequisitosNaoFuncionais)
-        );
-
-        // Adicionar total de pontos de função
-        formData.append("totalPontosFuncao", this.totalPontosFuncao.toString());
 
         // Enviar requisição para o backend
         fetch("/gerar_relatorio", {

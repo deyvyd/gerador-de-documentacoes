@@ -1838,7 +1838,6 @@ def gerar_relatorio():
         try:
             # Criamos um dicionário com todos os dados
             dados_json = {
-                'tipo': tipo_formulario,  # Adiciona o tipo
                 'info': {
                     'numeroSS': dados['numeroSS'],
                     'anoSS': dados['anoSS'], 

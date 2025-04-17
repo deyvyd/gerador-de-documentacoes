@@ -406,7 +406,13 @@ document.addEventListener("DOMContentLoaded", function () {
         this.isLoading = true;
         try {
           // Prepara o FormData para envio, especificando o tipo como técnico
-          const formData = this.prepareFormData(true, "tecnica");
+          const formData = this.prepareFormData(true, "tecnico");
+
+          // Prepara o FormData para envio
+          const formData = this.prepareFormData(true);
+
+          // Adiciona o tipo de documentação
+          formData.append("tipo", "tecnica");
 
           // Adiciona atividades ao FormData
           formData.append("atividades", JSON.stringify(this.atividades));
@@ -515,8 +521,8 @@ document.addEventListener("DOMContentLoaded", function () {
         this.isLoading = true;
 
         try {
-          // Prepara o FormData para envio, especificando o tipo como técnico
-          const formData = this.prepareFormData(false, "tecnico");
+          // Prepara o FormData para envio
+          const formData = this.prepareFormData(false);
 
           // Adiciona atividades ao FormData
           formData.append("atividades", JSON.stringify(this.atividades));

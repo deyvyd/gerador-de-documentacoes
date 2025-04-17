@@ -387,20 +387,14 @@ document.addEventListener("DOMContentLoaded", function () {
           // Prepara o FormData para envio, especificando o tipo como desenvolvimento
           const formData = this.prepareFormData(true, "desenvolvimento");
 
+          // Adiciona o tipo de documentação
+          formData.append("tipo", "desenvolvimento");
+
+          // Adicionar flags específicas
+          formData.append("apenas_json", "true");
+
           // Enviar os requisitos mesmo vazios
           formData.append("requisitos", JSON.stringify(this.requisitos || []));
-
-          // Adiciona requisitos não funcionais (específico de desenvolvimento)
-          formData.append(
-            "requisitosNaoFuncionais",
-            JSON.stringify(this.listaRequisitosNaoFuncionais || [])
-          );
-
-          // Adiciona total de pontos de função (específico de desenvolvimento)
-          formData.append(
-            "totalPontosFuncao",
-            this.totalPontosFuncao.toString()
-          );
 
           // Notifica o usuário que estamos processando
           this.notificationService.show("Gerando JSON...", "info");
@@ -468,19 +462,10 @@ document.addEventListener("DOMContentLoaded", function () {
         this.isLoading = true;
 
         // Preparar dados para envio
-        const formData = this.prepareFormData(false, "desenvolvimento");
+        const formData = this.prepareFormData(false);
 
-        // Adicionar requisitos funcionais
+        // Adicionar requisitos
         formData.append("requisitos", JSON.stringify(this.requisitos));
-
-        // Adicionar requisitos não funcionais
-        formData.append(
-          "requisitosNaoFuncionais",
-          JSON.stringify(this.listaRequisitosNaoFuncionais)
-        );
-
-        // Adicionar total de pontos de função
-        formData.append("totalPontosFuncao", this.totalPontosFuncao.toString());
 
         // Enviar requisição para o backend
         fetch("/gerar_relatorio", {
