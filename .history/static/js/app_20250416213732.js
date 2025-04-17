@@ -697,14 +697,13 @@ const app = createApp({
     // Método para enviar apenas o JSON
     enviarFormularioParaJSON() {
       this.isLoading = true;
-      this.status.message = ""; // Limpa mensagens anteriores
 
       try {
         // Prepara o FormData para envio
         const formData = new FormData();
 
         // Adiciona formatos ao FormData
-        formData.append("gerar_json", "true");
+        formData.append("gerar_json", "true"); // JSON sempre true
         formData.append("gerar_docx", "false");
         formData.append("gerar_pdf", "false");
         formData.append("apenas_json", "true");
@@ -728,90 +727,90 @@ const app = createApp({
         // Notifica o usuário que estamos processando
         this.notificationService.show("Gerando JSON...", "info");
 
-        // Captura referências para evitar problemas de escopo com "this"
-        const self = this;
-
         // Envia a requisição
         fetch("/gerar_relatorio", {
           method: "POST",
           body: formData,
         })
-          .then(function (response) {
+          .then((response) => {
             if (!response.ok) {
               // Tenta obter mensagem de erro, se disponível
               return response
                 .json()
-                .then(function (data) {
+                .then((data) => {
                   throw new Error(data.error || "Erro ao gerar JSON");
                 })
-                .catch(function () {
+                .catch(() => {
                   throw new Error(
                     `Erro ${response.status}: ${response.statusText}`
                   );
                 });
             }
 
-            // Para variáveis que serão usadas fora deste bloco
-            window.lastResponse = response;
-
-            // Especificamente para JSON, tratamos como download de arquivo
-            return response.blob();
+            // Verifica o tipo de conteúdo da resposta
+            const contentType = response.headers.get("Content-Type");
+            if (contentType && contentType.includes("application/json")) {
+              // Se for JSON, processa como resposta JSON
+              return response.json().then((data) => {
+                this.notificationService.show(
+                  "Dados processados com sucesso!",
+                  "success"
+                );
+                return null; // Indica que já processamos a resposta
+              });
+            } else {
+              // Se não for JSON, trata como download de arquivo
+              return response.blob();
+            }
           })
-          .then(function (blob) {
+          .then((blob) => {
+            // Se blob for null, significa que já processamos a resposta como JSON
+            if (blob === null) return;
+
             // Criar URL do blob e link para download
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
 
             // Determinar nome do arquivo
-            let filename = `SS ${self.formData.numeroSS.padStart(3, "0")}-${
-              self.formData.anoSS
+            let filename = `SS ${this.formData.numeroSS.padStart(3, "0")}-${
+              this.formData.anoSS
             }.json`;
 
             // Tentar obter nome do cabeçalho Content-Disposition
-            const response = window.lastResponse;
-            if (response && response.headers) {
-              const contentDisposition = response.headers.get(
-                "Content-Disposition"
-              );
-              if (contentDisposition) {
-                const filenameMatch =
-                  contentDisposition.match(/filename="(.+)"/);
-                if (filenameMatch && filenameMatch[1]) {
-                  filename = filenameMatch[1];
-                }
+            const contentDisposition = response.headers.get(
+              "Content-Disposition"
+            );
+            if (contentDisposition) {
+              const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+              if (filenameMatch && filenameMatch[1]) {
+                filename = filenameMatch[1];
               }
             }
 
             // Configurar download
             a.download = filename;
             document.body.appendChild(a);
+            a.click();
 
-            // Usar setTimeout para evitar problemas de fechamento de canal
-            setTimeout(function () {
-              a.click();
+            // Limpar
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
 
-              // Limpeza após um pequeno delay
-              setTimeout(function () {
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-                self.notificationService.show(
-                  "Arquivo JSON gerado com sucesso!",
-                  "success"
-                );
-              }, 100);
-            }, 100);
+            this.notificationService.show(
+              "Arquivo JSON gerado com sucesso!",
+              "success"
+            );
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.error("Erro:", error);
-            self.notificationService.show(
+            this.notificationService.show(
               error.message || "Erro ao gerar JSON",
               "error"
             );
           })
-          .finally(function () {
-            self.isLoading = false;
-            delete window.lastResponse; // Limpa a referência temporária
+          .finally(() => {
+            this.isLoading = false;
           });
       } catch (error) {
         console.error("Erro:", error);
