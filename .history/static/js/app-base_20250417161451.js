@@ -136,7 +136,7 @@ window.AppBase = (function () {
         // Verifica se o tipo do JSON é compatível com a aplicação atual
         if (tipoJSON !== "desconhecido" && tipoJSON !== tipoAplicacao) {
           this.notificationService.show(
-            `Este JSON é para documentação "${tipoJSON}" mas a aplicação atual é para documentação "${tipoAplicacao}".`,
+            `Tipo de arquivo incompatível. Este JSON é do tipo "${tipoJSON}" mas a aplicação atual é "${tipoAplicacao}".`,
             "error"
           );
           return;

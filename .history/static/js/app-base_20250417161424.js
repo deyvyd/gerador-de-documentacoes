@@ -111,113 +111,119 @@ window.AppBase = (function () {
     },
 
     // Método para processar o arquivo JSON importado
-    processImportedJSON(data) {
-      try {
-        // Validação básica da estrutura do JSON
-        if (!data || typeof data !== "object") {
-          this.notificationService.show("Formato de arquivo inválido", "error");
-          return;
+    Entendi que você deseja adicionar uma validação ao importar arquivos JSON para garantir que cada aplicação (técnica ou desenvolvimento) só aceite arquivos do seu respectivo tipo, exibindo um toast explicativo quando houver incompatibilidade.
+Vamos implementar essa validação. O processo envolve:
+
+Modificar o método processImportedJSON no arquivo app-base.js para verificar o tipo do JSON
+Adicionar lógica para detectar incompatibilidades
+Exibir um toast informativo quando o tipo não corresponder
+
+Aqui está como implementar essas mudanças:
+Modificações no arquivo app-base.js
+Localize o método processImportedJSON no arquivo static/js/app-base.js e modifique-o da seguinte forma:
+javascript// Método para processar o arquivo JSON importado
+processImportedJSON(data) {
+  try {
+    // Validação básica da estrutura do JSON
+    if (!data || typeof data !== "object") {
+      this.notificationService.show("Formato de arquivo inválido", "error");
+      return;
+    }
+
+    // Verifica o tipo do JSON importado
+    const tipoJSON = data.tipo || "desconhecido";
+    
+    // Determina o tipo da aplicação atual baseado na URL ou na presença de certos componentes
+    let tipoAplicacao = "tecnica"; // Padrão
+    
+    // Verifica se estamos na aplicação de desenvolvimento
+    if (window.location.pathname.includes("/dev") || this.requisitos !== undefined) {
+      tipoAplicacao = "desenvolvimento";
+    }
+    
+    // Verifica se o tipo do JSON é compatível com a aplicação atual
+    if (tipoJSON !== "desconhecido" && tipoJSON !== tipoAplicacao) {
+      this.notificationService.show(
+        `Tipo de arquivo incompatível. Este JSON é do tipo "${tipoJSON}" mas a aplicação atual é "${tipoAplicacao}".`,
+        "error"
+      );
+      return;
+    }
+
+    // Processar dados básicos da SS
+    if (data.info) {
+      // Mapear os campos
+      const fieldsMapping = {
+        numeroSS: "numeroSS",
+        anoSS: "anoSS",
+        tituloSS: "tituloSS",
+        descricao: "descricao",
+        dataInicio: "dataInicio",
+        dataFim: "dataFim",
+        totalHoras: "totalHoras",
+        linkBoard: "linkBoard",
+        iniciaisAutor: "iniciaisAutor",
+      };
+
+      // Preencher formData com os dados importados
+      for (const [jsonField, formField] of Object.entries(fieldsMapping)) {
+        if (data.info[jsonField] !== undefined) {
+          this.formData[formField] = data.info[jsonField];
         }
-
-        // Verifica o tipo do JSON importado
-        const tipoJSON = data.tipo || "desconhecido";
-
-        // Determina o tipo da aplicação atual baseado na URL ou na presença de certos componentes
-        let tipoAplicacao = "tecnica"; // Padrão
-
-        // Verifica se estamos na aplicação de desenvolvimento
-        if (
-          window.location.pathname.includes("/dev") ||
-          this.requisitos !== undefined
-        ) {
-          tipoAplicacao = "desenvolvimento";
-        }
-
-        // Verifica se o tipo do JSON é compatível com a aplicação atual
-        if (tipoJSON !== "desconhecido" && tipoJSON !== tipoAplicacao) {
-          this.notificationService.show(
-            `Este JSON é para documentação "${tipoJSON}" mas a aplicação atual é para documentação "${tipoAplicacao}".`,
-            "error"
-          );
-          return;
-        }
-
-        // Processar dados básicos da SS
-        if (data.info) {
-          // Mapear os campos
-          const fieldsMapping = {
-            numeroSS: "numeroSS",
-            anoSS: "anoSS",
-            tituloSS: "tituloSS",
-            descricao: "descricao",
-            dataInicio: "dataInicio",
-            dataFim: "dataFim",
-            totalHoras: "totalHoras",
-            linkBoard: "linkBoard",
-            iniciaisAutor: "iniciaisAutor",
-          };
-
-          // Preencher formData com os dados importados
-          for (const [jsonField, formField] of Object.entries(fieldsMapping)) {
-            if (data.info[jsonField] !== undefined) {
-              this.formData[formField] = data.info[jsonField];
-            }
-          }
-
-          // Processar autores se existirem
-          if (data.info.iniciaisAutor) {
-            // Lógica para processar autores baseado nas iniciais
-            this.processarAutoresFromIniciais(data.info.iniciaisAutor);
-          }
-        }
-
-        // Processar atividades se existirem e se o app atual suportar
-        if (
-          data.atividades &&
-          Array.isArray(data.atividades) &&
-          this.atividades !== undefined
-        ) {
-          this.atividades = [...data.atividades];
-        }
-
-        // Processar requisitos se existirem e se o app atual suportar
-        if (
-          data.requisitos &&
-          Array.isArray(data.requisitos) &&
-          this.requisitos !== undefined
-        ) {
-          this.requisitos = [...data.requisitos];
-        }
-
-        // Processar requisitos não funcionais se existirem e se o app atual suportar
-        if (
-          data.requisitosNaoFuncionais &&
-          Array.isArray(data.requisitosNaoFuncionais) &&
-          this.listaRequisitosNaoFuncionais !== undefined
-        ) {
-          this.listaRequisitosNaoFuncionais = [...data.requisitosNaoFuncionais];
-        }
-
-        // Processar pontos de função se existirem e se o app atual suportar
-        if (
-          data.totalPontosFuncao !== undefined &&
-          this.totalPontosFuncao !== undefined
-        ) {
-          this.totalPontosFuncao = data.totalPontosFuncao;
-          this.totalPontosFuncaoFormatado = data.totalPontosFuncao
-            .toString()
-            .replace(".", ",");
-        }
-
-        this.notificationService.show(
-          "Dados importados com sucesso!",
-          "success"
-        );
-      } catch (error) {
-        console.error("Erro ao processar dados JSON:", error);
-        this.notificationService.show("Erro ao processar o arquivo", "error");
       }
-    },
+
+      // Processar autores se existirem
+      if (data.info.iniciaisAutor) {
+        // Lógica para processar autores baseado nas iniciais
+        this.processarAutoresFromIniciais(data.info.iniciaisAutor);
+      }
+    }
+
+    // Processar atividades se existirem e se o app atual suportar
+    if (
+      data.atividades &&
+      Array.isArray(data.atividades) &&
+      this.atividades !== undefined
+    ) {
+      this.atividades = [...data.atividades];
+    }
+
+    // Processar requisitos se existirem e se o app atual suportar
+    if (
+      data.requisitos &&
+      Array.isArray(data.requisitos) &&
+      this.requisitos !== undefined
+    ) {
+      this.requisitos = [...data.requisitos];
+    }
+
+    // Processar requisitos não funcionais se existirem e se o app atual suportar
+    if (
+      data.requisitosNaoFuncionais &&
+      Array.isArray(data.requisitosNaoFuncionais) &&
+      this.listaRequisitosNaoFuncionais !== undefined
+    ) {
+      this.listaRequisitosNaoFuncionais = [...data.requisitosNaoFuncionais];
+    }
+
+    // Processar pontos de função se existirem e se o app atual suportar
+    if (
+      data.totalPontosFuncao !== undefined &&
+      this.totalPontosFuncao !== undefined
+    ) {
+      this.totalPontosFuncao = data.totalPontosFuncao;
+      this.totalPontosFuncaoFormatado = data.totalPontosFuncao.toString().replace(".", ",");
+    }
+
+    this.notificationService.show(
+      "Dados importados com sucesso!",
+      "success"
+    );
+  } catch (error) {
+    console.error("Erro ao processar dados JSON:", error);
+    this.notificationService.show("Erro ao processar o arquivo", "error");
+  }
+},
 
     // Método auxiliar para processar autores a partir das iniciais
     processarAutoresFromIniciais(iniciaisStr) {
