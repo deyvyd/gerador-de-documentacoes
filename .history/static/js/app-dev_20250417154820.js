@@ -327,136 +327,125 @@ document.addEventListener("DOMContentLoaded", function () {
         this.requisitoAtual.imagens.splice(index, 1);
       },
 
+      // Geração de documento
       // Método para geração de documento
-      async gerarDocumento() {
-        if (this.isLoading) return;
+async gerarDocumento() {
+  if (this.isLoading) return;
 
-        // Verifica se pelo menos um formato adicional está selecionado
-        const formatosAdicionais =
-          this.formData.gerarDocx || this.formData.gerarPdf;
+  // Verifica se pelo menos um formato adicional está selecionado
+  const formatosAdicionais = this.formData.gerarDocx || this.formData.gerarPdf;
 
-        // Se temos apenas JSON, não fazemos validações e prosseguimos direto
-        if (!formatosAdicionais) {
-          this.enviarFormularioParaJSON();
-          return;
+  // Se temos apenas JSON, não fazemos validações e prosseguimos direto
+  if (!formatosAdicionais) {
+    this.enviarFormularioParaJSON();
+    return;
+  }
+
+  // Reset any previous error states
+  this.resetFieldErrors();
+
+  // Executa validações dos campos
+  if (!this.validarCamposObrigatorios()) {
+    return;
+  }
+
+  // Validação de requisitos funcionais
+  if (this.requisitos.length === 0) {
+    // Destaca o botão de adicionar requisito funcional
+    const btnAddRequisito = this.$refs.btnAddRequisito;
+    if (btnAddRequisito) {
+      // Adiciona classe de erro ao botão
+      btnAddRequisito.classList.add("btn-erro");
+      // Foca no botão
+      btnAddRequisito.focus();
+      // Remove a classe após um tempo
+      setTimeout(() => {
+        btnAddRequisito.classList.remove("btn-erro");
+      }, 3000);
+    }
+    this.notificationService.show(
+      "Adicione pelo menos um requisito funcional",
+      "error"
+    );
+    return;
+  }
+
+  // Exibe mensagem de sucesso nas validações
+  this.notificationService.show(
+    "Todos os campos obrigatórios foram preenchidos corretamente!",
+    "success"
+  );
+
+  // Por hora, gera apenas o JSON e realiza o download
+  this.enviarFormularioParaJSON();
+}
+
+// Método para enviar o formulário apenas como JSON
+enviarFormularioParaJSON() {
+  this.isLoading = true;
+  try {
+    // Prepara o FormData para envio
+    const formData = this.prepareFormData(true);
+
+    // Adiciona o tipo de documentação
+    formData.append("tipo", "desenvolvimento");
+
+    // Adicionar flags específicas
+    formData.append("apenas_json", "true");
+
+    // Enviar os requisitos mesmo vazios
+    formData.append("requisitos", JSON.stringify(this.requisitos || []));
+
+    // Notifica o usuário que estamos processando
+    this.notificationService.show("Gerando JSON...", "info");
+
+    // Enviar requisição simplificada para o backend
+    fetch("/gerar_relatorio", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((data) => {
+            throw new Error(data.error || "Erro ao gerar JSON");
+          });
         }
+        return response.blob();
+      })
+      .then((blob) => {
+        // Criar URL do blob e link para download
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
 
-        // Reset any previous error states
-        this.resetFieldErrors();
-
-        // Executa validações dos campos
-        if (!this.validarCamposObrigatorios()) {
-          return;
-        }
-
-        // Validação de requisitos funcionais
-        if (this.requisitos.length === 0) {
-          // Destaca o botão de adicionar requisito funcional
-          const btnAddRequisito = this.$refs.btnAddRequisito;
-          if (btnAddRequisito) {
-            // Adiciona classe de erro ao botão
-            btnAddRequisito.classList.add("btn-erro");
-            // Foca no botão
-            btnAddRequisito.focus();
-            // Remove a classe após um tempo
-            setTimeout(() => {
-              btnAddRequisito.classList.remove("btn-erro");
-            }, 3000);
-          }
-          this.notificationService.show(
-            "Adicione pelo menos um requisito funcional",
-            "error"
-          );
-          return;
-        }
-
-        // Exibe mensagem de sucesso nas validações
-        this.notificationService.show(
-          "Todos os campos obrigatórios foram preenchidos corretamente!",
-          "success"
-        );
-
-        // Por hora, gera apenas o JSON e realiza o download
-        this.enviarFormularioParaJSON();
-      },
-
-      // Método para enviar o formulário apenas como JSON
-      enviarFormularioParaJSON() {
-        this.isLoading = true;
-        try {
-          // Prepara o FormData para envio
-          const formData = this.prepareFormData(true);
-
-          // Adiciona o tipo de documentação
-          formData.append("tipo", "desenvolvimento");
-
-          // Adicionar flags específicas
-          formData.append("apenas_json", "true");
-
-          // Enviar os requisitos mesmo vazios
-          formData.append("requisitos", JSON.stringify(this.requisitos || []));
-
-          // Notifica o usuário que estamos processando
-          this.notificationService.show("Gerando JSON...", "info");
-
-          // Enviar requisição simplificada para o backend
-          fetch("/gerar_relatorio", {
-            method: "POST",
-            body: formData,
-          })
-            .then((response) => {
-              if (!response.ok) {
-                return response.json().then((data) => {
-                  throw new Error(data.error || "Erro ao gerar JSON");
-                });
-              }
-              return response.blob();
-            })
-            .then((blob) => {
-              // Criar URL do blob e link para download
-              const url = window.URL.createObjectURL(blob);
-              const a = document.createElement("a");
-              a.style.display = "none";
-              a.href = url;
-
-              // Determinar nome do arquivo
-              const filename = `SS ${this.formData.numeroSS.padStart(3, "0")}-${
-                this.formData.anoSS
-              }.json`;
-              a.download = filename;
-
-              document.body.appendChild(a);
-              a.click();
-
-              // Limpeza
-              setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-                this.notificationService.show(
-                  "Arquivo JSON gerado com sucesso!",
-                  "success"
-                );
-              }, 100);
-            })
-            .catch((error) => {
-              console.error("Erro:", error);
-              this.notificationService.show(
-                error.message || "Erro ao gerar JSON",
-                "error"
-              );
-            })
-            .finally(() => {
-              this.isLoading = false;
-            });
-        } catch (error) {
-          console.error("Erro:", error);
-          this.notificationService.show(
-            error.message || "Erro ao gerar JSON",
-            "error"
-          );
-          this.isLoading = false;
-        }
-      },
+        // Determinar nome do arquivo
+        const filename = `SS ${this.formData.numeroSS.padStart(3, "0")}-${this.formData.anoSS}.json`;
+        a.download = filename;
+        
+        document.body.appendChild(a);
+        a.click();
+        
+        // Limpeza
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+          this.notificationService.show("Arquivo JSON gerado com sucesso!", "success");
+        }, 100);
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+        this.notificationService.show(error.message || "Erro ao gerar JSON", "error");
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
+  } catch (error) {
+    console.error("Erro:", error);
+    this.notificationService.show(error.message || "Erro ao gerar JSON", "error");
+    this.isLoading = false;
+  }
+},
 
       enviarFormularioCompleto() {
         this.isLoading = true;

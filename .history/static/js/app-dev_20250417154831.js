@@ -327,6 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
         this.requisitoAtual.imagens.splice(index, 1);
       },
 
+      // Geração de documento
       // Método para geração de documento
       async gerarDocumento() {
         if (this.isLoading) return;
