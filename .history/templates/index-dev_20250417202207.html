@@ -199,11 +199,10 @@
                 <div class="w-1/6 flex flex-col justify-end pb-2">
                   <button
                     type="button"
-                    class="btn"
-                    :class="editIndexRNF !== -1 ? 'btn-update' : 'btn-primary'"
+                    class="btn btn-primary text-sm h-10 w-full"
                     @click="adicionarRequisitoNaoFuncional"
                   >
-                    {{ editIndexRNF !== -1 ? 'Atualizar' : 'Adicionar' }}
+                    Adicionar
                   </button>
                 </div>
               </div>
@@ -214,11 +213,11 @@
                   v-if="listaRequisitosNaoFuncionais.length > 0"
                   :items="listaRequisitosNaoFuncionais"
                   :columns="[
-                              { key: 'id', label: '#', width: 'w-1/12', align: 'text-center', type: 'text' },
-                              { key: 'titulo', label: 'Título', width: 'w-3/12', align: 'text-left', type: 'text' },
-                              { key: 'descricao', label: 'Descrição', width: 'w-5/12', align: 'text-left', type: 'text' },
-                              { key: 'actions', label: 'Ações', width: 'w-1/12', align: 'text-center', type: 'buttons', actions: { edit: true, delete: true } }
-                            ]"
+    { key: 'id', label: '#', width: 'w-1/12', align: 'text-center', type: 'text' },
+    { key: 'titulo', label: 'Título', width: 'w-3/12', align: 'text-left', type: 'text' },
+    { key: 'descricao', label: 'Descrição', width: 'w-5/12', align: 'text-left', type: 'text' },
+    { key: 'actions', label: 'Ações', width: 'w-1/12', align: 'text-center', type: 'buttons', actions: { edit: true, delete: true } }
+  ]"
                   :key-function="(requisito) => requisito.id"
                   :enable-truncation="true"
                   :draggable="true"

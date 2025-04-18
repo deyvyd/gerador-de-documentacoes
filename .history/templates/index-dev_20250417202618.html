@@ -203,7 +203,8 @@
                     :class="editIndexRNF !== -1 ? 'btn-update' : 'btn-primary'"
                     @click="adicionarRequisitoNaoFuncional"
                   >
-                    {{ editIndexRNF !== -1 ? 'Atualizar' : 'Adicionar' }}
+                    {% raw %}{{ editIndexRNF !== null ? 'Atualizar' :
+                    'Adicionar' }}{% endraw %}
                   </button>
                 </div>
               </div>
