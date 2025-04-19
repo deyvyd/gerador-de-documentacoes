@@ -11,7 +11,7 @@ from flask import request, send_file, jsonify
 from docx import Document
 
 # Importações dos módulos compartilhados
-from models.report_models import DocumentacaoTecnica
+from models.report_models import RelatorioAcompanhamentoProjeto
 from modules.utils import gerar_nome_arquivo, obter_paginas_pdf
 from modules.document_processor import (
     identificar_tipo_documento, 
@@ -26,7 +26,7 @@ from modules.document_processor import (
 # Configuração do logger
 logger = logging.getLogger(__name__)
 
-def gerar_documentos_tecnico():
+def gerar_relatorio_tecnico():
     """
     Função para gerar relatórios técnicos.
     """
@@ -130,7 +130,7 @@ def gerar_documentos_tecnico():
             logger.error(f"Erro ao gerar arquivo JSON: {str(e)}")
 
         # Cria instância do relatório com os dados fornecidos
-        documentacao = DocumentacaoTecnica(
+        relatorio = RelatorioAcompanhamentoProjeto(
             numero_ss=dados['numeroSS'],
             ano_ss=dados['anoSS'],
             iniciais_autor=dados['iniciaisAutor'],
@@ -158,7 +158,7 @@ def gerar_documentos_tecnico():
                 return {"error": f"Modelo não encontrado: {os.path.basename(modelo)}"}, 404
 
         # Obtém as substituições que serão feitas nos documentos
-        substituicoes = documentacao.get_substituicoes()
+        substituicoes = relatorio.get_substituicoes()
         
         # Processa cada modelo de documento
         for modelo_path in modelos:
@@ -303,6 +303,6 @@ def init_app_tec(app):
     Função para inicializar as rotas específicas de relatórios técnicos.
     """
     # Registra a rota para relatórios técnicos
-    @app.route('/gerar_documentos', methods=['POST'])
-    def gerar_documentos_route():
-        return gerar_documentos_tecnico()
+    @app.route('/gerar_relatorio', methods=['POST'])
+    def gerar_relatorio_route():
+        return gerar_relatorio_tecnico()

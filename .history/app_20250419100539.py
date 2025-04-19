@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 # Importar funções de módulos
-from models.report_models import DocumentacaoTecnica
+from models.report_models import RelatorioAcompanhamentoProjeto
 from modules.utils import gerar_nome_arquivo, obter_paginas_pdf, identificar_quebras_pagina
 from modules.document_processor import (
     identificar_tipo_documento, 

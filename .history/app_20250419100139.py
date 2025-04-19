@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 # Importar funções de módulos
-from models.report_models import DocumentacaoTecnica
+from models.report_models import RelatorioAcompanhamentoProjeto
 from modules.utils import gerar_nome_arquivo, obter_paginas_pdf, identificar_quebras_pagina
 from modules.document_processor import (
     identificar_tipo_documento, 
@@ -56,7 +56,7 @@ def favicon():
 
 # Rota original para manter compatibilidade
 @app.route('/gerar_documentos', methods=['POST'])
-def gerar_documentos():
+def gerar_relatorio():
     """
     Rota compatível com a versão original que detecta o tipo de requisição
     e encaminha para o módulo apropriado.

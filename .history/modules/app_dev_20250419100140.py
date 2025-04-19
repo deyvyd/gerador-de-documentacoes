@@ -11,7 +11,7 @@ from flask import request, send_file, jsonify
 from docx import Document
 
 # Importações dos módulos compartilhados
-from models.report_models import DocumentacaoTecnica
+from models.report_models import RelatorioAcompanhamentoProjeto
 from modules.utils import gerar_nome_arquivo, obter_paginas_pdf
 from modules.document_processor import (
     identificar_tipo_documento, 

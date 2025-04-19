@@ -11,7 +11,7 @@ from flask import request, send_file, jsonify
 from docx import Document
 
 # Importações dos módulos compartilhados
-from models.report_models import DocumentacaoTecnica
+from models.report_models import RelatorioAcompanhamentoProjeto
 from modules.utils import gerar_nome_arquivo, obter_paginas_pdf
 from modules.document_processor import (
     identificar_tipo_documento, 
@@ -130,7 +130,7 @@ def gerar_documentos_tecnico():
             logger.error(f"Erro ao gerar arquivo JSON: {str(e)}")
 
         # Cria instância do relatório com os dados fornecidos
-        documentacao = DocumentacaoTecnica(
+        relatorio = RelatorioAcompanhamentoProjeto(
             numero_ss=dados['numeroSS'],
             ano_ss=dados['anoSS'],
             iniciais_autor=dados['iniciaisAutor'],
@@ -158,7 +158,7 @@ def gerar_documentos_tecnico():
                 return {"error": f"Modelo não encontrado: {os.path.basename(modelo)}"}, 404
 
         # Obtém as substituições que serão feitas nos documentos
-        substituicoes = documentacao.get_substituicoes()
+        substituicoes = relatorio.get_substituicoes()
         
         # Processa cada modelo de documento
         for modelo_path in modelos:

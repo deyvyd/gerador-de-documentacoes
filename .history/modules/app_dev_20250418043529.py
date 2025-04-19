@@ -11,7 +11,7 @@ from flask import request, send_file, jsonify
 from docx import Document
 
 # Importações dos módulos compartilhados
-from models.report_models import DocumentacaoTecnica
+from models.report_models import RelatorioAcompanhamentoProjeto
 from modules.utils import gerar_nome_arquivo, obter_paginas_pdf
 from modules.document_processor import (
     identificar_tipo_documento, 
@@ -26,7 +26,7 @@ from modules.document_processor import (
 # Configuração do logger
 logger = logging.getLogger(__name__)
 
-def gerar_documentos_dev():
+def gerar_relatorio_dev():
     """
     Função para gerar relatórios de desenvolvimento.
     """
@@ -124,6 +124,6 @@ def init_app_dev(app):
     Função para inicializar as rotas específicas de relatórios de desenvolvimento.
     """
     # Registra a rota para relatórios de desenvolvimento
-    @app.route('/gerar_documentos_dev', methods=['POST'])
-    def gerar_documentos_dev_route():
-        return gerar_documentos_dev()
+    @app.route('/gerar_relatorio_dev', methods=['POST'])
+    def gerar_relatorio_dev_route():
+        return gerar_relatorio_dev()
