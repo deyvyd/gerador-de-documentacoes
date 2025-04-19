@@ -8,7 +8,6 @@ from docx import Document
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 import docx.opc.constants
-from modules.utils import identificar_quebras_pagina
 
 logger = logging.getLogger(__name__)
 
