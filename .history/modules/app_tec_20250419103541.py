@@ -304,5 +304,5 @@ def init_app_tec(app):
     """
     # Registra a rota para relatórios técnicos
     @app.route('/gerar_documentos', methods=['POST'])
-    def gerar_documentos_tec_route():
-        return gerar_documentos_tec()
+    def gerar_documentos_route():
+        return gerar_documentos_tecnico()

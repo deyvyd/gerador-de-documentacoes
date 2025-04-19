@@ -67,7 +67,7 @@ def gerar_documentos():
     if tipo_formulario == 'desenvolvimento':
         return gerar_documentos_dev()
     else:
-        return gerar_documentos_tec()
+        return gerar_documentos_tecnico()
 
 # Ponto de entrada principal
 if __name__ == '__main__':

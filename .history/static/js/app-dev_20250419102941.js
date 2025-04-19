@@ -473,128 +473,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Exibe mensagem de sucesso nas validações
         this.notificationService.show(
-          "Validação bem-sucedida! Gerando documentos...",
+          "Todos os campos obrigatórios foram preenchidos corretamente!",
           "success"
         );
 
-        // Chama a função para enviar o formulário completo
-        this.enviarFormularioCompleto();
-      },
-
-      // Método para enviar o formulário completo
-      enviarFormularioCompleto() {
-        this.isLoading = true;
-
-        try {
-          // Prepara o FormData para envio, especificando o tipo como desenvolvimento
-          const formData = this.prepareFormData(false, "desenvolvimento");
-
-          // Adiciona requisitos funcionais
-          formData.append("requisitos", JSON.stringify(this.requisitos));
-
-          // Adiciona requisitos não funcionais
-          formData.append(
-            "requisitosNaoFuncionais",
-            JSON.stringify(this.listaRequisitosNaoFuncionais)
-          );
-
-          // Adiciona total de pontos de função
-          formData.append(
-            "totalPontosFuncao",
-            this.totalPontosFuncao.toString()
-          );
-
-          // Notifica o usuário que estamos processando
-          this.notificationService.show("Gerando documentos...", "info");
-
-          // Envia a requisição
-          fetch("/gerar_documentos", {
-            method: "POST",
-            body: formData,
-          })
-            .then((response) => {
-              if (!response.ok) {
-                return response.json().then((data) => {
-                  throw new Error(data.error || "Erro ao gerar documento");
-                });
-              }
-
-              // Verifica o tipo de conteúdo da resposta
-              const contentType = response.headers.get("Content-Type");
-              if (contentType && contentType.includes("application/zip")) {
-                return response.blob().then((blob) => {
-                  // Criar URL do blob e link para download
-                  const url = window.URL.createObjectURL(blob);
-                  const a = document.createElement("a");
-                  a.style.display = "none";
-                  a.href = url;
-
-                  // Extrair nome do arquivo
-                  const contentDisposition = response.headers.get(
-                    "Content-Disposition"
-                  );
-                  let filename = "documentos.zip";
-                  if (contentDisposition) {
-                    const filenameMatch =
-                      contentDisposition.match(/filename="(.+)"/);
-                    if (filenameMatch && filenameMatch[1]) {
-                      filename = filenameMatch[1];
-                    }
-                  }
-
-                  a.download = filename;
-                  document.body.appendChild(a);
-
-                  // Usar setTimeout para garantir que o download será iniciado
-                  setTimeout(() => {
-                    a.click();
-                    // Remover depois de um momento para liberar recursos
-                    setTimeout(() => {
-                      window.URL.revokeObjectURL(url);
-                      document.body.removeChild(a);
-                    }, 200);
-                  }, 100);
-
-                  // Exibir mensagem de sucesso
-                  this.notificationService.show(
-                    "Documento gerado com sucesso!",
-                    "success"
-                  );
-                  return { success: true };
-                });
-              } else {
-                // Se não for um ZIP, tenta processar como JSON
-                return response.json();
-              }
-            })
-            .then((data) => {
-              if (data && data.success === true) {
-                // Já exibimos a mensagem de sucesso ao processar o blob
-                return;
-              }
-
-              if (data && data.message) {
-                this.notificationService.show(data.message, "success");
-              }
-            })
-            .catch((error) => {
-              console.error("Erro:", error);
-              this.notificationService.show(
-                error.message || "Erro ao gerar documento",
-                "error"
-              );
-            })
-            .finally(() => {
-              this.isLoading = false;
-            });
-        } catch (error) {
-          console.error("Erro:", error);
-          this.notificationService.show(
-            error.message || "Erro ao gerar documento",
-            "error"
-          );
-          this.isLoading = false;
-        }
+        // Por hora, gera apenas o JSON e realiza o download
+        this.enviarFormularioParaJSON();
       },
 
       // Método para enviar o formulário apenas como JSON
@@ -623,7 +507,7 @@ document.addEventListener("DOMContentLoaded", function () {
           this.notificationService.show("Gerando JSON...", "info");
 
           // Enviar requisição simplificada para o backend
-          fetch("/gerar_documentos", {
+          fetch("/gerar_documentos_dev", {
             method: "POST",
             body: formData,
           })
@@ -700,7 +584,7 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("totalPontosFuncao", this.totalPontosFuncao.toString());
 
         // Enviar requisição para o backend
-        fetch("/gerar_documentos", {
+        fetch("/gerar_documentos_dev", {
           method: "POST",
           body: formData,
         })

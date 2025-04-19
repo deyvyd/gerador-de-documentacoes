@@ -550,6 +550,6 @@ def init_app_dev(app):
     Função para inicializar as rotas específicas de relatórios de desenvolvimento.
     """
     # Registra a rota para relatórios de desenvolvimento
-    @app.route('/gerar_documentos', methods=['POST'])
+    @app.route('/gerar_documentos_dev', methods=['POST'])
     def gerar_documentos_dev_route():
         return gerar_documentos_dev()
