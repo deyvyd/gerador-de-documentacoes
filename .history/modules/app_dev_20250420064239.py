@@ -67,6 +67,7 @@ def gerar_documentos_dev():
 
                 # Se o total de pontos de função for maior que zero, incluir campos adicionais
                 if float(total_pontos_funcao) > 0:
+                    from datetime import datetime
                     dados_json = {
                         'tipo': tipo_formulario,
                         'info': {
@@ -132,6 +133,7 @@ def gerar_documentos_dev():
 
             # Se o total de pontos de função for maior que zero, incluir campos adicionais
             if float(total_pontos_funcao) > 0:
+                from datetime import datetime
                 dados_json = {
                     'tipo': tipo_formulario,
                     'info': {
@@ -187,6 +189,9 @@ def gerar_documentos_dev():
             
         except Exception as e:
             logger.error(f"Erro ao gerar arquivo JSON: {str(e)}")
+
+        # Cria instância da documentação com os dados fornecidos
+        from datetime import datetime, date
         
         class DocumentacaoDesenvolvimento(DocumentacaoTecnica):
             """Extensão da classe DocumentacaoTecnica com campos específicos de desenvolvimento"""
@@ -244,11 +249,11 @@ def gerar_documentos_dev():
             data_inicio=dados['dataInicio'],
             data_fim=dados['dataFim'],
             link_board=dados['linkBoard'],
+            data_atual_modificacao=dados.get('dataModificacao'),
+            iniciais_autor_modificacao=dados.get('iniciaisAutorModificacao'),
             requisitos=requisitos,
             requisitos_nao_funcionais=requisitos_nao_funcionais,
-            total_pontos_funcao=total_pontos_funcao,
-            data_modificacao=dados.get('dataModificacao'),
-            iniciais_autor_modificacao=dados.get('iniciaisAutorModificacao')
+            total_pontos_funcao=total_pontos_funcao
         )
 
         # Define o caminho dos modelos de documento

@@ -187,6 +187,9 @@ def gerar_documentos_dev():
             
         except Exception as e:
             logger.error(f"Erro ao gerar arquivo JSON: {str(e)}")
+
+        # Cria instância da documentação com os dados fornecidos
+        from datetime import datetime, date
         
         class DocumentacaoDesenvolvimento(DocumentacaoTecnica):
             """Extensão da classe DocumentacaoTecnica com campos específicos de desenvolvimento"""
