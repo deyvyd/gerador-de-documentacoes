@@ -86,6 +86,7 @@ def gerar_documentos_dev():
                             'dataModificacao': data_atual,
                             'iniciaisAutorCriacao': iniciais_autor_criacao,
                             'iniciaisAutorModificacao': dados['iniciaisAutor'],
+                            'totalPontosFuncao': total_pontos_funcao
                         },
                         'requisitos': requisitos,
                         'requisitosNaoFuncionais': requisitos_nao_funcionais,
@@ -105,7 +106,7 @@ def gerar_documentos_dev():
                             'dataFim': dados['dataFim'],
                             'linkBoard': dados['linkBoard'],
                             'dataCriacao': data_atual,
-                            'iniciaisAutorCriacao': dados['iniciaisAutor'],
+                            'iniciaisAutorCriacao': dados['iniciaisAutor']
                         },
                         'requisitos': requisitos,
                         'requisitosNaoFuncionais': requisitos_nao_funcionais,
@@ -139,8 +140,6 @@ def gerar_documentos_dev():
             # Se o total de pontos de função for maior que zero, incluir campos adicionais
             if float(total_pontos_funcao) > 0:
                 from datetime import datetime
-                data_atual = datetime.now().strftime('%d/%m/%Y')
-                iniciais_autor_criacao = dados.get('iniciaisAutorCriacao') or dados.get('iniciaisAutor')
                 dados_json = {
                     'tipo': tipo_formulario,
                     'info': {
@@ -151,17 +150,17 @@ def gerar_documentos_dev():
                         'dataInicio': dados['dataInicio'],
                         'dataFim': dados['dataFim'],
                         'linkBoard': dados['linkBoard'],
-                        'dataCriacao': dados.get('dataCriacao', ''),
-                        'dataMoficacao': data_atual,
-                        'iniciaisAutorCriacao': iniciais_autor_criacao,
-                        'iniciaisAutorModificacao': dados['iniciaisAutor'],
+                        'iniciaisAutor': dados['iniciaisAutor'],
+                        'dataCriacao': datetime.now().strftime('%d/%m/%Y'),
+                        'dataMoficacao': datetime.now().strftime('%d/%m/%Y'),
+                        'iniciaisAutor2': dados['iniciaisAutor'],
+                        'totalPontosFuncao': total_pontos_funcao
                     },
                     'requisitos': requisitos,
                     'requisitosNaoFuncionais': requisitos_nao_funcionais,
                     'totalPontosFuncao': total_pontos_funcao
                 }
             else:
-                from datetime import datetime
                 dados_json = {
                     'tipo': tipo_formulario,
                     'info': {
@@ -172,8 +171,8 @@ def gerar_documentos_dev():
                         'dataInicio': dados['dataInicio'],
                         'dataFim': dados['dataFim'],
                         'linkBoard': dados['linkBoard'],
-                        'iniciaisAutorCriacao': dados['iniciaisAutor'],
-                        'dataCriacao': datetime.now().strftime('%d/%m/%Y'),
+                        'iniciaisAutor': dados['iniciaisAutor'],
+                        'dataCriacao': datetime.now().strftime('%d/%m/%Y')
                     },
                     'requisitos': requisitos,
                     'requisitosNaoFuncionais': requisitos_nao_funcionais,

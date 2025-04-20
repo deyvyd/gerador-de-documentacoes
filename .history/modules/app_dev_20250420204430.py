@@ -86,6 +86,7 @@ def gerar_documentos_dev():
                             'dataModificacao': data_atual,
                             'iniciaisAutorCriacao': iniciais_autor_criacao,
                             'iniciaisAutorModificacao': dados['iniciaisAutor'],
+                            'totalPontosFuncao': total_pontos_funcao
                         },
                         'requisitos': requisitos,
                         'requisitosNaoFuncionais': requisitos_nao_funcionais,
@@ -105,7 +106,7 @@ def gerar_documentos_dev():
                             'dataFim': dados['dataFim'],
                             'linkBoard': dados['linkBoard'],
                             'dataCriacao': data_atual,
-                            'iniciaisAutorCriacao': dados['iniciaisAutor'],
+                            'iniciaisAutorCriacao': dados['iniciaisAutor']
                         },
                         'requisitos': requisitos,
                         'requisitosNaoFuncionais': requisitos_nao_funcionais,
@@ -155,6 +156,7 @@ def gerar_documentos_dev():
                         'dataMoficacao': data_atual,
                         'iniciaisAutorCriacao': iniciais_autor_criacao,
                         'iniciaisAutorModificacao': dados['iniciaisAutor'],
+                        'totalPontosFuncao': total_pontos_funcao
                     },
                     'requisitos': requisitos,
                     'requisitosNaoFuncionais': requisitos_nao_funcionais,
@@ -172,8 +174,8 @@ def gerar_documentos_dev():
                         'dataInicio': dados['dataInicio'],
                         'dataFim': dados['dataFim'],
                         'linkBoard': dados['linkBoard'],
-                        'iniciaisAutorCriacao': dados['iniciaisAutor'],
-                        'dataCriacao': datetime.now().strftime('%d/%m/%Y'),
+                        'iniciaisAutor': dados['iniciaisAutor'],
+                        'dataCriacao': datetime.now().strftime('%d/%m/%Y')
                     },
                     'requisitos': requisitos,
                     'requisitosNaoFuncionais': requisitos_nao_funcionais,
