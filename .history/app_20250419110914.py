@@ -54,12 +54,15 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                              'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+# Rota original para manter compatibilidade
 @app.route('/gerar_documentos', methods=['POST'])
 def gerar_documentos():
     """
     Rota compatível com a versão original que detecta o tipo de requisição
     e encaminha para o módulo apropriado.
     """
+
+    print("Iniciando geração de documentos")
 
     # Verificar o tipo de formulário
     tipo_formulario = request.form.get('tipo', 'tecnica')

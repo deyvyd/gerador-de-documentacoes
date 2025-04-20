@@ -32,10 +32,6 @@ def gerar_documentos_dev():
     Função para gerar relatórios de desenvolvimento.
     """
     logger.info("Iniciando geração de relatórios de desenvolvimento")
-
-    # Verificar valor do tipo recebido
-    tipo_formulario = request.form.get('tipo', 'não especificado')
-    logger.info(f"Tipo de formulário recebido: {tipo_formulario}")
     
     # Listas para controle de arquivos temporários e arquivos de saída
     temp_files = []    # Arquivos temporários que serão deletados ao final
@@ -197,10 +193,7 @@ def gerar_documentos_dev():
         
         # Verifica se todos os modelos existem
         for modelo in modelos:
-            if os.path.exists(modelo):
-                logger.info(f"Modelo encontrado: {modelo}")
-            else:
-                logger.error(f"Modelo não encontrado: {modelo}")
+            if not os.path.exists(modelo):
                 return {"error": f"Modelo não encontrado: {os.path.basename(modelo)}"}, 404
 
         # Obtém as substituições que serão feitas nos documentos
@@ -557,6 +550,6 @@ def init_app_dev(app):
     Função para inicializar as rotas específicas de relatórios de desenvolvimento.
     """
     # Registra a rota para relatórios de desenvolvimento
-    @app.route('/gerar_documentos', methods=['POST'])
+    @app.route('/gerar_documentos_dev', methods=['POST'])
     def gerar_documentos_dev_route():
         return gerar_documentos_dev()

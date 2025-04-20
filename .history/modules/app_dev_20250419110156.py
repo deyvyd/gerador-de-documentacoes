@@ -32,10 +32,6 @@ def gerar_documentos_dev():
     Função para gerar relatórios de desenvolvimento.
     """
     logger.info("Iniciando geração de relatórios de desenvolvimento")
-
-    # Verificar valor do tipo recebido
-    tipo_formulario = request.form.get('tipo', 'não especificado')
-    logger.info(f"Tipo de formulário recebido: {tipo_formulario}")
     
     # Listas para controle de arquivos temporários e arquivos de saída
     temp_files = []    # Arquivos temporários que serão deletados ao final
@@ -557,6 +553,6 @@ def init_app_dev(app):
     Função para inicializar as rotas específicas de relatórios de desenvolvimento.
     """
     # Registra a rota para relatórios de desenvolvimento
-    @app.route('/gerar_documentos', methods=['POST'])
+    @app.route('/gerar_documentos_dev', methods=['POST'])
     def gerar_documentos_dev_route():
         return gerar_documentos_dev()

@@ -2355,10 +2355,6 @@ video {
   display: none;
 }
 
-.h-10{
-  height: 2.5rem;
-}
-
 .h-5{
   height: 1.25rem;
 }
@@ -2395,12 +2391,12 @@ video {
   width: 50%;
 }
 
-.w-4\/12{
-  width: 33.333333%;
-}
-
 .w-5{
   width: 1.25rem;
+}
+
+.w-5\/12{
+  width: 41.666667%;
 }
 
 .w-6{
@@ -2409,10 +2405,6 @@ video {
 
 .w-64{
   width: 16rem;
-}
-
-.w-7\/12{
-  width: 58.333333%;
 }
 
 .w-8{
