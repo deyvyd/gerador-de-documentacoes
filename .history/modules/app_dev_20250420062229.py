@@ -207,10 +207,6 @@ def gerar_documentos_dev():
                 self.requisitos = requisitos or []
                 self.requisitos_nao_funcionais = requisitos_nao_funcionais or []
                 self.total_pontos_funcao = float(total_pontos_funcao)
-
-                # Campos adicionais
-                self.data_modificacao = data_modificacao
-                self.iniciais_autor_modificacao = iniciais_autor_modificacao
                 
             def get_substituicoes(self):
                 """Retorna o dicionário de substituições para o documento"""
@@ -222,14 +218,14 @@ def gerar_documentos_dev():
                 # 1. O total de pontos de função é maior que zero (preenchido agora)
                 # 2. Esses valores foram carregados do JSON importado
                 
-                if hasattr(self, 'data_modificacao') and self.data_modificacao:
-                    substituicoes['[DATA_ATUAL2]'] = self.data_modificacao
+                if hasattr(self, 'data_atual2') and self.data_atual2:
+                    substituicoes['[DATA_ATUAL2]'] = self.data_atual2
                 elif self.total_pontos_funcao > 0:
                     from datetime import datetime
                     substituicoes['[DATA_ATUAL2]'] = datetime.now().strftime('%d/%m/%Y')
                 
-                if hasattr(self, 'iniciais_autor_modificacao') and self.iniciais_autor_modificacao:
-                    substituicoes['[INICIAIS_AUTOR2]'] = self.iniciais_autor_modificacao
+                if hasattr(self, 'iniciais_autor2') and self.iniciais_autor2:
+                    substituicoes['[INICIAIS_AUTOR2]'] = self.iniciais_autor2
                 elif self.total_pontos_funcao > 0:
                     substituicoes['[INICIAIS_AUTOR2]'] = substituicoes['[INICIAIS_AUTOR]']
                 
@@ -248,8 +244,6 @@ def gerar_documentos_dev():
             data_inicio=dados['dataInicio'],
             data_fim=dados['dataFim'],
             link_board=dados['linkBoard'],
-            data_atual_modificacao=dados.get('dataModificacao'),
-            iniciais_autor_modificacao=dados.get('iniciaisAutorModificacao'),
             requisitos=requisitos,
             requisitos_nao_funcionais=requisitos_nao_funcionais,
             total_pontos_funcao=total_pontos_funcao

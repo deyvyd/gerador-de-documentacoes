@@ -64,48 +64,22 @@ def gerar_documentos_dev():
         if apenas_json:
             try:
                 # Criamos um dicionário com os dados disponíveis
-
-                # Se o total de pontos de função for maior que zero, incluir campos adicionais
-                if float(total_pontos_funcao) > 0:
-                    from datetime import datetime
-                    dados_json = {
-                        'tipo': tipo_formulario,
-                        'info': {
-                            'numeroSS': dados['numeroSS'],
-                            'anoSS': dados['anoSS'], 
-                            'tituloSS': dados['tituloSS'],
-                            'descricao': dados['descricao'],
-                            'dataInicio': dados['dataInicio'],
-                            'dataFim': dados['dataFim'],
-                            'linkBoard': dados['linkBoard'],
-                            'iniciaisAutorCriacao': dados['iniciaisAutor'],
-                            'iniciaisAutorModificacao': dados['iniciaisAutor'],
-                            'dataCriacao': datetime.now().strftime('%d/%m/%Y'),
-                            'dataMoficacao': datetime.now().strftime('%d/%m/%Y'),
-                            'totalPontosFuncao': total_pontos_funcao
-                        },
-                        'requisitos': requisitos,
-                        'requisitosNaoFuncionais': requisitos_nao_funcionais,
-                        'totalPontosFuncao': total_pontos_funcao
-                    }
-                else:
-                    dados_json = {
-                        'tipo': tipo_formulario,
-                        'info': {
-                            'numeroSS': dados['numeroSS'],
-                            'anoSS': dados['anoSS'], 
-                            'tituloSS': dados['tituloSS'],
-                            'descricao': dados['descricao'],
-                            'dataInicio': dados['dataInicio'],
-                            'dataFim': dados['dataFim'],
-                            'linkBoard': dados['linkBoard'],
-                            'iniciaisAutorCriacao': dados['iniciaisAutor'],
-                            'dataCriacao': datetime.now().strftime('%d/%m/%Y')
-                        },
-                        'requisitos': requisitos,
-                        'requisitosNaoFuncionais': requisitos_nao_funcionais,
-                        'totalPontosFuncao': total_pontos_funcao
-                    }
+                dados_json = {
+                    'tipo': tipo_formulario,
+                    'info': {
+                        'numeroSS': dados['numeroSS'],
+                        'anoSS': dados['anoSS'], 
+                        'tituloSS': dados['tituloSS'],
+                        'descricao': dados['descricao'],
+                        'dataInicio': dados['dataInicio'],
+                        'dataFim': dados['dataFim'],
+                        'linkBoard': dados['linkBoard'],
+                        'iniciaisAutor': dados['iniciaisAutor']
+                    },
+                    'requisitos': requisitos,
+                    'requisitosNaoFuncionais': requisitos_nao_funcionais,
+                    'totalPontosFuncao': total_pontos_funcao
+                }
                 
                 # Caminho e nome do arquivo JSON
                 json_filename = f"SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json"
@@ -130,48 +104,22 @@ def gerar_documentos_dev():
         json_path = None
         try:
             # Criamos um dicionário com todos os dados
-
-            # Se o total de pontos de função for maior que zero, incluir campos adicionais
-            if float(total_pontos_funcao) > 0:
-                from datetime import datetime
-                dados_json = {
-                    'tipo': tipo_formulario,
-                    'info': {
-                        'numeroSS': dados['numeroSS'],
-                        'anoSS': dados['anoSS'], 
-                        'tituloSS': dados['tituloSS'],
-                        'descricao': dados['descricao'],
-                        'dataInicio': dados['dataInicio'],
-                        'dataFim': dados['dataFim'],
-                        'linkBoard': dados['linkBoard'],
-                        'iniciaisAutor': dados['iniciaisAutor'],
-                        'dataCriacao': datetime.now().strftime('%d/%m/%Y'),
-                        'dataMoficacao': datetime.now().strftime('%d/%m/%Y'),
-                        'iniciaisAutor2': dados['iniciaisAutor'],
-                        'totalPontosFuncao': total_pontos_funcao
-                    },
-                    'requisitos': requisitos,
-                    'requisitosNaoFuncionais': requisitos_nao_funcionais,
-                    'totalPontosFuncao': total_pontos_funcao
-                }
-            else:
-                dados_json = {
-                    'tipo': tipo_formulario,
-                    'info': {
-                        'numeroSS': dados['numeroSS'],
-                        'anoSS': dados['anoSS'], 
-                        'tituloSS': dados['tituloSS'],
-                        'descricao': dados['descricao'],
-                        'dataInicio': dados['dataInicio'],
-                        'dataFim': dados['dataFim'],
-                        'linkBoard': dados['linkBoard'],
-                        'iniciaisAutor': dados['iniciaisAutor'],
-                        'dataCriacao': datetime.now().strftime('%d/%m/%Y')
-                    },
-                    'requisitos': requisitos,
-                    'requisitosNaoFuncionais': requisitos_nao_funcionais,
-                    'totalPontosFuncao': total_pontos_funcao
-                }
+            dados_json = {
+                'tipo': tipo_formulario,
+                'info': {
+                    'numeroSS': dados['numeroSS'],
+                    'anoSS': dados['anoSS'], 
+                    'tituloSS': dados['tituloSS'],
+                    'descricao': dados['descricao'],
+                    'dataInicio': dados['dataInicio'],
+                    'dataFim': dados['dataFim'],
+                    'linkBoard': dados['linkBoard'],
+                    'iniciaisAutor': dados['iniciaisAutor']
+                },
+                'requisitos': requisitos,
+                'requisitosNaoFuncionais': requisitos_nao_funcionais,
+                'totalPontosFuncao': total_pontos_funcao
+            }
             
             # Caminho do arquivo JSON
             json_path = os.path.join(tempfile.gettempdir(), f"SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json")
@@ -207,30 +155,20 @@ def gerar_documentos_dev():
                 self.requisitos = requisitos or []
                 self.requisitos_nao_funcionais = requisitos_nao_funcionais or []
                 self.total_pontos_funcao = float(total_pontos_funcao)
-
-                # Campos adicionais
-                self.data_modificacao = data_modificacao
-                self.iniciais_autor_modificacao = iniciais_autor_modificacao
                 
             def get_substituicoes(self):
                 """Retorna o dicionário de substituições para o documento"""
                 # Obtém as substituições básicas da classe pai
                 substituicoes = super().get_substituicoes()
                 
-                # Verifica se temos valores para DATA_ATUAL2 e INICIAIS_AUTOR2
-                # Podemos ter esses valores por dois motivos:
-                # 1. O total de pontos de função é maior que zero (preenchido agora)
-                # 2. Esses valores foram carregados do JSON importado
+                # Adiciona a data atual formatada para o segundo caso
+                # e as iniciais do autor apenas se houver pontos de função
+                data_atual = datetime.now().strftime('%d/%m/%Y')
                 
-                if hasattr(self, 'data_modificacao') and self.data_modificacao:
-                    substituicoes['[DATA_ATUAL2]'] = self.data_modificacao
-                elif self.total_pontos_funcao > 0:
-                    from datetime import datetime
-                    substituicoes['[DATA_ATUAL2]'] = datetime.now().strftime('%d/%m/%Y')
-                
-                if hasattr(self, 'iniciais_autor_modificacao') and self.iniciais_autor_modificacao:
-                    substituicoes['[INICIAIS_AUTOR2]'] = self.iniciais_autor_modificacao
-                elif self.total_pontos_funcao > 0:
+                # Verifica se o total de pontos de função foi preenchido manualmente
+                # (consideramos qualquer valor maior que zero como preenchido)
+                if self.total_pontos_funcao > 0:
+                    substituicoes['[DATA_ATUAL2]'] = data_atual
                     substituicoes['[INICIAIS_AUTOR2]'] = substituicoes['[INICIAIS_AUTOR]']
                 
                 # Adiciona o número de pontos de função formatado
@@ -248,8 +186,6 @@ def gerar_documentos_dev():
             data_inicio=dados['dataInicio'],
             data_fim=dados['dataFim'],
             link_board=dados['linkBoard'],
-            data_atual_modificacao=dados.get('dataModificacao'),
-            iniciais_autor_modificacao=dados.get('iniciaisAutorModificacao'),
             requisitos=requisitos,
             requisitos_nao_funcionais=requisitos_nao_funcionais,
             total_pontos_funcao=total_pontos_funcao
