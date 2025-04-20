@@ -70,8 +70,6 @@ def gerar_documentos_dev():
                 if float(total_pontos_funcao) > 0:
                     from datetime import datetime
                     data_atual = datetime.now().strftime('%d/%m/%Y')
-                    # Garantir que temos iniciaisAutorCriacao
-                    iniciais_autor_criacao = dados.get('iniciaisAutorCriacao') or dados.get('iniciaisAutor')
                     dados_json = {
                         'tipo': tipo_formulario,
                         'info': {
@@ -84,7 +82,7 @@ def gerar_documentos_dev():
                             'linkBoard': dados['linkBoard'],
                             'dataCriacao': dados.get('dataCriacao', ''),
                             'dataModificacao': data_atual,
-                            'iniciaisAutorCriacao': iniciais_autor_criacao,
+                            'iniciaisAutorCriacao': dados.get('iniciaisAutorCriacao', ''),
                             'iniciaisAutorModificacao': dados['iniciaisAutor'],
                             'totalPontosFuncao': total_pontos_funcao
                         },

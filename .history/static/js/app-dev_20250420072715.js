@@ -493,25 +493,6 @@ document.addEventListener("DOMContentLoaded", function () {
           // Prepara o FormData para envio, especificando o tipo como desenvolvimento
           const formData = this.prepareFormData(false, "desenvolvimento");
 
-          if (this.dataCriacao) {
-            formData.append("dataCriacao", this.dataCriacao);
-          }
-
-          if (this.iniciaisAutorCriacao) {
-            formData.append("iniciaisAutorCriacao", this.iniciaisAutorCriacao);
-          }
-
-          if (this.dataModificacao) {
-            formData.append("dataModificacao", this.dataModificacao);
-          }
-
-          if (this.iniciaisAutorModificacao) {
-            formData.append(
-              "iniciaisAutorModificacao",
-              this.iniciaisAutorModificacao
-            );
-          }
-
           // Adiciona requisitos funcionais
           formData.append("requisitos", JSON.stringify(this.requisitos));
 

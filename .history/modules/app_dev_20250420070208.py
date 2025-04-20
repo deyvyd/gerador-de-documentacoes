@@ -68,10 +68,6 @@ def gerar_documentos_dev():
 
                 # Se o total de pontos de função for maior que zero, incluir campos adicionais
                 if float(total_pontos_funcao) > 0:
-                    from datetime import datetime
-                    data_atual = datetime.now().strftime('%d/%m/%Y')
-                    # Garantir que temos iniciaisAutorCriacao
-                    iniciais_autor_criacao = dados.get('iniciaisAutorCriacao') or dados.get('iniciaisAutor')
                     dados_json = {
                         'tipo': tipo_formulario,
                         'info': {
@@ -82,10 +78,10 @@ def gerar_documentos_dev():
                             'dataInicio': dados['dataInicio'],
                             'dataFim': dados['dataFim'],
                             'linkBoard': dados['linkBoard'],
-                            'dataCriacao': dados.get('dataCriacao', ''),
-                            'dataModificacao': data_atual,
-                            'iniciaisAutorCriacao': iniciais_autor_criacao,
+                            'iniciaisAutorCriacao': dados['iniciaisAutor'],
                             'iniciaisAutorModificacao': dados['iniciaisAutor'],
+                            'dataCriacao': datetime.now().strftime('%d/%m/%Y'),
+                            'dataMoficacao': datetime.now().strftime('%d/%m/%Y'),
                             'totalPontosFuncao': total_pontos_funcao
                         },
                         'requisitos': requisitos,
@@ -93,8 +89,6 @@ def gerar_documentos_dev():
                         'totalPontosFuncao': total_pontos_funcao
                     }
                 else:
-                    from datetime import datetime
-                    data_atual = datetime.now().strftime('%d/%m/%Y')
                     dados_json = {
                         'tipo': tipo_formulario,
                         'info': {
@@ -105,8 +99,8 @@ def gerar_documentos_dev():
                             'dataInicio': dados['dataInicio'],
                             'dataFim': dados['dataFim'],
                             'linkBoard': dados['linkBoard'],
-                            'dataCriacao': data_atual,
-                            'iniciaisAutorCriacao': dados['iniciaisAutor']
+                            'iniciaisAutorCriacao': dados['iniciaisAutor'],
+                            'dataCriacao': datetime.now().strftime('%d/%m/%Y')
                         },
                         'requisitos': requisitos,
                         'requisitosNaoFuncionais': requisitos_nao_funcionais,
@@ -232,27 +226,23 @@ def gerar_documentos_dev():
                     substituicoes['[DATA_CRIACAO]'] = self.data_criacao
                 elif self.total_pontos_funcao == 0:
                     substituicoes['[DATA_CRIACAO]'] = data_atual
-                        
+                    
                 if hasattr(self, 'iniciais_autor_criacao') and self.iniciais_autor_criacao:
                     substituicoes['[INICIAIS_AUTOR_CRIACAO]'] = self.iniciais_autor_criacao
                 elif self.total_pontos_funcao == 0:
                     substituicoes['[INICIAIS_AUTOR_CRIACAO]'] = substituicoes['[INICIAIS_AUTOR]']
-                        
+                    
                 # Lógica para DATA_MODIFICACAO e INICIAIS_AUTOR_MODIFICACAO
-                # Sempre substituir, mesmo que seja com texto vazio
+                # Usados quando pontos de função é maior que zero ou quando foram carregados do JSON
                 if hasattr(self, 'data_modificacao') and self.data_modificacao:
                     substituicoes['[DATA_MODIFICACAO]'] = self.data_modificacao
                 elif self.total_pontos_funcao > 0:
                     substituicoes['[DATA_MODIFICACAO]'] = data_atual
-                else:
-                    substituicoes['[DATA_MODIFICACAO]'] = ""  # Texto vazio quando não definido
-                        
+                    
                 if hasattr(self, 'iniciais_autor_modificacao') and self.iniciais_autor_modificacao:
                     substituicoes['[INICIAIS_AUTOR_MODIFICACAO]'] = self.iniciais_autor_modificacao
                 elif self.total_pontos_funcao > 0:
                     substituicoes['[INICIAIS_AUTOR_MODIFICACAO]'] = substituicoes['[INICIAIS_AUTOR]']
-                else:
-                    substituicoes['[INICIAIS_AUTOR_MODIFICACAO]'] = ""  # Texto vazio quando não definido
                 
                 # Adiciona o número de pontos de função formatado
                 substituicoes['[N_PF]'] = f"{self.total_pontos_funcao:.2f}".replace('.', ',')
@@ -272,9 +262,7 @@ def gerar_documentos_dev():
             requisitos=requisitos,
             requisitos_nao_funcionais=requisitos_nao_funcionais,
             total_pontos_funcao=total_pontos_funcao,
-            data_criacao=dados.get('dataCriacao'),
             data_modificacao=dados.get('dataModificacao'),
-            iniciais_autor_criacao=dados.get('iniciaisAutorCriacao'),
             iniciais_autor_modificacao=dados.get('iniciaisAutorModificacao')
         )
 

@@ -133,25 +133,8 @@ window.AppBase = (function () {
           tipoAplicacao = "desenvolvimento";
         }
 
-        if (tipoJSON === "desenvolvimento") {
-          // Escolher a fonte correta para preencher os autores
-          let iniciaisAutorParaProcessar = null;
-
-          // Prioridade: modificação > criação > padrão
-          if (data.info.iniciaisAutorModificacao) {
-            iniciaisAutorParaProcessar = data.info.iniciaisAutorModificacao;
-          } else if (data.info.iniciaisAutorCriacao) {
-            iniciaisAutorParaProcessar = data.info.iniciaisAutorCriacao;
-          } else if (data.info.iniciaisAutor) {
-            iniciaisAutorParaProcessar = data.info.iniciaisAutor;
-          }
-
-          // Se encontramos algum valor para usar
-          if (iniciaisAutorParaProcessar) {
-            this.processarAutoresFromIniciais(iniciaisAutorParaProcessar);
-          }
-
-          // Guardar os valores originais para uso posterior
+        if (tipoJSON === "desenvolvimento" && data.info) {
+          // Preservar os dados de criação do projeto
           if (data.info.dataCriacao) {
             this.dataCriacao = data.info.dataCriacao;
           }
@@ -160,17 +143,13 @@ window.AppBase = (function () {
             this.iniciaisAutorCriacao = data.info.iniciaisAutorCriacao;
           }
 
+          // Preservar ou atualizar os dados de modificação
           if (data.info.dataModificacao) {
             this.dataModificacao = data.info.dataModificacao;
           }
 
           if (data.info.iniciaisAutorModificacao) {
             this.iniciaisAutorModificacao = data.info.iniciaisAutorModificacao;
-          }
-        } else {
-          // Para documentos técnicos, usar o comportamento original
-          if (data.info.iniciaisAutor) {
-            this.processarAutoresFromIniciais(data.info.iniciaisAutor);
           }
         }
 
@@ -671,26 +650,6 @@ window.AppBase = (function () {
       formData.append("dataInicio", this.formData.dataInicio);
       formData.append("dataFim", this.formData.dataFim);
       formData.append("linkBoard", this.formData.linkBoard);
-
-      // Adicionar campos de criação e modificação, se existirem
-      if (this.dataCriacao) {
-        formData.append("dataCriacao", this.dataCriacao);
-      }
-
-      if (this.iniciaisAutorCriacao) {
-        formData.append("iniciaisAutorCriacao", this.iniciaisAutorCriacao);
-      }
-
-      if (this.dataModificacao) {
-        formData.append("dataModificacao", this.dataModificacao);
-      }
-
-      if (this.iniciaisAutorModificacao) {
-        formData.append(
-          "iniciaisAutorModificacao",
-          this.iniciaisAutorModificacao
-        );
-      }
 
       return formData;
     },
