@@ -335,10 +335,7 @@ def gerar_documentos_dev():
                     processar_documento(doc, tipo_documento, substituicoes)
                     
                     # Processa os requisitos funcionais
-                    if tipo_documento == 'estrategia':
-                        processar_requisitos_funcionais_estrategia(doc, documentacao.requisitos)
-                    else:
-                        processar_requisitos_funcionais(doc, documentacao.requisitos)
+                    processar_requisitos_funcionais(doc, documentacao.requisitos)
                     
                     # Processa os requisitos não funcionais
                     processar_requisitos_nao_funcionais(doc, documentacao.requisitos_nao_funcionais)

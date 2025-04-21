@@ -24,9 +24,6 @@ from .summary_handlers import (
     obter_titulos_sumario,
     atualizar_sumario_com_python_docx
 )
-
-from modules.document_processor.f_requirements_handlers import processar_requisitos_funcionais_estrategia
-
 from .hyperlink_handlers import criar_hyperlink, criar_hyperlink_marcador
 from .conversion import gerar_pdf_do_docx
 from .utils import identificar_quebras_pagina
