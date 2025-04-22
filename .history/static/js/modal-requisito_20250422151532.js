@@ -60,7 +60,7 @@ const RichTextEditor = {
       // Configuração dos módulos e opções do Quill
       const toolbarOptions = [
         ["bold", "italic", "underline"], // botões para formatação de texto
-        [{ color: [] }], // cor da fonte
+        [{ color: [] }], // cores de fonte
         ["code"], // código
         [{ list: "ordered" }, { list: "bullet" }], // listas
         [{ indent: "-1" }, { indent: "+1" }], // outdent/indent

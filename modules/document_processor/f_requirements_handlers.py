@@ -1,245 +1,656 @@
-# modules/document_processor/requisitos_handlers.py
+# f_requirements_handlers.py - Solução corrigida para formatação HTML e quebras de linha
 import logging
 import os
 import base64
+import re
+import html
 from io import BytesIO
-from docx.enum.text import WD_BREAK
-from docx.shared import Inches
-from docx.oxml import OxmlElement
+from docx import Document
+from docx.enum.text import WD_BREAK, WD_PARAGRAPH_ALIGNMENT
+from docx.shared import Inches, Pt, RGBColor
+from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import qn
-
-from .formatters import copiar_formatacao_run, copiar_formatacao_bullets_completa
-from .table_handlers import (
-    tab_mapear_formatacao_paragrafo,
-    tab_processar_formatacao_paragrafo,
-    tab_copiar_estilo_celula
-)
+from copy import deepcopy
+from bs4 import BeautifulSoup
 
 # Configuração de logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    encoding='utf-8'  # Adicionar encoding UTF-8
+)
 logger = logging.getLogger(__name__)
 
 def processar_requisitos_funcionais(doc, requisitos):
     """
-    Processa requisitos funcionais no formato específico do documento Estratégia de Solução.
+    Processa requisitos funcionais no documento de Estratégia de Solução.
     
-    Este formato tem o cabeçalho fora da tabela e conteúdo detalhado dentro de tabelas.
-    Adiciona quebras de página entre requisitos.
+    Esta função localiza o parágrafo modelo e a tabela modelo no documento,
+    e então cria cópias para cada requisito funcional, substituindo os marcadores
+    pelos valores correspondentes.
+    
+    Args:
+        doc: Documento Word (.docx) aberto
+        requisitos: Lista de requisitos funcionais para processar
     """
-    if not requisitos:
-        logger.info("Nenhum requisito funcional para processar")
+    if not requisitos or len(requisitos) == 0:
+        logger.warning("Nenhum requisito funcional para processar")
         return
     
-    logger.info(f"Processando {len(requisitos)} requisitos funcionais para Estratégia de Solução")
+    logger.info(f"Processando {len(requisitos)} requisitos funcionais")
     
-    # Identificar o parágrafo de modelo para o cabeçalho do RF e a tabela modelo
+    # 1. Localizar parágrafo modelo (RF-[N_RF]:[TITULO_RF])
     paragrafo_modelo = None
-    tabela_modelo = None
     paragrafo_indice = None
-    tabela_indice = None
     
-    # Buscar parágrafo modelo que contém "RF-[N_RF]: [TITULO_RF]"
-    for i, paragrafo in enumerate(doc.paragraphs):
-        if "RF-[N_RF]" in paragrafo.text:
-            paragrafo_modelo = paragrafo
+    for i, p in enumerate(doc.paragraphs):
+        if "RF-[N_RF]" in p.text:
+            paragrafo_modelo = p
             paragrafo_indice = i
-            logger.info(f"Parágrafo modelo RF encontrado no índice {i}: {paragrafo.text}")
+            logger.info(f"Encontrado parágrafo modelo no índice {i}: {p.text}")
             break
     
     if not paragrafo_modelo:
-        logger.error("Parágrafo modelo para cabeçalho de RF não encontrado")
+        logger.error("Não foi possível encontrar o parágrafo modelo com 'RF-[N_RF]'")
         return
     
-    # Buscar tabela modelo logo após o parágrafo modelo
+    # 2. Localizar tabela modelo que contém marcadores de RF
+    tabela_modelo = None
+    tabela_indice = None
+    
     for i, tabela in enumerate(doc.tables):
-        # Verificar se a tabela contém marcadores de RF
-        contem_marcadores = False
-        for row in tabela.rows:
-            for cell in row.cells:
-                for p in cell.paragraphs:
-                    if "[LOCAL_RF]" in p.text or "[USUARIO_RF]" in p.text:
-                        contem_marcadores = True
+        contem_marcador = False
+        for linha in tabela.rows:
+            for celula in linha.cells:
+                for p in celula.paragraphs:
+                    if any(marcador in p.text for marcador in ["[LOCAL_RF]", "[USUARIO_RF]", "[TIPO_RF]"]):
+                        contem_marcador = True
+                        logger.info(f"Encontrado marcador na tabela {i}")
                         break
-            if contem_marcadores:
+                if contem_marcador:
+                    break
+            if contem_marcador:
                 break
         
-        if contem_marcadores:
+        if contem_marcador:
             tabela_modelo = tabela
             tabela_indice = i
-            logger.info(f"Tabela modelo RF encontrada no índice {i}")
+            logger.info(f"Encontrada tabela modelo no índice {i}")
             break
     
     if not tabela_modelo:
-        logger.error("Tabela modelo para detalhes de RF não encontrada")
+        logger.error("Não foi possível encontrar a tabela modelo com marcadores RF")
         return
     
-    # Remover o parágrafo e tabela modelo originais
-    paragrafos_a_remover = []
-    tabelas_a_remover = []
+    # 3. Localizar parágrafos de requisitos não-funcionais para preservá-los
+    paragrafos_rnf = []
+    for i, p in enumerate(doc.paragraphs):
+        if "3 - Requisitos Não-Funcionais" in p.text or "RNF-[N_RNF]" in p.text or "[DESCRICAO_RNF]" in p.text:
+            paragrafos_rnf.append((i, p))
+            logger.info(f"Encontrado parágrafo RNF no índice {i}: '{p.text}'")
     
-    # Remover apenas depois de processar todos os requisitos para evitar problemas de índices
-    paragrafos_a_remover.append(paragrafo_indice)
-    tabelas_a_remover.append(tabela_indice)
+    # Armazenar o corpo do documento para inserções
+    body = doc._body._body
     
-    # Posição de inserção - logo após o parágrafo modelo original
-    pos_insercao = paragrafo_indice
+    # 4. Para cada requisito, criar uma cópia do parágrafo e da tabela
+    # Manter rastreamento de elementos adicionados para não removê-los
+    elementos_adicionados = []
     
-    # Processar cada requisito e criar elementos correspondentes
+    # Ponto de inserção inicial
+    posicao_insercao = paragrafo_indice
+    
+    # Para cada requisito, criar parágrafo de título e tabela
     for idx, requisito in enumerate(requisitos):
-        # Adicionar quebra de página antes de cada RF, exceto o primeiro
+        logger.info(f"Processando requisito {idx+1}: {requisito.get('tituloRF', 'Sem título')}")
+        
+        # Se não for o primeiro requisito, adicionar quebra de página
         if idx > 0:
-            paragrafo_quebra = doc.add_paragraph()
-            run = paragrafo_quebra.add_run()
+            logger.info("Adicionando quebra de página")
+            quebra_pagina = doc.add_paragraph()
+            run = quebra_pagina.add_run()
             run.add_break(WD_BREAK.PAGE)
+            body.insert(posicao_insercao, quebra_pagina._p)
+            posicao_insercao += 1
+            elementos_adicionados.append(quebra_pagina._p)
+        
+        # Criar novo parágrafo para título
+        novo_titulo = doc.add_paragraph()
+        
+        # Copiar estilo do parágrafo modelo
+        if hasattr(paragrafo_modelo, 'style') and paragrafo_modelo.style:
+            novo_titulo.style = paragrafo_modelo.style
             
-            # Inserir parágrafo de quebra
-            doc._body._body.insert(pos_insercao, paragrafo_quebra._p)
-            pos_insercao += 1
-        
-        # 1. Criar parágrafo de cabeçalho para este RF
-        novo_paragrafo = doc.add_paragraph()
-        
         # Copiar formatação do parágrafo modelo
-        copiar_formatacao_bullets_completa(novo_paragrafo, paragrafo_modelo)
+        if hasattr(paragrafo_modelo, 'paragraph_format'):
+            # Copiar alinhamento
+            if hasattr(paragrafo_modelo.paragraph_format, 'alignment'):
+                novo_titulo.paragraph_format.alignment = paragrafo_modelo.paragraph_format.alignment
+            # Copiar recuo
+            if hasattr(paragrafo_modelo.paragraph_format, 'left_indent'):
+                novo_titulo.paragraph_format.left_indent = paragrafo_modelo.paragraph_format.left_indent
+            # Copiar espaçamento
+            if hasattr(paragrafo_modelo.paragraph_format, 'space_before'):
+                novo_titulo.paragraph_format.space_before = paragrafo_modelo.paragraph_format.space_before
+            if hasattr(paragrafo_modelo.paragraph_format, 'space_after'):
+                novo_titulo.paragraph_format.space_after = paragrafo_modelo.paragraph_format.space_after
         
-        # Substituir o texto do marcador com os dados reais
-        numero_rf = f"{idx+1:02d}"  # Formatar como 01, 02, etc.
-        titulo_rf = requisito.get('tituloRF', '')
-        texto_cabecalho = f"RF-{numero_rf}: {titulo_rf}"
+        # Substituir os marcadores no texto do título
+        num_rf = str(idx + 1).zfill(2)  # RF-01, RF-02, etc.
+        titulo = requisito.get('tituloRF', '[Sem título]')
         
-        run = novo_paragrafo.add_run(texto_cabecalho)
+        # Criar o texto do título formatado
+        run = novo_titulo.add_run(f"RF-{num_rf}: {titulo}")
+        
+        # Copiar formatação do run original
         if paragrafo_modelo.runs:
-            copiar_formatacao_run(run, paragrafo_modelo.runs[0])
+            run_modelo = paragrafo_modelo.runs[0]
+            if hasattr(run_modelo, 'font'):
+                # Copiar fonte
+                if hasattr(run_modelo.font, 'name'):
+                    run.font.name = run_modelo.font.name
+                # Copiar tamanho
+                if hasattr(run_modelo.font, 'size'):
+                    run.font.size = run_modelo.font.size
+                # Copiar negrito
+                if hasattr(run_modelo.font, 'bold'):
+                    run.font.bold = run_modelo.font.bold
+                # Copiar itálico
+                if hasattr(run_modelo.font, 'italic'):
+                    run.font.italic = run_modelo.font.italic
+                # Copiar cor
+                if hasattr(run_modelo.font, 'color') and run_modelo.font.color and run_modelo.font.color.rgb:
+                    run.font.color.rgb = run_modelo.font.color.rgb
         
-        # Inserir parágrafo de cabeçalho após a quebra de página
-        doc._body._body.insert(pos_insercao, novo_paragrafo._p)
-        pos_insercao += 1
+        # Inserir o parágrafo de título no documento
+        body.insert(posicao_insercao, novo_titulo._p)
+        posicao_insercao += 1
+        elementos_adicionados.append(novo_titulo._p)
         
-        # 2. Criar tabela para este RF
-        nova_tabela = doc.add_table(rows=tabela_modelo.rows.__len__(), cols=tabela_modelo.columns.__len__())
-        
-        # Copiar formatação e estilos da tabela modelo
-        # CORREÇÃO: Verificar atributos antes de copiar
-        try:
-            if hasattr(tabela_modelo._tbl, 'tblPr'):
-                if not hasattr(nova_tabela._tbl, 'tblPr'):
-                    nova_tabela._tbl.append(OxmlElement('w:tblPr'))
-                for attr in tabela_modelo._tbl.tblPr:
-                    nova_tabela._tbl.tblPr.append(attr.copy())
-        except Exception as e:
-            logger.warning(f"Não foi possível copiar propriedades da tabela: {e}")
-        
-        # Copiar estilo/formatação para cada célula
-        for i, row in enumerate(tabela_modelo.rows):
-            for j, cell in enumerate(row.cells):
-                if i < len(nova_tabela.rows) and j < len(nova_tabela.rows[i].cells):
-                    nova_celula = nova_tabela.rows[i].cells[j]
-                    try:
-                        # Usar método seguro de cópia que não depende de tcPr
-                        tab_copiar_estilo_celula(nova_celula, cell)
-                    except Exception as e:
-                        logger.warning(f"Erro ao copiar estilo de célula: {e}")
-                        
-                        # Fallback: Pelo menos copiar o texto
-                        for p_idx, p in enumerate(cell.paragraphs):
-                            if p_idx < len(nova_celula.paragraphs):
-                                nova_celula.paragraphs[p_idx].text = p.text
-                            else:
-                                nova_celula.add_paragraph(p.text)
-        
-        # Processar cada célula da tabela para substituir marcadores
-        for i, row in enumerate(nova_tabela.rows):
-            for j, cell in enumerate(row.cells):
-                # Obter a célula correspondente na tabela modelo
-                if i < len(tabela_modelo.rows) and j < len(tabela_modelo.rows[i].cells):
-                    celula_modelo = tabela_modelo.rows[i].cells[j]
-                    
-                    # Garantir que cada célula tenha pelo menos um parágrafo
-                    if not cell.paragraphs:
-                        cell.add_paragraph()
-                    
-                    # Substituir os marcadores nas células
-                    for p_idx, p in enumerate(cell.paragraphs):
-                        texto_original = ""
-                        
-                        # Obter texto do parágrafo modelo correspondente, se existir
-                        if p_idx < len(celula_modelo.paragraphs):
-                            texto_original = celula_modelo.paragraphs[p_idx].text
-                        
-                        # Dicionário com as substituições específicas para cada requisito
-                        substituicoes_rf = {
-                            '[LOCAL_RF]': requisito.get('local', ''),
-                            '[USUARIO_RF]': requisito.get('usuario', ''),
-                            '[PERFIL_RF]': requisito.get('perfil', ''),
-                            '[TIPO_RF]': requisito.get('tipo', ''),
-                            '[DESCRICAO_RF]': requisito.get('descricao', ''),
-                            '[REGRAS_CAMPOS_RF]': requisito.get('validacoes', ''),
-                            '[REGRAS_NEGOCIO_RF]': requisito.get('regras', ''),
-                            '[BANCO_RF]': requisito.get('banco', '')
-                        }
-                        
-                        # Substituir marcadores
-                        texto_substituido = texto_original
-                        for marcador, valor in substituicoes_rf.items():
-                            if marcador in texto_substituido:
-                                texto_substituido = texto_substituido.replace(marcador, valor)
-                        
-                        # Simples substitução de texto para evitar erros
-                        p.text = texto_substituido
-                        
-                        # Se tiver o marcador de imagem, processar separadamente
-                        if '[IMAGEM_RF]' in texto_original and requisito.get('imagens'):
-                            # Limpar o texto para evitar mostrar o marcador
-                            p.text = ""
-                            processar_imagens_requisito(p, requisito['imagens'])
-        
-        # Inserir a nova tabela
-        doc._body._body.insert(pos_insercao, nova_tabela._tbl)
-        pos_insercao += 1
-    
-    # Remover os elementos modelo do documento
-    # Fazemos isso em ordem reversa para evitar problemas com índices
-    for tabela_idx in sorted(tabelas_a_remover, reverse=True):
-        if tabela_idx < len(doc.tables):  # Verificar se o índice ainda é válido
-            table_element = doc.tables[tabela_idx]._tbl
-            if table_element.getparent() is not None:
-                doc._body._body.remove(table_element)
-    
-    for paragrafo_idx in sorted(paragrafos_a_remover, reverse=True):
-        if paragrafo_idx < len(doc.paragraphs):  # Verificar se o índice ainda é válido
-            paragraph_element = doc.paragraphs[paragrafo_idx]._p
-            if paragraph_element.getparent() is not None:
-                doc._body._body.remove(paragraph_element)
+        # Obter valores (ou padrões) para os campos
+        local = requisito.get('local', '')
+        usuario = requisito.get('usuario', '')
+        perfil = requisito.get('perfil', '')
+        tipo = requisito.get('tipo', '')
 
-def processar_imagens_requisito(paragrafo, imagens):
+        # ATUALIZAÇÃO: Todos os campos agora usam processamento HTML
+        descricao_html = requisito.get('descricao', '')
+        if not descricao_html:
+            descricao_html = ""
+
+        # Tratar validações com processamento HTML
+        validacoes_html = requisito.get('validacoes', '')
+        if not validacoes_html:
+            validacoes_html = "Não há validação de campos."
+
+        # Tratar regras com processamento HTML
+        regras_html = requisito.get('regras', '')
+        if not regras_html:
+            regras_html = "Não há alterações de regra de negócio."
+
+        # Tratar banco com processamento HTML
+        banco_html = requisito.get('banco', '')
+        if not banco_html:
+            banco_html = "Não há alterações de banco de dados."
+        
+        # Criar uma cópia da tabela modelo via XML para preservar formatações
+        nova_tabela_xml = deepcopy(tabela_modelo._tbl)
+        
+        # Configurar substituições para marcadores (apenas valores simples)
+        substituicoes = {
+            "[LOCAL_RF]": local,
+            "[USUARIO_RF]": usuario,
+            "[PERFIL_RF]": perfil,
+            "[TIPO_RF]": tipo,
+        }
+        
+        # Substituir os marcadores simples na tabela
+        substituir_marcadores_tabela(nova_tabela_xml, substituicoes)
+        
+        # Inserir a nova tabela no documento
+        body.insert(posicao_insercao, nova_tabela_xml)
+        posicao_insercao += 1
+        elementos_adicionados.append(nova_tabela_xml)
+        
+        # Obter a tabela que acabamos de inserir
+        tabela_inserida = None
+        for i, tabela in enumerate(doc.tables):
+            # Verificamos se é a tabela que acabamos de adicionar
+            contem_marcador = False
+            for linha in tabela.rows:
+                for celula in linha.cells:
+                    for p in celula.paragraphs:
+                        if any(marcador in p.text for marcador in ["[DESCRICAO_RF]", "[REGRAS_CAMPOS_RF]", "[REGRAS_NEGOCIO_RF]", "[BANCO_RF]", "[IMAGEM_RF]"]):
+                            contem_marcador = True
+                            break
+                    if contem_marcador:
+                        break
+                if contem_marcador:
+                    break
+            
+            if contem_marcador:
+                tabela_inserida = tabela
+                logger.info(f"Encontrada tabela inserida no índice {i}")
+                break
+        
+        if tabela_inserida:
+            # ATUALIZAÇÃO: Usar processamento HTML para todos os campos relevantes
+            substituir_html_com_formatacao(tabela_inserida, "[DESCRICAO_RF]", descricao_html)
+            substituir_html_com_formatacao(tabela_inserida, "[REGRAS_CAMPOS_RF]", validacoes_html)
+            substituir_html_com_formatacao(tabela_inserida, "[REGRAS_NEGOCIO_RF]", regras_html)
+            substituir_html_com_formatacao(tabela_inserida, "[BANCO_RF]", banco_html)
+
+            # Processar imagens (se houver)
+            imagens = requisito.get('imagens', [])
+            if imagens:
+                logger.info(f"Processando {len(imagens)} imagens para o requisito {idx+1}")
+                
+                # Localizar a célula com o marcador [IMAGEM_RF]
+                celula_imagem = None
+                
+                for i, linha in enumerate(tabela_inserida.rows):
+                    for j, celula in enumerate(linha.cells):
+                        for p in celula.paragraphs:
+                            if "[IMAGEM_RF]" in p.text:
+                                celula_imagem = celula
+                                logger.info(f"Encontrado marcador [IMAGEM_RF] na linha {i}, coluna {j}")
+                                break
+                        if celula_imagem:
+                            break
+                    if celula_imagem:
+                        break
+                
+                if celula_imagem:
+                    # Limpar o conteúdo da célula (remover o marcador [IMAGEM_RF])
+                    for p in celula_imagem.paragraphs:
+                        if "[IMAGEM_RF]" in p.text:
+                            # Limpar o texto do parágrafo
+                            p.clear()
+                            # Definir alinhamento central para as imagens
+                            p.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                            # Adicionar as imagens ao parágrafo
+                            processar_imagens(p, imagens)
+                            logger.info("Imagens adicionadas na célula substituindo [IMAGEM_RF]")
+                            break
+                else:
+                    logger.warning(f"Não foi possível encontrar célula com [IMAGEM_RF] para o requisito {idx+1}")
+            else:
+                # Se não há imagens, remover o marcador [IMAGEM_RF]
+                for linha in tabela_inserida.rows:
+                    for celula in linha.cells:
+                        for p in celula.paragraphs:
+                            if "[IMAGEM_RF]" in p.text:
+                                p.text = p.text.replace("[IMAGEM_RF]", "")
+        else:
+            logger.warning(f"Não foi possível encontrar a tabela inserida para o requisito {idx+1}")
+    
+    # 5. Remover os elementos originais do modelo (cuidado para não remover os novos)
+    try:
+        # Remover parágrafo modelo original
+        if paragrafo_modelo._p.getparent() is not None:
+            body.remove(paragrafo_modelo._p)
+            logger.info(f"Removido parágrafo modelo original (índice {paragrafo_indice})")
+        
+        # Remover tabela modelo original
+        if tabela_modelo._tbl.getparent() is not None:
+            body.remove(tabela_modelo._tbl)
+            logger.info("Removida tabela modelo original")
+    except Exception as e:
+        logger.error(f"Erro ao remover elementos originais: {str(e)}")
+    
+    # Não remover os parágrafos de requisitos não-funcionais
+    logger.info("Preservando seção de requisitos não-funcionais")
+    
+    logger.info(f"Processamento de {len(requisitos)} requisitos concluído com sucesso")
+
+def substituir_marcadores_tabela(tabela_xml, substituicoes):
     """
-    Processa as imagens do requisito e as adiciona no parágrafo especificado.
+    Substitui marcadores em uma tabela XML.
+    
+    Args:
+        tabela_xml: Elemento XML da tabela
+        substituicoes: Dicionário com os valores de substituição para cada marcador
     """
-    if not imagens:
+    # Namespace XML para Word
+    namespace = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
+    
+    # Caso especial para [USUARIO_RF] | [PERFIL_RF]
+    for elemento_t in tabela_xml.findall(".//w:t", namespace):
+        texto = elemento_t.text
+        
+        if texto:
+            # Caso especial para [USUARIO_RF] | [PERFIL_RF]
+            if "[USUARIO_RF]" in texto and "[PERFIL_RF]" in texto:
+                texto_substituido = texto.replace("[USUARIO_RF]", substituicoes["[USUARIO_RF]"])
+                texto_substituido = texto_substituido.replace("[PERFIL_RF]", substituicoes["[PERFIL_RF]"])
+                elemento_t.text = texto_substituido
+            else:
+                # Substituições normais (exceto os que precisam de formatação especial)
+                marcadores_especiais = ["[IMAGEM_RF]", "[DESCRICAO_RF]", "[REGRAS_CAMPOS_RF]", "[REGRAS_NEGOCIO_RF]", "[BANCO_RF]"]
+                for marcador, valor in substituicoes.items():
+                    if marcador in texto and marcador not in marcadores_especiais:
+                        elemento_t.text = texto.replace(marcador, valor)
+
+def limpar_texto_html(html_texto):
+    """
+    Remove tags HTML e retorna o texto puro.
+    Usada como uma função de fallback para substituição simples.
+    
+    Args:
+        html_texto: Texto HTML do Quill Editor
+        
+    Returns:
+        Texto limpo sem tags HTML
+    """
+    if not html_texto:
+        return ""
+    
+    # Usar BeautifulSoup para limpar o HTML
+    soup = BeautifulSoup(html_texto, 'html.parser')
+    
+    # Obter o texto limpo
+    return soup.get_text()
+
+def substituir_html_com_formatacao(tabela, marcador, html_texto):
+    """
+    Substitui um marcador por texto HTML formatado corretamente.
+    
+    Args:
+        tabela: Tabela onde buscar o marcador
+        marcador: Marcador a ser substituído (ex: "[DESCRICAO_RF]")
+        html_texto: Texto HTML para substituir o marcador
+    """
+    if not html_texto:
         return
     
-    try:
-        # Adicionar apenas a primeira imagem por enquanto
-        img_data = imagens[0]
+    # Localizar a célula que contém o marcador
+    celula_destino = None
+    for linha in tabela.rows:
+        for celula in linha.cells:
+            for p in celula.paragraphs:
+                if marcador in p.text:
+                    celula_destino = celula
+                    break
+            if celula_destino:
+                break
+        if celula_destino:
+            break
+    
+    if not celula_destino:
+        logger.warning(f"Marcador {marcador} não encontrado na tabela")
+        return
+    
+    # Parsear o HTML
+    soup = BeautifulSoup(html_texto, 'html.parser')
+    
+    # Limpar o conteúdo atual da célula
+    for p in list(celula_destino.paragraphs):
+        if marcador in p.text:
+            # Mantemos o parágrafo, mas limpamos o texto
+            p.clear()
+            primeiro_paragrafo = p
+            break
+    else:
+        # Se não encontrou o marcador, cria um novo parágrafo
+        primeiro_paragrafo = celula_destino.add_paragraph()
+    
+    # Processar o conteúdo HTML e aplicar ao documento
+    paragrafo_atual = primeiro_paragrafo
+    
+    # Manter controle do primeiro parágrafo
+    primeiro_processado = True
+    
+    # Função auxiliar para processar conteúdo com formatação
+    def processar_conteudo_formatado(elemento, paragrafo):
+        """Processa elementos mantendo formatação como negrito, itálico, sublinhado e cores"""
+        # Criar o run primeiro
+        run = paragrafo.add_run(elemento.get_text())
         
-        # Se a imagem está em formato base64, decodificá-la
-        if isinstance(img_data, str) and img_data.startswith('data:image'):
+        # Negrito
+        if elemento.name == 'strong' or elemento.name == 'b':
+            run.bold = True
+        
+        # Itálico
+        elif elemento.name == 'em' or elemento.name == 'i':
+            run.italic = True
+        
+        # Sublinhado
+        elif elemento.name == 'u':
+            run.underline = True
+        
+        # Código
+        elif elemento.name == 'code':
+            # Configurar fonte Courier New, tamanho 10
+            run.font.name = 'Courier New'
+            run.font.size = Pt(10)
+            
+            # Cor do texto azul
+            run.font.color.rgb = RGBColor(3, 105, 161)  # #0369A1
+            
+            # Cor de fundo azul claro
+            shading_elm = OxmlElement('w:shd')
+            shading_elm.set(qn('w:fill'), 'D2F0FD')  # #D2F0FD
+            run._r.get_or_add_rPr().append(shading_elm)
+        
+        # Span com estilos
+        elif elemento.name == 'span':
+            style = elemento.get('style', '')
+            logger.info(f"Processando span com estilo: {style}")
+            
+            # Verificar cor do texto
+            cor_match = re.search(r'color:\s*rgb\s*\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)', style)
+            if cor_match:
+                r, g, b = map(int, cor_match.groups())
+                run.font.color.rgb = RGBColor(r, g, b)
+                logger.info(f"Cor do texto definida: RGB({r}, {g}, {b})")
+            
+            # Verificar classe de alinhamento
+            align_class = elemento.get('class', '')
+            if align_class:
+                if 'ql-align-center' in align_class:
+                    paragrafo.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                    logger.info("Alinhamento centralizado aplicado ao parágrafo")
+                elif 'ql-align-right' in align_class:
+                    paragrafo.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+                    logger.info("Alinhamento à direita aplicado ao parágrafo")
+                elif 'ql-align-justify' in align_class:
+                    paragrafo.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+                    logger.info("Alinhamento justificado aplicado ao parágrafo")
+                elif 'ql-align-left' in align_class:
+                    paragrafo.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+                    logger.info("Alinhamento à esquerda aplicado ao parágrafo")
+        
+        return run
+    
+    # Função auxiliar para processar listas
+    def processar_lista(lista_elemento, usar_numeros=True):
+        """Processa listas ordenadas ou não ordenadas"""
+        nonlocal primeiro_processado, paragrafo_atual
+        
+        contador = 1
+        for li in lista_elemento.find_all('li', recursive=False):
+            if not primeiro_processado:
+                paragrafo_atual = celula_destino.add_paragraph()
+            else:
+                primeiro_processado = False
+            
+            # Verificar se o item da lista tem data-list="bullet"
+            if li.get('data-list') == 'bullet' or lista_elemento.get('data-list') == 'bullet':
+                # Lista não ordenada
+                paragrafo_atual.add_run("• ")
+            elif usar_numeros:
+                # Lista ordenada
+                paragrafo_atual.add_run(f"{contador}. ")
+                contador += 1
+            else:
+                # Lista não ordenada (fallback)
+                paragrafo_atual.add_run("• ")
+            
+            # Processar o conteúdo do item de lista mantendo formatação
+            for item in li.contents:
+                if item.name in ['strong', 'b', 'em', 'i', 'u', 'code', 'span']:  # Adicionado 'u', 'code' e 'span'
+                    processar_conteudo_formatado(item, paragrafo_atual)
+                elif item.name in ['ul', 'ol']:
+                    # Lista aninhada - processar recursivamente
+                    processar_lista(item, item.name == 'ol' and item.get('data-list') != 'bullet')
+                elif item.string:
+                    paragrafo_atual.add_run(item.string)
+            
+            # Aplicar recuo
+            paragrafo_atual.paragraph_format.left_indent = Pt(20)
+    
+    # Processar cada elemento do HTML
+    for elemento in soup:
+        # Ignorar elementos vazios ou apenas com espaço
+        if elemento.name is None and (not elemento.string or not elemento.string.strip()):
+            continue
+            
+        # Processar parágrafos
+        if elemento.name == 'p':
+            # Se não for o primeiro parágrafo, criar um novo
+            if not primeiro_processado:
+                paragrafo_atual = celula_destino.add_paragraph()
+            else:
+                primeiro_processado = False
+            
+            # Verificar classe de alinhamento no parágrafo
+            align_class = elemento.get('class', '')
+            if align_class:
+                if 'ql-align-center' in align_class:
+                    paragrafo_atual.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                    logger.info("Alinhamento centralizado aplicado ao parágrafo")
+                elif 'ql-align-right' in align_class:
+                    paragrafo_atual.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+                    logger.info("Alinhamento à direita aplicado ao parágrafo")
+                elif 'ql-align-justify' in align_class:
+                    paragrafo_atual.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+                    logger.info("Alinhamento justificado aplicado ao parágrafo")
+                elif 'ql-align-left' in align_class:
+                    paragrafo_atual.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+                    logger.info("Alinhamento à esquerda aplicado ao parágrafo")
+            
+            # Processar o conteúdo do parágrafo
+            for conteudo in elemento.contents:
+                if conteudo.name in ['strong', 'b', 'em', 'i', 'u', 'code', 'span']:  # Adicionado 'u', 'code' e 'span'
+                    processar_conteudo_formatado(conteudo, paragrafo_atual)
+                elif conteudo.name == 'ul' or conteudo.name == 'ol':
+                    # Lista dentro de parágrafo
+                    usar_numeros = conteudo.name == 'ol' and conteudo.get('data-list') != 'bullet'
+                    processar_lista(conteudo, usar_numeros)
+                elif conteudo.string:
+                    paragrafo_atual.add_run(conteudo.string)
+        
+        # Se for lista
+        elif elemento.name == 'ul' or elemento.name == 'ol':
+            # Verificar se é uma lista não ordenada do Quill
+            usar_numeros = elemento.name == 'ol' and elemento.get('data-list') != 'bullet'
+            processar_lista(elemento, usar_numeros)
+        
+        # Se for texto plano fora de tags
+        elif elemento.string and elemento.string.strip():
+            if not primeiro_processado:
+                paragrafo_atual = celula_destino.add_paragraph()
+            else:
+                primeiro_processado = False
+            paragrafo_atual.add_run(elemento.string.strip())
+        
+        # Se for quebra de linha
+        elif elemento.name == 'br':
+            if not primeiro_processado:
+                paragrafo_atual = celula_destino.add_paragraph()
+            else:
+                primeiro_processado = False
+
+def substituir_texto_com_quebras(tabela, marcador, texto):
+    """
+    Substitui um marcador por texto preservando quebras de linha.
+    
+    Args:
+        tabela: Tabela onde buscar o marcador
+        marcador: Marcador a ser substituído (ex: "[REGRAS_NEGOCIO_RF]")
+        texto: Texto com quebras de linha para substituir o marcador
+    """
+    if not texto:
+        return
+    
+    # Localizar a célula que contém o marcador
+    celula_destino = None
+    paragrafo_original = None
+    
+    for linha in tabela.rows:
+        for celula in linha.cells:
+            for p in celula.paragraphs:
+                if marcador in p.text:
+                    celula_destino = celula
+                    paragrafo_original = p
+                    break
+            if celula_destino:
+                break
+        if celula_destino:
+            break
+    
+    if not celula_destino:
+        logger.warning(f"Marcador {marcador} não encontrado na tabela")
+        return
+    
+    # Dividir o texto pelas quebras de linha
+    linhas = texto.split('\n')
+    
+    # Limpar o parágrafo original
+    paragrafo_original.clear()
+    
+    # Adicionar a primeira linha ao parágrafo original
+    paragrafo_original.add_run(linhas[0])
+    
+    # Para cada linha adicional, criar um novo parágrafo
+    for i in range(1, len(linhas)):
+        if linhas[i].strip():  # Ignorar linhas vazias
+            p = celula_destino.add_paragraph()
+            p.add_run(linhas[i])
+            
+            # Se a linha começa com um marcador de lista (•, -, *), aplicar recuo
+            if linhas[i].strip().startswith(('•', '-', '*')):
+                p.paragraph_format.left_indent = Pt(20)
+
+def processar_imagens(paragrafo, imagens):
+    """
+    Processa imagens em base64 e as adiciona ao parágrafo.
+    
+    Args:
+        paragrafo: Parágrafo do documento Word
+        imagens: Lista de imagens em formato base64
+    """
+    if not imagens or len(imagens) == 0:
+        logger.warning("Nenhuma imagem para processar")
+        return
+    
+    logger.info(f"Processando {len(imagens)} imagens")
+    
+    # Processar todas as imagens da lista
+    for i, imagem in enumerate(imagens):
+        # Verifica se é uma imagem em base64
+        if isinstance(imagem, str) and imagem.startswith('data:image'):
             try:
-                # Extrair a parte base64 da string (remover o prefixo "data:image/...")
-                base64_data = img_data.split(',')[1]
-                image_stream = BytesIO(base64.b64decode(base64_data))
+                # Extrair a parte base64
+                base64_data = imagem.split(',')[1]
+                imagem_bytes = BytesIO(base64.b64decode(base64_data))
                 
-                # Adicionar a imagem ao parágrafo
+                # Adicionar uma quebra de linha entre imagens se não for a primeira
+                if i > 0:
+                    paragrafo.add_run().add_break()
+                
+                # Adicionar ao documento
                 run = paragrafo.add_run()
-                run.add_picture(image_stream, width=Inches(6))  # Ajustar largura conforme necessário
+                # Define a largura máxima como 6 polegadas (ajuste conforme necessário)
+                run.add_picture(imagem_bytes, width=Inches(6))
+                
+                logger.info(f"Imagem {i+1} processada com sucesso")
                 
             except Exception as e:
-                logger.error(f"Erro ao processar imagem base64: {e}")
-                # Adicionar um texto de placeholder em caso de erro
-                paragrafo.text = "[Imagem não pôde ser processada]"
+                logger.error(f"Erro ao processar imagem base64 {i+1}: {str(e)}")
+                erro_run = paragrafo.add_run(f"[Erro ao processar imagem {i+1}]")
+                # Destacar o erro em vermelho
+                erro_run.font.color.rgb = RGBColor(255, 0, 0)
         else:
-            logger.warning("Formato de imagem não suportado. Esperado: base64")
-            paragrafo.text = "[Formato de imagem não suportado]"
-            
-    except Exception as e:
-        logger.error(f"Erro geral ao processar imagem: {e}")
-        paragrafo.text = "[Erro ao processar imagem]"
+            logger.error(f"Formato de imagem não suportado para imagem {i+1}")
+            erro_run = paragrafo.add_run(f"[Formato de imagem {i+1} não suportado]")
+            erro_run.font.color.rgb = RGBColor(255, 0, 0)

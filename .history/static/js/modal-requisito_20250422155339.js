@@ -102,6 +102,44 @@ const RichTextEditor = {
         ],
       });
 
+      this.$nextTick(() => {
+        const tooltips = {
+          bold: "Negrito",
+          italic: "Itálico",
+          underline: "Sublinhado",
+          color: "Cor do texto",
+          code: "Código",
+          "list-ordered": "Lista ordenada",
+          "list-bullet": "Lista com marcadores",
+          "indent--1": "Reduzir recuo",
+          "indent-+1": "Aumentar recuo",
+          align: "Alinhamento",
+          clean: "Limpar formatação",
+        };
+
+        const toolbar = document.querySelector(
+          `#${this.containerId} .ql-toolbar`
+        );
+        if (!toolbar) return;
+
+        toolbar.querySelectorAll("button, select").forEach((btn) => {
+          const classes = Array.from(btn.classList);
+          let key = classes
+            .find((c) => c.startsWith("ql-"))
+            ?.replace("ql-", "");
+
+          if (key === "indent") {
+            key = `indent-${btn.value}`;
+          } else if (key === "list") {
+            key = `list-${btn.value}`;
+          }
+
+          if (key && tooltips[key]) {
+            btn.setAttribute("title", tooltips[key]);
+          }
+        });
+      });
+
       // Definir o estilo da fonte padrão para combinar com o resto da aplicação
       this.editor.root.style.fontFamily = "Calibri, sans-serif";
       this.editor.root.style.fontSize = "18px";
