@@ -40,32 +40,37 @@ def processar_requisitos_funcionais(doc, requisitos):
     logger.info(f"Processando {len(requisitos)} requisitos funcionais")
     
     # 1. Localizar título da seção de requisitos e a descrição
+    paragrafo_titulo_secao = None
     paragrafo_descricao = None
+    paragrafo_titulo_indice = None
     
     for i, p in enumerate(doc.paragraphs):
-        if "[DESCRICAO]" in p.text:
+        if "2 - Requisitos Funcionais" in p.text:
+            paragrafo_titulo_secao = p
+            paragrafo_titulo_indice = i
+            logger.info(f"Encontrado título da seção no índice {i}: {p.text}")
+        elif "[DESCRICAO]" in p.text:
             paragrafo_descricao = p
             logger.info(f"Encontrado parágrafo de descrição no índice {i}: {p.text}")
             break
     
-    if paragrafo_descricao:
-        # Substituir o marcador [DESCRICAO] pela descrição geral
-        paragrafo_descricao.text = paragrafo_descricao.text.replace("[DESCRICAO]", "Abaixo segue a descrição dos requisitos funcionais.")
-        logger.info("Substituído marcador [DESCRICAO] pela descrição geral")
+    if not paragrafo_titulo_secao or not paragrafo_descricao:
+        logger.error("Não foi possível encontrar a seção de requisitos funcionais ou o parágrafo de descrição")
+        return
     
-    # 2. Localizar parágrafo modelo (RF-[N_RF])
+    # 2. Localizar parágrafo modelo para RF (1 – [TITULO])
     paragrafo_modelo = None
     paragrafo_indice = None
     
     for i, p in enumerate(doc.paragraphs):
-        if "RF-[N_RF]" in p.text:
+        if "1 – [TITULO]" in p.text or "1 - [TITULO]" in p.text:
             paragrafo_modelo = p
             paragrafo_indice = i
             logger.info(f"Encontrado parágrafo modelo no índice {i}: {p.text}")
             break
     
     if not paragrafo_modelo:
-        logger.error("Não foi possível encontrar o parágrafo modelo com 'RF-[N_RF]'")
+        logger.error("Não foi possível encontrar o parágrafo modelo com '1 – [TITULO]'")
         return
     
     # 3. Localizar tabela modelo que contém marcadores de RF
@@ -96,36 +101,30 @@ def processar_requisitos_funcionais(doc, requisitos):
         logger.error("Não foi possível encontrar a tabela modelo com marcadores RF")
         return
     
-    # 4. Localizar parágrafos de requisitos não-funcionais para preservá-los
-    paragrafos_rnf = []
-    for i, p in enumerate(doc.paragraphs):
-        if "3 - Requisitos Não-Funcionais" in p.text or "RNF-[N_RNF]" in p.text or "[DESCRICAO_RNF]" in p.text:
-            paragrafos_rnf.append((i, p))
-            logger.info(f"Encontrado parágrafo RNF no índice {i}: '{p.text}'")
+    # 4. Substituir o marcador [DESCRICAO] pela descrição geral
+    paragrafo_descricao.text = paragrafo_descricao.text.replace("[DESCRICAO]", "Abaixo segue a descrição dos requisitos funcionais.")
     
     # Armazenar o corpo do documento para inserções
     body = doc._body._body
     
-    # 5. Para cada requisito, criar uma cópia do parágrafo e da tabela
+    # 5. Para cada requisito, criar uma cópia do parágrafo e da tabela em uma nova página
     # Manter rastreamento de elementos adicionados para não removê-los
     elementos_adicionados = []
     
-    # Ponto de inserção inicial
+    # Ponto de inserção inicial após a descrição geral
     posicao_insercao = paragrafo_indice
     
     # Para cada requisito, criar parágrafo de título e tabela
     for idx, requisito in enumerate(requisitos):
         logger.info(f"Processando requisito {idx+1}: {requisito.get('tituloRF', 'Sem título')}")
         
-        # Se não for o primeiro requisito, adicionar quebra de página
-        if idx > 0:
-            logger.info("Adicionando quebra de página")
-            quebra_pagina = doc.add_paragraph()
-            run = quebra_pagina.add_run()
-            run.add_break(WD_BREAK.PAGE)
-            body.insert(posicao_insercao, quebra_pagina._p)
-            posicao_insercao += 1
-            elementos_adicionados.append(quebra_pagina._p)
+        # Adicionar quebra de página antes de cada requisito
+        quebra_pagina = doc.add_paragraph()
+        run = quebra_pagina.add_run()
+        run.add_break(WD_BREAK.PAGE)
+        body.insert(posicao_insercao, quebra_pagina._p)
+        posicao_insercao += 1
+        elementos_adicionados.append(quebra_pagina._p)
         
         # Criar novo parágrafo para título
         novo_titulo = doc.add_paragraph()
@@ -153,7 +152,7 @@ def processar_requisitos_funcionais(doc, requisitos):
         titulo = requisito.get('tituloRF', '[Sem título]')
         
         # Criar o texto do título formatado
-        run = novo_titulo.add_run(f"RF-{num_rf}: {titulo}")
+        run = novo_titulo.add_run(f"{idx + 1} – {titulo}")
         
         # Copiar formatação do run original
         if paragrafo_modelo.runs:
@@ -179,6 +178,29 @@ def processar_requisitos_funcionais(doc, requisitos):
         body.insert(posicao_insercao, novo_titulo._p)
         posicao_insercao += 1
         elementos_adicionados.append(novo_titulo._p)
+        
+        # Adicionar parágrafo para Descrição
+        para_descricao = doc.add_paragraph("Descrição")
+        
+        # Formatar o parágrafo de descrição
+        if paragrafo_modelo.runs:
+            run_modelo = paragrafo_modelo.runs[0]
+            para_descricao_run = para_descricao.runs[0]
+            if hasattr(run_modelo, 'font'):
+                # Copiar fonte
+                if hasattr(run_modelo.font, 'name'):
+                    para_descricao_run.font.name = run_modelo.font.name
+                # Copiar tamanho
+                if hasattr(run_modelo.font, 'size'):
+                    para_descricao_run.font.size = run_modelo.font.size
+                # Copiar negrito
+                if hasattr(run_modelo.font, 'bold'):
+                    para_descricao_run.font.bold = run_modelo.font.bold
+        
+        # Inserir o parágrafo de descrição no documento
+        body.insert(posicao_insercao, para_descricao._p)
+        posicao_insercao += 1
+        elementos_adicionados.append(para_descricao._p)
         
         # Obter valores (ou padrões) para os campos
         local = requisito.get('local', '')
@@ -299,7 +321,7 @@ def processar_requisitos_funcionais(doc, requisitos):
     
     # 6. Remover os elementos originais do modelo (cuidado para não remover os novos)
     try:
-        # Remover parágrafo modelo original
+        # Remover parágrafo modelo original do título do requisito
         if paragrafo_modelo._p.getparent() is not None:
             body.remove(paragrafo_modelo._p)
             logger.info(f"Removido parágrafo modelo original (índice {paragrafo_indice})")
@@ -310,9 +332,6 @@ def processar_requisitos_funcionais(doc, requisitos):
             logger.info("Removida tabela modelo original")
     except Exception as e:
         logger.error(f"Erro ao remover elementos originais: {str(e)}")
-    
-    # Não remover os parágrafos de requisitos não-funcionais
-    logger.info("Preservando seção de requisitos não-funcionais")
     
     logger.info(f"Processamento de {len(requisitos)} requisitos concluído com sucesso")
 
