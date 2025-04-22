@@ -27,6 +27,15 @@ const RichTextEditor = {
       content: this.value,
       isInitialized: false,
       containerId: `quill-editor-${Math.random().toString(36).substring(2, 9)}`,
+      // Conteúdo para os novos editores Quill
+      validacoesContent: "",
+      regrasContent: "",
+      bancoContent: "",
+
+      // Referências aos editores Quill
+      validacoesEditor: null,
+      regrasEditor: null,
+      bancoEditor: null,
     };
   },
   computed: {
@@ -35,14 +44,78 @@ const RichTextEditor = {
     },
   },
   watch: {
-    value(newVal) {
-      if (this.editor && newVal !== this.editor.root.innerHTML) {
-        this.editor.root.innerHTML = newVal;
+    show(newVal) {
+      if (newVal) {
+        // Bloquear rolagem quando o modal abrir
+        document.body.classList.add("modal-open");
+        // Reset para a primeira aba quando o modal abrir
+        this.tabAtiva = 0;
+        // Atualizar o estado do tema
+        this.isDarkMode = document.documentElement.classList.contains("dark");
+        // Inicializar o conteúdo do editor com os dados do requisito
+        this.descricaoContent = this.requisito.descricao || "";
+        this.validacoesContent = this.requisito.validacoes || "";
+        this.regrasContent = this.requisito.regras || "";
+        this.bancoContent = this.requisito.banco || "";
+
+        // Dar tempo para o DOM renderizar antes de tentar inicializar o editor
+        this.$nextTick(() => {
+          // Verificar se o editor já está inicializado
+          if (!this.editor) {
+            // Tentar encontrar o editor no DOM
+            const editorElement = document.querySelector(".ql-editor");
+            if (editorElement && editorElement.quill) {
+              this.editor = editorElement.quill;
+            }
+          }
+
+          // Focar no campo Título após o modal abrir
+          setTimeout(() => {
+            const tituloRFInput = document.getElementById("req-tituloRF");
+            if (tituloRFInput) {
+              tituloRFInput.focus();
+            }
+          }, 50);
+        });
+      } else {
+        // Desbloquear rolagem quando o modal fechar
+        document.body.classList.remove("modal-open");
       }
     },
-    disabled(newVal) {
-      if (this.editor) {
-        this.editor.enable(!newVal);
+    requisito: {
+      handler(newVal) {
+        // Sincronizar sempre que o requisito mudar
+        if (newVal) {
+          this.descricaoContent = newVal.descricao || "";
+          this.validacoesContent = newVal.validacoes || "";
+          this.regrasContent = newVal.regras || "";
+          this.bancoContent = newVal.banco || "";
+        }
+      },
+      deep: true,
+      immediate: true,
+    },
+    descricaoContent(newVal) {
+      if (this.requisito) {
+        this.requisito.descricao = newVal;
+      }
+    },
+
+    validacoesContent(newVal) {
+      if (this.requisito) {
+        this.requisito.validacoes = newVal;
+      }
+    },
+
+    regrasContent(newVal) {
+      if (this.requisito) {
+        this.requisito.regras = newVal;
+      }
+    },
+
+    bancoContent(newVal) {
+      if (this.requisito) {
+        this.requisito.banco = newVal;
       }
     },
   },
@@ -126,6 +199,60 @@ const RichTextEditor = {
         this.editor.focus();
       }
     },
+    updateValidacoesContent(content) {
+      this.validacoesContent = content;
+      if (this.requisito) {
+        this.requisito.validacoes = content;
+      }
+    },
+
+    updateRegrasContent(content) {
+      this.regrasContent = content;
+      if (this.requisito) {
+        this.requisito.regras = content;
+      }
+    },
+
+    updateBancoContent(content) {
+      this.bancoContent = content;
+      if (this.requisito) {
+        this.requisito.banco = content;
+      }
+    },
+
+    onValidacoesEditorReady(editor) {
+      this.validacoesEditor = editor;
+    },
+
+    onRegrasEditorReady(editor) {
+      this.regrasEditor = editor;
+    },
+
+    onBancoEditorReady(editor) {
+      this.bancoEditor = editor;
+    },
+
+    handleValidacoesTab() {
+      // Passar para o próximo campo (regras)
+      const regrasField = this.$el.querySelector("#regras-editor .ql-editor");
+      if (regrasField) {
+        setTimeout(() => {
+          regrasField.focus();
+        }, 200);
+      }
+    },
+
+    handleRegrasTab() {
+      // Passar para o próximo campo (banco)
+      this.trocarAba(3); // Muda para aba do banco
+    },
+
+    handleBancoTab() {
+      // Passar para o botão salvar
+      if (this.$refs.btnSalvar) {
+        this.$refs.btnSalvar.focus();
+      }
+    },
   },
   template: `
     <div class="quill-editor-container">
@@ -171,14 +298,6 @@ window.AppComponents.ModalRequisito = {
       descricaoContent: "",
       // Referência ao editor Quill
       editor: null,
-      // Conteúdo para os novos editores Quill
-      validacoesContent: "",
-      regrasContent: "",
-      bancoContent: "",
-      // Referências aos editores Quill
-      validacoesEditor: null,
-      regrasEditor: null,
-      bancoEditor: null,
     };
   },
   computed: {
@@ -225,14 +344,15 @@ window.AppComponents.ModalRequisito = {
         this.tabAtiva = 0;
         // Atualizar o estado do tema
         this.isDarkMode = document.documentElement.classList.contains("dark");
-        // Inicializar o conteúdo do editor com os dados do requisito
+        // Inicializar o conteúdo do editor
         this.descricaoContent = this.requisito.descricao || "";
-        this.validacoesContent = this.requisito.validacoes || "";
-        this.regrasContent = this.requisito.regras || "";
-        this.bancoContent = this.requisito.banco || "";
 
         // Dar tempo para o DOM renderizar antes de tentar inicializar o editor
         this.$nextTick(() => {
+          this.descricaoContent = this.requisito.descricao || "";
+          this.validacoesContent = this.requisito.validacoes || "";
+          this.regrasContent = this.requisito.regras || "";
+          this.bancoContent = this.requisito.banco || "";
           // Verificar se o editor já está inicializado
           if (!this.editor) {
             // Tentar encontrar o editor no DOM
@@ -257,8 +377,8 @@ window.AppComponents.ModalRequisito = {
     },
     requisito: {
       handler(newVal) {
-        // Sincronizar sempre que o requisito mudar
-        if (newVal) {
+        // Sincronizar apenas quando o modal for aberto
+        if (this.show) {
           this.descricaoContent = newVal.descricao || "";
           this.validacoesContent = newVal.validacoes || "";
           this.regrasContent = newVal.regras || "";
@@ -379,19 +499,6 @@ window.AppComponents.ModalRequisito = {
     },
 
     trocarAba(id) {
-      // Antes de trocar, atualizar os dados do requisito com os valores atuais dos editores
-      if (this.tabAtiva === 1) {
-        // Salvando dados da descrição
-        this.requisito.descricao = this.descricaoContent;
-      } else if (this.tabAtiva === 2) {
-        // Salvando dados das regras
-        this.requisito.validacoes = this.validacoesContent;
-        this.requisito.regras = this.regrasContent;
-      } else if (this.tabAtiva === 3) {
-        // Salvando dados do banco
-        this.requisito.banco = this.bancoContent;
-      }
-
       this.tabAtiva = id;
 
       // Limpar estilos de erro quando trocar de aba
@@ -416,16 +523,6 @@ window.AppComponents.ModalRequisito = {
 
       // Focar no primeiro campo da aba após a troca
       this.$nextTick(() => {
-        // Restaurar valores nos novos editores
-        if (id === 1) {
-          this.descricaoContent = this.requisito.descricao || "";
-        } else if (id === 2) {
-          this.validacoesContent = this.requisito.validacoes || "";
-          this.regrasContent = this.requisito.regras || "";
-        } else if (id === 3) {
-          this.bancoContent = this.requisito.banco || "";
-        }
-
         // Tratamento especial para a aba de imagens
         if (
           id === 1 &&
@@ -461,13 +558,6 @@ window.AppComponents.ModalRequisito = {
     },
 
     fecharModal() {
-      // Antes de fechar, garantir que todos os dados estejam sincronizados com o requisito
-      if (this.requisito) {
-        this.requisito.descricao = this.descricaoContent;
-        this.requisito.validacoes = this.validacoesContent;
-        this.requisito.regras = this.regrasContent;
-        this.requisito.banco = this.bancoContent;
-      }
       this.$emit("fechar");
     },
 
@@ -598,7 +688,6 @@ window.AppComponents.ModalRequisito = {
         return;
       }
 
-      // Atualizar os valores finais antes de salvar
       this.requisito.descricao = this.descricaoContent;
       this.requisito.validacoes = this.validacoesContent;
       this.requisito.regras = this.regrasContent;
@@ -652,61 +741,6 @@ window.AppComponents.ModalRequisito = {
       }
     },
 
-    updateValidacoesContent(content) {
-      this.validacoesContent = content;
-      if (this.requisito) {
-        this.requisito.validacoes = content;
-      }
-    },
-
-    updateRegrasContent(content) {
-      this.regrasContent = content;
-      if (this.requisito) {
-        this.requisito.regras = content;
-      }
-    },
-
-    updateBancoContent(content) {
-      this.bancoContent = content;
-      if (this.requisito) {
-        this.requisito.banco = content;
-      }
-    },
-
-    onValidacoesEditorReady(editor) {
-      this.validacoesEditor = editor;
-    },
-
-    onRegrasEditorReady(editor) {
-      this.regrasEditor = editor;
-    },
-
-    onBancoEditorReady(editor) {
-      this.bancoEditor = editor;
-    },
-
-    handleValidacoesTab() {
-      // Passar para o próximo campo (regras)
-      const regrasField = this.$el.querySelector("#regras-editor .ql-editor");
-      if (regrasField) {
-        setTimeout(() => {
-          regrasField.focus();
-        }, 200);
-      }
-    },
-
-    handleRegrasTab() {
-      // Passar para o próximo campo (banco)
-      this.trocarAba(3); // Muda para aba do banco
-    },
-
-    handleBancoTab() {
-      // Passar para o botão salvar
-      if (this.$refs.btnSalvar) {
-        this.$refs.btnSalvar.focus();
-      }
-    },
-
     // Gerenciamento de navegação por teclado
     onSaveButtonKeydown(event) {
       if (event.key === "Tab" && !event.shiftKey) {
@@ -730,6 +764,21 @@ window.AppComponents.ModalRequisito = {
         if (primeiroElemento) {
           primeiroElemento.focus();
         }
+      }
+    },
+
+    onEditorReady(editor) {
+      this.editor = editor;
+
+      // Adiciona um ouvinte de evento para limpar o estilo de erro quando o usuário começar a editar
+      if (editor) {
+        editor.on("text-change", () => {
+          // Verifica se o texto não está vazio antes de limpar os estilos de erro
+          const text = editor.getText().trim();
+          if (text !== "") {
+            this.limparErroEditor();
+          }
+        });
       }
     },
   },
