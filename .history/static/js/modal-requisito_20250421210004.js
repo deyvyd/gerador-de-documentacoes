@@ -515,7 +515,7 @@ window.AppComponents.ModalRequisito = {
 
       // Verificar cada campo obrigatório em sequência
 
-      // 1. Título
+      // 1. Nome
       if (!this.requisito.tituloRF) {
         this.tabAtiva = 0; // Aba de informações básicas
         setTimeout(() => {
@@ -633,11 +633,6 @@ window.AppComponents.ModalRequisito = {
         }, 50);
         return;
       }
-
-      this.requisito.descricao = this.descricaoContent;
-      this.requisito.validacoes = this.validacoesContent;
-      this.requisito.regras = this.regrasContent;
-      this.requisito.banco = this.bancoContent;
 
       // Se chegou aqui, todos os campos estão preenchidos
       const editIndex = this.requisito.id

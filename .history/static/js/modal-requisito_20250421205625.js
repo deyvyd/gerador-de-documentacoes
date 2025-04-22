@@ -147,23 +147,22 @@ const RichTextEditor = {
     },
     updateValidacoesContent(content) {
       this.validacoesContent = content;
-      if (this.requisito) {
-        this.requisito.validacoes = content;
+      this.requisito.validacoes = content;
+
+      // Se o conteúdo não estiver mais vazio, remover os estilos de erro
+      if (content && content.trim() !== "") {
+        // Você pode adicionar lógica para remover erro aqui se necessário
       }
     },
 
     updateRegrasContent(content) {
       this.regrasContent = content;
-      if (this.requisito) {
-        this.requisito.regras = content;
-      }
+      this.requisito.regras = content;
     },
 
     updateBancoContent(content) {
       this.bancoContent = content;
-      if (this.requisito) {
-        this.requisito.banco = content;
-      }
+      this.requisito.banco = content;
     },
 
     onValidacoesEditorReady(editor) {
@@ -323,39 +322,10 @@ window.AppComponents.ModalRequisito = {
     },
     requisito: {
       handler(newVal) {
-        // Sincronizar apenas quando o modal for aberto
-        if (this.show) {
-          this.descricaoContent = newVal.descricao || "";
-          this.validacoesContent = newVal.validacoes || "";
-          this.regrasContent = newVal.regras || "";
-          this.bancoContent = newVal.banco || "";
-        }
+        this.descricaoContent = newVal.descricao || "";
       },
       deep: true,
       immediate: true,
-    },
-    descricaoContent(newVal) {
-      if (this.requisito) {
-        this.requisito.descricao = newVal;
-      }
-    },
-
-    validacoesContent(newVal) {
-      if (this.requisito) {
-        this.requisito.validacoes = newVal;
-      }
-    },
-
-    regrasContent(newVal) {
-      if (this.requisito) {
-        this.requisito.regras = newVal;
-      }
-    },
-
-    bancoContent(newVal) {
-      if (this.requisito) {
-        this.requisito.banco = newVal;
-      }
     },
   },
   methods: {
@@ -515,7 +485,7 @@ window.AppComponents.ModalRequisito = {
 
       // Verificar cada campo obrigatório em sequência
 
-      // 1. Título
+      // 1. Nome
       if (!this.requisito.tituloRF) {
         this.tabAtiva = 0; // Aba de informações básicas
         setTimeout(() => {
@@ -634,11 +604,6 @@ window.AppComponents.ModalRequisito = {
         return;
       }
 
-      this.requisito.descricao = this.descricaoContent;
-      this.requisito.validacoes = this.validacoesContent;
-      this.requisito.regras = this.regrasContent;
-      this.requisito.banco = this.bancoContent;
-
       // Se chegou aqui, todos os campos estão preenchidos
       const editIndex = this.requisito.id
         ? parseInt(this.requisito.id.split("-")[1]) - 1
@@ -677,9 +642,8 @@ window.AppComponents.ModalRequisito = {
 
     updateDescricaoContent(content) {
       this.descricaoContent = content;
-      if (this.requisito) {
-        this.requisito.descricao = content;
-      }
+      // Atualizar diretamente o valor no objeto requisito
+      this.requisito.descricao = content;
 
       // Se o conteúdo não estiver mais vazio, remover os estilos de erro
       if (content && content.trim() !== "") {

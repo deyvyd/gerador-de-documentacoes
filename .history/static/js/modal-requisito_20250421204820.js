@@ -147,23 +147,22 @@ const RichTextEditor = {
     },
     updateValidacoesContent(content) {
       this.validacoesContent = content;
-      if (this.requisito) {
-        this.requisito.validacoes = content;
+      this.requisito.validacoes = content;
+
+      // Se o conteúdo não estiver mais vazio, remover os estilos de erro
+      if (content && content.trim() !== "") {
+        // Você pode adicionar lógica para remover erro aqui se necessário
       }
     },
 
     updateRegrasContent(content) {
       this.regrasContent = content;
-      if (this.requisito) {
-        this.requisito.regras = content;
-      }
+      this.requisito.regras = content;
     },
 
     updateBancoContent(content) {
       this.bancoContent = content;
-      if (this.requisito) {
-        this.requisito.banco = content;
-      }
+      this.requisito.banco = content;
     },
 
     onValidacoesEditorReady(editor) {
@@ -295,10 +294,6 @@ window.AppComponents.ModalRequisito = {
 
         // Dar tempo para o DOM renderizar antes de tentar inicializar o editor
         this.$nextTick(() => {
-          this.descricaoContent = this.requisito.descricao || "";
-          this.validacoesContent = this.requisito.validacoes || "";
-          this.regrasContent = this.requisito.regras || "";
-          this.bancoContent = this.requisito.banco || "";
           // Verificar se o editor já está inicializado
           if (!this.editor) {
             // Tentar encontrar o editor no DOM
@@ -308,7 +303,7 @@ window.AppComponents.ModalRequisito = {
             }
           }
 
-          // Focar no campo Título após o modal abrir
+          // Focar no campo Nome após o modal abrir
           setTimeout(() => {
             const tituloRFInput = document.getElementById("req-tituloRF");
             if (tituloRFInput) {
@@ -323,39 +318,10 @@ window.AppComponents.ModalRequisito = {
     },
     requisito: {
       handler(newVal) {
-        // Sincronizar apenas quando o modal for aberto
-        if (this.show) {
-          this.descricaoContent = newVal.descricao || "";
-          this.validacoesContent = newVal.validacoes || "";
-          this.regrasContent = newVal.regras || "";
-          this.bancoContent = newVal.banco || "";
-        }
+        this.descricaoContent = newVal.descricao || "";
       },
       deep: true,
       immediate: true,
-    },
-    descricaoContent(newVal) {
-      if (this.requisito) {
-        this.requisito.descricao = newVal;
-      }
-    },
-
-    validacoesContent(newVal) {
-      if (this.requisito) {
-        this.requisito.validacoes = newVal;
-      }
-    },
-
-    regrasContent(newVal) {
-      if (this.requisito) {
-        this.requisito.regras = newVal;
-      }
-    },
-
-    bancoContent(newVal) {
-      if (this.requisito) {
-        this.requisito.banco = newVal;
-      }
     },
   },
   methods: {
@@ -515,7 +481,7 @@ window.AppComponents.ModalRequisito = {
 
       // Verificar cada campo obrigatório em sequência
 
-      // 1. Título
+      // 1. Nome
       if (!this.requisito.tituloRF) {
         this.tabAtiva = 0; // Aba de informações básicas
         setTimeout(() => {
@@ -634,11 +600,6 @@ window.AppComponents.ModalRequisito = {
         return;
       }
 
-      this.requisito.descricao = this.descricaoContent;
-      this.requisito.validacoes = this.validacoesContent;
-      this.requisito.regras = this.regrasContent;
-      this.requisito.banco = this.bancoContent;
-
       // Se chegou aqui, todos os campos estão preenchidos
       const editIndex = this.requisito.id
         ? parseInt(this.requisito.id.split("-")[1]) - 1
@@ -677,9 +638,8 @@ window.AppComponents.ModalRequisito = {
 
     updateDescricaoContent(content) {
       this.descricaoContent = content;
-      if (this.requisito) {
-        this.requisito.descricao = content;
-      }
+      // Atualizar diretamente o valor no objeto requisito
+      this.requisito.descricao = content;
 
       // Se o conteúdo não estiver mais vazio, remover os estilos de erro
       if (content && content.trim() !== "") {
@@ -1029,35 +989,19 @@ window.AppComponents.ModalRequisito = {
             </label>
             <div v-if="modoVisualizacao && !requisito.validacoes" 
               :class="['modal-empty-field', isDarkMode ? 'modal-empty-field-dark' : 'modal-empty-field-light']"
-              style="min-height: 90px; padding: 0.7rem;"
             >
               <em :class="isDarkMode ? 'modal-empty-text-dark' : 'modal-empty-text-light'">Não preenchido</em>
             </div>
-            
-            <!-- Editor de texto rico -->
-            <rich-text-editor
-              v-else-if="!modoVisualizacao"
-              :value="validacoesContent"
+            <textarea
+              v-else
+              id="req-validacoes"
+              v-model="requisito.validacoes"
+              :class="['modal-form-textarea', isDarkMode ? 'modal-form-input-dark' : 'modal-form-input-light']"
+              rows="3"
+              :placeholder="modoVisualizacao ? '' : 'Descreva as regras de validação'"
               :disabled="modoVisualizacao"
-              :placeholder="'Descreva as regras de validação'"
-              :tabIndex="tabIndexes.validacoes"
-              @input="updateValidacoesContent"
-              @change="updateValidacoesContent"
-              @editor-ready="onValidacoesEditorReady"
-              @tab-pressed="handleValidacoesTab"
-              id="validacoes-editor"
-            ></rich-text-editor>
-            
-            <!-- Visualização do conteúdo formatado no modo visualização -->
-            <div 
-              v-else 
-              class="quill-editor-container modo-visualizacao"
-              style="min-height: 90px;"
-            >
-              <div class="ql-container ql-snow">
-                <div class="ql-editor form-input" v-html="validacoesContent || 'Não preenchido'"></div>
-              </div>
-            </div>
+              :tabindex="tabIndexes.validacoes"
+            ></textarea>
           </div>
 
           <div class="modal-form-group">
@@ -1066,35 +1010,20 @@ window.AppComponents.ModalRequisito = {
             </label>
             <div v-if="modoVisualizacao && !requisito.regras" 
               :class="['modal-empty-field', isDarkMode ? 'modal-empty-field-dark' : 'modal-empty-field-light']"
-              style="min-height: 90px; padding: 0.7rem;"
             >
               <em :class="isDarkMode ? 'modal-empty-text-dark' : 'modal-empty-text-light'">Não preenchido</em>
             </div>
-            
-            <!-- Editor de texto rico -->
-            <rich-text-editor
-              v-else-if="!modoVisualizacao"
-              :value="regrasContent"
+            <textarea
+              v-else
+              id="req-regras"
+              v-model="requisito.regras"
+              :class="['modal-form-textarea', isDarkMode ? 'modal-form-input-dark' : 'modal-form-input-light']"
+              rows="3"
+              :placeholder="modoVisualizacao ? '' : 'Descreva as regras de negócio'"
               :disabled="modoVisualizacao"
-              :placeholder="'Descreva as regras de negócio'"
-              :tabIndex="tabIndexes.regras"
-              @input="updateRegrasContent"
-              @change="updateRegrasContent"
-              @editor-ready="onRegrasEditorReady"
-              @tab-pressed="handleRegrasTab"
-              id="regras-editor"
-            ></rich-text-editor>
-            
-            <!-- Visualização do conteúdo formatado no modo visualização -->
-            <div 
-              v-else 
-              class="quill-editor-container modo-visualizacao"
-              style="min-height: 90px;"
-            >
-              <div class="ql-container ql-snow">
-                <div class="ql-editor form-input" v-html="regrasContent || 'Não preenchido'"></div>
-              </div>
-            </div>
+              :tabindex="tabIndexes.regras"
+              @keydown="onKeydown($event, 3)"
+            ></textarea>
           </div>
         </div>
         
@@ -1106,37 +1035,23 @@ window.AppComponents.ModalRequisito = {
             </label>
             <div v-if="modoVisualizacao && !requisito.banco" 
               :class="['modal-empty-field modal-empty-field-tall', isDarkMode ? 'modal-empty-field-dark' : 'modal-empty-field-light']"
-              style="min-height: 200px; padding: 0.7rem;"
             >
               <em :class="isDarkMode ? 'modal-empty-text-dark' : 'modal-empty-text-light'">Não preenchido</em>
             </div>
-            
-            <!-- Editor de texto rico -->
-            <rich-text-editor
-              v-else-if="!modoVisualizacao"
-              :value="bancoContent"
+            <textarea
+              v-else
+              id="req-banco"
+              v-model="requisito.banco"
+              :class="['modal-form-textarea', isDarkMode ? 'modal-form-input-dark' : 'modal-form-input-light']"
+              rows="8"
+              :placeholder="modoVisualizacao ? '' : 'Descreva as mudanças no banco de dados'"
               :disabled="modoVisualizacao"
-              :placeholder="'Descreva as mudanças no banco de dados'"
-              :tabIndex="tabIndexes.banco"
-              @input="updateBancoContent"
-              @change="updateBancoContent"
-              @editor-ready="onBancoEditorReady"
-              @tab-pressed="handleBancoTab"
-              id="banco-editor"
-            ></rich-text-editor>
-            
-            <!-- Visualização do conteúdo formatado no modo visualização -->
-            <div 
-              v-else 
-              class="quill-editor-container modo-visualizacao"
-              style="min-height: 200px;"
-            >
-              <div class="ql-container ql-snow">
-                <div class="ql-editor form-input" v-html="bancoContent || 'Não preenchido'"></div>
-              </div>
-            </div>
+              :tabindex="tabIndexes.banco"
+              @keydown="onKeydown($event)"
+            ></textarea>
           </div>
         </div>
+      </div>
       
       <!-- Rodapé do modal com botões -->
       <div :class="['modal-footer', isDarkMode ? 'modal-footer-dark' : 'modal-footer-light']">
