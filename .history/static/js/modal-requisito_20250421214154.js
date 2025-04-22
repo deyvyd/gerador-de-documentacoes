@@ -598,18 +598,11 @@ window.AppComponents.ModalRequisito = {
         return;
       }
 
-      // Atualizar os valores finais antes de salvar, garantindo que campos vazios sejam salvos como ""
-      const cleanContent = (content) => {
-        if (!content || content.replace(/<[^>]*>/g, "").trim() === "") {
-          return "";
-        }
-        return content;
-      };
-
-      this.requisito.descricao = cleanContent(this.descricaoContent);
-      this.requisito.validacoes = cleanContent(this.validacoesContent);
-      this.requisito.regras = cleanContent(this.regrasContent);
-      this.requisito.banco = cleanContent(this.bancoContent);
+      // Atualizar os valores finais antes de salvar
+      this.requisito.descricao = this.descricaoContent;
+      this.requisito.validacoes = this.validacoesContent;
+      this.requisito.regras = this.regrasContent;
+      this.requisito.banco = this.bancoContent;
 
       // Se chegou aqui, todos os campos estão preenchidos
       const editIndex = this.requisito.id
