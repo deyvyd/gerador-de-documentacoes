@@ -18,7 +18,8 @@ from modules.document_processor import (
     identificar_tipo_documento, 
     processar_documento, 
     processar_requisitos_funcionais,
-    processar_requisitos_nao_funcionais,
+    processar_atividades_bullet_points,
+    processar_atividades_tabela,
     obter_titulos_sumario,
     atualizar_sumario_com_python_docx,
     gerar_pdf_do_docx
@@ -333,12 +334,11 @@ def gerar_documentos_dev():
                     # Processa o documento substituindo os marcadores
                     processar_documento(doc, tipo_documento, substituicoes)
                     
-                    if tipo_documento == 'estrategia':
-                        # Processa os requisitos funcionais
-                        posicao_insercao_final = processar_requisitos_funcionais(doc, documentacao.requisitos)
+                    # Processa os requisitos funcionais
+                    processar_requisitos_funcionais(doc, documentacao.requisitos)
 
-                        # Processa os requisitos não funcionais
-                        processar_requisitos_nao_funcionais(doc, documentacao.requisitos_nao_funcionais, posicao_insercao_final)
+                    # Processa os requisitos não funcionais
+                    processar_requisitos_nao_funcionais(doc, documentacao.requisitos_nao_funcionais)
                     
                     # Define o caminho do arquivo temporário final
                     temp_final = os.path.join(tempfile.gettempdir(), nome_arquivo)
@@ -444,6 +444,97 @@ def gerar_documentos_dev():
                 os.unlink(zip_path)
         except:
             pass
+
+def processar_requisitos_nao_funcionais(doc, requisitos_nao_funcionais):
+    """
+    Processa as tabelas de requisitos não funcionais no documento.
+    Substitui os marcadores [N_RNF], [TITULO_RNF], [DESCRICAO_RNF].
+    """
+    if not requisitos_nao_funcionais:
+        logger.info("Nenhum requisito não funcional para processar")
+        return
+    
+    logger.info(f"Processando {len(requisitos_nao_funcionais)} requisitos não funcionais")
+    
+    # Identificar tabelas de requisitos não funcionais
+    tabelas_rnf = []
+    
+    for i, table in enumerate(doc.tables):
+        for row in table.rows:
+            for cell in row.cells:
+                for paragraph in cell.paragraphs:
+                    # Verifica se o parágrafo contém algum marcador de requisito não funcional
+                    if any(marcador in paragraph.text for marcador in 
+                          ['[N_RNF]', '[TITULO_RNF]', '[DESCRICAO_RNF]']):
+                        if i not in tabelas_rnf:
+                            tabelas_rnf.append(i)
+                            logger.info(f"Tabela de RNF encontrada: índice {i}")
+    
+    # Processar cada tabela de requisitos não funcionais
+    for tabela_idx in tabelas_rnf:
+        tabela = doc.tables[tabela_idx]
+        
+        # Encontrar a linha de modelo (com marcadores)
+        linha_modelo_idx = None
+        for i, row in enumerate(tabela.rows):
+            for cell in row.cells:
+                for paragraph in cell.paragraphs:
+                    if '[N_RNF]' in paragraph.text:
+                        linha_modelo_idx = i
+                        logger.info(f"Linha modelo encontrada na posição {i}")
+                        break
+                if linha_modelo_idx is not None:
+                    break
+            if linha_modelo_idx is not None:
+                break
+        
+        if linha_modelo_idx is None:
+            logger.warning(f"Não foi encontrada linha modelo na tabela {tabela_idx}")
+            continue
+            
+        # Guardar a linha modelo antes de modificá-la
+        linha_modelo = tabela.rows[linha_modelo_idx]
+        
+        # Processar cada requisito não funcional
+        for idx, requisito in enumerate(requisitos_nao_funcionais):
+            if idx == 0:
+                # Para o primeiro requisito, usamos a linha modelo
+                linha_atual = linha_modelo
+            else:
+                # Para os demais, adicionamos uma nova linha duplicando a modelo
+                linha_atual = tabela.add_row()
+                
+                # Copiar o estilo de cada célula
+                for cell_idx, cell in enumerate(linha_modelo.cells):
+                    # Copiar formato da célula
+                    if cell_idx < len(linha_atual.cells):
+                        tab_copiar_estilo_celula(linha_atual.cells[cell_idx], cell)
+            
+            # Substitui os marcadores nas células
+            for idx_cell, cell in enumerate(linha_atual.cells):
+                for paragraph in cell.paragraphs:
+                    texto_original = paragraph.text
+                    
+                    # Dicionário com as substituições específicas para cada requisito
+                    substituicoes_rnf = {
+                        '[N_RNF]': f"{idx + 1:02d}",
+                        '[TITULO_RNF]': requisito.get('titulo', ''),
+                        '[DESCRICAO_RNF]': requisito.get('descricao', '')
+                    }
+                    
+                    # Verifica se há marcadores de RNF neste parágrafo
+                    if any(marcador in texto_original for marcador in substituicoes_rnf.keys()):
+                        # Obter o mapeamento de formatação do parágrafo
+                        mapa_formatacao = tab_mapear_formatacao_paragrafo(paragraph)
+                        
+                        # Substituir cada marcador mantendo a formatação
+                        texto_substituido = texto_original
+                        for marcador, valor in substituicoes_rnf.items():
+                            if marcador in texto_substituido:
+                                texto_substituido = texto_substituido.replace(marcador, valor)
+                        
+                        # Aplicar o texto substituído com a formatação original
+                        tab_processar_formatacao_paragrafo(paragraph, texto_substituido, mapa_formatacao)
 
 def init_app_dev(app):
     """

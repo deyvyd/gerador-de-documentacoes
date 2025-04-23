@@ -19,6 +19,8 @@ from modules.document_processor import (
     processar_documento, 
     processar_requisitos_funcionais,
     processar_requisitos_nao_funcionais,
+    processar_atividades_bullet_points,
+    processar_atividades_tabela,
     obter_titulos_sumario,
     atualizar_sumario_com_python_docx,
     gerar_pdf_do_docx

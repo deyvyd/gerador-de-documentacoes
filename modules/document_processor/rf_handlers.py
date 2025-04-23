@@ -216,7 +216,7 @@ def processar_requisitos_funcionais(doc, requisitos):
         # Armazenar os elementos para inserção posterior
         elementos_a_inserir.append((elementos_requisito, descricao_html, validacoes_html, regras_html, banco_html, requisito.get('imagens', [])))
     
-    # 5. CORREÇÃO: Remover os elementos originais do modelo antes de inserir os novos
+    # 5. Remover os elementos originais do modelo antes de inserir os novos
     try:
         # Remover parágrafo modelo original
         if paragrafo_modelo._p.getparent() is not None:
@@ -230,7 +230,7 @@ def processar_requisitos_funcionais(doc, requisitos):
     except Exception as e:
         logger.error(f"Erro ao remover elementos originais: {str(e)}")
     
-    # 6. CORREÇÃO: Agora insere todos os elementos criados antes da seção de RNF
+    # 6. Inserit todos os elementos criados antes da seção de RNF
     for idx, (elementos_requisito, descricao_html, validacoes_html, regras_html, banco_html, imagens) in enumerate(elementos_a_inserir):
         logger.info(f"Inserindo elementos do requisito {idx+1}")
         
@@ -314,6 +314,8 @@ def processar_requisitos_funcionais(doc, requisitos):
     logger.info("Preservando seção de requisitos não-funcionais")
     
     logger.info(f"Processamento de {len(requisitos)} requisitos concluído com sucesso")
+
+    return posicao_insercao_final
 
 # Funções auxiliares permanecem inalteradas
 def substituir_marcadores_tabela(tabela_xml, substituicoes):

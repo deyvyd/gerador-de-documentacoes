@@ -25,8 +25,8 @@ from .summary_handlers import (
     atualizar_sumario_com_python_docx
 )
 
-from modules.document_processor.rf_handlers import processar_requisitos_funcionais
-from modules.document_processor.rnf_handlers import processar_requisitos_nao_funcionais
+from modules.document_processor.f_requirements_handlers import processar_requisitos_funcionais
+from .nf_requirements_handlers import processar_requisitos_nao_funcionais
 
 from .hyperlink_handlers import criar_hyperlink, criar_hyperlink_marcador
 from .conversion import gerar_pdf_do_docx

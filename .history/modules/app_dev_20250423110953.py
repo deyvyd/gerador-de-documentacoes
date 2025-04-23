@@ -19,6 +19,8 @@ from modules.document_processor import (
     processar_documento, 
     processar_requisitos_funcionais,
     processar_requisitos_nao_funcionais,
+    processar_atividades_bullet_points,
+    processar_atividades_tabela,
     obter_titulos_sumario,
     atualizar_sumario_com_python_docx,
     gerar_pdf_do_docx
@@ -333,12 +335,11 @@ def gerar_documentos_dev():
                     # Processa o documento substituindo os marcadores
                     processar_documento(doc, tipo_documento, substituicoes)
                     
-                    if tipo_documento == 'estrategia':
-                        # Processa os requisitos funcionais
-                        posicao_insercao_final = processar_requisitos_funcionais(doc, documentacao.requisitos)
+                    # Processa os requisitos funcionais
+                    posicao_insercao_final = processar_requisitos_funcionais(doc, documentacao.requisitos)
 
-                        # Processa os requisitos não funcionais
-                        processar_requisitos_nao_funcionais(doc, documentacao.requisitos_nao_funcionais, posicao_insercao_final)
+                    # Processa os requisitos não funcionais
+                    processar_requisitos_nao_funcionais(doc, documentacao.requisitos_nao_funcionais, posicao_insercao_final)
                     
                     # Define o caminho do arquivo temporário final
                     temp_final = os.path.join(tempfile.gettempdir(), nome_arquivo)
