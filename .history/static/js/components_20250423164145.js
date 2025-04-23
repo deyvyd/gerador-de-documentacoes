@@ -156,33 +156,40 @@ const InfoButton = {
   `,
 };
 
-// Componente de Header
+// Componente de Header com suporte para tema claro/escuro
 const AppHeader = {
   props: {
+    isDark: {
+      type: Boolean,
+      required: true,
+    },
     title: {
       type: String,
       default: "Gerador de Documentações Técnicas",
     },
   },
   template: `
-    <header class="app-header fixed top-0 left-0 right-0 z-50">
+    <header class="app-header">
       <div class="container mx-auto px-4 py-3 flex items-center justify-between">
         <div class="flex items-center">
           <img 
-            src="./static/dark-logo.png" 
+            :src="isDark ? './static/dark-logo.png' : './static/light-logo.png'" 
             alt="Logo" 
-            class="h-12 mr-4"
+            class="h-10 mr-4"
           />
           <h1 class="text-white text-xl font-bold">{{ title }}</h1>
         </div>
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center">
           <slot name="actions"></slot>
         </div>
       </div>
     </header>
-    <div class="header-spacer"></div>
   `,
 };
+
+// Adicionar o componente ao objeto global AppComponents
+window.AppComponents = window.AppComponents || {};
+window.AppComponents.AppHeader = AppHeader;
 
 const PageHeader = {
   props: {

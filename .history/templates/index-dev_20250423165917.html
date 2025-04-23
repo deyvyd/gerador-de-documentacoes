@@ -66,7 +66,7 @@
         :toasts="notificationService.toasts"
       ></toast-notification>
 
-      <app-header title="Documentações de Desenvolvimento">
+      <app-header title="Gerador de Documentações Técnicas">
         <template #actions>
           <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
           <info-button
@@ -87,6 +87,11 @@
 
       <div class="container">
         <div class="main-card">
+          <page-header
+            title="Gerador de Documentações de Desenvolvimento"
+            icon="📝"
+          ></page-header>
+
           <basic-form-section
             ref="basicFormSection"
             :form-data="formData"

@@ -171,11 +171,11 @@ const AppHeader = {
           <img 
             src="./static/dark-logo.png" 
             alt="Logo" 
-            class="h-12 mr-4"
+            class="h-10 mr-4"
           />
           <h1 class="text-white text-xl font-bold">{{ title }}</h1>
         </div>
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center">
           <slot name="actions"></slot>
         </div>
       </div>
@@ -183,6 +183,14 @@ const AppHeader = {
     <div class="header-spacer"></div>
   `,
 };
+
+// Adicionar o componente ao objeto global AppComponents
+window.AppComponents = window.AppComponents || {};
+window.AppComponents.AppHeader = AppHeader;
+
+// Adicionar o componente ao objeto global AppComponents
+window.AppComponents = window.AppComponents || {};
+window.AppComponents.AppHeader = AppHeader;
 
 const PageHeader = {
   props: {

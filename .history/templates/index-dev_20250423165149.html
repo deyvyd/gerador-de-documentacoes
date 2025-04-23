@@ -66,27 +66,39 @@
         :toasts="notificationService.toasts"
       ></toast-notification>
 
-      <app-header title="Documentações de Desenvolvimento">
+      <!-- Toggle de Tema -->
+      <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
+
+      <!-- Botão de Informações -->
+      <info-button
+        tooltip-title="Este sistema gera um arquivo .zip com documentos de desenvolvimento:"
+        :tooltip-items="[
+        'Estimativa de Esforço e Cronograma',
+        'Estratégia de Solução',
+        'Relatório de Acompanhamento de Projeto'
+      ]"
+      ></info-button>
+
+      <!-- Botão de Importar JSON -->
+      <upload-button
+        tooltip-title="Importar dados de arquivo JSON"
+        @json-loaded="processImportedJSON"
+        @json-error="notificationService.show('Erro ao processar o arquivo JSON. Verifique o formato.', 'error')"
+      ></upload-button>
+
+      <app-header title="Gerador de Documentações de Desenvolvimento">
         <template #actions>
-          <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
-          <info-button
-            tooltip-title="Este sistema gera um arquivo .zip com documentos de desenvolvimento:"
-            :tooltip-items="[
-              'Estimativa de Esforço e Cronograma',
-              'Estratégia de Solução',
-              'Relatório de Acompanhamento de Projeto'
-            ]"
-          ></info-button>
-          <upload-button
-            tooltip-title="Importar dados de arquivo JSON"
-            @json-loaded="processImportedJSON"
-            @json-error="notificationService.show('Erro ao processar o arquivo JSON. Verifique o formato.', 'error')"
-          ></upload-button>
+          <!-- Aqui você pode adicionar botões ou outros elementos de ação no cabeçalho -->
         </template>
       </app-header>
 
       <div class="container">
         <div class="main-card">
+          <page-header
+            title="Gerador de Documentações de Desenvolvimento"
+            icon="📝"
+          ></page-header>
+
           <basic-form-section
             ref="basicFormSection"
             :form-data="formData"
