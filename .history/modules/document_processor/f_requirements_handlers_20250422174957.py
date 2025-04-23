@@ -1,3 +1,4 @@
+# f_requirements_handlers.py - Solução corrigida para formatação HTML e quebras de linha
 import logging
 import os
 import base64
@@ -38,22 +39,36 @@ def processar_requisitos_funcionais(doc, requisitos):
     
     logger.info(f"Processando {len(requisitos)} requisitos funcionais")
     
-    # 1. Localizar parágrafo modelo (RF-[N_RF]:[TITULO_RF])
+    # 1. Localizar título da seção de requisitos e a descrição
+    paragrafo_descricao = None
+    
+    for i, p in enumerate(doc.paragraphs):
+        if "[DESCRICAO]" in p.text:
+            paragrafo_descricao = p
+            logger.info(f"Encontrado parágrafo de descrição no índice {i}: {p.text}")
+            break
+    
+    if paragrafo_descricao:
+        # Substituir o marcador [DESCRICAO] pela descrição geral
+        paragrafo_descricao.text = paragrafo_descricao.text.replace("[DESCRICAO]", "Abaixo segue a descrição dos requisitos funcionais.")
+        logger.info("Substituído marcador [DESCRICAO] pela descrição geral")
+    
+    # 2. Localizar parágrafo modelo (RF-[N_RF])
     paragrafo_modelo = None
     paragrafo_indice = None
     
-    for i, p in enumerate(doc.paragraphs):      
+    for i, p in enumerate(doc.paragraphs):
         if "RF-[N_RF]" in p.text:
             paragrafo_modelo = p
             paragrafo_indice = i
             logger.info(f"Encontrado parágrafo modelo no índice {i}: {p.text}")
             break
-
+    
     if not paragrafo_modelo:
         logger.error("Não foi possível encontrar o parágrafo modelo com 'RF-[N_RF]'")
         return
     
-    # 2. Localizar tabela modelo que contém marcadores de RF
+    # 3. Localizar tabela modelo que contém marcadores de RF
     tabela_modelo = None
     tabela_indice = None
     
@@ -81,7 +96,7 @@ def processar_requisitos_funcionais(doc, requisitos):
         logger.error("Não foi possível encontrar a tabela modelo com marcadores RF")
         return
     
-    # 3. Localizar parágrafos de requisitos não-funcionais para preservá-los
+    # 4. Localizar parágrafos de requisitos não-funcionais para preservá-los
     paragrafos_rnf = []
     for i, p in enumerate(doc.paragraphs):
         if "3 - Requisitos Não-Funcionais" in p.text or "RNF-[N_RNF]" in p.text or "[DESCRICAO_RNF]" in p.text:
@@ -91,35 +106,26 @@ def processar_requisitos_funcionais(doc, requisitos):
     # Armazenar o corpo do documento para inserções
     body = doc._body._body
     
-    # 4. Detectar onde está a seção de RNF para inserir os RFs antes
-    posicao_insercao_final = None
-    for i, (idx, p) in enumerate(paragrafos_rnf):
-        if "3 - Requisitos Não-Funcionais" in p.text:
-            posicao_insercao_final = idx-1
-            logger.info(f"Seção de RNF encontrada na posição {idx}")
-            break
+    # 5. Para cada requisito, criar uma cópia do parágrafo e da tabela
+    # Manter rastreamento de elementos adicionados para não removê-los
+    elementos_adicionados = []
     
-    # Se não encontrou a seção de RNF, usar o final do documento
-    if posicao_insercao_final is None:
-        posicao_insercao_final = len(doc.paragraphs)
-        logger.info(f"Seção de RNF não encontrada, usando o final do documento (índice {posicao_insercao_final})")
-    
-    # CORREÇÃO: Criar uma lista de elementos a serem inseridos e depois inserir tudo de uma vez
-    elementos_a_inserir = []
+    # Ponto de inserção inicial
+    posicao_insercao = paragrafo_indice
     
     # Para cada requisito, criar parágrafo de título e tabela
     for idx, requisito in enumerate(requisitos):
         logger.info(f"Processando requisito {idx+1}: {requisito.get('tituloRF', 'Sem título')}")
         
-        elementos_requisito = []
-        
-        # Adicionar quebra de página apenas para requisitos APÓS o primeiro
+        # Se não for o primeiro requisito, adicionar quebra de página
         if idx > 0:
-            logger.info("Adicionando quebra de página entre requisitos")
+            logger.info("Adicionando quebra de página")
             quebra_pagina = doc.add_paragraph()
             run = quebra_pagina.add_run()
             run.add_break(WD_BREAK.PAGE)
-            elementos_requisito.append(quebra_pagina._p)
+            body.insert(posicao_insercao, quebra_pagina._p)
+            posicao_insercao += 1
+            elementos_adicionados.append(quebra_pagina._p)
         
         # Criar novo parágrafo para título
         novo_titulo = doc.add_paragraph()
@@ -169,7 +175,10 @@ def processar_requisitos_funcionais(doc, requisitos):
                 if hasattr(run_modelo.font, 'color') and run_modelo.font.color and run_modelo.font.color.rgb:
                     run.font.color.rgb = run_modelo.font.color.rgb
         
-        elementos_requisito.append(novo_titulo._p)
+        # Inserir o parágrafo de título no documento
+        body.insert(posicao_insercao, novo_titulo._p)
+        posicao_insercao += 1
+        elementos_adicionados.append(novo_titulo._p)
         
         # Obter valores (ou padrões) para os campos
         local = requisito.get('local', '')
@@ -211,35 +220,12 @@ def processar_requisitos_funcionais(doc, requisitos):
         # Substituir os marcadores simples na tabela
         substituir_marcadores_tabela(nova_tabela_xml, substituicoes)
         
-        elementos_requisito.append(nova_tabela_xml)
+        # Inserir a nova tabela no documento
+        body.insert(posicao_insercao, nova_tabela_xml)
+        posicao_insercao += 1
+        elementos_adicionados.append(nova_tabela_xml)
         
-        # Armazenar os elementos para inserção posterior
-        elementos_a_inserir.append((elementos_requisito, descricao_html, validacoes_html, regras_html, banco_html, requisito.get('imagens', [])))
-    
-    # 5. CORREÇÃO: Remover os elementos originais do modelo antes de inserir os novos
-    try:
-        # Remover parágrafo modelo original
-        if paragrafo_modelo._p.getparent() is not None:
-            body.remove(paragrafo_modelo._p)
-            logger.info(f"Removido parágrafo modelo original (índice {paragrafo_indice})")
-        
-        # Remover tabela modelo original
-        if tabela_modelo._tbl.getparent() is not None:
-            body.remove(tabela_modelo._tbl)
-            logger.info("Removida tabela modelo original")
-    except Exception as e:
-        logger.error(f"Erro ao remover elementos originais: {str(e)}")
-    
-    # 6. CORREÇÃO: Agora insere todos os elementos criados antes da seção de RNF
-    for idx, (elementos_requisito, descricao_html, validacoes_html, regras_html, banco_html, imagens) in enumerate(elementos_a_inserir):
-        logger.info(f"Inserindo elementos do requisito {idx+1}")
-        
-        # Inserir todos os elementos do requisito
-        for elemento in elementos_requisito:
-            body.insert(posicao_insercao_final, elemento)
-            posicao_insercao_final += 1
-        
-        # Obter a referência para a tabela inserida
+        # Obter a tabela que acabamos de inserir
         tabela_inserida = None
         for i, tabela in enumerate(doc.tables):
             # Verificamos se é a tabela que acabamos de adicionar
@@ -268,6 +254,7 @@ def processar_requisitos_funcionais(doc, requisitos):
             substituir_html_com_formatacao(tabela_inserida, "[BANCO_RF]", banco_html)
 
             # Processar imagens (se houver)
+            imagens = requisito.get('imagens', [])
             if imagens:
                 logger.info(f"Processando {len(imagens)} imagens para o requisito {idx+1}")
                 
@@ -310,12 +297,25 @@ def processar_requisitos_funcionais(doc, requisitos):
         else:
             logger.warning(f"Não foi possível encontrar a tabela inserida para o requisito {idx+1}")
     
+    # 6. Remover os elementos originais do modelo (cuidado para não remover os novos)
+    try:
+        # Remover parágrafo modelo original
+        if paragrafo_modelo._p.getparent() is not None:
+            body.remove(paragrafo_modelo._p)
+            logger.info(f"Removido parágrafo modelo original (índice {paragrafo_indice})")
+        
+        # Remover tabela modelo original
+        if tabela_modelo._tbl.getparent() is not None:
+            body.remove(tabela_modelo._tbl)
+            logger.info("Removida tabela modelo original")
+    except Exception as e:
+        logger.error(f"Erro ao remover elementos originais: {str(e)}")
+    
     # Não remover os parágrafos de requisitos não-funcionais
     logger.info("Preservando seção de requisitos não-funcionais")
     
     logger.info(f"Processamento de {len(requisitos)} requisitos concluído com sucesso")
 
-# Funções auxiliares permanecem inalteradas
 def substituir_marcadores_tabela(tabela_xml, substituicoes):
     """
     Substitui marcadores em uma tabela XML.
@@ -573,7 +573,7 @@ def substituir_html_com_formatacao(tabela, marcador, html_texto):
                 paragrafo_atual = celula_destino.add_paragraph()
             else:
                 primeiro_processado = False
-                
+
 def substituir_texto_com_quebras(tabela, marcador, texto):
     """
     Substitui um marcador por texto preservando quebras de linha.

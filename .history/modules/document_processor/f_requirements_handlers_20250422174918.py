@@ -1,3 +1,4 @@
+# f_requirements_handlers.py - Solução corrigida para formatação HTML e quebras de linha
 import logging
 import os
 import base64
@@ -42,12 +43,14 @@ def processar_requisitos_funcionais(doc, requisitos):
     paragrafo_modelo = None
     paragrafo_indice = None
     
-    for i, p in enumerate(doc.paragraphs):      
+    for i, p in enumerate(doc.paragraphs):
         if "RF-[N_RF]" in p.text:
-            paragrafo_modelo = p
-            paragrafo_indice = i
-            logger.info(f"Encontrado parágrafo modelo no índice {i}: {p.text}")
-            break
+            p = celula_destino.add_paragraph()
+            p.add_run(linhas[i])
+            
+            # Se a linha começa com um marcador de lista (•, -, *), aplicar recuo
+            if linhas[i].strip().startswith(('•', '-', '*')):
+                p.paragraph_format.left_indent = Pt(20)
 
     if not paragrafo_modelo:
         logger.error("Não foi possível encontrar o parágrafo modelo com 'RF-[N_RF]'")
@@ -91,11 +94,15 @@ def processar_requisitos_funcionais(doc, requisitos):
     # Armazenar o corpo do documento para inserções
     body = doc._body._body
     
-    # 4. Detectar onde está a seção de RNF para inserir os RFs antes
+    # 4. Para cada requisito, criar uma cópia do parágrafo e da tabela
+    # Manter rastreamento de elementos adicionados para não removê-los
+    elementos_adicionados = []
+    
+    # CORREÇÃO: Detectar onde está a seção de RNF para inserir os RFs antes
     posicao_insercao_final = None
     for i, (idx, p) in enumerate(paragrafos_rnf):
         if "3 - Requisitos Não-Funcionais" in p.text:
-            posicao_insercao_final = idx-1
+            posicao_insercao_final = idx
             logger.info(f"Seção de RNF encontrada na posição {idx}")
             break
     
@@ -113,9 +120,9 @@ def processar_requisitos_funcionais(doc, requisitos):
         
         elementos_requisito = []
         
-        # Adicionar quebra de página apenas para requisitos APÓS o primeiro
+        # Adicionar quebra de página antes de cada requisito (exceto o primeiro)
         if idx > 0:
-            logger.info("Adicionando quebra de página entre requisitos")
+            logger.info("Adicionando quebra de página")
             quebra_pagina = doc.add_paragraph()
             run = quebra_pagina.add_run()
             run.add_break(WD_BREAK.PAGE)
@@ -216,49 +223,91 @@ def processar_requisitos_funcionais(doc, requisitos):
         # Armazenar os elementos para inserção posterior
         elementos_a_inserir.append((elementos_requisito, descricao_html, validacoes_html, regras_html, banco_html, requisito.get('imagens', [])))
     
-    # 5. CORREÇÃO: Remover os elementos originais do modelo antes de inserir os novos
+    # 8. CORREÇÃO: Remover todo o conteúdo entre o parágrafo de descrição e a seção de RNF
     try:
-        # Remover parágrafo modelo original
-        if paragrafo_modelo._p.getparent() is not None:
-            body.remove(paragrafo_modelo._p)
-            logger.info(f"Removido parágrafo modelo original (índice {paragrafo_indice})")
+        # Determinar os elementos a serem removidos
+        elementos_a_remover = []
         
-        # Remover tabela modelo original
+        # Determinar a posição após o parágrafo de descrição + 1 (para manter o marcador [DESCRICAO])
+        inicio_remocao = paragrafo_descricao_indice + 2  # +1 para o parágrafo [DESCRICAO] e +1 para começar no seguinte
+        
+        # Se há RNF, remover até antes dele; senão, até o final do documento
+        fim_remocao = posicao_insercao_final if posicao_insercao_final else len(doc.paragraphs)
+        
+        logger.info(f"Removendo elementos do índice {inicio_remocao} até {fim_remocao}")
+        
+        # Identificar os elementos a remover (de trás para frente para não afetar índices)
+        for i in range(fim_remocao - 1, inicio_remocao - 1, -1):
+            if i < len(doc.paragraphs):
+                elemento = doc.paragraphs[i]._p
+                if elemento.getparent() is not None:
+                    body.remove(elemento)
+                    logger.info(f"Removido parágrafo no índice {i}: '{doc.paragraphs[i].text[:30]}...'")
+        
+        # Remover tabela modelo original se existir
         if tabela_modelo._tbl.getparent() is not None:
             body.remove(tabela_modelo._tbl)
             logger.info("Removida tabela modelo original")
+        
+        # Remover parágrafo modelo original se existir
+        if paragrafo_modelo._p.getparent() is not None:
+            body.remove(paragrafo_modelo._p)
+            logger.info(f"Removido parágrafo modelo original (índice {paragrafo_indice})")
     except Exception as e:
         logger.error(f"Erro ao remover elementos originais: {str(e)}")
     
-    # 6. CORREÇÃO: Agora insere todos os elementos criados antes da seção de RNF
+    # 9. Determinar a posição de inserção após o [DESCRICAO]
+    # A posição de inserção será após o parágrafo [DESCRICAO]
+    posicao_insercao = paragrafo_descricao_indice + 2  # +1 para o [DESCRICAO] e +1 para começar na página seguinte
+    
+    # 10. Adiciona uma quebra de página após o [DESCRICAO] para começar os RFs em uma nova página
+    quebra_pagina = doc.add_paragraph()
+    run = quebra_pagina.add_run()
+    run.add_break(WD_BREAK.PAGE)
+    body.insert(posicao_insercao, quebra_pagina._p)
+    posicao_insercao += 1
+    
+    # 11. Agora insere todos os elementos criados na posição correta
     for idx, (elementos_requisito, descricao_html, validacoes_html, regras_html, banco_html, imagens) in enumerate(elementos_a_inserir):
         logger.info(f"Inserindo elementos do requisito {idx+1}")
         
         # Inserir todos os elementos do requisito
         for elemento in elementos_requisito:
-            body.insert(posicao_insercao_final, elemento)
-            posicao_insercao_final += 1
+            body.insert(posicao_insercao, elemento)
+            posicao_insercao += 1
         
-        # Obter a referência para a tabela inserida
+        # Obter a referência para a tabela inserida - agora usamos a última tabela inserida
         tabela_inserida = None
-        for i, tabela in enumerate(doc.tables):
-            # Verificamos se é a tabela que acabamos de adicionar
-            contem_marcador = False
-            for linha in tabela.rows:
+                
+        # Identificar a tabela que acabamos de inserir (última adicionada)
+        # Primeiro contamos as tabelas no documento
+        tabelas_atuais = len(doc.tables)
+        logger.info(f"Total de tabelas no documento: {tabelas_atuais}")
+        
+        # A tabela inserida será a última
+        if tabelas_atuais > 0:
+            tabela_inserida = doc.tables[tabelas_atuais - 1]
+            logger.info(f"Usando última tabela inserida (índice {tabelas_atuais - 1})")
+        else:
+            logger.error("Não foi possível encontrar tabelas no documento")
+            
+        # Verificar se a tabela encontrada tem os marcadores esperados
+        if tabela_inserida:
+            marcadores_encontrados = False
+            for linha in tabela_inserida.rows:
                 for celula in linha.cells:
                     for p in celula.paragraphs:
                         if any(marcador in p.text for marcador in ["[DESCRICAO_RF]", "[REGRAS_CAMPOS_RF]", "[REGRAS_NEGOCIO_RF]", "[BANCO_RF]", "[IMAGEM_RF]"]):
-                            contem_marcador = True
+                            marcadores_encontrados = True
+                            logger.info(f"Confirmado: tabela encontrada contém marcadores esperados")
                             break
-                    if contem_marcador:
+                    if marcadores_encontrados:
                         break
-                if contem_marcador:
+                if marcadores_encontrados:
                     break
             
-            if contem_marcador:
-                tabela_inserida = tabela
-                logger.info(f"Encontrada tabela inserida no índice {i}")
-                break
+            if not marcadores_encontrados:
+                logger.warning("Tabela encontrada não contém os marcadores esperados")
         
         if tabela_inserida:
             # ATUALIZAÇÃO: Usar processamento HTML para todos os campos relevantes
@@ -310,12 +359,22 @@ def processar_requisitos_funcionais(doc, requisitos):
         else:
             logger.warning(f"Não foi possível encontrar a tabela inserida para o requisito {idx+1}")
     
+    # Adicionar quebra de página antes da seção de RNF se ela existir
+    if posicao_insercao_final:
+        # Criar quebra de página antes da seção de RNF
+        quebra_pagina_rnf = doc.add_paragraph()
+        run = quebra_pagina_rnf.add_run()
+        run.add_break(WD_BREAK.PAGE)
+        
+        # Inserir antes da seção de RNF
+        body.insert(posicao_insercao_final, quebra_pagina_rnf._p)
+        logger.info("Adicionada quebra de página antes da seção de Requisitos Não-Funcionais")
+    
     # Não remover os parágrafos de requisitos não-funcionais
     logger.info("Preservando seção de requisitos não-funcionais")
     
     logger.info(f"Processamento de {len(requisitos)} requisitos concluído com sucesso")
 
-# Funções auxiliares permanecem inalteradas
 def substituir_marcadores_tabela(tabela_xml, substituicoes):
     """
     Substitui marcadores em uma tabela XML.
@@ -573,7 +632,7 @@ def substituir_html_com_formatacao(tabela, marcador, html_texto):
                 paragrafo_atual = celula_destino.add_paragraph()
             else:
                 primeiro_processado = False
-                
+
 def substituir_texto_com_quebras(tabela, marcador, texto):
     """
     Substitui um marcador por texto preservando quebras de linha.
