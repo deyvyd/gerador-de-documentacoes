@@ -171,7 +171,7 @@ const AppHeader = {
           <img 
             src="./static/dark-logo.png" 
             alt="Logo" 
-            class="h-12 mr-4"
+            class="h-13 mr-4"
           />
           <h1 class="text-white text-xl font-bold">{{ title }}</h1>
         </div>
