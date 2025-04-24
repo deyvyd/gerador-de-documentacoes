@@ -48,18 +48,23 @@ def identificar_quebras_pagina(doc):
     
     return quebras_pagina
 
-def encontrar_pagina_pdf(file, text, pag_min):
+def encontrar_pagina_pdf(file, text: str, pag_min):
     import re
+
     import PyPDF2
 
     pdf = PyPDF2.PdfReader(file)
+    print(f"Pesquisando título {text}")
 
     num_pages = len(pdf.pages)
     for i in range(0, num_pages):
         page = pdf.pages[i]
         page_text = page.extract_text()
-        if re.search(text, page_text) and i >= pag_min - 1:
-            return i
+        print(f"Pesquisando título {text} na página {i+1}")
+    
+        if text in page_text and i >= pag_min - 2:
+            print(f"Título {text} encontrado na página {i+1}")
+            return i + 1
     return None
 
 def obter_paginas_pdf(caminho_pdf, titulos):
@@ -67,7 +72,7 @@ def obter_paginas_pdf(caminho_pdf, titulos):
     for titulo in titulos:
         pagina = encontrar_pagina_pdf(caminho_pdf, titulo["texto"], titulo["pagina"])
         if pagina is not None:
-            titulo["pagina"] = pagina + 1
+            titulo["pagina"] = pagina
         titulos_aux.append(titulo)
     return titulos_aux
 
