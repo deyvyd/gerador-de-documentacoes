@@ -772,9 +772,8 @@ video {
   z-index: 40;
   /* Valor mais alto que o z-index do header */
   position: relative;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  /* Adicionar margem horizontal */
+  margin-left: 1rem;
+  /* Adicionar margem à esquerda para separar do título */
 }
 
 /* Adicionar um efeito de hover mais visível */
@@ -2358,10 +2357,6 @@ video {
   margin-bottom: 1.5rem;
 }
 
-.ml-4{
-  margin-left: 1rem;
-}
-
 .mr-2{
   margin-right: 0.5rem;
 }
@@ -2380,10 +2375,6 @@ video {
 
 .block{
   display: block;
-}
-
-.inline-block{
-  display: inline-block;
 }
 
 .inline{
