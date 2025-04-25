@@ -108,7 +108,7 @@
   }
 
   .app-header .swap-tooltip .tooltip-arrow {
-    @apply absolute top-0 right-4 -mb-2 w-4 h-4 transform rotate-45;
+    @apply absolute top-0 right-5 -mb-2 w-4 h-4 transform rotate-45;
     @apply bg-blue-100 dark:bg-blue-900;
   }
 
