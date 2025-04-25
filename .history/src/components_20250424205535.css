@@ -75,12 +75,14 @@
 
   /* ===== Info Button e Tooltip ===== */
   .info-toggle {
-    @apply relative p-2 rounded-lg cursor-pointer transition-all duration-200;
-    @apply text-white bg-transparent;
+    @apply fixed p-2 rounded-lg cursor-pointer transition-all duration-200;
+    @apply text-white;
     @apply flex items-center justify-center;
     @apply w-10 h-10;
     @apply hover:text-blue-500;
+    position: relative;
   }
+
   .info-icon {
     @apply h-6 w-6;
     @apply transition-colors duration-200;
@@ -88,26 +90,24 @@
 
   .info-toggle:hover .info-tooltip {
     @apply visible opacity-100;
+    display: block;
   }
 
   .app-header .info-tooltip {
-    @apply absolute invisible opacity-0;
-    @apply right-0 top-10;
+    @apply absolute invisible opacity-0
+    right: 0;
+    top: 100%;
+    margin-top: 8px;
     @apply w-80;
     @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-700 dark:text-white;
     @apply z-50 text-left;
-    @apply transition-all duration-300;
-  }
-
-  .app-header .info-tooltip .tooltip-arrow,
-  .app-header .upload-tooltip .tooltip-arrow {
-    @apply absolute bottom-full right-3 w-4 h-4 transform rotate-45;
+    transition: visibility 0.2s, opacity 0.2s;
   }
 
   .app-header .info-tooltip .tooltip-arrow {
-    @apply absolute top-0 right-3 -mt-2 w-4 h-4 transform rotate-45;
-    @apply bg-blue-200 dark:bg-blue-700;
+    @apply absolute top-3 -right-2 w-4 h-4 bg-blue-200 transform rotate-45; /* Alterado de -left-2 para -right-2 */
+    @apply dark:bg-blue-700;
   }
 
   .app-header .tooltip-content {
@@ -132,7 +132,7 @@
     @apply text-[#27447E] bg-white;
     @apply hover:bg-purple-600 hover:text-purple-300;
     @apply flex items-center justify-center;
-    @apply relative;
+    position: relative;
   }
 
   .upload-icon {
@@ -142,19 +142,24 @@
 
   .upload-toggle:hover .upload-tooltip {
     @apply visible opacity-100;
+    display: block;
   }
 
   .upload-tooltip {
     @apply absolute invisible opacity-0;
-    @apply right-0 top-full mt-2 w-60;
+    right: 0;
+    top: 100%;
+    margin-top: 8px;
+    @apply w-60;
     @apply bg-purple-100 text-purple-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-purple-900 dark:text-purple-100;
     @apply z-50 text-left;
-    @apply transition-all duration-300;
+    transition: visibility 0.2s, opacity 0.2s;
   }
 
-  .app-header .upload-tooltip .tooltip-arrow {
-    @apply bg-purple-100 dark:bg-purple-900;
+  .upload-tooltip .tooltip-arrow {
+    @apply absolute top-3 -right-2 w-4 h-4 bg-purple-100 transform rotate-45; /* Alterado de -left-2 para -right-2 */
+    @apply dark:bg-purple-900;
   }
 
   /* ===== Input de sugestões de Autores ===== */

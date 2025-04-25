@@ -76,7 +76,7 @@
   /* ===== Info Button e Tooltip ===== */
   .info-toggle {
     @apply relative p-2 rounded-lg cursor-pointer transition-all duration-200;
-    @apply text-white bg-transparent;
+    @apply text-white;
     @apply flex items-center justify-center;
     @apply w-10 h-10;
     @apply hover:text-blue-500;
@@ -92,8 +92,7 @@
 
   .app-header .info-tooltip {
     @apply absolute invisible opacity-0;
-    @apply right-0 top-10;
-    @apply w-80;
+    @apply top-full right-0 mt-2 w-80;
     @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-700 dark:text-white;
     @apply z-50 text-left;
@@ -106,7 +105,6 @@
   }
 
   .app-header .info-tooltip .tooltip-arrow {
-    @apply absolute top-0 right-3 -mt-2 w-4 h-4 transform rotate-45;
     @apply bg-blue-200 dark:bg-blue-700;
   }
 
