@@ -1,3 +1,4 @@
+// Modificar a parte do componente SwapButton
 const SwapButton = {
   props: {
     tooltip: {
@@ -8,14 +9,15 @@ const SwapButton = {
       type: String,
       required: true,
     },
+    // Nova propriedade para identificar o tipo de destino
     targetType: {
       type: String,
-      default: "desenvolvimento",
+      default: "desenvolvimento", // ou "tecnica"
       validator: (value) => ["desenvolvimento", "tecnica"].includes(value),
     },
   },
   template: `
-    <div class="swap-toggle" :class="'swap-toggle-' + targetType" style="display: flex; align-items: center; margin-left: 16px;">
+    <div class="swap-toggle" :class="['swap-toggle-' + targetType]" style="display: flex; align-items: center; margin-left: 16px;">
       <a :href="targetUrl" class="swap-button">
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
@@ -34,8 +36,8 @@ const SwapButton = {
           />
         </svg>
       </a>
-      <div :class="['swap-tooltip', targetType === 'desenvolvimento' ? 'tooltip-desenvolvimento' : 'tooltip-tecnica']">
-        <div :class="['tooltip-arrow', targetType === 'desenvolvimento' ? 'arrow-desenvolvimento' : 'arrow-tecnica']"></div>
+      <div class="swap-tooltip" :class="['swap-tooltip-' + targetType]">
+        <div class="tooltip-arrow"></div>
         <div class="tooltip-content">
           <p class="tooltip-title">{{ tooltip }}</p>
         </div>

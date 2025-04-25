@@ -69,9 +69,13 @@
   /* Estilos base */
   .swap-toggle {
     @apply relative p-2 rounded-lg cursor-pointer transition-all duration-200;
-    @apply text-white bg-transparent;
+    @apply bg-transparent text-white;
     @apply flex items-center justify-center;
     @apply z-40 relative ml-4;
+  }
+
+  .swap-toggle:hover {
+    @apply bg-white bg-opacity-20;
   }
 
   .swap-icon {
@@ -178,7 +182,7 @@
   }
 
   .app-header .info-tooltip .tooltip-arrow {
-    @apply absolute top-0 -mt-2 w-4 h-4 transform rotate-45;
+    @apply absolute top-0 right-10 -mt-2 w-4 h-4 transform rotate-45;
     @apply bg-blue-200 dark:bg-blue-700;
   }
 

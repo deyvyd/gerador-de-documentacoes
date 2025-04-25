@@ -8,9 +8,10 @@ const SwapButton = {
       type: String,
       required: true,
     },
+    // Nova propriedade para identificar o tipo de destino
     targetType: {
       type: String,
-      default: "desenvolvimento",
+      default: "desenvolvimento", // ou "tecnica"
       validator: (value) => ["desenvolvimento", "tecnica"].includes(value),
     },
   },
@@ -34,8 +35,8 @@ const SwapButton = {
           />
         </svg>
       </a>
-      <div :class="['swap-tooltip', targetType === 'desenvolvimento' ? 'tooltip-desenvolvimento' : 'tooltip-tecnica']">
-        <div :class="['tooltip-arrow', targetType === 'desenvolvimento' ? 'arrow-desenvolvimento' : 'arrow-tecnica']"></div>
+      <div class="swap-tooltip" :class="'swap-tooltip-' + targetType">
+        <div class="tooltip-arrow" :class="'tooltip-arrow-' + targetType"></div>
         <div class="tooltip-content">
           <p class="tooltip-title">{{ tooltip }}</p>
         </div>

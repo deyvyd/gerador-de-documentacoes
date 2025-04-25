@@ -69,9 +69,13 @@
   /* Estilos base */
   .swap-toggle {
     @apply relative p-2 rounded-lg cursor-pointer transition-all duration-200;
-    @apply text-white bg-transparent;
+    @apply bg-transparent text-white;
     @apply flex items-center justify-center;
     @apply z-40 relative ml-4;
+  }
+
+  .swap-toggle:hover {
+    @apply bg-white bg-opacity-20;
   }
 
   .swap-icon {
@@ -101,14 +105,14 @@
 
   /* Tooltip para desenvolvimento */
   .tooltip-desenvolvimento {
-    @apply bg-green-100;
-    @apply text-green-800;
+    @apply bg-green-100 !important;
+    @apply text-green-800 !important;
   }
 
   /* Tooltip para técnica */
   .tooltip-tecnica {
-    @apply bg-orange-100;
-    @apply text-orange-800;
+    @apply bg-orange-100 !important;
+    @apply text-orange-800 !important;
   }
 
   /* Seta base */
@@ -118,29 +122,29 @@
 
   /* Seta para desenvolvimento */
   .arrow-desenvolvimento {
-    @apply bg-green-100;
+    @apply bg-green-100 !important;
   }
 
   /* Seta para técnica */
   .arrow-tecnica {
-    @apply bg-orange-100;
+    @apply bg-orange-100 !important;
   }
 
   /* Tema escuro */
   .dark .tooltip-desenvolvimento {
-    @apply bg-green-800 text-green-100;
+    @apply bg-green-800 !important text-green-100 !important;
   }
 
   .dark .arrow-desenvolvimento {
-    @apply bg-green-800;
+    @apply bg-green-800 !important;
   }
 
   .dark .tooltip-tecnica {
-    @apply bg-orange-800 text-orange-100;
+    @apply bg-orange-800 !important text-orange-100 !important;
   }
 
   .dark .arrow-tecnica {
-    @apply bg-orange-800;
+    @apply bg-orange-800 !important;
   }
 
   /* ===== Toggle de tema ===== */
@@ -178,7 +182,7 @@
   }
 
   .app-header .info-tooltip .tooltip-arrow {
-    @apply absolute top-0 -mt-2 w-4 h-4 transform rotate-45;
+    @apply absolute top-0 right-10 -mt-2 w-4 h-4 transform rotate-45;
     @apply bg-blue-200 dark:bg-blue-700;
   }
 
@@ -279,23 +283,23 @@
 
   /* Estilo específico para o container de autores com erro */
   .autor-container.campo-erro {
-    @apply border-red-600 border-2;
-    @apply dark:border-red-400;
+    @apply border-red-600 border-2 !important;
+    @apply dark:border-red-400 !important;
     @apply animate-pulse;
   }
 
   /* Animação de pulso para os inputs com erro */
   .campo-erro {
-    @apply border-red-600 border-2;
-    @apply dark:border-red-400;
+    @apply border-red-600 border-2 !important;
+    @apply dark:border-red-400 !important;
     @apply animate-pulse;
   }
 
   /* Garante que a animação seja visível também em formulários específicos */
   .author-input-area.campo-erro,
   .form-input.campo-erro {
-    @apply border-red-600 border-2;
-    @apply dark:border-red-400;
+    @apply border-red-600 border-2 !important;
+    @apply dark:border-red-400 !important;
     @apply animate-pulse;
   }
 
