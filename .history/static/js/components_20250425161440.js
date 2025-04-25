@@ -110,7 +110,7 @@ const UploadButton = {
         class="hidden"
         @change="handleFileUpload"
       />
-      <button @click="checkAndOpenFileSelector" type="button">
+      <button @click="openFileSelector" type="button">
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
           class="upload-icon" 
@@ -135,15 +135,71 @@ const UploadButton = {
     </div>
   `,
   methods: {
-    checkAndOpenFileSelector() {
-      // Emite um evento para o componente pai verificar os dados
-      // e mostrar o modal de confirmação se necessário
-      this.$emit("check-data");
-    },
     openFileSelector() {
-      // Método explícito para abrir o seletor de arquivos
-      this.$refs.fileInput.click();
+      // Verifica se há dados já preenchidos na aplicação
+      const hasFilledData = this.checkForFilledData();
+
+      if (hasFilledData) {
+        // Se há dados, mostra confirmação antes de prosseguir
+        if (
+          confirm(
+            "Existem dados preenchidos nos campos. Importar um novo arquivo substituirá todos esses dados. Deseja continuar?"
+          )
+        ) {
+          this.$refs.fileInput.click();
+        }
+        // Se o usuário cancelar, não faz nada e mantém os dados atuais
+      } else {
+        // Se não há dados, abre o seletor diretamente
+        this.$refs.fileInput.click();
+      }
     },
+
+    // Método para verificar se há dados preenchidos
+    checkForFilledData() {
+      // Acessamos o componente pai (app) para verificar os dados
+      const app = this.$root;
+
+      // Verifica se há dados básicos preenchidos
+      const formData = app.formData;
+      if (
+        formData.numeroSS ||
+        formData.tituloSS ||
+        formData.descricao ||
+        formData.dataInicio ||
+        formData.dataFim ||
+        formData.linkBoard
+      ) {
+        return true;
+      }
+
+      // Verifica se há autores selecionados
+      if (app.selectedAutores && app.selectedAutores.length > 0) {
+        return true;
+      }
+
+      // Verifica se há atividades (para o app técnico)
+      if (app.atividades && app.atividades.length > 0) {
+        return true;
+      }
+
+      // Verifica se há requisitos (para o app de desenvolvimento)
+      if (app.requisitos && app.requisitos.length > 0) {
+        return true;
+      }
+
+      // Verifica requisitos não funcionais (para o app de desenvolvimento)
+      if (
+        app.listaRequisitosNaoFuncionais &&
+        app.listaRequisitosNaoFuncionais.length > 0
+      ) {
+        return true;
+      }
+
+      // Se chegou aqui, não há dados preenchidos
+      return false;
+    },
+
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
