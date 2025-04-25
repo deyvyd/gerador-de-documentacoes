@@ -202,14 +202,6 @@ const AppHeader = {
       type: String,
       default: "Gerador de Documentações Técnicas",
     },
-    swapUrl: {
-      type: String,
-      default: "/dev",
-    },
-    swapTooltip: {
-      type: String,
-      default: "Trocar para documentação de desenvolvimento",
-    },
   },
   template: `
     <header class="app-header fixed top-0 left-0 right-0 z-50">
@@ -221,7 +213,6 @@ const AppHeader = {
             class="h-12 mr-4"
           />
           <h1 class="text-white text-xl font-bold">{{ title }}</h1>
-          <swap-button :target-url="swapUrl" :tooltip="swapTooltip" class="ml-4"></swap-button>
         </div>
         <div class="flex items-center space-x-3">
           <slot name="actions"></slot>
