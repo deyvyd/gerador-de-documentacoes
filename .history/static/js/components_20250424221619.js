@@ -4,21 +4,14 @@ const SwapButton = {
       type: String,
       default: "Trocar para documentação de desenvolvimento",
     },
-    "target-url": {
-      // Kebab-case para a propriedade
+    "swap-url": {
       type: String,
       required: true,
     },
   },
-  computed: {
-    targetUrl() {
-      // Acessar com camelCase
-      return this["target-url"];
-    },
-  },
   template: `
     <div class="swap-toggle">
-      <a :href="targetUrl" class="swap-button">
+      <a :href="swapUrl" class="swap-button">
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
           class="swap-icon" 
@@ -42,6 +35,11 @@ const SwapButton = {
       </div>
     </div>
   `,
+  computed: {
+    swapUrl() {
+      return this["swap-url"];
+    },
+  },
 };
 
 // Componente de toggle de tema
