@@ -101,7 +101,7 @@
 
   .app-header .info-tooltip .tooltip-arrow {
     @apply absolute top-0 right-10 -mt-2 w-4 h-4 transform rotate-45;
-    @apply bg-blue-200 dark:bg-blue-700;
+    @apply bg-blue-200 dark:bg-blue-700;6
   }
 
   .app-header .tooltip-content {
@@ -148,7 +148,7 @@
   }
 
   .app-header .upload-tooltip .tooltip-arrow {
-    @apply absolute top-0 right-7 -mt-2 w-4 h-4 transform rotate-45;
+    @apply absolute top-0 right-8 -mt-2 w-4 h-4 transform rotate-45;
     @apply bg-purple-100 dark:bg-purple-900;
   }
 

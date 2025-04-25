@@ -808,7 +808,7 @@ video {
   position: absolute;
   opacity: 0;
   right: 2.5rem;
-  top: 3.5rem;
+  top: 4rem;
   width: 20rem;
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
@@ -885,7 +885,7 @@ video {
 /* ===== Upload Button ===== */
 
 .upload-toggle{
-  position: fixed;
+  position: relative;
   cursor: pointer;
   border-radius: 0.5rem;
   padding: 0.5rem;
@@ -930,8 +930,7 @@ video {
   position: absolute;
   opacity: 0;
   right: 0px;
-  top: 100%;
-  margin-top: 0.5rem;
+  top: 4rem;
   width: 15rem;
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
@@ -960,6 +959,14 @@ video {
 }
 
 .app-header .upload-tooltip .tooltip-arrow{
+  position: absolute;
+  top: 0px;
+  right: 1.75rem;
+  margin-top: -0.5rem;
+  height: 1rem;
+  width: 1rem;
+  --tw-rotate: 45deg;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
   --tw-bg-opacity: 1;
   background-color: rgb(243 232 255 / var(--tw-bg-opacity, 1));
 }
