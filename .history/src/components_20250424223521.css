@@ -72,7 +72,7 @@
     @apply hover:text-blue-300;
     @apply dark:hover:text-blue-300;
     @apply flex items-center justify-center;
-    @apply z-40; /* Valor mais alto que o z-index do header */
+    @apply z-60; /* Valor mais alto que o z-index do header */
     @apply relative;
     @apply mx-2; /* Adicionar margem horizontal */
   }

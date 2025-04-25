@@ -5,13 +5,13 @@ const SwapButton = {
       default: "Trocar para documentação de desenvolvimento",
     },
     targetUrl: {
-      // Utilizando camelCase na definição da propriedade
+      // Usando camelCase para a definição da prop
       type: String,
       required: true,
     },
   },
   template: `
-    <div class="swap-toggle" style="display: flex; align-items: center; margin-left: 16px;">
+    <div class="swap-toggle">
       <a :href="targetUrl" class="swap-button">
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
@@ -19,8 +19,6 @@ const SwapButton = {
           fill="none" 
           viewBox="0 0 24 24" 
           stroke="currentColor"
-          width="24"
-          height="24"
         >
           <path 
             stroke-linecap="round" 
@@ -224,11 +222,7 @@ const AppHeader = {
             class="h-12 mr-4"
           />
           <h1 class="text-white text-xl font-bold">{{ title }}</h1>
-          <swap-button 
-            :target-url="swapUrl" 
-            :tooltip="swapTooltip" 
-            class="z-60 ml-4 inline-block"
-          ></swap-button>
+          <swap-button :target-url="swapUrl" :tooltip="swapTooltip" class="ml-4"></swap-button>
         </div>
         <div class="flex items-center space-x-3">
           <slot name="actions"></slot>

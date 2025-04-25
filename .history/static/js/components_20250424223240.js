@@ -227,7 +227,7 @@ const AppHeader = {
           <swap-button 
             :target-url="swapUrl" 
             :tooltip="swapTooltip" 
-            class="z-60 ml-4 inline-block"
+            style="margin-left: 16px; display: inline-block;"
           ></swap-button>
         </div>
         <div class="flex items-center space-x-3">
