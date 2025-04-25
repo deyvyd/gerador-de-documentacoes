@@ -63,10 +63,7 @@
         :toasts="notificationService.toasts"
       ></toast-notification>
 
-      <app-header
-        title="Documentações Técnicas"
-        @swap-requested="handleSwapRequested"
-      >
+      <app-header title="Documentações Técnicas">
         <template #swap-button>
           <swap-button
             target-url="/dev"

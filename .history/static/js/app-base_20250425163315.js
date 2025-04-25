@@ -198,8 +198,8 @@ window.AppBase = (function () {
       if (hasFilledData) {
         // Se há dados, mostra o modal de confirmação
         this.mostrarModalMensagem(
-          "Confirmar troca do tipo de documentação",
-          "Existem dados preenchidos nos campos. Trocar o tipo de documentação fará com que todos esses dados sejam perdidos. Deseja continuar?",
+          "Confirmar troca de aplicação",
+          "Existem dados preenchidos nos campos. Trocar de aplicação fará com que todos esses dados sejam perdidos. Deseja continuar?",
           () => {
             // Callback para quando o usuário confirmar - redireciona para a URL alvo
             window.location.href = targetUrl;
