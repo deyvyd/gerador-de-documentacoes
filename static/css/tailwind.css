@@ -814,7 +814,7 @@ video {
   position: absolute;
   opacity: 0;
   right: 0px;
-  top: 4rem;
+  top: 3.5rem;
   width: 15rem;
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
@@ -829,7 +829,7 @@ video {
 
 .swap-tooltip:is(.dark *){
   --tw-bg-opacity: 1;
-  background-color: rgb(14 22 33 / var(--tw-bg-opacity, 1));
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
   --tw-text-opacity: 1;
   color: rgb(219 234 254 / var(--tw-text-opacity, 1));
 }
@@ -844,7 +844,7 @@ video {
 
 .app-header .swap-tooltip .tooltip-arrow{
   position: absolute;
-  top: 0px;
+  top: -0.5rem;
   right: 1rem;
   margin-bottom: -0.5rem;
   height: 1rem;
@@ -857,7 +857,7 @@ video {
 
 .app-header .swap-tooltip .tooltip-arrow:is(.dark *){
   --tw-bg-opacity: 1;
-  background-color: rgb(14 22 33 / var(--tw-bg-opacity, 1));
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1));
 }
 
 /* ===== Toggle de tema ===== */

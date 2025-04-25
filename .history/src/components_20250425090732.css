@@ -100,7 +100,7 @@
 
   .swap-tooltip {
     @apply absolute invisible opacity-0;
-    @apply right-0 top-14 w-60;
+    @apply right-0 top-16 w-60;
     @apply bg-blue-100 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-600 dark:text-blue-100;
     @apply z-50 text-left;
@@ -108,7 +108,7 @@
   }
 
   .app-header .swap-tooltip .tooltip-arrow {
-    @apply absolute -top-2 right-4 -mb-2 w-4 h-4 transform rotate-45;
+    @apply absolute top-0 right-4 -mb-2 w-4 h-4 transform rotate-45;
     @apply bg-blue-100 dark:bg-blue-600;
   }
 

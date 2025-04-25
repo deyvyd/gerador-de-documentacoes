@@ -100,7 +100,7 @@
 
   .swap-tooltip {
     @apply absolute invisible opacity-0;
-    @apply right-0 top-14 w-60;
+    @apply right-0 top-12 w-60;
     @apply bg-blue-100 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-600 dark:text-blue-100;
     @apply z-50 text-left;
