@@ -92,7 +92,7 @@
 
   .app-header .info-tooltip {
     @apply absolute invisible opacity-0;
-    @apply right-10 top-14;
+    @apply right-10 top-16;
     @apply w-80;
     @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-700 dark:text-white;
