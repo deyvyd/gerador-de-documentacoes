@@ -65,8 +65,6 @@ window.AppBase = (function () {
       messageContent: "",
       messageCallback: null,
       messageCancelCallback: null,
-      messageType: "caution",
-      messageConfirmButtonText: "Remover",
     };
   };
 
@@ -506,16 +504,12 @@ window.AppBase = (function () {
       titulo,
       mensagem,
       callbackConfirmar,
-      callbackCancelar = null,
-      tipo = "caution", // Parâmetro adicional para o tipo do modal
-      textoBotaoConfirmar = "Remover" // Parâmetro adicional para o texto do botão
+      callbackCancelar = null
     ) {
       this.messageTitle = titulo;
       this.messageContent = mensagem;
       this.messageCallback = callbackConfirmar;
       this.messageCancelCallback = callbackCancelar;
-      this.messageType = tipo; // Nova propriedade para armazenar o tipo
-      this.messageConfirmButtonText = textoBotaoConfirmar; // Nova propriedade para o texto do botão
       this.showMessageModal = true;
 
       // Adicionar classe para bloquear rolagem do body

@@ -65,8 +65,6 @@ window.AppBase = (function () {
       messageContent: "",
       messageCallback: null,
       messageCancelCallback: null,
-      messageType: "caution",
-      messageConfirmButtonText: "Remover",
     };
   };
 

@@ -65,8 +65,6 @@ window.AppBase = (function () {
       messageContent: "",
       messageCallback: null,
       messageCancelCallback: null,
-      messageType: "caution",
-      messageConfirmButtonText: "Remover",
     };
   };
 
@@ -126,26 +124,43 @@ window.AppBase = (function () {
           () => {
             // Callback para quando o usuário confirmar
             if (this.$refs.uploadButton) {
+              // Tenta usar a referência direta
               this.$refs.uploadButton.openFileSelector();
             } else {
+              // Método alternativo usando o elemento DOM
               const uploadButton = document.querySelector(".upload-toggle");
               if (uploadButton && uploadButton.__vueRef) {
                 uploadButton.__vueRef.openFileSelector();
+              } else {
+                console.error(
+                  "Não foi possível encontrar a referência ao botão de upload"
+                );
+                this.notificationService.show(
+                  "Erro ao acessar o seletor de arquivos",
+                  "error"
+                );
               }
             }
-          },
-          null,
-          "warning", // Tipo alterado para warning
-          "Continuar" // Botão primário alterado para "Continuar"
+          }
         );
       } else {
         // Se não há dados, abre o seletor diretamente
         if (this.$refs.uploadButton) {
+          // Tenta usar a referência direta
           this.$refs.uploadButton.openFileSelector();
         } else {
+          // Método alternativo usando o elemento DOM
           const uploadButton = document.querySelector(".upload-toggle");
           if (uploadButton && uploadButton.__vueRef) {
             uploadButton.__vueRef.openFileSelector();
+          } else {
+            console.error(
+              "Não foi possível encontrar a referência ao botão de upload"
+            );
+            this.notificationService.show(
+              "Erro ao acessar o seletor de arquivos",
+              "error"
+            );
           }
         }
       }
@@ -506,16 +521,12 @@ window.AppBase = (function () {
       titulo,
       mensagem,
       callbackConfirmar,
-      callbackCancelar = null,
-      tipo = "caution", // Parâmetro adicional para o tipo do modal
-      textoBotaoConfirmar = "Remover" // Parâmetro adicional para o texto do botão
+      callbackCancelar = null
     ) {
       this.messageTitle = titulo;
       this.messageContent = mensagem;
       this.messageCallback = callbackConfirmar;
       this.messageCancelCallback = callbackCancelar;
-      this.messageType = tipo; // Nova propriedade para armazenar o tipo
-      this.messageConfirmButtonText = textoBotaoConfirmar; // Nova propriedade para o texto do botão
       this.showMessageModal = true;
 
       // Adicionar classe para bloquear rolagem do body
