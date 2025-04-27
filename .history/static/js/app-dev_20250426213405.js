@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
         requisitoDuplicado.id = novoId;
 
         // Modifica o título para indicar que é uma cópia
-        requisitoDuplicado.tituloRF = `(Cópia) ${requisitoDuplicado.tituloRF}`;
+        requisitoDuplicado.tituloRF = `${requisitoDuplicado.tituloRF} (Cópia)`;
 
         // Adiciona o requisito duplicado ao final da lista
         this.requisitos.push(requisitoDuplicado);
