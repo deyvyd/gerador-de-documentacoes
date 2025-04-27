@@ -325,7 +325,6 @@
 
   .requirements-section {
     @apply bg-gray-50 dark:bg-blue-800 rounded-lg border border-green-300 dark:border-green-700 p-4 my-4;
-    @apply transition-colors duration-200;
   }
 
   .requirements-title {

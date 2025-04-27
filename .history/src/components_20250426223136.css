@@ -304,15 +304,6 @@
     @apply bg-white dark:bg-blue-800 rounded-lg shadow p-4 w-full max-w-[1050px] mx-auto;
   }
 
-  .base-section {
-    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border dark:border-gray-700 p-4 my-4;
-  }
-
-  .base-title {
-    @apply text-xl font-semibold mb-3;
-    @apply dark:text-white;
-  }
-
   .activities-section {
     @apply bg-gray-50 dark:bg-blue-800 rounded-lg border border-orange-300 dark:border-orange-800 p-4 my-4;
     @apply transition-colors duration-200;
@@ -324,8 +315,7 @@
   }
 
   .requirements-section {
-    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border border-green-300 dark:border-green-700 p-4 my-4;
-    @apply transition-colors duration-200;
+    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border dark:border-gray-700 p-4 my-4;
   }
 
   .requirements-title {

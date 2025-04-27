@@ -111,6 +111,19 @@ body {
   animation: pulseErrorDark 3s ease-in-out;
 }
 
+/* ===== Seções ===== */
+
+.activities-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--light-text-primary);
+}
+
+.dark .activities-title {
+  color: var(--dark-text-primary);
+}
+
 /* ===== Grid layouts ===== */
 .grid-7-7-86 {
   display: grid;
