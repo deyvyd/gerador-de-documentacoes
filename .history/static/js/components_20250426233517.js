@@ -652,12 +652,10 @@ const DataTable = {
                       <circle cx="12" cy="12" r="3"></circle>
                     </svg>
                   </button>
-                  <!-- Botão de Editar -->
                   <button
                     v-if="col.actions?.edit"
                     @click="$emit('edit', index)"
                     class="action-button edit-button"
-                    title="Editar"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -675,7 +673,6 @@ const DataTable = {
                       />
                     </svg>
                   </button>
-                  <!-- Botão de Duplicar -->
                   <button
                     v-if="col.actions?.duplicate"
                     @click="$emit('duplicate', index)"
@@ -694,12 +691,10 @@ const DataTable = {
                       <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
                     </svg>
                   </button>
-                  <!-- Botão de Remover -->
                   <button
                     v-if="col.actions?.delete"
                     @click="$emit('delete', index)"
                     class="action-button delete-button"
-                    title="Remover"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

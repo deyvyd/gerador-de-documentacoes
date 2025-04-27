@@ -694,12 +694,10 @@ const DataTable = {
                       <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"></path>
                     </svg>
                   </button>
-                  <!-- Botão de Remover -->
                   <button
                     v-if="col.actions?.delete"
                     @click="$emit('delete', index)"
                     class="action-button delete-button"
-                    title="Remover"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

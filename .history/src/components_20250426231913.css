@@ -376,24 +376,23 @@
   }
 
   .view-button {
-    @apply text-purple-600 mr-2;
-    @apply hover:text-purple-700;
-    @apply dark:text-purple-400;
-    @apply dark:hover:text-purple-300;
-  }
-
-  .edit-button {
     @apply text-indigo-600 mr-2;
-    @apply hover:text-indigo-700;
+    @apply hover:text-indigo-500;
     @apply dark:text-indigo-400;
     @apply dark:hover:text-indigo-300;
   }
 
-  .duplicate-button {
-    @apply text-blue-600 mr-2;
-    @apply hover:text-blue-700;
+  .edit-button {
+    @apply text-primary mr-2;
     @apply dark:text-blue-400;
     @apply dark:hover:text-blue-300;
+  }
+
+  .duplicate-button {
+    @apply text-purple-600 mr-2;
+    @apply hover:text-purple-500;
+    @apply dark:text-purple-400;
+    @apply dark:hover:text-purple-300;
   }
 
   .delete-button {
