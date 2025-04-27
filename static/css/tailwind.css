@@ -1441,7 +1441,7 @@ video {
 
 /* ===== Tabelas ===== */
 
-.activities-table-container{
+.base-table-container{
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   overflow: hidden;
@@ -1451,19 +1451,19 @@ video {
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
 
-.activities-table-container:is(.dark *){
+.base-table-container:is(.dark *){
   --tw-border-opacity: 1;
   border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
   --tw-bg-opacity: 1;
   background-color: rgb(17 24 39 / var(--tw-bg-opacity, 1));
 }
 
-.activities-table{
+.base-table{
   width: 100%;
   border-collapse: collapse;
 }
 
-.activities-table th{
+.base-table th{
   border-bottom-width: 1px;
   padding: 0.75rem;
   text-align: left;
@@ -1473,62 +1473,62 @@ video {
   letter-spacing: 0.05em;
 }
 
-.activities-table th:is(.dark *){
+.base-table th:is(.dark *){
   --tw-border-opacity: 1;
   border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.activities-table td{
+.base-table td{
   border-bottom-width: 1px;
   padding: 0.75rem;
   --tw-text-opacity: 1;
   color: rgb(31 41 55 / var(--tw-text-opacity, 1));
 }
 
-.activities-table td:is(.dark *){
+.base-table td:is(.dark *){
   --tw-border-opacity: 1;
   border-color: rgb(55 65 81 / var(--tw-border-opacity, 1));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.activities-table thead{
+.base-table thead{
   --tw-bg-opacity: 1;
   background-color: rgb(219 234 254 / var(--tw-bg-opacity, 1));
 }
 
-.activities-table thead:is(.dark *){
+.base-table thead:is(.dark *){
   --tw-bg-opacity: 1;
   background-color: rgb(30 58 95 / var(--tw-bg-opacity, 1));
 }
 
-.activities-table tbody tr{
+.base-table tbody tr{
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
 
-.activities-table tbody tr:is(.dark *){
+.base-table tbody tr:is(.dark *){
   --tw-bg-opacity: 1;
   background-color: rgb(31 41 55 / var(--tw-bg-opacity, 1));
 }
 
-.activities-table tbody tr:hover{
+.base-table tbody tr:hover{
   background-color: rgb(239 246 255 / 0.3);
 }
 
-.activities-table tbody tr:hover:is(.dark *){
+.base-table tbody tr:hover:is(.dark *){
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
 }
 
-.activities-table tfoot{
+.base-table tfoot{
   --tw-bg-opacity: 1;
   background-color: rgb(219 234 254 / var(--tw-bg-opacity, 1));
 }
 
-.activities-table tfoot:is(.dark *){
+.base-table tfoot:is(.dark *){
   --tw-bg-opacity: 1;
   background-color: rgb(30 58 95 / var(--tw-bg-opacity, 1));
 }
