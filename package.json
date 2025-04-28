@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
     "build": "tailwindcss -i ./src/input.css -o ./static/css/tailwind.css --minify && vite build",
+    "preview": "vite preview",
     "build:vue": "vite build"
   },
   "repository": {
