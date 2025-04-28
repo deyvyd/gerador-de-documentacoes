@@ -66,99 +66,7 @@
         <!-- Seção de Atividades -->
         <div class="base-section">
           <h2 class="base-title">Gerenciar Atividades</h2>
-
-          <!-- Formulário de Atividade -->
-          <form @submit.prevent="submitAtividade" class="activity-form">
-            <div class="activity-inputs">
-              <div class="form-group w-8/12">
-                <label class="form-label">Atividade</label>
-                <input
-                  ref="atividadeInput"
-                  v-model="novaAtividade.nome"
-                  type="text"
-                  required
-                  class="form-input"
-                  placeholder="Nome da atividade"
-                />
-              </div>
-
-              <div class="form-group w-2/12">
-                <label class="form-label">Estimativa de horas</label>
-                <input
-                  v-model.number="novaAtividade.horas"
-                  type="number"
-                  required
-                  min="0"
-                  ref="horasInput"
-                  class="form-input text-center"
-                  placeholder="0"
-                  @keydown.enter.prevent="submitAtividade"
-                />
-              </div>
-
-              <div class="form-group w-2/12">
-                <label class="form-label">&nbsp;</label>
-                <form @submit.prevent="submitAtividade">
-                  <!-- Outros campos do formulário -->
-                  <button
-                    type="button"
-                    @click="submitAtividade"
-                    ref="activityButton"
-                    class="btn"
-                    :class="
-                      editingIndex !== null ? 'btn-update' : 'btn-primary'
-                    "
-                  >
-                    {% raw %}{{
-                      editingIndex !== null ? "Atualizar" : "Adicionar"
-                    }}{% endraw %}
-                  </button>
-                </form>
-              </div>
-            </div>
-          </form>
-
-          <!-- Lista de Atividades -->
-          <data-table
-            v-if="atividades.length > 0"
-            :items="atividades"
-            :columns="[
-              {
-                key: 'nome',
-                label: 'Atividade',
-                width: 'w-8/12',
-                align: 'text-left',
-                type: 'text',
-              },
-              {
-                key: 'horas',
-                label: 'Estimativa de horas',
-                width: 'w-2/12',
-                align: 'text-center',
-                type: 'text',
-              },
-              {
-                key: 'actions',
-                label: 'Ações',
-                width: 'w-2/12',
-                align: 'text-center',
-                type: 'buttons',
-                actions: { edit: true, delete: true },
-              },
-            ]"
-            :key-function="(item, index) => `atividade-${index}`"
-            :drag-ref="'dragArea'"
-            :draggable="true"
-            :show-footer="true"
-            :footer-items="[
-              { label: 'Total de horas', value: totalHoras, colspan: 1 },
-              { label: 'Quantidade de PF', value: pontosFuncao, colspan: 2 },
-            ]"
-            @edit="editarAtividade"
-            @delete="removerAtividade"
-            @reorder="reordenarAtividades"
-          >
-          </data-table>
+          <!-- ... (restante igual ao seu HTML) ... -->
         </div>
 
         <!-- Seção de formatos e botão Gerar Documentos -->
@@ -632,7 +540,7 @@ export default {
         const self = this;
 
         // Envia a requisição
-        fetch("/gerar_documentos", {
+        fetch(`${API_URL}/gerar_documentos`, {
           method: "POST",
           body: formData,
         })

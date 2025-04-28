@@ -675,130 +675,73 @@ export default {
       const basicFormSection = this.$refs.basicFormSection;
       if (!basicFormSection) return false;
 
-      try {
-        // Verifica se podemos usar $el.querySelector
-        if (
-          basicFormSection.$el &&
-          typeof basicFormSection.$el.querySelector === "function"
-        ) {
-          // Tentativa direta usando querySelector com a nova classe
-          let inputContainer =
-            basicFormSection.$el.querySelector(".autor-container");
+      // Tentativa direta usando querySelector com a nova classe
+      let inputContainer =
+        basicFormSection.$el.querySelector(".autor-container");
 
-          // Se não encontrar, tenta alternativas
-          if (!inputContainer) {
-            // Buscar pelo container de autor usando sua posição relativa
-            const formGroups =
-              basicFormSection.$el.querySelectorAll(".form-group");
-            // O campo de autor geralmente é o 4º form-group
-            const autorFormGroup = Array.from(formGroups).find(
-              (group) =>
-                group.querySelector("label") &&
-                group.querySelector("label").textContent.includes("Autor")
-            );
+      // Se não encontrar, tenta alternativas
+      if (!inputContainer) {
+        // Buscar pelo container de autor usando sua posição relativa
+        const formGroups = basicFormSection.$el.querySelectorAll(".form-group");
+        // O campo de autor geralmente é o 4º form-group
+        const autorFormGroup = Array.from(formGroups).find(
+          (group) =>
+            group.querySelector("label") &&
+            group.querySelector("label").textContent.includes("Autor")
+        );
 
-            if (autorFormGroup) {
-              inputContainer =
-                autorFormGroup.querySelector(".form-input") ||
-                autorFormGroup.querySelector(".author-input-area");
-            }
-          }
-
-          if (inputContainer) {
-            // Aplicar a classe de erro
-            inputContainer.classList.add("campo-erro");
-
-            // Focar no campo
-            const autorInput =
-              basicFormSection.$refs && basicFormSection.$refs.autorInput;
-            if (autorInput) {
-              autorInput.focus();
-            }
-
-            // Remover a classe após o tempo definido
-            setTimeout(() => {
-              inputContainer.classList.remove("campo-erro");
-            }, duracao);
-
-            return true;
-          }
-        } else {
-          // Abordagem alternativa usando seletores globais
-          const containers = [
-            document.querySelector(".autor-container"),
-            document.querySelector(".author-input-area"),
-            document.querySelector(".form-group:nth-child(4) .form-input"),
-          ];
-
-          // Usa o primeiro container encontrado
-          const inputContainer = containers.find(
-            (container) => container !== null
-          );
-
-          if (inputContainer) {
-            // Aplicar a classe de erro
-            inputContainer.classList.add("campo-erro");
-
-            // Tentar focar no campo de input
-            const autorInput = document.querySelector(".author-input-field");
-            if (autorInput) {
-              autorInput.focus();
-            }
-
-            // Remover a classe após o tempo definido
-            setTimeout(() => {
-              inputContainer.classList.remove("campo-erro");
-            }, duracao);
-
-            return true;
-          }
+        if (autorFormGroup) {
+          inputContainer =
+            autorFormGroup.querySelector(".form-input") ||
+            autorFormGroup.querySelector(".author-input-area");
         }
-
-        // Exibe uma notificação se não encontrar o elemento
-        this.notificationService.show("Selecione pelo menos um autor", "error");
-
-        return false;
-      } catch (error) {
-        console.warn("Erro ao aplicar destaque ao campo de autores:", error);
-
-        // Garantir que a notificação seja exibida mesmo se houver erro
-        this.notificationService.show("Selecione pelo menos um autor", "error");
-
-        return false;
       }
+
+      if (!inputContainer) return false;
+
+      // Aplicar a classe de erro
+      inputContainer.classList.add("campo-erro");
+
+      // Focar no campo
+      const autorInput = basicFormSection.$refs.autorInput;
+      if (autorInput) {
+        autorInput.focus();
+      }
+
+      // Remover a classe após o tempo definido
+      setTimeout(() => {
+        inputContainer.classList.remove("campo-erro");
+      }, duracao);
+
+      return true;
     },
 
     // ===== Gerenciamento de formulário e submissão =====
     validarCamposObrigatorios() {
-      try {
-        // Validação dos campos obrigatórios
-        const basicFormSection = this.$refs.basicFormSection;
-        if (!basicFormSection) {
-          console.error("Componente BasicFormSection não encontrado");
-          this.notificationService.show(
-            "Erro ao acessar o formulário",
-            "error"
-          );
-          this.isLoading = false;
-          return false;
-        }
+      // Validação dos campos obrigatórios
+      const basicFormSection = this.$refs.basicFormSection;
+      if (!basicFormSection) {
+        console.error("Componente BasicFormSection não encontrado");
+        this.notificationService.show("Erro ao acessar o formulário", "error");
+        this.isLoading = false;
+        return false;
+      }
 
-        // Lista de validações de campos obrigatórios
-        const camposObrigatorios = [
-          { ref: "numeroSS", label: "Número SS" },
-          { ref: "tituloSS", label: "Título" },
-          { ref: "descricao", label: "Descrição" },
-          { ref: "dataInicio", label: "Data de Início" },
-          { ref: "dataFim", label: "Data de Fim" },
-        ];
+      // Lista de validações de campos obrigatórios
+      const camposObrigatorios = [
+        { ref: "numeroSS", label: "Número SS" },
+        { ref: "tituloSS", label: "Título" },
+        { ref: "descricao", label: "Descrição" },
+        { ref: "dataInicio", label: "Data de Início" },
+        { ref: "dataFim", label: "Data de Fim" },
+      ];
 
-        for (const campo of camposObrigatorios) {
-          const valor = this.formData[campo.ref];
-          if (!valor || valor.trim() === "") {
-            // Verifica se o elemento existe
-            if (basicFormSection.$refs && basicFormSection.$refs[campo.ref]) {
-              this.aplicarErroTemporario(basicFormSection.$refs[campo.ref]);
-            }
+      for (const campo of camposObrigatorios) {
+        const valor = this.formData[campo.ref];
+        if (!valor || valor.trim() === "") {
+          const elemento = basicFormSection.$refs[campo.ref];
+          if (elemento) {
+            this.aplicarErroTemporario(elemento);
             this.notificationService.show(
               `O campo ${campo.label} é obrigatório`,
               "error"
@@ -807,15 +750,16 @@ export default {
             return false;
           }
         }
+      }
 
-        // Validação das datas
-        const dataInicio = new Date(this.formData.dataInicio);
-        const dataFim = new Date(this.formData.dataFim);
+      // Validação das datas
+      const dataInicio = new Date(this.formData.dataInicio);
+      const dataFim = new Date(this.formData.dataFim);
 
-        if (dataInicio > dataFim) {
-          if (basicFormSection.$refs && basicFormSection.$refs.dataInicio) {
-            this.aplicarErroTemporario(basicFormSection.$refs.dataInicio);
-          }
+      if (dataInicio > dataFim) {
+        const elemento = basicFormSection.$refs.dataInicio;
+        if (elemento) {
+          this.aplicarErroTemporario(elemento);
           this.notificationService.show(
             "A data de início não pode ser posterior à data de fim",
             "error"
@@ -823,32 +767,17 @@ export default {
           this.isLoading = false;
           return false;
         }
+      }
 
-        // Validação de autores
-        if (this.selectedAutores.length === 0) {
-          const result = this.aplicarErroTemporarioAutores();
-          if (!result) {
-            // Se aplicarErroTemporarioAutores não conseguiu destacar o campo,
-            // pelo menos exibe a notificação
-            this.notificationService.show(
-              "Selecione pelo menos um autor",
-              "error"
-            );
-          }
-          this.isLoading = false;
-          return false;
-        }
-
-        return true;
-      } catch (error) {
-        console.error("Erro durante validação de campos:", error);
-        this.notificationService.show(
-          "Erro durante validação. Verifique os campos obrigatórios.",
-          "error"
-        );
+      // Validação de autores
+      if (this.selectedAutores.length === 0) {
+        this.aplicarErroTemporarioAutores();
+        this.notificationService.show("Selecione pelo menos um autor", "error");
         this.isLoading = false;
         return false;
       }
+
+      return true;
     },
 
     // ===== Operações de submissão =====
