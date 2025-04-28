@@ -23,6 +23,7 @@ export default {
       default: "Gerador de Documentações Técnicas",
     },
   },
+  emits: ["swap-requested"],
   data() {
     return {
       // dados

@@ -68,6 +68,7 @@ export default {
       // dados
     };
   },
+  emits: ["swap-requested"],
   methods: {
     handleSwap() {
       // Emit um evento para o componente pai verificar se há dados preenchidos

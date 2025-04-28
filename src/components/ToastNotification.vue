@@ -16,6 +16,11 @@
 export default {
   name: "ToastNotification",
   props: {
+    toasts: {
+      type: Array,
+      required: true,
+      default: () => []
+    },
     mensagens: {
       type: Array,
       default: () => [],

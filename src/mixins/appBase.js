@@ -1,21 +1,24 @@
 // src/mixins/appBase.js
 export default {
     data() {
-      return {
-        notificationService: {
-            toasts: [],
-            show: (message, type = "info", duration = 3000) => {
-              const id = Date.now() + Math.random(); // Garante unicidade
-              this.notificationService.toasts.push({ id, message, type });
-              setTimeout(() => this.notificationService.closeToast(id), duration);
-            },
-            closeToast: (id) => {
-              const index = this.notificationService.toasts.findIndex((toast) => toast.id === id);
-              if (index !== -1) {
-                this.notificationService.toasts.splice(index, 1);
-              }
-            }
+      const createNotificationService = () => {
+        return {
+          toasts: [],
+          show: (message, type = "info", duration = 3000) => {
+            const id = Date.now() + Math.random(); // Garante unicidade
+            this.notificationService.toasts.push({ id, message, type });
+            setTimeout(() => this.notificationService.closeToast(id), duration);
           },
+          closeToast: (id) => {
+            const index = this.notificationService.toasts.findIndex((toast) => toast.id === id);
+            if (index !== -1) {
+              this.notificationService.toasts.splice(index, 1);
+            }
+          }
+        };
+      };
+      return {
+        notificationService: createNotificationService(),
         isDark: true,
       isLoading: false,
       formData: {
