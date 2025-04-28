@@ -591,6 +591,7 @@
 </template>
 
 <script>
+import RichTextEditor from "../components/RichTextEditor.vue"
 export default {
   name: "ModalRequisito",
   components: {
@@ -1258,7 +1259,7 @@ export default {
       );
     }
   },
-},
+}
 </script>
 
 <style scoped>

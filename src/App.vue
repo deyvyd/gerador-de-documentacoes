@@ -30,21 +30,23 @@
 </template>
 
 <script>
-import AppHeader from "../components/AppHeader.vue";
-import BasicFormSection from "../components/BasicFormSection.vue";
-import DataTable from "../components/DataTable.vue";
-import FormSubmitSection from "../components/FormSubmitSection.vue";
-import InfoButton from "../components/InfoButton.vue";
-import ModalMessage from "../components/ModalMessage.vue";
-import ModalRequisito from "../components/ModalRequisito.vue";
-import RichTextEditor from "../components/RichTextEditor.vue";
-import SwapButton from "../components/SwapButton.vue";
-import ThemeToggle from "../components/ThemeToggle.vue";
-import ToastNotification from "../components/ToastNotification.vue";
-import UploadButton from "../components/UploadButton.vue";
+import AppHeader from "./components/AppHeader.vue";
+import BasicFormSection from "./components/BasicFormSection.vue";
+import DataTable from "./components/DataTable.vue";
+import FormSubmitSection from "./components/FormSubmitSection.vue";
+import InfoButton from "./components/InfoButton.vue";
+import ModalMessage from "./components/ModalMessage.vue";
+import ModalRequisito from "./components/ModalRequisito.vue";
+import RichTextEditor from "./components/RichTextEditor.vue";
+import SwapButton from "./components/SwapButton.vue";
+import ThemeToggle from "./components/ThemeToggle.vue";
+import ToastNotification from "./components/ToastNotification.vue";
+import UploadButton from "./components/UploadButton.vue";
+import appBase from "./mixins/appBase";
 
 export default {
   name: "App",
+  mixins: [appBase],
   components: {
     AppHeader,
     BasicFormSection,

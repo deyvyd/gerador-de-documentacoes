@@ -108,6 +108,7 @@ import BasicFormSection from "../components/BasicFormSection.vue";
 import DataTable from "../components/DataTable.vue";
 import FormSubmitSection from "../components/FormSubmitSection.vue";
 import ModalMessage from "../components/ModalMessage.vue";
+import appBase from "../mixins/appBase";
 
 // Importe ou implemente os métodos e dados do seu app-base.js e app-tec.js
 
