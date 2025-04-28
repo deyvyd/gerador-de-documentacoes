@@ -18,6 +18,20 @@ body {
   width: 100%;
 }
 
+.main-card {
+  background-color: var(--light-bg-primary);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px var(--light-box-shadow);
+  padding: 1rem;
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.dark .main-card {
+  background-color: var(--dark-bg-secondary);
+}
+
 .title {
   font-size: 1.875rem;
   font-weight: 700;
@@ -33,7 +47,7 @@ body {
 /* ===== Formulários ===== */
 .form-group {
   margin-bottom: 0.75rem;
-  width: 100%;
+  width: auto;
   min-width: 0;
 }
 

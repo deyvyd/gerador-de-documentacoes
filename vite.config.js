@@ -10,6 +10,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir: "static", // <-- saída do build para a pasta static
+    emptyOutDir: false, // para não apagar outros arquivos da pasta static
+    rollupOptions: {
+      input: "./src/main.js", // ajuste se necessário
+    },
+  },
   server: {
     port: 5173,
     strictPort: true,

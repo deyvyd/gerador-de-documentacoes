@@ -591,10 +591,7 @@
 </template>
 
 <script>
-import RichTextEditor from "../components/RichTextEditor.vue";
-import Quill from "quill";
-import { Delta } from "quill";
-import Link from "quill/formats/link";
+import RichTextEditor from "../components/RichTextEditor.vue"
 export default {
   name: "ModalRequisito",
   components: {
@@ -1262,7 +1259,7 @@ export default {
       );
     }
   },
-};
+}
 </script>
 
 <style scoped>
