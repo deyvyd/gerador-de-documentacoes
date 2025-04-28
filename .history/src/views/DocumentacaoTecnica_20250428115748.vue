@@ -109,7 +109,9 @@
                       editingIndex !== null ? 'btn-update' : 'btn-primary'
                     "
                   >
-                    {{ editingIndex !== null ? "Atualizar" : "Adicionar" }}
+                    {% raw %}{{
+                      editingIndex !== null ? "Atualizar" : "Adicionar"
+                    }}{% endraw %}
                   </button>
                 </form>
               </div>
@@ -119,7 +121,6 @@
           <!-- Lista de Atividades -->
           <data-table
             v-if="atividades.length > 0"
-            :key="atividadesChangeCounter"
             :items="atividades"
             :columns="[
               {
@@ -233,7 +234,6 @@ export default {
         horas: "",
       },
       atividades: [],
-      atividadesChangeCounter: 0,
     };
   },
   computed: {
@@ -339,11 +339,10 @@ export default {
                 fallbackClass: "sortable-fallback",
                 onEnd: (evt) => {
                   if (evt.oldIndex !== evt.newIndex) {
-                    // Usar o método reordenarAtividades para garantir consistência
-                    this.reordenarAtividades({
-                      oldIndex: evt.oldIndex,
-                      newIndex: evt.newIndex,
-                    });
+                    const atividades = [...this.atividades];
+                    const [moved] = atividades.splice(evt.oldIndex, 1);
+                    atividades.splice(evt.newIndex, 0, moved);
+                    this.atividades = atividades;
                   }
                 },
               });
@@ -400,8 +399,6 @@ export default {
           this.initSortable();
         });
       });
-      // Incrementa o contador para forçar re-renderização
-      this.atividadesChangeCounter++;
     },
 
     // Gerenciamento de atividades

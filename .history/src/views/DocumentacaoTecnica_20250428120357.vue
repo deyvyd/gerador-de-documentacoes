@@ -109,7 +109,7 @@
                       editingIndex !== null ? 'btn-update' : 'btn-primary'
                     "
                   >
-                    {{ editingIndex !== null ? "Atualizar" : "Adicionar" }}
+                    editingIndex !== null ? "Atualizar" : "Adicionar"
                   </button>
                 </form>
               </div>

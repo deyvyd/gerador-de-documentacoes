@@ -109,7 +109,9 @@
                       editingIndex !== null ? 'btn-update' : 'btn-primary'
                     "
                   >
-                    {{ editingIndex !== null ? "Atualizar" : "Adicionar" }}
+                    {% raw %}{{
+                      editingIndex !== null ? "Atualizar" : "Adicionar"
+                    }}{% endraw %}
                   </button>
                 </form>
               </div>
