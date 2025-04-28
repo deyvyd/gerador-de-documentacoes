@@ -1,13 +1,11 @@
-import { createApp } from 'vue'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
 
-// Importe seus componentes aqui
-import App from './components/App.vue'
+import "./assets/css/colors.css";
+import "./assets/css/styles.css";
+import "./assets/css/modal.css";
+import "./assets/css/toast.css";
+import "./assets/css/tailwind.css";
 
-const app = createApp({
-  // Configurações do seu aplicativo
-})
-
-// Registre componentes globais aqui
-// app.component('component-name', Component)
-
-app.mount('#app') 
+createApp(App).use(router).mount("#app");

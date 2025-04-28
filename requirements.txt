@@ -16,3 +16,4 @@ python-dateutil==2.9.0.post0
 # Bibliotecas de suporte
 six==1.17.0
 colorama==0.4.6
+beautifulsoup4==4.12.3
