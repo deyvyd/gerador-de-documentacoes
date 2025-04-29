@@ -180,7 +180,7 @@
                   id="tituloRNF"
                   v-model="requisitosNaoFuncionais.titulo"
                   class="form-input"
-                  placeholder="Título do Requisito Não Funcional"
+                  placeholder="Título do requisito não funcional"
                 />
               </div>
 
@@ -194,7 +194,7 @@
                   id="descricaoRNF"
                   v-model="requisitosNaoFuncionais.descricao"
                   class="form-input"
-                  placeholder="Descrição do Requisito Não Funcional"
+                  placeholder="Descrição do requisito não funcional"
                   @keydown.enter.prevent="adicionarRequisitoNaoFuncional"
                 />
               </div>

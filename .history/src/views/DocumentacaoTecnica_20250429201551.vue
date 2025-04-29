@@ -122,12 +122,13 @@
             </div>
           </form>
 
-          <div v-if="atividades.length > 0" class="mb-4">
+          <div class="mb-4">
             <h3 class="text-lg font-medium mb-3 text-gray-700 dark:text-white">
-              Lista de Atividades
+              Lista de atividades
             </h3>
             <!-- Lista de Atividades -->
             <data-table
+              v-if="atividades.length > 0"
               :key="atividadesChangeCounter"
               :items="atividades"
               :columns="[

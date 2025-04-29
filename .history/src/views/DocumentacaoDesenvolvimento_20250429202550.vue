@@ -194,7 +194,7 @@
                   id="descricaoRNF"
                   v-model="requisitosNaoFuncionais.descricao"
                   class="form-input"
-                  placeholder="Descrição do Requisito Não Funcional"
+                  placeholder="Descrição do requisito não funcional"
                   @keydown.enter.prevent="adicionarRequisitoNaoFuncional"
                 />
               </div>

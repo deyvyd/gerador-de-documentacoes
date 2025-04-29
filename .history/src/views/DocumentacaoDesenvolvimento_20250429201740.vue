@@ -180,7 +180,7 @@
                   id="tituloRNF"
                   v-model="requisitosNaoFuncionais.titulo"
                   class="form-input"
-                  placeholder="Título do Requisito Não Funcional"
+                  placeholder="Título do requisito"
                 />
               </div>
 
@@ -194,7 +194,7 @@
                   id="descricaoRNF"
                   v-model="requisitosNaoFuncionais.descricao"
                   class="form-input"
-                  placeholder="Descrição do Requisito Não Funcional"
+                  placeholder="Descrição do requisito não funcional"
                   @keydown.enter.prevent="adicionarRequisitoNaoFuncional"
                 />
               </div>
@@ -216,13 +216,14 @@
             </div>
 
             <!-- Tabela de Requisitos Não Funcionais -->
-            <div v-if="listaRequisitosNaoFuncionais.length > 0" class="mt-4">
+            <div class="mt-4">
               <h3
                 class="text-lg font-medium mb-3 text-gray-700 dark:text-white"
               >
-                Lista de Requisitos Não Funcionais
+                Lista de requisitos não funcionais
               </h3>
               <data-table
+                v-if="listaRequisitosNaoFuncionais.length > 0"
                 :items="listaRequisitosNaoFuncionais"
                 :columns="[
                   {
