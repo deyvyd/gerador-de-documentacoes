@@ -117,6 +117,14 @@
     @apply h-16; /* Altura aproximada do header */
   }
 
+  /* Ajustes para componentes de botão no header */
+  .app-header .theme-toggle,
+  .app-header .info-toggle,
+  .app-header .upload-toggle {
+    @apply static mx-1 border-0;
+    @apply top-auto right-auto;
+  }
+
   /* ===== Swap Button ===== */
   /* Estilos base */
   .swap-toggle {
@@ -142,9 +150,10 @@
 
   /* Tooltip base */
   .swap-tooltip {
-    @apply invisible absolute opacity-0 right-0 top-14 w-60;
+    @apply absolute invisible opacity-0 left-1/2 transform -translate-x-1/2 top-full mt-2;
     @apply rounded-lg p-4 shadow-lg;
     @apply z-50 text-left transition-all duration-300;
+    @apply w-60;
   }
 
   .swap-toggle:hover .swap-tooltip {
@@ -165,7 +174,7 @@
 
   /* Seta base */
   .tooltip-arrow {
-    @apply absolute -top-2 right-4 -mb-2 w-4 h-4 transform rotate-45;
+    @apply absolute top-0 left-1/2 -translate-x-1/2 -mt-2 w-4 h-4 transform rotate-45;
   }
 
   /* Seta para desenvolvimento */
@@ -211,27 +220,29 @@
     @apply w-10 h-10;
     @apply hover:text-blue-500;
   }
-  .info-icon {
-    @apply h-6 w-6;
-    @apply transition-colors duration-200;
+
+  .info-tooltip {
+    @apply absolute invisible opacity-0;
+    @apply left-1/2 transform -translate-x-1/2 top-full mt-2;
+    @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
+    @apply dark:bg-blue-700 dark:text-white;
+    @apply z-50 text-left;
+    @apply transition-all duration-300;
+    @apply w-80;
   }
 
   .info-toggle:hover .info-tooltip {
     @apply visible opacity-100;
   }
 
-  .info-tooltip {
-    @apply absolute invisible opacity-0;
-    @apply -right-1 top-12 w-80;
-    @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
-    @apply dark:bg-blue-700 dark:text-white;
-    @apply z-50 text-left;
-    @apply transition-all duration-300;
+  .app-header .tooltip-arrow {
+    @apply absolute top-0 left-1/2 -translate-x-1/2 -mt-2 w-4 h-4 transform rotate-45;
+    @apply bg-blue-200 dark:bg-blue-700;
   }
 
-  .info-tooltip .tooltip-arrow {
-    @apply absolute top-0 -mt-2 w-4 h-4 transform rotate-45;
-    @apply bg-blue-200 dark:bg-blue-700;
+  .info-icon {
+    @apply h-6 w-6;
+    @apply transition-colors duration-200;
   }
 
   .app-header .tooltip-content {
@@ -256,30 +267,30 @@
     @apply text-[#27447E] bg-white;
     @apply hover:bg-purple-600 hover:text-purple-300;
     @apply flex items-center justify-center;
-    @apply relative;
   }
 
-  .upload-icon {
-    @apply h-6 w-6;
-    @apply transition-colors duration-200;
+  .upload-tooltip {
+    @apply absolute invisible opacity-0;
+    @apply left-1/2 transform -translate-x-1/2 top-full mt-2;
+    @apply bg-purple-100 text-purple-800 rounded-lg p-4 shadow-lg;
+    @apply dark:bg-purple-900 dark:text-purple-100;
+    @apply z-50 text-left;
+    @apply transition-all duration-300;
+    @apply w-60;
   }
 
   .upload-toggle:hover .upload-tooltip {
     @apply visible opacity-100;
   }
 
-  .upload-tooltip {
-    @apply absolute invisible opacity-0;
-    @apply -right-4 top-12 w-60;
-    @apply bg-purple-100 text-purple-800 rounded-lg p-4 shadow-lg;
-    @apply dark:bg-purple-900 dark:text-purple-100;
-    @apply z-50 text-left;
-    @apply transition-all duration-300;
+  .upload-tooltip .tooltip-arrow {
+    @apply absolute top-0 left-1/2 -translate-x-1/2 -mt-2 w-4 h-4 transform rotate-45;
+    @apply bg-purple-100 dark:bg-purple-900;
   }
 
-  .app-header .upload-tooltip .tooltip-arrow {
-    @apply absolute top-0 right-7 -mt-2 w-4 h-4 transform rotate-45;
-    @apply bg-purple-100 dark:bg-purple-900;
+  .upload-icon {
+    @apply h-6 w-6;
+    @apply transition-colors duration-200;
   }
 
   /* ===== Input de sugestões de Autores ===== */

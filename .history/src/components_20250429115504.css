@@ -222,7 +222,7 @@
 
   .info-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-1 top-12 w-80;
+    @apply right-10 top-16 w-80;
     @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-700 dark:text-white;
     @apply z-50 text-left;
@@ -232,22 +232,6 @@
   .info-tooltip .tooltip-arrow {
     @apply absolute top-0 -mt-2 w-4 h-4 transform rotate-45;
     @apply bg-blue-200 dark:bg-blue-700;
-  }
-
-  .app-header .tooltip-content {
-    @apply relative z-20 text-left;
-  }
-
-  .app-header .tooltip-title {
-    @apply font-medium mb-2 text-left;
-  }
-
-  .app-header .tooltip-list {
-    @apply space-y-1 text-sm text-left;
-  }
-
-  .app-header .tooltip-item {
-    @apply text-left;
   }
 
   /* ===== Upload Button ===== */
@@ -270,7 +254,7 @@
 
   .upload-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-4 top-12 w-60;
+    @apply right-0 top-16 w-60;
     @apply bg-purple-100 text-purple-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-purple-900 dark:text-purple-100;
     @apply z-50 text-left;

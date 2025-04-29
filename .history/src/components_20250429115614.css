@@ -222,7 +222,7 @@
 
   .info-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-1 top-12 w-80;
+    @apply right-10 top-16 w-80;
     @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-700 dark:text-white;
     @apply z-50 text-left;
@@ -270,7 +270,7 @@
 
   .upload-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-4 top-12 w-60;
+    @apply right-2 top-16 w-60;
     @apply bg-purple-100 text-purple-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-purple-900 dark:text-purple-100;
     @apply z-50 text-left;

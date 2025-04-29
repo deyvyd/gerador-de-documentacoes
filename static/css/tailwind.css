@@ -902,19 +902,6 @@ video {
   /* Altura aproximada do header */
 }
 
-/* Ajustes para componentes de botão no header */
-
-.app-header .theme-toggle,
-  .app-header .info-toggle,
-  .app-header .upload-toggle{
-  position: static;
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
-  border-width: 0px;
-  top: auto;
-  right: auto;
-}
-
 /* ===== Swap Button ===== */
 
 /* Estilos base */
@@ -1119,12 +1106,12 @@ video {
   opacity: 1;
 }
 
-.app-header .info-tooltip{
+.info-tooltip{
   visibility: hidden;
   position: absolute;
   opacity: 0;
-  right: 2.5rem;
-  top: 4rem;
+  right: -0.25rem;
+  top: 3rem;
   width: 20rem;
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
@@ -1137,14 +1124,14 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.app-header .info-tooltip:is(.dark *){
+.info-tooltip:is(.dark *){
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity, 1));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
-.app-header .info-tooltip{
+.info-tooltip{
   z-index: 50;
   text-align: left;
   transition-property: all;
@@ -1152,7 +1139,7 @@ video {
   transition-duration: 300ms;
 }
 
-.app-header .info-tooltip .tooltip-arrow{
+.info-tooltip .tooltip-arrow{
   position: absolute;
   top: 0px;
   margin-top: -0.5rem;
@@ -1164,7 +1151,7 @@ video {
   background-color: rgb(191 219 254 / var(--tw-bg-opacity, 1));
 }
 
-.app-header .info-tooltip .tooltip-arrow:is(.dark *){
+.info-tooltip .tooltip-arrow:is(.dark *){
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity, 1));
 }
@@ -1244,8 +1231,8 @@ video {
   visibility: hidden;
   position: absolute;
   opacity: 0;
-  right: 0px;
-  top: 4rem;
+  right: -1rem;
+  top: 3rem;
   width: 15rem;
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
@@ -2608,6 +2595,14 @@ video {
   inset: 0px;
 }
 
+.-right-1{
+  right: -0.25rem;
+}
+
+.-right-4{
+  right: -1rem;
+}
+
 .-top-2{
   top: -0.5rem;
 }
@@ -2622,10 +2617,6 @@ video {
 
 .right-1{
   right: 0.25rem;
-}
-
-.right-10{
-  right: 2.5rem;
 }
 
 .right-4{
@@ -2644,16 +2635,12 @@ video {
   top: 0.25rem;
 }
 
+.top-12{
+  top: 3rem;
+}
+
 .top-14{
   top: 3.5rem;
-}
-
-.top-16{
-  top: 4rem;
-}
-
-.top-auto{
-  top: auto;
 }
 
 .isolate{
@@ -2690,11 +2677,6 @@ video {
 
 .col-span-6{
   grid-column: span 6 / span 6;
-}
-
-.mx-1{
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
 }
 
 .mx-4{

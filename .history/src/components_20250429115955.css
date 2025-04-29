@@ -222,7 +222,7 @@
 
   .info-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-1 top-12 w-80;
+    @apply -right-4 top-12 w-80;
     @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-700 dark:text-white;
     @apply z-50 text-left;

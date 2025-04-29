@@ -210,6 +210,7 @@
     @apply flex items-center justify-center;
     @apply w-10 h-10;
     @apply hover:text-blue-500;
+    @apply z-40 relative;
   }
   .info-icon {
     @apply h-6 w-6;
@@ -220,16 +221,16 @@
     @apply visible opacity-100;
   }
 
-  .info-tooltip {
+  .app-header .info-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-1 top-12 w-80;
+    @apply right-10 top-16 w-80;
     @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-700 dark:text-white;
     @apply z-50 text-left;
     @apply transition-all duration-300;
   }
 
-  .info-tooltip .tooltip-arrow {
+  .app-header .info-tooltip .tooltip-arrow {
     @apply absolute top-0 -mt-2 w-4 h-4 transform rotate-45;
     @apply bg-blue-200 dark:bg-blue-700;
   }
@@ -256,7 +257,7 @@
     @apply text-[#27447E] bg-white;
     @apply hover:bg-purple-600 hover:text-purple-300;
     @apply flex items-center justify-center;
-    @apply relative;
+    @apply z-40 relative;
   }
 
   .upload-icon {
@@ -270,7 +271,7 @@
 
   .upload-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-4 top-12 w-60;
+    @apply right-0 top-16 w-60;
     @apply bg-purple-100 text-purple-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-purple-900 dark:text-purple-100;
     @apply z-50 text-left;
