@@ -2544,6 +2544,12 @@ video {
   background-color: rgb(75 85 99 / var(--tw-bg-opacity, 1));
 }
 
+.dark .text-red-600,
+  .dark span.text-red-600,
+  .dark label .text-red-600 {
+  color: #ef4444 !important;
+}
+
 /* Ajustes para telas pequenas */
 
 @media (max-width: 640px) {

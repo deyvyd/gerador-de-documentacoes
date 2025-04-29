@@ -708,10 +708,16 @@
     @apply bg-gray-500 hover:bg-gray-600;
   }
 
+  .text-red-600,
+  span.text-red-600,
+  label .text-red-600 {
+    @apply text-red-600;
+  }
+
   .dark .text-red-600,
   .dark span.text-red-600,
   .dark label .text-red-600 {
-    color: #ef4444 !important;
+    @apply text-[#ef4444];
   }
 
   /* Ajustes para telas pequenas */
