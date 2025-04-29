@@ -1,5 +1,9 @@
 <template>
-  <div class="swap-toggle" :class="'swap-toggle-' + targetType">
+  <div
+    class="swap-toggle"
+    :class="'swap-toggle-' + targetType"
+    style="display: flex; align-items: center; margin-left: 10px"
+  >
     <a href="javascript:void(0)" @click="handleSwap" class="swap-button">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +51,7 @@ export default {
   props: {
     tooltip: {
       type: String,
-      default: "Trocar para documentação de Desenvolvimento",
+      default: "Trocar para documentação de desenvolvimento",
     },
     targetUrl: {
       type: String,

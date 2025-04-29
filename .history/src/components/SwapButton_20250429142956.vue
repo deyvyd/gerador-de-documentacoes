@@ -47,7 +47,7 @@ export default {
   props: {
     tooltip: {
       type: String,
-      default: "Trocar para documentação de Desenvolvimento",
+      default: "Trocar para documentação de desenvolvimento",
     },
     targetUrl: {
       type: String,

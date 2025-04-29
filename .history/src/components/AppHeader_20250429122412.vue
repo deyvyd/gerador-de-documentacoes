@@ -3,9 +3,7 @@
     <div class="container mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center">
         <img src="/static/dark-logo.png" alt="Logo" class="h-12 mr-4" />
-        <h1 class="text-white text-base md:text-xl lg:text-2xl font-bold">
-          {{ title }}
-        </h1>
+        <h1 class="text-white text-2xl md:text-xl font-bold">{{ title }}</h1>
         <slot name="swap-button"></slot>
       </div>
       <div class="app-header-actions">
