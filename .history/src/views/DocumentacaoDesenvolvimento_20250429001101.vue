@@ -431,45 +431,6 @@ export default {
   },
 
   methods: {
-    initQuill() {
-      // Verificar se o elemento existe no DOM antes de inicializar
-      const element = document.getElementById(this.containerId);
-      if (!element) return;
-
-      // Configuração dos módulos e opções do Quill
-      const toolbarOptions = [
-        ["bold", "italic", "underline"], // botões para formatação de texto
-        [{ color: [] }], // cor da fonte
-        ["code"], // código
-        [{ list: "ordered" }, { list: "bullet" }], // listas
-        [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-        [{ align: [] }], // alinhamento
-        ["clean"], // limpar formatação
-      ];
-
-      // Criar o editor Quill
-      this.editor = new Quill(`#${this.containerId}`, {
-        modules: {
-          toolbar: toolbarOptions,
-        },
-        theme: "snow",
-        placeholder: this.placeholder,
-        readOnly: this.isReadOnly,
-      });
-
-      // Inicializar o conteúdo
-      if (this.value) {
-        this.editor.root.innerHTML = this.value;
-      }
-
-      // Eventos
-      this.editor.on("text-change", () => {
-        this.content = this.editor.root.innerHTML;
-        this.$emit("input", this.content);
-        this.$emit("change", this.content);
-      });
-    },
-
     // Métodos específicos deste app
     initSortable() {
       return new Promise((resolve) => {

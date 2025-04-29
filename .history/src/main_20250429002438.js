@@ -16,7 +16,7 @@ import "./assets/css/colors.css";
 import "./assets/css/modal.css";
 import "./assets/css/toast.css";
 import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
 import "./assets/css/quill-overrides.css";
 
 createApp(App).use(router).mount("#app");
