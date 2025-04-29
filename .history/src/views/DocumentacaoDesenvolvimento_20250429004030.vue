@@ -175,12 +175,9 @@
 
               <!-- Campo Descrição -->
               <div class="form-group w-3/6 mb-0">
-                <label for="descricaoRNF" class="form-label mb-1">
-                  Descrição
-                </label>
+                <label class="form-label mb-1"> Descrição </label>
                 <input
                   type="text"
-                  id="descricaoRNF"
                   v-model="requisitosNaoFuncionais.descricao"
                   class="form-input"
                   placeholder="Descrição do requisito não funcional"

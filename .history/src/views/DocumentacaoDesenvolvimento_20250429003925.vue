@@ -163,10 +163,9 @@
             <div class="flex gap-4">
               <!-- Campo Título -->
               <div class="form-group w-2/6 mb-0">
-                <label for="tituloRNF" class="form-label mb-1"> Título </label>
+                <label class="form-label mb-1"> Título </label>
                 <input
                   type="text"
-                  id="tituloRNF"
                   v-model="requisitosNaoFuncionais.titulo"
                   class="form-input"
                   placeholder="Título do requisito"
@@ -175,12 +174,9 @@
 
               <!-- Campo Descrição -->
               <div class="form-group w-3/6 mb-0">
-                <label for="descricaoRNF" class="form-label mb-1">
-                  Descrição
-                </label>
+                <label class="form-label mb-1"> Descrição </label>
                 <input
                   type="text"
-                  id="descricaoRNF"
                   v-model="requisitosNaoFuncionais.descricao"
                   class="form-input"
                   placeholder="Descrição do requisito não funcional"
