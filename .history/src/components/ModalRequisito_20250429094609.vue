@@ -63,8 +63,8 @@
       <div class="modal-content-container">
         <!-- Aba 1: Informações básicas -->
         <div v-if="tabAtiva === 0" class="modal-section" ref="abaConteudo0">
-          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-            <div class="modal-form-group col-span-1 sm:col-span-3">
+          <div class="grid grid-cols-4 gap-4">
+            <div class="modal-form-group col-span-3">
               <label
                 for="req-tituloRF"
                 :class="[
@@ -128,7 +128,32 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="modal-form-group">
+            <label
+              for="req-local"
+              :class="[
+                'modal-form-label',
+                isDarkMode ? 'modal-form-label-dark' : 'modal-form-label-light',
+              ]"
+            >
+              Local
+              <span class="text-red-600">*</span>
+            </label>
+            <input
+              type="text"
+              id="req-local"
+              v-model="requisito.local"
+              :class="[
+                'modal-form-input',
+                isDarkMode ? 'modal-form-input-dark' : 'modal-form-input-light',
+              ]"
+              :placeholder="modoVisualizacao ? '' : 'Local de implementação'"
+              :disabled="modoVisualizacao"
+              :tabindex="tabIndexes.local"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="modal-form-group">
               <label
                 for="req-usuario"

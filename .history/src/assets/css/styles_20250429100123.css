@@ -488,56 +488,7 @@ textarea.form-input,
   flex: 1;
 }
 
-/* Melhorias para responsividade */
-@media (max-width: 640px) {
-  /* Ajustar padding de containers */
-  .container {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-  }
-
-  /* Tornar botões mais responsivos */
-  .btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  /* Ajustar tamanho de fonte para telas menores */
-  .base-title {
-    font-size: 1.25rem;
-  }
-
-  /* Ajustar espaçamento nos cards */
-  .main-card {
-    padding: 1rem;
-  }
-
-  /* Melhorar visualização da tabela em dispositivos móveis */
-  .base-table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Toast adaptativo para mobile */
-  .toast-container {
-    left: 1rem;
-    right: 1rem;
-    width: auto;
-  }
-
-  .toast {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  /* Ajuste para modais em telas pequenas */
-  .modal-content {
-    max-width: 90%;
-    margin: 0 5%;
-  }
-}
-
-/* Melhorias específicas para tablets */
+/* ===== Responsividade de tabelas ===== */
 @media (min-width: 641px) and (max-width: 1024px) {
   .container {
     padding-left: 1rem;
@@ -546,24 +497,6 @@ textarea.form-input,
 
   .grid-cols-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* ===== Responsividade de tabelas ===== */
-@media (max-width: 640px) {
-  .base-table th,
-  .base-table td {
-    padding: 0.5rem;
-  }
-
-  .grid-7-7-86,
-  .grid-18-18-64 {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
-
-  .activity-inputs {
-    flex-direction: column;
   }
 }
 

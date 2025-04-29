@@ -174,6 +174,7 @@
       </tfoot>
     </table>
   </div>
+</div>
 </template>
 
 <script>
@@ -358,19 +359,5 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 640px) {
-  .truncate-text {
-    max-width: 120px;
-  }
-
-  .base-table th,
-  .base-table td {
-    padding: 0.5rem 0.25rem;
-    font-size: 0.875rem;
-  }
-
-  .action-button {
-    margin-right: 0.25rem;
-  }
-}
+/* Estilos específicos deste componente (opcional) */
 </style>

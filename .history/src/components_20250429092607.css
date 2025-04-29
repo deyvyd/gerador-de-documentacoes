@@ -70,9 +70,26 @@
     @apply w-full;
   }
 
+  /* Ajustar as grid-cols para diferentes tamanhos de tela */
+  .grid-cols-4 {
+    @apply grid-cols-1 sm:grid-cols-2 md:grid-cols-4;
+  }
+
+  .grid-cols-10 {
+    @apply grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-10;
+  }
+
+  .grid-cols-12 {
+    @apply grid-cols-1 sm:grid-cols-6 md:grid-cols-12;
+  }
+
   /* Atividades e formulários responsivos */
   .activity-form {
     @apply w-full;
+  }
+
+  .activity-inputs {
+    @apply flex flex-col sm:flex-row w-full gap-4;
   }
 
   /* ===== Formulários ===== */

@@ -70,9 +70,26 @@
     @apply w-full;
   }
 
+  /* Ajustar as grid-cols para diferentes tamanhos de tela */
+  .grid-cols-4 {
+    @apply grid-cols-1 sm:grid-cols-2 md:grid-cols-4;
+  }
+
+  .grid-cols-10 {
+    @apply grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-10;
+  }
+
+  .grid-cols-12 {
+    @apply grid-cols-1 sm:grid-cols-6 md:grid-cols-12;
+  }
+
   /* Atividades e formulários responsivos */
   .activity-form {
     @apply w-full;
+  }
+
+  .activity-inputs {
+    @apply flex flex-col sm:flex-row w-full gap-4;
   }
 
   /* ===== Formulários ===== */
@@ -361,7 +378,7 @@
 
   /* ===== Tabelas ===== */
   .base-table-container {
-    @apply bg-gray-50 border rounded-lg mt-3 mb-3 overflow-x-auto;
+    @apply bg-gray-50 border rounded-lg mt-3 mb-3 overflow-hidden;
     @apply dark:bg-gray-900 dark:border-gray-700;
   }
 
@@ -431,8 +448,7 @@
 
   /* ===== Formato dos arquivos ===== */
   .format-section {
-    @apply flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full;
-    @apply bg-gray-50 border rounded-lg p-3;
+    @apply bg-gray-50 border rounded-lg p-3 flex items-center;
     @apply dark:bg-gray-800 dark:border-gray-700;
   }
 
@@ -710,29 +726,6 @@
 
   .modal-btn-secondary {
     @apply bg-gray-500 hover:bg-gray-600;
-  }
-
-  /* Ajustes para telas pequenas */
-  @media (max-width: 640px) {
-    .base-section {
-      @apply px-2 py-3;
-    }
-
-    .form-group {
-      @apply mb-2;
-    }
-
-    .modal-requisito-container {
-      @apply px-3 py-4 max-h-[95vh];
-    }
-
-    .modal-tabs {
-      @apply overflow-x-auto flex-nowrap;
-    }
-
-    .modal-tab {
-      @apply whitespace-nowrap;
-    }
   }
 }
 
