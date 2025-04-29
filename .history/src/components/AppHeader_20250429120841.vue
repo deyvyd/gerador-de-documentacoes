@@ -6,7 +6,7 @@
         <h1 class="text-white text-xl font-bold">{{ title }}</h1>
         <slot name="swap-button"></slot>
       </div>
-      <div class="app-header-actions">
+      <div class="flex items-center gap-4">
         <slot name="actions"></slot>
       </div>
     </div>

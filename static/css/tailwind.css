@@ -902,6 +902,12 @@ video {
   /* Altura aproximada do header */
 }
 
+.app-header-actions{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 /* ===== Swap Button ===== */
 
 /* Estilos base */
@@ -1046,7 +1052,7 @@ video {
 /* ===== Toggle de tema ===== */
 
 .theme-toggle{
-  position: fixed;
+  position: relative;
   cursor: pointer;
   border-radius: 0.5rem;
   padding: 0.5rem;
