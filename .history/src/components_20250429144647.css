@@ -10,7 +10,7 @@
 @layer components {
   /* ===== Seções e Cards ===== */
   .container {
-    @apply max-w-3xl mx-auto my-0 px-6 py-1 w-full;
+    @apply max-w-3xl mx-auto my-0 px-6 py-0 w-full;
   }
 
   /* ! tailwindcss */

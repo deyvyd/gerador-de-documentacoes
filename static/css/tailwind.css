@@ -606,10 +606,14 @@ video {
 .container{
   margin-left: auto;
   margin-right: auto;
+  margin-top: 0px;
+  margin-bottom: 0px;
   width: 100%;
   max-width: 48rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 /* ! tailwindcss */
@@ -2692,6 +2696,11 @@ video {
 .mx-auto{
   margin-left: auto;
   margin-right: auto;
+}
+
+.my-0{
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .my-4{
