@@ -85,10 +85,7 @@
           <!-- Aba 1: Requisitos Funcionais -->
           <div v-if="requisitosTabAtiva === 0">
             <!-- Botão centralizado -->
-            <div
-              v-if="requisitos.length === 0"
-              class="flex justify-center mb-4"
-            >
+            <div class="flex justify-center mb-4">
               <button
                 @click="abrirModalRequisito"
                 type="button"
@@ -147,10 +144,7 @@
                   },
                 },
               ]"
-              :action-button="{
-                show: true,
-                text: 'Adicionar Requisito Funcional',
-              }"
+              :action-button="{ show: true, text: 'Adicionar RF' }"
               :initial-per-page="10"
               @action-click="abrirModalRequisito"
               :key-function="(requisito) => requisito.id"

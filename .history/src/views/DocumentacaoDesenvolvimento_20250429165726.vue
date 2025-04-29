@@ -85,10 +85,7 @@
           <!-- Aba 1: Requisitos Funcionais -->
           <div v-if="requisitosTabAtiva === 0">
             <!-- Botão centralizado -->
-            <div
-              v-if="requisitos.length === 0"
-              class="flex justify-center mb-4"
-            >
+            <div class="flex justify-center mb-4">
               <button
                 @click="abrirModalRequisito"
                 type="button"
