@@ -621,6 +621,7 @@ video {
 .main-card{
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 0.75rem;
   width: 100%;
   max-width: 1050px;
   border-radius: 0.5rem;
@@ -629,7 +630,6 @@ video {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   padding-top: 0.125rem;
-  padding-bottom: 0.125rem;
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -905,7 +905,7 @@ video {
 /* Espaço para compensar o header fixo */
 
 .header-spacer{
-  height: 4rem;
+  height: 2.75rem;
   /* Altura aproximada do header */
 }
 
@@ -3476,11 +3476,6 @@ video {
   padding-right: 1.5rem;
 }
 
-.py-0\.5{
-  padding-top: 0.125rem;
-  padding-bottom: 0.125rem;
-}
-
 .py-1{
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -3507,6 +3502,10 @@ video {
 
 .pl-2{
   padding-left: 0.5rem;
+}
+
+.pt-0\.5{
+  padding-top: 0.125rem;
 }
 
 .pt-4{

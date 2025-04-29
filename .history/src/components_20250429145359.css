@@ -15,7 +15,7 @@
 
   /* ! tailwindcss */
   .main-card {
-    @apply bg-white dark:bg-blue-800 rounded-lg shadow px-3 pt-0.5 w-full max-w-[1050px] mx-auto mb-3;
+    @apply bg-white dark:bg-blue-800 rounded-lg shadow px-3 py-0.5 w-full max-w-[1050px] mx-auto;
   }
 
   .base-section {
@@ -114,7 +114,7 @@
 
   /* Espaço para compensar o header fixo */
   .header-spacer {
-    @apply h-11; /* Altura aproximada do header */
+    @apply h-12; /* Altura aproximada do header */
   }
 
   .app-header-actions {

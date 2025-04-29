@@ -15,7 +15,7 @@
 
   /* ! tailwindcss */
   .main-card {
-    @apply bg-white dark:bg-blue-800 rounded-lg shadow px-3 pt-0.5 w-full max-w-[1050px] mx-auto mb-3;
+    @apply bg-white dark:bg-blue-800 rounded-lg shadow px-3 pt-0.5 w-full max-w-[1050px] mx-auto mb-1;
   }
 
   .base-section {
