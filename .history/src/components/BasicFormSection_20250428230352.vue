@@ -106,9 +106,8 @@
           />
         </div>
         <div class="form-group col-span-6">
-          <label for="linkBoardSS" class="form-label">Link do board</label>
+          <label class="form-label">Link do board</label>
           <input
-            id="linkBoardSS"
             type="url"
             v-model="formData.linkBoard"
             placeholder="https://gitlab.com/chesf.gov.br/..."
@@ -120,7 +119,7 @@
 
     <!-- Quarta linha: Autor(es) -->
     <div class="form-group">
-      <label for="autorSS" class="form-label">
+      <label class="form-label">
         Autor(es)
         <span class="text-red-600">*</span>
       </label>
@@ -143,7 +142,6 @@
           <!-- Input para digitar -->
           <input
             type="text"
-            id="autorSS"
             v-model="inputValue"
             @input="updateAutorInput"
             @focus="handleInputFocus"

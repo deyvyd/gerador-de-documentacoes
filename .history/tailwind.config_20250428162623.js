@@ -1,12 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-const componentsPlugin = require("./src/tailwind-plugins/components");
 module.exports = {
-  content: [
-    "./templates/**/*.html",
-    "./static/**/*.{js,vue}",
-    "./src/**/*.{vue,js,ts,css}", // Adicione esta linha
-    "./src/components.css", // Adicione esta linha explicitamente
-  ],
+  content: ["./templates/**/*.html", "./static/**/*.{js,vue}"],
   darkMode: "class",
   theme: {
     extend: {
@@ -130,8 +124,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    componentsPlugin,
-    // ...outros plugins
-  ],
+  plugins: [],
 };

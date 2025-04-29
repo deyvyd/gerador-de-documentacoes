@@ -8,10 +8,9 @@
           <h3 class="format-title whitespace-nowrap">Formato dos arquivos</h3>
           <div class="flex gap-4">
             <!-- Opção JSON (sempre selecionada) -->
-            <label for="formatoJSON" class="checkbox-container">
+            <label class="checkbox-container">
               <input
                 type="checkbox"
-                id="formatoJSON"
                 :checked="true"
                 disabled
                 class="checkbox-input"
@@ -19,9 +18,8 @@
               <span class="checkbox-label">JSON</span>
             </label>
             <!-- DOCX -->
-            <label for="formatoDOCX" class="checkbox-container">
+            <label class="checkbox-container">
               <input
-                id="formatoDOCX"
                 type="checkbox"
                 :checked="formatos.gerarDocx"
                 @change="updateDocx($event.target.checked)"
@@ -30,9 +28,8 @@
               <span class="checkbox-label">DOCX</span>
             </label>
             <!-- PDF -->
-            <label for="formatoPDF" class="checkbox-container">
+            <label class="checkbox-container">
               <input
-                id="formatoPDF"
                 type="checkbox"
                 :checked="formatos.gerarPdf"
                 @change="updatePdf($event.target.checked)"

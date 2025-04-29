@@ -13,7 +13,6 @@
     @apply max-w-3xl mx-auto px-6 w-full;
   }
 
-  /* ! tailwindcss */
   .main-card {
     @apply bg-white dark:bg-blue-800 rounded-lg shadow p-4 w-full max-w-[1050px] mx-auto;
   }

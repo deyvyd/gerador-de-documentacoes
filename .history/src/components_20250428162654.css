@@ -8,44 +8,6 @@
 @tailwind components;
 
 @layer components {
-  /* ===== Seções e Cards ===== */
-  .container {
-    @apply max-w-3xl mx-auto px-6 w-full;
-  }
-
-  /* ! tailwindcss */
-  .main-card {
-    @apply bg-white dark:bg-blue-800 rounded-lg shadow p-4 w-full max-w-[1050px] mx-auto;
-  }
-
-  .base-section {
-    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border dark:border-gray-700 p-4 my-4;
-  }
-
-  .base-title {
-    @apply text-xl font-semibold mb-3;
-    @apply dark:text-white;
-  }
-
-  .activities-section {
-    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border border-orange-300 dark:border-orange-800 p-4 my-4;
-    @apply transition-colors duration-200;
-  }
-
-  .activities-title {
-    @apply text-xl font-semibold mb-3;
-    @apply dark:text-white;
-  }
-
-  .requirements-section {
-    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border border-green-300 dark:border-green-700 p-4 my-4;
-    @apply transition-colors duration-200;
-  }
-
-  .requirements-title {
-    @apply text-xl font-semibold mb-3;
-    @apply dark:text-white;
-  }
   /* ===== Botões ===== */
   .btn {
     @apply px-4 h-10 rounded-md font-medium cursor-pointer transition-colors flex items-center justify-center gap-2 border-none;
@@ -335,6 +297,40 @@
     @apply border-red-600 border-2;
     @apply dark:border-red-400;
     @apply animate-pulse;
+  }
+
+  /* ===== Seções e Cards ===== */
+  .main-card {
+    @apply bg-white dark:bg-blue-800 rounded-lg shadow p-4 w-full max-w-[1050px] mx-auto;
+  }
+
+  .base-section {
+    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border dark:border-gray-700 p-4 my-4;
+  }
+
+  .base-title {
+    @apply text-xl font-semibold mb-3;
+    @apply dark:text-white;
+  }
+
+  .activities-section {
+    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border border-orange-300 dark:border-orange-800 p-4 my-4;
+    @apply transition-colors duration-200;
+  }
+
+  .activities-title {
+    @apply text-xl font-semibold mb-3;
+    @apply dark:text-white;
+  }
+
+  .requirements-section {
+    @apply bg-gray-50 dark:bg-blue-800 rounded-lg border border-green-300 dark:border-green-700 p-4 my-4;
+    @apply transition-colors duration-200;
+  }
+
+  .requirements-title {
+    @apply text-xl font-semibold mb-3;
+    @apply dark:text-white;
   }
 
   /* ===== Tabelas ===== */

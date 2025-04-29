@@ -69,7 +69,7 @@
 
           <!-- Formulário de Atividade -->
           <form @submit.prevent="submitAtividade" class="activity-form">
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
+            <div class="activity-inputs grid grid-cols-1 sm:grid-cols-12 gap-4">
               <div class="form-group col-span-8">
                 <label for="tituloAtividade" class="form-label"
                   >Atividade</label

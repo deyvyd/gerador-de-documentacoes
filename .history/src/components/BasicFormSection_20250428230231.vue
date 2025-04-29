@@ -59,13 +59,12 @@
 
       <!-- Segunda linha: Descrição -->
       <div class="form-group">
-        <label for="descricaoSS" class="form-label">
+        <label class="form-label">
           Descrição
           <span class="text-red-600">*</span>
         </label>
         <textarea
           v-model="formData.descricao"
-          id="descricaoSS"
           ref="descricao"
           class="form-input form-textarea"
           placeholder="Ações realizadas para atualização do (SISTEMA) para que (OBJETIVO)."
@@ -77,12 +76,11 @@
       <!-- Terceira linha: Data Início, Data Fim e Link -->
       <div class="grid grid-cols-1 sm:grid-cols-10 gap-4">
         <div class="form-group col-span-2">
-          <label for="dataInicioSS" class="form-label">
+          <label class="form-label">
             Data de Início
             <span class="text-red-600">*</span>
           </label>
           <input
-            id="dataInicioSS"
             ref="dataInicio"
             type="date"
             v-model="formData.dataInicio"
@@ -92,13 +90,13 @@
         </div>
 
         <div class="form-group col-span-2">
-          <label for="dataFimSS" class="form-label">
+          <label for="dataFim" class="form-label">
             Data de Fim
             <span class="text-red-600">*</span>
           </label>
           <input
-            id="dataFimSS"
             ref="dataFim"
+            id="dataFim"
             type="date"
             v-model="formData.dataFim"
             class="form-input"
@@ -106,9 +104,8 @@
           />
         </div>
         <div class="form-group col-span-6">
-          <label for="linkBoardSS" class="form-label">Link do board</label>
+          <label class="form-label">Link do board</label>
           <input
-            id="linkBoardSS"
             type="url"
             v-model="formData.linkBoard"
             placeholder="https://gitlab.com/chesf.gov.br/..."
@@ -120,7 +117,7 @@
 
     <!-- Quarta linha: Autor(es) -->
     <div class="form-group">
-      <label for="autorSS" class="form-label">
+      <label class="form-label">
         Autor(es)
         <span class="text-red-600">*</span>
       </label>
@@ -143,7 +140,6 @@
           <!-- Input para digitar -->
           <input
             type="text"
-            id="autorSS"
             v-model="inputValue"
             @input="updateAutorInput"
             @focus="handleInputFocus"

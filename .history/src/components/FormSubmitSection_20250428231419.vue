@@ -19,9 +19,8 @@
               <span class="checkbox-label">JSON</span>
             </label>
             <!-- DOCX -->
-            <label for="formatoDOCX" class="checkbox-container">
+            <label class="checkbox-container">
               <input
-                id="formatoDOCX"
                 type="checkbox"
                 :checked="formatos.gerarDocx"
                 @change="updateDocx($event.target.checked)"
@@ -30,9 +29,8 @@
               <span class="checkbox-label">DOCX</span>
             </label>
             <!-- PDF -->
-            <label for="formatoPDF" class="checkbox-container">
+            <label class="checkbox-container">
               <input
-                id="formatoPDF"
                 type="checkbox"
                 :checked="formatos.gerarPdf"
                 @change="updatePdf($event.target.checked)"

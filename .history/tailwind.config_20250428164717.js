@@ -1,5 +1,4 @@
 /** @type {import('tailwindcss').Config} */
-const componentsPlugin = require("./src/tailwind-plugins/components");
 module.exports = {
   content: [
     "./templates/**/*.html",
@@ -130,8 +129,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    componentsPlugin,
-    // ...outros plugins
-  ],
+  plugins: [],
 };

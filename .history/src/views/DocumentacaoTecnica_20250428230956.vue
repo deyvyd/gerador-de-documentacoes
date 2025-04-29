@@ -69,8 +69,8 @@
 
           <!-- Formulário de Atividade -->
           <form @submit.prevent="submitAtividade" class="activity-form">
-            <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
-              <div class="form-group col-span-8">
+            <div class="activity-inputs">
+              <div class="form-group w-8/12">
                 <label for="tituloAtividade" class="form-label"
                   >Atividade</label
                 >
@@ -85,7 +85,7 @@
                 />
               </div>
 
-              <div class="form-group col-span-2">
+              <div class="form-group w-2/12">
                 <label for="estimativaHoras" class="form-label"
                   >Estimativa de horas</label
                 >
@@ -102,14 +102,13 @@
                 />
               </div>
 
-              <div class="form-group col-span-2">
-                <label for="botaoAtividade" class="form-label">&nbsp;</label>
+              <div class="form-group w-2/12">
+                <label class="form-label">&nbsp;</label>
                 <form @submit.prevent="submitAtividade">
                   <!-- Outros campos do formulário -->
                   <button
                     type="button"
                     @click="submitAtividade"
-                    id="botaoAtividade"
                     ref="activityButton"
                     class="btn"
                     :class="

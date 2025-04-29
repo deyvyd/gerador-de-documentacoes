@@ -2,6 +2,7 @@
 import logging
 import os
 from flask import Flask, render_template, send_from_directory, request
+from flask_cors import CORS
 
 # Configuração de logging
 logging.basicConfig(
@@ -11,8 +12,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Inicialização da aplicação Flask
-app = Flask(__name__)
+app = Flask(__name__, 
+            static_folder='static',  # Pasta onde o Vite gera os arquivos
+            static_url_path='')
 
+CORS(app)
 # Importar funções de módulos
 from models.report_models import DocumentacaoTecnica
 from modules.utils import gerar_nome_arquivo, obter_paginas_pdf, identificar_quebras_pagina
@@ -42,17 +46,21 @@ init_app_dev(app)
 
 # Rotas básicas
 @app.route('/')
-def index():
-    return render_template('index.html')
+def serve_vue_app():
+    return send_from_directory('static', 'index.html')
 
 @app.route('/dev')
 def dev_index():
     return render_template('index-dev.html')
 
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                             'favicon.ico', mimetype='image/vnd.microsoft.icon')
+@app.route('/<path:path>')
+def catch_all(path):
+    try:
+        # Tenta servir o arquivo estático
+        return send_from_directory('static', path)
+    except:
+        # Se o arquivo não existir, retorna o index.html (para SPA)
+        return send_from_directory('static', 'index.html')
 
 @app.route('/gerar_documentos', methods=['POST'])
 def gerar_documentos():
