@@ -951,8 +951,8 @@ video {
 .swap-tooltip{
   visibility: hidden;
   position: absolute;
-  right: 0px;
-  top: 3.5rem;
+  right: -0.25rem;
+  top: 3rem;
   width: 15rem;
   opacity: 0;
   border-radius: 0.5rem;
@@ -2637,10 +2637,6 @@ video {
 
 .top-12{
   top: 3rem;
-}
-
-.top-14{
-  top: 3.5rem;
 }
 
 .isolate{

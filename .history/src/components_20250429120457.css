@@ -142,7 +142,7 @@
 
   /* Tooltip base */
   .swap-tooltip {
-    @apply invisible absolute opacity-0 -right-1 top-12 w-60;
+    @apply invisible absolute opacity-0 right-0 top-12 w-60;
     @apply rounded-lg p-4 shadow-lg;
     @apply z-50 text-left transition-all duration-300;
   }
