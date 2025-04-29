@@ -201,12 +201,11 @@
 
               <!-- Botão Adicionar -->
               <div
-                class="w-full sm:w-1/6 justify-center sm:justify-end items-end"
+                class="w-full sm:w-1/6 flex justify-center sm:justify-end items-end pb-2"
               >
-                <label for="botaoRNF" class="form-label">&nbsp;</label>
                 <button
                   type="button"
-                  class="btn btn-requirements"
+                  class="btn"
                   :class="editIndexRNF !== -1 ? 'btn-update' : 'btn-primary'"
                   @click="adicionarRequisitoNaoFuncional"
                 >

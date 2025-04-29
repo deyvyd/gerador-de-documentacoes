@@ -65,22 +65,10 @@
     @apply hover:bg-success-hover;
   }
 
-  .btn-activities {
-    @apply bg-orange-600 text-white;
-    @apply hover:bg-orange-700;
-    @apply dark:bg-orange-700;
-    @apply dark:hover:bg-orange-600;
-  }
-
   .btn-requirements {
-    @apply bg-green-600 text-white;
+    @apply bg-green-600 text-white text-sm px-4 py-2 w-auto;
     @apply hover:bg-green-700;
-    @apply dark:bg-green-700;
-    @apply dark:hover:bg-green-600;
-  }
-
-  .btn-requirements .rf-0 {
-    @apply text-sm px-6 py-2 mx-auto inline-block;
+    @apply dark:bg-green-700 dark:hover:bg-green-600"
   }
 
   /* Melhorar responsividade de grids */

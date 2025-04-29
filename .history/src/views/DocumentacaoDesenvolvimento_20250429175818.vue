@@ -200,9 +200,7 @@
               </div>
 
               <!-- Botão Adicionar -->
-              <div
-                class="w-full sm:w-1/6 justify-center sm:justify-end items-end"
-              >
+              <div class="w-full sm:w-1/6 flex justify-center">
                 <label for="botaoRNF" class="form-label">&nbsp;</label>
                 <button
                   type="button"

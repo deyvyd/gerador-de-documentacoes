@@ -89,17 +89,15 @@
               v-if="requisitos.length === 0"
               class="flex justify-center mb-4"
             >
-              <div class="w-auto max-w-xs">
-                <button
-                  @click="abrirModalRequisito"
-                  type="button"
-                  class="btn btn-requirements rf-0"
-                  id="btnAddRequisito"
-                  ref="btnAddRequisito"
-                >
-                  Adicionar Requisito Funcional
-                </button>
-              </div>
+              <button
+                @click="abrirModalRequisito"
+                type="button"
+                class="btn btn-primary text-sm px-6 py-2 mx-auto inline-block"
+                id="btnAddRequisito"
+                ref="btnAddRequisito"
+              >
+                Adicionar Requisito Funcional
+              </button>
             </div>
 
             <!-- Tabela de requisitos (exibida apenas se houver itens) -->
@@ -201,12 +199,11 @@
 
               <!-- Botão Adicionar -->
               <div
-                class="w-full sm:w-1/6 justify-center sm:justify-end items-end"
+                class="w-full sm:w-1/6 flex justify-center sm:justify-end items-end pb-2"
               >
-                <label for="botaoRNF" class="form-label">&nbsp;</label>
                 <button
                   type="button"
-                  class="btn btn-requirements"
+                  class="btn"
                   :class="editIndexRNF !== -1 ? 'btn-update' : 'btn-primary'"
                   @click="adicionarRequisitoNaoFuncional"
                 >

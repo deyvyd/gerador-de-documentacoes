@@ -66,10 +66,10 @@
   }
 
   .btn-activities {
-    @apply bg-orange-600 text-white;
-    @apply hover:bg-orange-700;
-    @apply dark:bg-orange-700;
-    @apply dark:hover:bg-orange-600;
+    @apply bg-orange-500 text-white;
+    @apply hover:bg-orange-600;
+    @apply dark:bg-orange-600;
+    @apply dark:hover:bg-orange-500;
   }
 
   .btn-requirements {

@@ -68,8 +68,6 @@
   .btn-activities {
     @apply bg-orange-600 text-white;
     @apply hover:bg-orange-700;
-    @apply dark:bg-orange-700;
-    @apply dark:hover:bg-orange-600;
   }
 
   .btn-requirements {
