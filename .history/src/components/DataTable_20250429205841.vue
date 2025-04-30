@@ -590,6 +590,13 @@ export default {
       deep: true,
     },
 
+    perPageOptions(newOptions) {
+    // Se o valor atual não estiver mais na lista, ajusta para o maior disponível
+    if (!newOptions.includes(this.itemsPerPage)) {
+      this.itemsPerPage = Math.max(...newOptions);
+    }
+  }
+
     searchQuery() {
       this.handleSearch();
     },

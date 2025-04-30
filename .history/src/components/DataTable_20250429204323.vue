@@ -397,8 +397,7 @@ export default {
     perPageOptions() {
       const options = [];
       const totalItems = this.items.length;
-      const roundedMax = Math.min(Math.ceil(totalItems / 10) * 10, 100);
-      for (let i = 10; i <= roundedMax; i += 10) {
+      for (let i = 10; i <= Math.min(totalItems, 100); i += 10) {
         options.push(i);
       }
       // Se não houver opções, adicione pelo menos 10

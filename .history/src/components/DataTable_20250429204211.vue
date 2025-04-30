@@ -42,10 +42,10 @@
 
         <!-- Seletor de itens por página -->
         <div class="flex items-center">
-          <label class="mr-2 text-base font-medium text-center">Mostrar:</label>
+          <label class="mr-2 text-base font-medium">Mostrar:</label>
           <select
             v-model="perPage"
-            class="form-input py-2 pr-8 pl-2"
+            class="form-input py-2 pr-8 pl-1"
             @change="handlePerPageChange"
           >
             <option
@@ -397,8 +397,7 @@ export default {
     perPageOptions() {
       const options = [];
       const totalItems = this.items.length;
-      const roundedMax = Math.min(Math.ceil(totalItems / 10) * 10, 100);
-      for (let i = 10; i <= roundedMax; i += 10) {
+      for (let i = 10; i <= Math.min(totalItems, 100); i += 10) {
         options.push(i);
       }
       // Se não houver opções, adicione pelo menos 10

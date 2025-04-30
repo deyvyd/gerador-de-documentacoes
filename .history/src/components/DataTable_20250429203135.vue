@@ -13,20 +13,6 @@
           class="form-input pr-8 w-full sm:w-64"
           @input="handleSearch"
         />
-        <span class="absolute right-2 top-3 text-gray-400">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </span>
       </div>
 
       <!-- Controles (botão e seletor) -->
@@ -42,10 +28,10 @@
 
         <!-- Seletor de itens por página -->
         <div class="flex items-center">
-          <label class="mr-2 text-base font-medium text-center">Mostrar:</label>
+          <label class="mr-2 text-sm font-medium">Mostrar:</label>
           <select
             v-model="perPage"
-            class="form-input py-2 pr-8 pl-2"
+            class="form-input py-1 pr-8 pl-2"
             @change="handlePerPageChange"
           >
             <option
@@ -251,7 +237,7 @@
 
     <!-- Informação e paginação -->
     <div
-      class="flex flex-col sm:flex-row justify-between items-center mt-3 text-base"
+      class="flex flex-col sm:flex-row justify-between items-center mt-3 text-sm"
     >
       <!-- Texto informativo sobre registros -->
       <div class="text-gray-600 dark:text-gray-300 mb-2 sm:mb-0">
@@ -265,7 +251,7 @@
       >
         <button
           @click="prevPage"
-          class="px-3 py-2 border-r border-gray-300 dark:border-gray-600"
+          class="px-3 py-1 border-r border-gray-300 dark:border-gray-600"
           :disabled="currentPage === 1"
           :class="
             currentPage === 1
@@ -397,8 +383,7 @@ export default {
     perPageOptions() {
       const options = [];
       const totalItems = this.items.length;
-      const roundedMax = Math.min(Math.ceil(totalItems / 10) * 10, 100);
-      for (let i = 10; i <= roundedMax; i += 10) {
+      for (let i = 10; i <= Math.min(totalItems, 100); i += 10) {
         options.push(i);
       }
       // Se não houver opções, adicione pelo menos 10
