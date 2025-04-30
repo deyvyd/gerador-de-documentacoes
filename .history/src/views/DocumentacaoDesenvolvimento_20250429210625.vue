@@ -19,6 +19,15 @@
         </swap-button>
       </template>
       <template #actions>
+        <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
+        <info-button
+          tooltip-title="Este sistema gera um arquivo .zip com documentos de desenvolvimento:"
+          :tooltip-items="[
+            'Estimativa de Esforço e Cronograma',
+            'Estratégia de Solução',
+            'Relatório de Acompanhamento de Projeto',
+          ]"
+        ></info-button>
         <upload-button
           tooltip-title="Importar dados de arquivo JSON"
           @check-data="checkForImportConfirmation"
@@ -31,15 +40,6 @@
           "
           ref="uploadButton"
         ></upload-button>
-        <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
-        <info-button
-          tooltip-title="Este sistema gera um arquivo .zip com documentos de desenvolvimento:"
-          :tooltip-items="[
-            'Estimativa de Esforço e Cronograma',
-            'Estratégia de Solução',
-            'Relatório de Acompanhamento de Projeto',
-          ]"
-        ></info-button>
       </template>
     </app-header>
 
@@ -102,77 +102,71 @@
               </div>
             </div>
 
-            <div v-if="requisitos.length > 0" class="base-section">
-              <h3
-                class="text-lg font-medium mb-3 text-gray-700 dark:text-white"
-              >
-                Lista de Requisitos Funcionais
-              </h3>
-              <!-- Tabela de requisitos (exibida apenas se houver itens) -->
-              <data-table
-                :items="requisitos"
-                :columns="[
-                  {
-                    key: 'id',
-                    label: '#',
-                    width: 'w-2/12',
-                    align: 'text-center',
-                    type: 'text',
+            <!-- Tabela de requisitos (exibida apenas se houver itens) -->
+            <data-table
+              v-if="requisitos.length > 0"
+              :items="requisitos"
+              :columns="[
+                {
+                  key: 'id',
+                  label: '#',
+                  width: 'w-2/12',
+                  align: 'text-center',
+                  type: 'text',
+                },
+                {
+                  key: 'tituloRF',
+                  label: 'Título',
+                  width: 'w-3/12',
+                  align: 'text-left',
+                  type: 'text',
+                },
+                {
+                  key: 'local',
+                  label: 'Local',
+                  width: 'w-3/12',
+                  align: 'text-left',
+                  type: 'text',
+                },
+                {
+                  key: 'tipo',
+                  label: 'Tipo',
+                  width: 'w-2/12',
+                  align: 'text-center',
+                  type: 'text',
+                },
+                {
+                  key: 'actions',
+                  label: 'Ações',
+                  width: 'w-2/12',
+                  align: 'text-center',
+                  type: 'buttons',
+                  actions: {
+                    view: true,
+                    edit: true,
+                    duplicate: true,
+                    delete: true,
                   },
-                  {
-                    key: 'tituloRF',
-                    label: 'Título',
-                    width: 'w-3/12',
-                    align: 'text-left',
-                    type: 'text',
-                  },
-                  {
-                    key: 'local',
-                    label: 'Local',
-                    width: 'w-3/12',
-                    align: 'text-left',
-                    type: 'text',
-                  },
-                  {
-                    key: 'tipo',
-                    label: 'Tipo',
-                    width: 'w-2/12',
-                    align: 'text-center',
-                    type: 'text',
-                  },
-                  {
-                    key: 'actions',
-                    label: 'Ações',
-                    width: 'w-2/12',
-                    align: 'text-center',
-                    type: 'buttons',
-                    actions: {
-                      view: true,
-                      edit: true,
-                      duplicate: true,
-                      delete: true,
-                    },
-                  },
-                ]"
-                :action-button="{
-                  show: true,
-                  text: 'Adicionar Requisito Funcional',
-                }"
-                :initial-per-page="10"
-                @action-click="abrirModalRequisito"
-                :key-function="(requisito) => requisito.id"
-                drag-ref="dragArea"
-                :draggable="true"
-                :enable-truncation="true"
-                :non-truncated-columns="['actions']"
-                @view="visualizarRequisito"
-                @duplicate="duplicarRequisito"
-                @edit="editarRequisito"
-                @delete="removerRequisito"
-                @reorder="reordenarRequisitos"
-              >
-              </data-table>
-            </div>
+                },
+              ]"
+              :action-button="{
+                show: true,
+                text: 'Adicionar Requisito Funcional',
+              }"
+              :initial-per-page="10"
+              @action-click="abrirModalRequisito"
+              :key-function="(requisito) => requisito.id"
+              drag-ref="dragArea"
+              :draggable="true"
+              :enable-truncation="true"
+              :non-truncated-columns="['actions']"
+              @view="visualizarRequisito"
+              @duplicate="duplicarRequisito"
+              @edit="editarRequisito"
+              @delete="removerRequisito"
+              @reorder="reordenarRequisitos"
+            >
+            </data-table>
           </div>
 
           <!-- Aba 2: Requisitos Não Funcionais -->
@@ -279,17 +273,20 @@
 
         <!-- Seção de Pontos de Função -->
         <div class="base-section mb-4">
-          <div class="flex items-center gap-4 mb-1">
-            <h3 class="text-base font-medium">Total de Pontos de Função</h3>
-            <input
-              id="totalPontosFuncao"
-              type="text"
-              inputmode="decimal"
-              v-model="totalPontosFuncaoFormatado"
-              @input="formatarNumeroDecimal"
-              class="form-input text-center font-medium w-24"
-              placeholder="0,00"
-            />
+          <h2 class="base-title mb-4">Total de Pontos de Função</h2>
+
+          <div class="flex items-center justify-left">
+            <div class="flex items-center">
+              <input
+                id="totalPontosFuncao"
+                type="text"
+                inputmode="decimal"
+                v-model="totalPontosFuncaoFormatado"
+                @input="formatarNumeroDecimal"
+                class="form-input text-center font-medium text-lg w-18"
+                placeholder="0,00"
+              />
+            </div>
           </div>
         </div>
 

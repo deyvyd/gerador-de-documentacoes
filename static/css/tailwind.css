@@ -3257,6 +3257,10 @@ video {
   width: 33.333333%;
 }
 
+.w-24{
+  width: 6rem;
+}
+
 .w-3{
   width: 0.75rem;
 }

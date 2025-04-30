@@ -279,7 +279,7 @@
 
         <!-- Seção de Pontos de Função -->
         <div class="base-section mb-4">
-          <div class="flex items-center gap-4 mb-1">
+          <div class="flex items-center gap-4 mb-0">
             <h3 class="text-base font-medium">Total de Pontos de Função</h3>
             <input
               id="totalPontosFuncao"
@@ -287,7 +287,7 @@
               inputmode="decimal"
               v-model="totalPontosFuncaoFormatado"
               @input="formatarNumeroDecimal"
-              class="form-input text-center font-medium w-24"
+              class="form-input text-center font-medium text-lg w-24"
               placeholder="0,00"
             />
           </div>

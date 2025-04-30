@@ -19,6 +19,15 @@
         </swap-button>
       </template>
       <template #actions>
+        <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
+        <info-button
+          tooltip-title="Este sistema gera um arquivo .zip com documentos de desenvolvimento:"
+          :tooltip-items="[
+            'Estimativa de Esforço e Cronograma',
+            'Estratégia de Solução',
+            'Relatório de Acompanhamento de Projeto',
+          ]"
+        ></info-button>
         <upload-button
           tooltip-title="Importar dados de arquivo JSON"
           @check-data="checkForImportConfirmation"
@@ -31,15 +40,6 @@
           "
           ref="uploadButton"
         ></upload-button>
-        <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
-        <info-button
-          tooltip-title="Este sistema gera um arquivo .zip com documentos de desenvolvimento:"
-          :tooltip-items="[
-            'Estimativa de Esforço e Cronograma',
-            'Estratégia de Solução',
-            'Relatório de Acompanhamento de Projeto',
-          ]"
-        ></info-button>
       </template>
     </app-header>
 
@@ -102,7 +102,7 @@
               </div>
             </div>
 
-            <div v-if="requisitos.length > 0" class="base-section">
+            <div class="base-section">
               <h3
                 class="text-lg font-medium mb-3 text-gray-700 dark:text-white"
               >
@@ -110,6 +110,7 @@
               </h3>
               <!-- Tabela de requisitos (exibida apenas se houver itens) -->
               <data-table
+                v-if="requisitos.length > 0"
                 :items="requisitos"
                 :columns="[
                   {
@@ -279,17 +280,20 @@
 
         <!-- Seção de Pontos de Função -->
         <div class="base-section mb-4">
-          <div class="flex items-center gap-4 mb-1">
-            <h3 class="text-base font-medium">Total de Pontos de Função</h3>
-            <input
-              id="totalPontosFuncao"
-              type="text"
-              inputmode="decimal"
-              v-model="totalPontosFuncaoFormatado"
-              @input="formatarNumeroDecimal"
-              class="form-input text-center font-medium w-24"
-              placeholder="0,00"
-            />
+          <h2 class="base-title mb-4">Total de Pontos de Função</h2>
+
+          <div class="flex items-center justify-left">
+            <div class="flex items-center">
+              <input
+                id="totalPontosFuncao"
+                type="text"
+                inputmode="decimal"
+                v-model="totalPontosFuncaoFormatado"
+                @input="formatarNumeroDecimal"
+                class="form-input text-center font-medium text-lg w-18"
+                placeholder="0,00"
+              />
+            </div>
           </div>
         </div>
 

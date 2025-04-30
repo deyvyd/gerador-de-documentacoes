@@ -122,7 +122,7 @@
             </div>
           </form>
 
-          <div v-if="atividades.length > 0" class="base-section">
+          <div v-if="atividades.length > 0" class="base-section mb-4">
             <h3 class="text-lg font-medium mb-3 text-gray-700 dark:text-white">
               Lista de Atividades
             </h3>

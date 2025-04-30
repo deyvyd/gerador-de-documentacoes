@@ -287,7 +287,7 @@
               inputmode="decimal"
               v-model="totalPontosFuncaoFormatado"
               @input="formatarNumeroDecimal"
-              class="form-input text-center font-medium w-24"
+              class="form-input text-center font-medium w-18"
               placeholder="0,00"
             />
           </div>
