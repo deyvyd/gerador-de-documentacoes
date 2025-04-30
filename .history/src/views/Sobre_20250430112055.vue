@@ -1,5 +1,5 @@
 <template>
-  <div class="background-container min-h-screen text-white">
+  <div class="min-h-screen bg-gray-900 text-white">
     <!-- Header -->
     <app-header
       title="Gerador de Documentações"
@@ -7,15 +7,21 @@
     >
       <template #actions>
         <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
+        <info-button
+          tooltip-title="Este sistema permite gerar documentações técnicas e de desenvolvimento:"
+          :tooltip-items="[
+            'Documentação Técnica - Para registro de atividades e horas',
+            'Documentação de Desenvolvimento - Para especificação de requisitos',
+            'Exportação em múltiplos formatos (JSON, DOCX, PDF)',
+          ]"
+        ></info-button>
       </template>
     </app-header>
 
-    <div class="container background-container mx-auto px-4 py-8 mt-8">
+    <div class="container mx-auto px-4 py-8 mt-8">
       <!-- Hero Section -->
-      <div class="main-card background-container p-8 mb-8">
-        <h1
-          class="text-3xl text-blue-600 dark:text-blue-50 md:text-4xl font-bold mb-4 text-center"
-        >
+      <div class="main-card p-8 mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-center">
           Sobre o Gerador de Documentações
         </h1>
 
@@ -1388,8 +1394,8 @@
               @click="toggleFaq(4)"
             >
               <h3 class="font-semibold text-gray-800 dark:text-white">
-                Por que algumas informações são diferentes entre os tipos de
-                documentação?
+                Por que algumas informações não são transferidas entre os tipos
+                de documentação?
               </h3>
               <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
                 <svg
@@ -1484,12 +1490,11 @@
                     />
                   </svg>
                   <span
-                    >As informações <b>básicas da SS</b>&nbsp;
-                    <i>(número, ano, título, descrição, datas e autores)</i> são
-                    comuns a ambos os tipos, mas os demais campos são
-                    específicos de cada tipo de documentação. Ao tentar importar
-                    um JSON de um tipo diferente de documentação a aplicação
-                    exibe uma mensagem de erro e não carrega nenhum dado.</span
+                    >As informações básicas da SS (número, ano, título,
+                    descrição, datas e autores) são comuns a ambos os tipos, mas
+                    os demais campos são específicos de cada tipo de
+                    documentação. Ao trocar entre os tipos, apenas as
+                    informações básicas comuns serão mantidas.</span
                   >
                 </p>
               </div>
@@ -1607,18 +1612,16 @@
         </div>
 
         <!-- Rodapé -->
-        <div class="footer-section mt-12 mb-8 text-center">
-          <div class="py-3 border-t border-gray-300 dark:border-gray-700">
-            <p class="text-gray-600 dark:text-gray-400 text-sm">
-              © 2025 Gerador de Documentações - Todos os direitos reservados
-            </p>
-            <p class="text-gray-500 dark:text-gray-500 text-sm mt-1">
-              Desenvolvido para aumentar a produtividade e garantir a
-              padronização de documentos
-            </p>
-          </div>
-        </div>
-      </div>
+<div class="footer-section mt-12 mb-8 text-center">
+  <div class="py-3 border-t border-gray-300 dark:border-gray-700">
+    <p class="text-gray-600 dark:text-gray-400 text-sm">
+      © 2025 Gerador de Documentações - Todos os direitos reservados
+    </p>
+    <p class="text-gray-500 dark:text-gray-500 text-sm mt-1">
+      Desenvolvido para aumentar a produtividade e garantir a padronização de documentos
+    </p>
+  </div>
+</div>
     </div>
   </div>
 </template>
@@ -1684,12 +1687,8 @@ export default {
 @import "../assets/css/colors.css";
 
 /* Estilos adicionais específicos para esta página */
-.background-container {
-  @apply bg-gray-50 dark:bg-gray-900;
-}
-
 .main-card {
-  @apply rounded-lg shadow px-4 py-6 transition-all duration-300;
+  @apply bg-blue-900 rounded-lg shadow px-4 py-6 transition-all duration-300;
 }
 
 .campos-container {
@@ -1721,94 +1720,5 @@ export default {
 .v-leave-to {
   opacity: 0;
   transform: translateY(-10px);
-}
-
-/* Estilos adicionais específicos para esta página */
-.hero-card,
-.info-card,
-.tabs-card,
-.info-system-card,
-.faq-card,
-.links-card {
-  @apply bg-white dark:bg-blue-900 rounded-lg shadow px-4 py-6 transition-all duration-300;
-}
-
-.tab-navigation {
-  @apply flex overflow-x-auto pb-2;
-}
-
-/* Estilos para cards de benefícios */
-.benefit-card {
-  @apply bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-200 hover:shadow;
-}
-
-/* Estilos para ícones */
-.icon-circle {
-  @apply rounded-full p-4 shadow-sm;
-}
-
-.icon-box {
-  @apply shadow-sm inline-flex items-center justify-center;
-}
-
-/* Transições para FAQ */
-.faq-item {
-  @apply transition-all duration-300;
-}
-
-/* Tabelas */
-table {
-  @apply w-full border-collapse;
-}
-
-table th {
-  @apply py-3 px-4 text-left font-medium text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600;
-}
-
-table td {
-  @apply py-3 px-4 border-b border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-300;
-}
-
-/* Seções coloridas em tabelas */
-table td[colspan="4"].bg-orange-900 {
-  @apply bg-orange-100 dark:bg-orange-900/40 font-semibold text-orange-800 dark:text-orange-300;
-}
-
-table td[colspan="4"].bg-green-900 {
-  @apply bg-green-100 dark:bg-green-900/40 font-semibold text-green-800 dark:text-green-300;
-}
-
-/* Animações */
-.campos-container {
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Formatos de exportação */
-.format-card {
-  @apply transition-all duration-200;
-}
-
-.format-card:hover {
-  @apply shadow-md transform scale-[1.02];
-}
-
-/* Links úteis */
-.link-card {
-  @apply transition-all duration-300;
-}
-
-.link-card:hover {
-  @apply transform -translate-y-1 shadow-md;
 }
 </style>

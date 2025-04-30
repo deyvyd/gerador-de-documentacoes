@@ -1,5 +1,5 @@
 <template>
-  <div class="background-container min-h-screen text-white">
+  <div class="min-h-screen bg-gray-900 text-white">
     <!-- Header -->
     <app-header
       title="Gerador de Documentações"
@@ -7,15 +7,21 @@
     >
       <template #actions>
         <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
+        <info-button
+          tooltip-title="Este sistema permite gerar documentações técnicas e de desenvolvimento:"
+          :tooltip-items="[
+            'Documentação Técnica - Para registro de atividades e horas',
+            'Documentação de Desenvolvimento - Para especificação de requisitos',
+            'Exportação em múltiplos formatos (JSON, DOCX, PDF)',
+          ]"
+        ></info-button>
       </template>
     </app-header>
 
-    <div class="container background-container mx-auto px-4 py-8 mt-8">
+    <div class="container mx-auto px-4 py-8 mt-8">
       <!-- Hero Section -->
-      <div class="main-card background-container p-8 mb-8">
-        <h1
-          class="text-3xl text-blue-600 dark:text-blue-50 md:text-4xl font-bold mb-4 text-center"
-        >
+      <div class="main-card p-8 mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-center">
           Sobre o Gerador de Documentações
         </h1>
 
@@ -1388,8 +1394,8 @@
               @click="toggleFaq(4)"
             >
               <h3 class="font-semibold text-gray-800 dark:text-white">
-                Por que algumas informações são diferentes entre os tipos de
-                documentação?
+                Por que algumas informações não são transferidas entre os tipos
+                de documentação?
               </h3>
               <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
                 <svg
@@ -1484,12 +1490,11 @@
                     />
                   </svg>
                   <span
-                    >As informações <b>básicas da SS</b>&nbsp;
-                    <i>(número, ano, título, descrição, datas e autores)</i> são
-                    comuns a ambos os tipos, mas os demais campos são
-                    específicos de cada tipo de documentação. Ao tentar importar
-                    um JSON de um tipo diferente de documentação a aplicação
-                    exibe uma mensagem de erro e não carrega nenhum dado.</span
+                    >As informações básicas da SS (número, ano, título,
+                    descrição, datas e autores) são comuns a ambos os tipos, mas
+                    os demais campos são específicos de cada tipo de
+                    documentação. Ao trocar entre os tipos, apenas as
+                    informações básicas comuns serão mantidas.</span
                   >
                 </p>
               </div>
@@ -1684,12 +1689,8 @@ export default {
 @import "../assets/css/colors.css";
 
 /* Estilos adicionais específicos para esta página */
-.background-container {
-  @apply bg-gray-50 dark:bg-gray-900;
-}
-
 .main-card {
-  @apply rounded-lg shadow px-4 py-6 transition-all duration-300;
+  @apply bg-blue-900 rounded-lg shadow px-4 py-6 transition-all duration-300;
 }
 
 .campos-container {

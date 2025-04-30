@@ -12,7 +12,7 @@
 
     <div class="container background-container mx-auto px-4 py-8 mt-8">
       <!-- Hero Section -->
-      <div class="main-card background-container p-8 mb-8">
+      <div class="main-card p-8 mb-8">
         <h1
           class="text-3xl text-blue-600 dark:text-blue-50 md:text-4xl font-bold mb-4 text-center"
         >
@@ -1685,11 +1685,11 @@ export default {
 
 /* Estilos adicionais específicos para esta página */
 .background-container {
-  @apply bg-gray-50 dark:bg-gray-900;
+  @apply bg-gray-100 dark:bg-gray-900;
 }
 
 .main-card {
-  @apply rounded-lg shadow px-4 py-6 transition-all duration-300;
+  @apply bg-blue-50 dark:bg-blue-900 rounded-lg shadow px-4 py-6 transition-all duration-300;
 }
 
 .campos-container {

@@ -1,5 +1,5 @@
 <template>
-  <div class="background-container min-h-screen text-white">
+  <div class="min-h-screen bg-gray-900 text-white">
     <!-- Header -->
     <app-header
       title="Gerador de Documentações"
@@ -7,15 +7,21 @@
     >
       <template #actions>
         <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
+        <info-button
+          tooltip-title="Este sistema permite gerar documentações técnicas e de desenvolvimento:"
+          :tooltip-items="[
+            'Documentação Técnica - Para registro de atividades e horas',
+            'Documentação de Desenvolvimento - Para especificação de requisitos',
+            'Exportação em múltiplos formatos (JSON, DOCX, PDF)',
+          ]"
+        ></info-button>
       </template>
     </app-header>
 
-    <div class="container background-container mx-auto px-4 py-8 mt-8">
+    <div class="container mx-auto px-4 py-8 mt-8">
       <!-- Hero Section -->
-      <div class="main-card background-container p-8 mb-8">
-        <h1
-          class="text-3xl text-blue-600 dark:text-blue-50 md:text-4xl font-bold mb-4 text-center"
-        >
+      <div class="main-card p-8 mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-center">
           Sobre o Gerador de Documentações
         </h1>
 
@@ -784,243 +790,44 @@
               </div>
             </div>
 
-            <!-- Conteúdo da aba Formatos de Exportação -->
-            <div v-if="tabAtiva === 2" class="campos-container mt-6">
-              <div class="flex items-center mb-4">
-                <div
-                  class="icon-box bg-purple-100 dark:bg-purple-900 p-2 rounded-lg mr-3"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-6 w-6 text-purple-600 dark:text-purple-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                    />
-                  </svg>
-                </div>
-                <h3
-                  class="text-xl font-semibold text-purple-600 dark:text-purple-400"
-                >
-                  Formatos de Exportação
-                </h3>
-              </div>
-              <p class="mb-4 text-gray-700 dark:text-gray-300">
-                O sistema permite exportar as documentações em diferentes
-                formatos para atender a diversas necessidades. Confira as
-                características de cada formato:
-              </p>
+            <!-- Conteúdo da aba Documentação de Desenvolvimento -->
+<div v-if="tabAtiva === 1" class="campos-container mt-6">
+  <div class="flex items-center mb-4">
+    <div class="icon-box bg-green-100 dark:bg-green-900 p-2 rounded-lg mr-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+      </svg>
+    </div>
+    <h3 class="text-xl font-semibold text-green-600 dark:text-green-400">
+      Documentação de Desenvolvimento
+    </h3>
+  </div>
+  <p class="mb-4 text-gray-700 dark:text-gray-300">
+    Esta documentação é voltada para a especificação de requisitos de desenvolvimento em uma Solicitação de Serviço (SS). A seguir, a descrição de cada campo:
+  </p>
 
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div
-                  class="format-card bg-white dark:bg-gray-800 p-5 rounded-lg border border-purple-200 dark:border-purple-800 shadow-sm hover:shadow-md transition-shadow duration-200"
-                >
-                  <div class="flex items-center mb-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-8 w-8 mr-3 text-purple-600 dark:text-purple-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                    <h4
-                      class="text-lg font-semibold text-gray-800 dark:text-white"
-                    >
-                      JSON
-                    </h4>
-                  </div>
-                  <ul
-                    class="list-disc pl-10 space-y-1 text-sm text-gray-700 dark:text-gray-300"
-                  >
-                    <li>Formato padrão sempre gerado</li>
-                    <li>Ideal para importação posterior</li>
-                    <li>Facilita integração com outros sistemas</li>
-                    <li>Preserva todos os dados estruturados</li>
-                    <li>Tamanho reduzido de arquivo</li>
-                  </ul>
-                </div>
-
-                <div
-                  class="format-card bg-white dark:bg-gray-800 p-5 rounded-lg border border-purple-200 dark:border-purple-800 shadow-sm hover:shadow-md transition-shadow duration-200"
-                >
-                  <div class="flex items-center mb-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-8 w-8 mr-3 text-purple-600 dark:text-purple-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                    <h4
-                      class="text-lg font-semibold text-gray-800 dark:text-white"
-                    >
-                      DOCX
-                    </h4>
-                  </div>
-                  <ul
-                    class="list-disc pl-10 space-y-1 text-sm text-gray-700 dark:text-gray-300"
-                  >
-                    <li>Compatível com Microsoft Word</li>
-                    <li>Documento formatado para impressão</li>
-                    <li>Inclui estilos corporativos padronizados</li>
-                    <li>Permite edições posteriores</li>
-                    <li>Ideal para revisão e aprovação</li>
-                  </ul>
-                </div>
-
-                <div
-                  class="format-card bg-white dark:bg-gray-800 p-5 rounded-lg border border-purple-200 dark:border-purple-800 shadow-sm hover:shadow-md transition-shadow duration-200"
-                >
-                  <div class="flex items-center mb-3">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-8 w-8 mr-3 text-purple-600 dark:text-purple-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                      />
-                    </svg>
-                    <h4
-                      class="text-lg font-semibold text-gray-800 dark:text-white"
-                    >
-                      PDF
-                    </h4>
-                  </div>
-                  <ul
-                    class="list-disc pl-10 space-y-1 text-sm text-gray-700 dark:text-gray-300"
-                  >
-                    <li>Formato final para distribuição</li>
-                    <li>Preserva formatação em qualquer dispositivo</li>
-                    <li>Não permite alterações acidentais</li>
-                    <li>Ideal para arquivamento</li>
-                    <li>Pode ser assinado digitalmente</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div
-                class="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800/50"
-              >
-                <h4
-                  class="font-semibold mb-2 flex items-center text-yellow-800 dark:text-yellow-200"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-2 text-yellow-600 dark:text-yellow-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  Observação importante
-                </h4>
-                <p class="text-sm text-yellow-700 dark:text-yellow-300">
-                  Ao exportar a documentação, você pode selecionar qualquer
-                  combinação de formatos DOCX e PDF, além do JSON que é sempre
-                  gerado. Se apenas o formato JSON for selecionado, o sistema
-                  não realiza a validação completa dos campos, o que é útil para
-                  salvar um rascunho do trabalho em andamento.
-                </p>
-              </div>
-            </div>
+  <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 shadow">
           </div>
         </section>
       </div>
 
       <!-- Informações de Contato e Versão -->
-      <div
-        class="info-system-card p-6 mb-8 border border-blue-300 dark:border-blue-700 rounded-xl shadow-md"
-      >
-        <div class="flex items-center justify-center mb-6">
-          <div
-            class="icon-box bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 text-blue-600 dark:text-blue-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-          <h2
-            class="text-xl font-semibold text-center text-blue-700 dark:text-blue-300"
-          >
-            Informações do Sistema
-          </h2>
-        </div>
-
+      <div class="main-card p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-4 text-center">
+          Informações do Sistema
+        </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div
-            class="bg-white dark:bg-gray-800 p-5 rounded-lg border border-blue-200 dark:border-blue-700 shadow-sm"
-          >
-            <h3
-              class="text-lg font-semibold mb-3 flex items-center text-blue-700 dark:text-blue-300"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                />
-              </svg>
-              Suporte
-            </h3>
-            <p class="mb-3 text-gray-700 dark:text-gray-300">
+          <div>
+            <h3 class="text-lg font-semibold mb-2 text-blue-400">Suporte</h3>
+            <p class="mb-2">
               Para dúvidas, sugestões ou relato de problemas, entre em contato
               com:
             </p>
-            <ul class="space-y-3">
-              <li
-                class="flex items-center bg-blue-50 dark:bg-blue-900/30 p-2 rounded"
-              >
+            <ul class="space-y-2">
+              <li class="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400"
+                  class="h-5 w-5 mr-2 text-blue-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -1032,16 +839,12 @@
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                <span class="text-gray-800 dark:text-gray-200"
-                  >deyvyd.moura@logap.com.br</span
-                >
+                <span>deyvyd.moura@logap.com.br</span>
               </li>
-              <li
-                class="flex items-center bg-blue-50 dark:bg-blue-900/30 p-2 rounded"
-              >
+              <li class="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400"
+                  class="h-5 w-5 mr-2 text-blue-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -1053,42 +856,20 @@
                     d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                   />
                 </svg>
-                <span class="text-gray-800 dark:text-gray-200"
-                  >Horário de atendimento: Seg-Sex, 8h às 18h</span
-                >
+                <span>Horário de atendimento: Seg-Sex, 8h às 18h</span>
               </li>
             </ul>
           </div>
 
-          <div
-            class="bg-white dark:bg-gray-800 p-5 rounded-lg border border-blue-200 dark:border-blue-700 shadow-sm"
-          >
-            <h3
-              class="text-lg font-semibold mb-3 flex items-center text-blue-700 dark:text-blue-300"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
-                />
-              </svg>
+          <div>
+            <h3 class="text-lg font-semibold mb-2 text-blue-400">
               Informações Técnicas
             </h3>
-            <ul class="space-y-3">
-              <li
-                class="flex items-center bg-blue-50 dark:bg-blue-900/30 p-2 rounded"
-              >
+            <ul class="space-y-2">
+              <li class="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400"
+                  class="h-5 w-5 mr-2 text-blue-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -1100,16 +881,12 @@
                     d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                   />
                 </svg>
-                <span class="text-gray-800 dark:text-gray-200"
-                  >Versão: 1.0.0</span
-                >
+                <span>Versão: 1.0.0</span>
               </li>
-              <li
-                class="flex items-center bg-blue-50 dark:bg-blue-900/30 p-2 rounded"
-              >
+              <li class="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400"
+                  class="h-5 w-5 mr-2 text-blue-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -1121,16 +898,12 @@
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <span class="text-gray-800 dark:text-gray-200"
-                  >Data da última atualização: 30 de Abril, 2025</span
-                >
+                <span>Data da última atualização: 30 de Abril, 2025</span>
               </li>
-              <li
-                class="flex items-center bg-blue-50 dark:bg-blue-900/30 p-2 rounded"
-              >
+              <li class="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400"
+                  class="h-5 w-5 mr-2 text-blue-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -1142,7 +915,7 @@
                     d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
                   />
                 </svg>
-                <span class="text-gray-800 dark:text-gray-200"
+                <span
                   >Desenvolvido com: Vue.js, Tailwind CSS e Python
                   (Backend)</span
                 >
@@ -1153,65 +926,37 @@
       </div>
 
       <!-- Perguntas Frequentes -->
-      <div
-        class="faq-card p-6 mb-8 border border-blue-300 dark:border-blue-700 rounded-xl shadow-md"
-      >
-        <div class="flex items-center justify-center mb-6">
-          <div
-            class="icon-box bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 text-blue-600 dark:text-blue-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-          <h2
-            class="text-xl font-semibold text-center text-blue-700 dark:text-blue-300"
-          >
-            Perguntas Frequentes
-          </h2>
-        </div>
+      <div class="main-card p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-6 text-center">
+          Perguntas Frequentes
+        </h2>
 
         <div class="space-y-4">
-          <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 overflow-hidden transition-all duration-200 hover:shadow-md"
-          >
+          <div class="bg-blue-800 p-4 rounded-lg mb-4">
             <div
-              class="flex justify-between items-center p-4 cursor-pointer"
+              class="flex justify-between items-center cursor-pointer"
               @click="toggleFaq(1)"
             >
-              <h3 class="font-semibold text-gray-800 dark:text-white">
+              <h3 class="font-semibold">
                 Como importar um arquivo JSON salvo anteriormente?
               </h3>
-              <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
-                <svg
-                  :class="[activeFaq === 1 ? 'transform rotate-180' : '']"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600 dark:text-blue-400 transition-transform duration-200"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
+              <svg
+                :class="[activeFaq === 1 ? 'transform rotate-180' : '']"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 transition-transform duration-200"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </div>
             <div
               v-if="activeFaq === 1"
-              class="border-t border-blue-100 dark:border-blue-900 px-4 py-3 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 transition-all duration-200"
+              class="mt-2 pl-2 text-sm transition-all duration-200"
             >
               <p>Para importar um arquivo JSON salvo anteriormente:</p>
               <ol class="list-decimal pl-5 mt-2 space-y-1">
@@ -1229,27 +974,11 @@
                   Revise os dados importados e faça as alterações necessárias
                 </li>
               </ol>
-              <div
-                class="mt-3 border-l-4 border-yellow-400 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-r-md"
-              >
-                <h4
-                  class="font-semibold mb-1 flex items-center text-yellow-800 dark:text-yellow-300"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
+              <div class="mt-2 border-yellow-300 border-l-4 bg-blue-900 p-2">
+                <h4 class="font-semibold mb-2 flex items-center">
                   Importante:
                 </h4>
-                <p class="text-yellow-800 dark:text-yellow-300">
+                <p class="mt-2">
                   O arquivo JSON deve estar no formato correto gerado pelo
                   sistema e no tipo correto (Documentação Técnica ou
                   Documentação de Desenvolvimento) para que a importação
@@ -1259,35 +988,31 @@
             </div>
           </div>
 
-          <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 overflow-hidden transition-all duration-200 hover:shadow-md"
-          >
+          <div class="bg-blue-800 p-4 rounded-lg mb-4">
             <div
-              class="flex justify-between items-center p-4 cursor-pointer"
+              class="flex justify-between items-center cursor-pointer"
               @click="toggleFaq(2)"
             >
-              <h3 class="font-semibold text-gray-800 dark:text-white">
+              <h3 class="font-semibold">
                 Posso editar um documento gerado anteriormente?
               </h3>
-              <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
-                <svg
-                  :class="[activeFaq === 2 ? 'transform rotate-180' : '']"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600 dark:text-blue-400 transition-transform duration-200"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
+              <svg
+                :class="[activeFaq === 2 ? 'transform rotate-180' : '']"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 transition-transform duration-200"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </div>
             <div
               v-if="activeFaq === 2"
-              class="border-t border-blue-100 dark:border-blue-900 px-4 py-3 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 transition-all duration-200"
+              class="mt-2 pl-2 text-sm transition-all duration-200"
             >
               <p>Sim! Para editar um documento anterior:</p>
               <ol class="list-decimal pl-5 mt-2 space-y-1">
@@ -1299,215 +1024,121 @@
                   Gere o documento novamente, selecionando os formatos desejados
                 </li>
               </ol>
-              <p class="mt-2 text-blue-700 dark:text-blue-300 italic">
+              <p class="mt-2">
                 Observação: Se o documento foi criado por outro autor, um novo
                 registro de modificação será adicionado com as suas iniciais.
               </p>
             </div>
           </div>
 
-          <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 overflow-hidden transition-all duration-200 hover:shadow-md"
-          >
+          <div class="bg-blue-800 p-4 rounded-lg mb-4">
             <div
-              class="flex justify-between items-center p-4 cursor-pointer"
+              class="flex justify-between items-center cursor-pointer"
               @click="toggleFaq(3)"
             >
-              <h3 class="font-semibold text-gray-800 dark:text-white">
+              <h3 class="font-semibold">
                 Como reordenar requisitos funcionais ou não funcionais?
               </h3>
-              <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
-                <svg
-                  :class="[activeFaq === 3 ? 'transform rotate-180' : '']"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600 dark:text-blue-400 transition-transform duration-200"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
+              <svg
+                :class="[activeFaq === 3 ? 'transform rotate-180' : '']"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 transition-transform duration-200"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </div>
             <div
               v-if="activeFaq === 3"
-              class="border-t border-blue-100 dark:border-blue-900 px-4 py-3 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 transition-all duration-200"
+              class="mt-2 pl-2 text-sm transition-all duration-200"
             >
               <p>
                 Os requisitos podem ser reordenados facilmente com a
                 funcionalidade de arraste e solte:
               </p>
-              <div class="flex mt-2">
-                <div
-                  class="bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-3 flex-1 mr-2"
-                >
-                  <ol class="list-decimal pl-4 space-y-1">
-                    <li>
-                      Posicione o cursor sobre a linha do requisito que deseja
-                      mover
-                    </li>
-                    <li>Clique e mantenha pressionado o botão do mouse</li>
-                    <li>Arraste o item para a posição desejada</li>
-                    <li>Solte o botão do mouse</li>
-                  </ol>
-                </div>
-                <div
-                  class="bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 p-3 flex-1"
-                >
-                  <p class="flex items-start">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5 mr-2 mt-0.5 text-green-600 dark:text-green-400"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                    <span
-                      >Os IDs dos requisitos serão automaticamente atualizados
-                      para manter a sequência correta.</span
-                    >
-                  </p>
-                </div>
-              </div>
+              <ol class="list-decimal pl-5 mt-2 space-y-1">
+                <li>
+                  Posicione o cursor sobre a linha do requisito que deseja mover
+                </li>
+                <li>Clique e mantenha pressionado o botão do mouse</li>
+                <li>Arraste o item para a posição desejada</li>
+                <li>Solte o botão do mouse</li>
+              </ol>
+              <p class="mt-2">
+                Os IDs dos requisitos serão automaticamente atualizados para
+                manter a sequência correta.
+              </p>
             </div>
           </div>
 
-          <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 overflow-hidden transition-all duration-200 hover:shadow-md"
-          >
+          <div class="bg-blue-800 p-4 rounded-lg">
             <div
-              class="flex justify-between items-center p-4 cursor-pointer"
+              class="flex justify-between items-center cursor-pointer"
               @click="toggleFaq(4)"
             >
-              <h3 class="font-semibold text-gray-800 dark:text-white">
-                Por que algumas informações são diferentes entre os tipos de
-                documentação?
+              <h3 class="font-semibold">
+                Por que algumas informações não são transferidas entre os tipos
+                de documentação?
               </h3>
-              <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
-                <svg
-                  :class="[activeFaq === 4 ? 'transform rotate-180' : '']"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600 dark:text-blue-400 transition-transform duration-200"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
+              <svg
+                :class="[activeFaq === 4 ? 'transform rotate-180' : '']"
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 transition-transform duration-200"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
             </div>
             <div
               v-if="activeFaq === 4"
-              class="border-t border-blue-100 dark:border-blue-900 px-4 py-3 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 transition-all duration-200"
+              class="mt-2 pl-2 text-sm transition-all duration-200"
             >
               <p>
                 A documentação técnica e a documentação de desenvolvimento têm
                 propósitos e estruturas diferentes:
               </p>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                <div
-                  class="bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800 p-3"
-                >
-                  <h4
-                    class="font-semibold mb-2 text-orange-700 dark:text-orange-300 flex items-center"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5 mr-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                    Documentação Técnica
-                  </h4>
-                  <p>Focada em atividades e horas trabalhadas</p>
-                </div>
-                <div
-                  class="bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 p-3"
-                >
-                  <h4
-                    class="font-semibold mb-2 text-green-700 dark:text-green-300 flex items-center"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5 mr-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                      />
-                    </svg>
-                    Documentação de Desenvolvimento
-                  </h4>
-                  <p>Focada em requisitos funcionais e não funcionais</p>
-                </div>
-              </div>
-              <div
-                class="mt-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800 p-3"
-              >
-                <p class="flex items-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-2 mt-0.5 text-blue-600 dark:text-blue-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span
-                    >As informações <b>básicas da SS</b>&nbsp;
-                    <i>(número, ano, título, descrição, datas e autores)</i> são
-                    comuns a ambos os tipos, mas os demais campos são
-                    específicos de cada tipo de documentação. Ao tentar importar
-                    um JSON de um tipo diferente de documentação a aplicação
-                    exibe uma mensagem de erro e não carrega nenhum dado.</span
-                  >
-                </p>
-              </div>
+              <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>
+                  A documentação técnica é focada em atividades e horas
+                  trabalhadas
+                </li>
+                <li>
+                  A documentação de desenvolvimento é focada em requisitos
+                  funcionais e não funcionais
+                </li>
+              </ul>
+              <p class="mt-2">
+                As informações básicas da SS (número, ano, título, descrição,
+                datas e autores) são comuns a ambos os tipos, mas os demais
+                campos são específicos de cada tipo de documentação. Ao trocar
+                entre os tipos, apenas as informações básicas comuns serão
+                mantidas.
+              </p>
             </div>
           </div>
         </div>
 
         <!-- Seção Final com Links Úteis -->
-        <div
-          class="links-card p-6 mb-8 border border-blue-300 dark:border-blue-700 rounded-xl shadow-md"
-        >
-          <div class="flex items-center justify-center mb-6">
-            <div
-              class="icon-box bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3"
+        <div class="main-card p-6 mb-8">
+          <h2 class="text-xl font-semibold mb-4 text-center">Links Úteis</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <a
+              href="#"
+              class="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg transition-colors duration-200"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 text-blue-600 dark:text-blue-400"
+                class="h-8 w-8 mx-auto mb-2 text-blue-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -1516,107 +1147,62 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
                 />
               </svg>
-            </div>
-            <h2
-              class="text-xl font-semibold text-center text-blue-700 dark:text-blue-300"
-            >
-              Links Úteis
-            </h2>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <span class="font-medium">Manual do Usuário</span>
+            </a>
             <a
               href="#"
-              class="link-card flex flex-col items-center p-5 rounded-lg transition-colors duration-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-700"
+              class="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg transition-colors duration-200"
             >
-              <div class="mb-3 bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-8 w-8 text-blue-600 dark:text-blue-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                  />
-                </svg>
-              </div>
-              <span class="text-lg font-medium text-gray-800 dark:text-white"
-                >Manual do Usuário</span
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8 mx-auto mb-2 text-blue-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                />
+              </svg>
+              <span class="font-medium">Portal Corporativo</span>
             </a>
-
-            <a
-              href="#"
-              class="link-card flex flex-col items-center p-5 rounded-lg transition-colors duration-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-700"
-            >
-              <div class="mb-3 bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-8 w-8 text-blue-600 dark:text-blue-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                  />
-                </svg>
-              </div>
-              <span class="text-lg font-medium text-gray-800 dark:text-white"
-                >Portal Corporativo</span
-              >
-            </a>
-
             <a
               href="https://logap.com.br/"
               target="_blank"
-              class="link-card flex flex-col items-center p-5 rounded-lg transition-colors duration-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-700"
+              class="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg transition-colors duration-200"
             >
-              <div class="mb-3 bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-8 w-8 text-blue-600 dark:text-blue-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </div>
-              <span class="text-lg font-medium text-gray-800 dark:text-white"
-                >Central de Ajuda</span
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8 mx-auto mb-2 text-blue-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <span class="font-medium">Central de Ajuda</span>
             </a>
           </div>
         </div>
 
         <!-- Rodapé -->
-        <div class="footer-section mt-12 mb-8 text-center">
-          <div class="py-3 border-t border-gray-300 dark:border-gray-700">
-            <p class="text-gray-600 dark:text-gray-400 text-sm">
-              © 2025 Gerador de Documentações - Todos os direitos reservados
-            </p>
-            <p class="text-gray-500 dark:text-gray-500 text-sm mt-1">
-              Desenvolvido para aumentar a produtividade e garantir a
-              padronização de documentos
-            </p>
-          </div>
+        <div class="text-center text-gray-500 text-sm my-8">
+          <p>© 2025 Gerador de Documentações - Todos os direitos reservados</p>
+          <p class="mt-1">
+            Desenvolvido para aumentar a produtividade e garantir a padronização
+            de documentos
+          </p>
         </div>
       </div>
     </div>
@@ -1684,12 +1270,8 @@ export default {
 @import "../assets/css/colors.css";
 
 /* Estilos adicionais específicos para esta página */
-.background-container {
-  @apply bg-gray-50 dark:bg-gray-900;
-}
-
 .main-card {
-  @apply rounded-lg shadow px-4 py-6 transition-all duration-300;
+  @apply bg-blue-900 rounded-lg shadow px-4 py-6 transition-all duration-300;
 }
 
 .campos-container {
@@ -1721,94 +1303,5 @@ export default {
 .v-leave-to {
   opacity: 0;
   transform: translateY(-10px);
-}
-
-/* Estilos adicionais específicos para esta página */
-.hero-card,
-.info-card,
-.tabs-card,
-.info-system-card,
-.faq-card,
-.links-card {
-  @apply bg-white dark:bg-blue-900 rounded-lg shadow px-4 py-6 transition-all duration-300;
-}
-
-.tab-navigation {
-  @apply flex overflow-x-auto pb-2;
-}
-
-/* Estilos para cards de benefícios */
-.benefit-card {
-  @apply bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-200 hover:shadow;
-}
-
-/* Estilos para ícones */
-.icon-circle {
-  @apply rounded-full p-4 shadow-sm;
-}
-
-.icon-box {
-  @apply shadow-sm inline-flex items-center justify-center;
-}
-
-/* Transições para FAQ */
-.faq-item {
-  @apply transition-all duration-300;
-}
-
-/* Tabelas */
-table {
-  @apply w-full border-collapse;
-}
-
-table th {
-  @apply py-3 px-4 text-left font-medium text-gray-800 dark:text-white bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600;
-}
-
-table td {
-  @apply py-3 px-4 border-b border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-300;
-}
-
-/* Seções coloridas em tabelas */
-table td[colspan="4"].bg-orange-900 {
-  @apply bg-orange-100 dark:bg-orange-900/40 font-semibold text-orange-800 dark:text-orange-300;
-}
-
-table td[colspan="4"].bg-green-900 {
-  @apply bg-green-100 dark:bg-green-900/40 font-semibold text-green-800 dark:text-green-300;
-}
-
-/* Animações */
-.campos-container {
-  animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Formatos de exportação */
-.format-card {
-  @apply transition-all duration-200;
-}
-
-.format-card:hover {
-  @apply shadow-md transform scale-[1.02];
-}
-
-/* Links úteis */
-.link-card {
-  @apply transition-all duration-300;
-}
-
-.link-card:hover {
-  @apply transform -translate-y-1 shadow-md;
 }
 </style>

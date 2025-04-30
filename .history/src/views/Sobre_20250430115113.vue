@@ -1685,7 +1685,7 @@ export default {
 
 /* Estilos adicionais específicos para esta página */
 .background-container {
-  @apply bg-gray-50 dark:bg-gray-900;
+  @apply bg-gray-100 dark:bg-gray-900;
 }
 
 .main-card {
