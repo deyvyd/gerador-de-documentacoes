@@ -928,11 +928,11 @@
                 class="mt-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800/50"
               >
                 <h4
-                  class="font-semibold mb-2 flex items-center text-yellow-800 dark:text-yellow-100"
+                  class="font-semibold mb-2 flex items-center text-yellow-800 dark:text-yellow-200"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-2 text-yellow-600 dark:text-yellow-300"
+                    class="h-5 w-5 mr-2 text-yellow-600 dark:text-yellow-400"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -944,7 +944,7 @@
                   </svg>
                   Observação importante
                 </h4>
-                <p class="text-sm text-yellow-700 dark:text-white">
+                <p class="text-sm text-yellow-700 dark:text-yellow-300">
                   Ao exportar a documentação, você pode selecionar qualquer
                   combinação de formatos DOCX e PDF, além do JSON que é sempre
                   gerado. Se apenas o formato JSON for selecionado, o sistema
@@ -1233,7 +1233,7 @@
                 class="mt-3 border-l-4 border-yellow-400 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-r-md"
               >
                 <h4
-                  class="font-semibold text-base mb-1 flex items-center text-yellow-800 dark:text-yellow-300"
+                  class="font-semibold mb-1 flex items-center text-yellow-800 dark:text-yellow-300"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

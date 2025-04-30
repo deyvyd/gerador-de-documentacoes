@@ -1233,7 +1233,7 @@
                 class="mt-3 border-l-4 border-yellow-400 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-r-md"
               >
                 <h4
-                  class="font-semibold text-base mb-1 flex items-center text-yellow-800 dark:text-yellow-300"
+                  class="font-semibold mb-1 flex items-center text-yellow-800 dark:text-yellow-300"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
