@@ -278,19 +278,18 @@
         </div>
 
         <!-- Seção de Pontos de Função -->
-        <div class="base-section mb-4">
-          <div class="flex items-center justify-center gap-4 mb-1">
-            <h3 class="text-base font-medium">Total de Pontos de Função</h3>
-            <input
-              id="totalPontosFuncao"
-              type="text"
-              inputmode="decimal"
-              v-model="totalPontosFuncaoFormatado"
-              @input="formatarNumeroDecimal"
-              class="form-input pontos-funcao-input"
-              placeholder="0,00"
-            />
-          </div>
+
+        <div class="flex items-center justify-center gap-4 mb-1">
+          <h3 class="text-base font-medium">Total de Pontos de Função</h3>
+          <input
+            id="totalPontosFuncao"
+            type="text"
+            inputmode="decimal"
+            v-model="totalPontosFuncaoFormatado"
+            @input="formatarNumeroDecimal"
+            class="form-input pontos-funcao-input"
+            placeholder="0,00"
+          />
         </div>
 
         <!-- Seção de formatos e botão Gerar Documentos -->

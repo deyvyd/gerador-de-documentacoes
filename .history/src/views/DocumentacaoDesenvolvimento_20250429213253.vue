@@ -279,7 +279,7 @@
 
         <!-- Seção de Pontos de Função -->
         <div class="base-section mb-4">
-          <div class="flex items-center justify-center gap-4 mb-1">
+          <div class="flex items-center gap-4 mb-1">
             <h3 class="text-base font-medium">Total de Pontos de Função</h3>
             <input
               id="totalPontosFuncao"

@@ -930,6 +930,13 @@ video {
   resize: none;
 }
 
+.pontos-funcao-input{
+  width: auto;
+  max-width: 6rem;
+  text-align: center;
+  font-weight: 500;
+}
+
 /* ===== Input de data no tema escuro ===== */
 
 .dark input[type="date"]{
@@ -3257,10 +3264,6 @@ video {
   width: 33.333333%;
 }
 
-.w-24{
-  width: 6rem;
-}
-
 .w-3{
   width: 0.75rem;
 }
@@ -3331,6 +3334,10 @@ video {
 
 .max-w-\[1050px\]{
   max-width: 1050px;
+}
+
+.max-w-\[6rem\]{
+  max-width: 6rem;
 }
 
 .max-w-md{

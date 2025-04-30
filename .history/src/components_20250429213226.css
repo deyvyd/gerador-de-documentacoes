@@ -114,7 +114,7 @@
   }
 
   .pontos-funcao-input {
-    @apply w-auto max-w-[6rem] text-center font-medium;
+    @apply w-16 text-center font-medium;
   }
 
   /* ===== Input de data no tema escuro ===== */
