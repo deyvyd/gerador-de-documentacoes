@@ -30,22 +30,6 @@
         d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
       />
     </svg>
-    <!-- Tooltip que muda de acordo com o tema atual -->
-    <div
-      :class="[
-        'theme-tooltip',
-        isDark ? 'theme-tooltip-light' : 'theme-tooltip-dark',
-      ]"
-    >
-      <div class="tooltip-arrow"></div>
-      <div class="tooltip-content">
-        <p class="tooltip-title">
-          {{
-            isDark ? "Alternar para tema claro" : "Alternar para tema escuro"
-          }}
-        </p>
-      </div>
-    </div>
   </button>
 </template>
 
@@ -71,3 +55,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Estilos específicos deste componente (opcional) */
+</style>

@@ -291,6 +291,7 @@
     @apply relative p-2 rounded-lg cursor-pointer transition-all duration-200;
     @apply text-white bg-transparent;
     @apply flex items-center justify-center;
+    @apply w-10 h-10;
     @apply hover:text-blue-500;
   }
   .info-icon {
@@ -304,7 +305,7 @@
 
   .info-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-1 top-12 w-64;
+    @apply -right-1 top-12 w-80;
     @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-blue-700 dark:text-white;
     @apply z-50 text-left;
