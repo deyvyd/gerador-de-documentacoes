@@ -279,7 +279,7 @@
                     </svg>
                     <h3 class="text-lg font-semibold">Rastreabilidade</h3>
                   </div>
-                  <p id="guia-campos" class="text-gray-700 dark:text-gray-300">
+                  <p class="text-gray-700 dark:text-gray-300">
                     Mantém histórico de criação e modificação, permitindo
                     acompanhar a evolução dos documentos ao longo do tempo.
                   </p>
@@ -412,7 +412,7 @@
                   Documentação Técnica
                 </h3>
               </div>
-              <p class="mb-4 text-gray-700 dark:text-gray-300">
+              <p id="guia-campos" class="mb-4 text-gray-700 dark:text-gray-300">
                 Esta documentação é voltada para o registro de atividades
                 técnicas realizadas em uma Solicitação de Serviço (SS). A
                 seguir, a descrição de cada campo:

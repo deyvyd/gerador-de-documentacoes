@@ -279,7 +279,7 @@
                     </svg>
                     <h3 class="text-lg font-semibold">Rastreabilidade</h3>
                   </div>
-                  <p id="guia-campos" class="text-gray-700 dark:text-gray-300">
+                  <p class="text-gray-700 dark:text-gray-300">
                     Mantém histórico de criação e modificação, permitindo
                     acompanhar a evolução dos documentos ao longo do tempo.
                   </p>
@@ -1551,7 +1551,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <a
-              href="#guia-campos"
+              href="#"
               class="link-card flex flex-col items-center p-5 rounded-lg transition-colors duration-200 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-blue-50 hover:border-blue-300 dark:hover:bg-blue-900/20 dark:hover:border-blue-700"
             >
               <div class="mb-3 bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
