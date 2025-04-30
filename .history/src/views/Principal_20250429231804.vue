@@ -1,8 +1,6 @@
 <template>
-  <div
-    class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white"
-  >
-    <!-- Header já possui estilo próprio, não precisa de ajuste -->
+  <div class="min-h-screen bg-gray-900 text-white">
+    <!-- Header -->
     <app-header
       title="Gerador de Documentações"
       @swap-requested="handleSwapRequested"
@@ -18,9 +16,7 @@
         <h1 class="text-3xl md:text-4xl font-bold mb-4">
           Bem-vindo ao Gerador de Documentações
         </h1>
-        <p
-          class="text-lg mb-8 text-gray-600 dark:text-gray-300 max-w-3xl mx-auto"
-        >
+        <p class="text-lg mb-8 text-gray-300 max-w-3xl mx-auto">
           Crie documentações técnicas e de desenvolvimento com facilidade,
           seguindo os padrões estabelecidos e garantindo consistência nos seus
           projetos.
@@ -29,11 +25,7 @@
         <!-- Animated logo -->
         <div class="flex justify-center mb-8">
           <div class="animate-pulse">
-            <img
-              :src="isDark ? '/static/dark-logo.svg' : '/static/light-logo.svg'"
-              alt="Logo"
-              class="h-32 mb-4"
-            />
+            <img src="/static/dark-logo.svg" alt="Logo" class="h-32 mb-4" />
           </div>
         </div>
       </div>
@@ -47,7 +39,7 @@
         >
           <div class="flex items-center mb-4">
             <div
-              class="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center mr-4"
+              class="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center mr-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,13 +58,13 @@
             </div>
             <h2 class="text-xl font-semibold">Documentação Técnica</h2>
           </div>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">
+          <p class="text-gray-300 mb-4">
             Registre atividades, horas trabalhadas e informações técnicas sobre
             suas solicitações de serviço (SS).
           </p>
           <div class="activities-section bg-opacity-40 p-4 rounded-lg mb-4">
             <ul class="space-y-2">
-              <li class="flex items-center text-gray-700 dark:text-gray-300">
+              <li class="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5 mr-2 text-orange-500"
@@ -87,7 +79,7 @@
                 </svg>
                 Gerencie atividades
               </li>
-              <li class="flex items-center text-gray-700 dark:text-gray-300">
+              <li class="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5 mr-2 text-orange-500"
@@ -116,7 +108,7 @@
         >
           <div class="flex items-center mb-4">
             <div
-              class="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mr-4"
+              class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mr-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -137,13 +129,13 @@
               Documentação de Desenvolvimento
             </h2>
           </div>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">
+          <p class="text-gray-300 mb-4">
             Especifique requisitos funcionais e não funcionais para suas
             solicitações de serviço (SS).
           </p>
           <div class="requirements-section bg-opacity-40 p-4 rounded-lg mb-4">
             <ul class="space-y-2">
-              <li class="flex items-center text-gray-700 dark:text-gray-300">
+              <li class="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5 mr-2 text-green-500"
@@ -158,7 +150,7 @@
                 </svg>
                 Gerencie Requisitos Funcionais e Não Funcionais
               </li>
-              <li class="flex items-center text-gray-700 dark:text-gray-300">
+              <li class="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5 mr-2 text-green-500"
@@ -219,7 +211,7 @@
       </div>
 
       <!-- Version Info -->
-      <div class="text-center text-gray-600 dark:text-gray-500 text-sm mt-8">
+      <div class="text-center text-gray-500 text-sm mt-8">
         <p>Versão 1.0.0</p>
         <p>© 2025 Gerador de Documentações</p>
       </div>
@@ -270,20 +262,16 @@ export default {
 @import "../assets/css/colors.css";
 
 /* Estilos adicionais para animações e efeitos */
-@import "../assets/css/styles.css";
-@import "../assets/css/colors.css";
-
-/* Estilos adicionais para animações e efeitos */
 .main-card {
-  @apply bg-white dark:bg-blue-900 rounded-lg shadow-md border border-gray-200 dark:border-transparent dark:shadow px-4 py-6 transition-all duration-300;
+  @apply bg-blue-900 rounded-lg shadow px-4 py-6 transition-all duration-300;
 }
 
 .activities-section {
-  @apply bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800/50;
+  @apply bg-orange-900/20 border border-orange-800/50;
 }
 
 .requirements-section {
-  @apply bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800/50;
+  @apply bg-green-900/20 border border-green-800/50;
 }
 
 .animate-pulse {

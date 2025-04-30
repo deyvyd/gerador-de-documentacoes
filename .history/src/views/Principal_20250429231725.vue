@@ -270,12 +270,16 @@ export default {
 @import "../assets/css/colors.css";
 
 /* Estilos adicionais para animações e efeitos */
-@import "../assets/css/styles.css";
-@import "../assets/css/colors.css";
-
-/* Estilos adicionais para animações e efeitos */
 .main-card {
   @apply bg-white dark:bg-blue-900 rounded-lg shadow-md border border-gray-200 dark:border-transparent dark:shadow px-4 py-6 transition-all duration-300;
+  min-height: 320px; /* Altura mínima para garantir que todos tenham o mesmo tamanho */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ajustar o botão para ficar no final do card */
+.main-card button {
+  margin-top: auto;
 }
 
 .activities-section {

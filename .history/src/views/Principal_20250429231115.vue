@@ -182,40 +182,38 @@
       </div>
 
       <!-- About Section Preview -->
-      <div class="flex justify-center mb-8">
-        <div
-          class="main-card p-6 transition-all hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer md:w-1/2"
-          @click="navigateTo('/sobre')"
-        >
-          <div class="flex items-center mb-4">
-            <div
-              class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4"
+      <div
+        class="main-card p-6 transition-all hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer mb-8"
+        @click="navigateTo('/sobre')"
+      >
+        <div class="flex items-center mb-4">
+          <div
+            class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <h2 class="text-xl font-semibold">Sobre a Aplicação</h2>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
           </div>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">
-            Saiba mais sobre o funcionamento do sistema, tutoriais e como
-            utilizá-lo para maximizar sua produtividade.
-          </p>
-          <button class="btn bg-blue-600 hover:bg-blue-700 text-white w-full">
-            Acessar Documentação
-          </button>
+          <h2 class="text-xl font-semibold">Sobre a Aplicação</h2>
         </div>
+        <p class="text-gray-600 dark:text-gray-300 mb-4">
+          Saiba mais sobre o funcionamento do sistema, tutoriais e como
+          utilizá-lo para maximizar sua produtividade.
+        </p>
+        <button class="btn bg-blue-600 hover:bg-blue-700 text-white w-full">
+          Acessar Documentação
+        </button>
       </div>
 
       <!-- Version Info -->
@@ -266,10 +264,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../assets/css/styles.css";
-@import "../assets/css/colors.css";
-
-/* Estilos adicionais para animações e efeitos */
 @import "../assets/css/styles.css";
 @import "../assets/css/colors.css";
 
