@@ -1,5 +1,5 @@
 <template>
-  <button @click="navegarParaSobre" class="info-toggle">
+  <<button @click="navegarParaSobre" class="info-toggle">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="info-icon"

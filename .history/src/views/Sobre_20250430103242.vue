@@ -480,13 +480,11 @@
               </p>
 
               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div
-                  class="bg-blue-800 p-4 rounded-lg border border-purple-700"
-                >
+                <div class="bg-blue-800 p-4 rounded-lg border border-blue-700">
                   <div class="flex items-center mb-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6 mr-2 text-purple-400"
+                      class="h-6 w-6 mr-2 text-blue-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -509,13 +507,11 @@
                   </ul>
                 </div>
 
-                <div
-                  class="bg-blue-800 p-4 rounded-lg border border-purple-700"
-                >
+                <div class="bg-blue-800 p-4 rounded-lg border border-blue-700">
                   <div class="flex items-center mb-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6 mr-2 text-purple-400"
+                      class="h-6 w-6 mr-2 text-blue-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -538,13 +534,11 @@
                   </ul>
                 </div>
 
-                <div
-                  class="bg-blue-800 p-4 rounded-lg border border-purple-700"
-                >
+                <div class="bg-blue-800 p-4 rounded-lg border border-blue-700">
                   <div class="flex items-center mb-3">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6 mr-2 text-purple-400"
+                      class="h-6 w-6 mr-2 text-blue-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -627,7 +621,7 @@
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   />
                 </svg>
-                <span>deyvyd.moura@logap.com.br</span>
+                <span>suporte@documentacoes.com.br</span>
               </li>
               <li class="flex items-center">
                 <svg
@@ -686,7 +680,7 @@
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <span>Data da última atualização: 30 de Abril, 2025</span>
+                <span>Data da última atualização: 15 de Abril, 2025</span>
               </li>
               <li class="flex items-center">
                 <svg
@@ -703,10 +697,7 @@
                     d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
                   />
                 </svg>
-                <span
-                  >Desenvolvido com: Vue.js, Tailwind CSS e Python
-                  (Backend)</span
-                >
+                <span>Desenvolvido com: Vue.js, Tailwind CSS</span>
               </li>
             </ul>
           </div>
@@ -751,28 +742,14 @@
                 <li>Clique no ícone de upload (↑) na barra superior</li>
                 <li>
                   Se já houver dados preenchidos, o sistema solicitará
-                  confirmação para substituir os dados atuais
+                  confirmação
                 </li>
                 <li>Selecione o arquivo JSON que deseja importar</li>
                 <li>
                   Os dados serão carregados automaticamente nos respectivos
                   campos
                 </li>
-                <li>
-                  Revise os dados importados e faça as alterações necessárias
-                </li>
               </ol>
-              <div class="mt-2 border-yellow-300 border-l-4 bg-blue-900 p-2">
-                <h4 class="font-semibold mb-2 flex items-center">
-                  Importante:
-                </h4>
-                <p class="mt-2">
-                  O arquivo JSON deve estar no formato correto gerado pelo
-                  sistema e no tipo correto (Documentação Técnica ou
-                  Documentação de Desenvolvimento) para que a importação
-                  funcione corretamente.
-                </p>
-              </div>
             </div>
           </div>
 
@@ -961,8 +938,7 @@
               <span class="font-medium">Portal Corporativo</span>
             </a>
             <a
-              href="https://logap.com.br/"
-              target="_blank"
+              href="#"
               class="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg transition-colors duration-200"
             >
               <svg

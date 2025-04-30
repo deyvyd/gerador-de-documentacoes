@@ -120,7 +120,9 @@
 
           <div v-if="atividades.length > 0">
             <hr class="my-4 border-t border-gray-700" />
-            <h3 class="text-lg font-medium mb-3 text-gray-700 dark:text-white">
+            <h3
+              class="text-base font-medium mb-3 text-gray-700 dark:text-white"
+            >
               Lista de Atividades
             </h3>
             <!-- Lista de Atividades -->

@@ -1,5 +1,5 @@
 <template>
-  <button @click="navegarParaSobre" class="info-toggle">
+  <router-link to="/sobre" class="info-toggle">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="info-icon"
@@ -29,7 +29,7 @@
         </ul>
       </div>
     </div>
-  </button>
+  </router-link>
 </template>
 
 <script>
@@ -51,9 +51,7 @@ export default {
     };
   },
   methods: {
-    navegarParaSobre() {
-      this.$router.push("/sobre");
-    },
+    // métodos
   },
 };
 </script>

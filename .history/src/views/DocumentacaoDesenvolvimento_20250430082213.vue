@@ -89,7 +89,7 @@
                 <button
                   @click="abrirModalRequisito"
                   type="button"
-                  class="btn btn-primary rf-0"
+                  class="btn btn-requirements rf-0"
                   id="btnAddRequisito"
                   ref="btnAddRequisito"
                 >
@@ -208,7 +208,7 @@
                 <label for="botaoRNF" class="form-label">&nbsp;</label>
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="btn btn-requirements"
                   :class="editIndexRNF !== -1 ? 'btn-update' : 'btn-primary'"
                   @click="adicionarRequisitoNaoFuncional"
                 >

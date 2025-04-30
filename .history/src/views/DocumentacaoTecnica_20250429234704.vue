@@ -118,8 +118,7 @@
             </div>
           </form>
 
-          <div v-if="atividades.length > 0">
-            <hr class="my-4 border-t border-gray-700" />
+          <div v-if="atividades.length > 0" class="base-section">
             <h3 class="text-lg font-medium mb-3 text-gray-700 dark:text-white">
               Lista de Atividades
             </h3>

@@ -61,7 +61,27 @@
 
         <!-- Seção de Atividades -->
         <div class="base-section">
-          <h2 class="base-title">Gerenciar Atividades</h2>
+          <div class="flex">
+            <h2 class="base-title">Gerenciar Atividades</h2>
+            <div
+              class="ml-1 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center mr-4"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+            </div>
+          </div>
 
           <!-- Formulário de Atividade -->
           <form @submit.prevent="submitAtividade" class="activity-form">
@@ -106,7 +126,7 @@
                     @click="submitAtividade"
                     id="botaoAtividade"
                     ref="activityButton"
-                    class="btn btn-primary w-full"
+                    class="btn btn-activities w-full"
                     :class="
                       editingIndex !== null ? 'btn-update' : 'btn-primary'
                     "
@@ -118,8 +138,7 @@
             </div>
           </form>
 
-          <div v-if="atividades.length > 0">
-            <hr class="my-4 border-t border-gray-700" />
+          <div v-if="atividades.length > 0" class="base-section">
             <h3 class="text-lg font-medium mb-3 text-gray-700 dark:text-white">
               Lista de Atividades
             </h3>

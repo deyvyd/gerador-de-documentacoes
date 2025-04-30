@@ -2,9 +2,7 @@
   <header class="app-header fixed top-0 left-0 right-0 z-50">
     <div class="container mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center">
-        <router-link to="/" class="flex items-center">
-          <img src="/static/dark-logo.svg" alt="Logo" class="h-12 mr-4" />
-        </router-link>
+        <img src="/static/dark-logo.svg" alt="Logo" class="h-12 mr-4" />
         <h1 class="text-white text-base md:text-xl lg:text-2xl font-bold">
           {{ title }}
         </h1>

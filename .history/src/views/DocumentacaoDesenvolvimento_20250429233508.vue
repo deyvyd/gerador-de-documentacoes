@@ -89,7 +89,7 @@
                 <button
                   @click="abrirModalRequisito"
                   type="button"
-                  class="btn btn-primary rf-0"
+                  class="btn btn-requirements rf-0"
                   id="btnAddRequisito"
                   ref="btnAddRequisito"
                 >
@@ -98,7 +98,7 @@
               </div>
             </div>
 
-            <div v-if="requisitos.length > 0">
+            <div v-if="requisitos.length > 0" class="base-section">
               <h3
                 class="text-lg font-medium mb-3 text-gray-700 dark:text-white"
               >
@@ -208,7 +208,7 @@
                 <label for="botaoRNF" class="form-label">&nbsp;</label>
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="btn btn-requirements"
                   :class="editIndexRNF !== -1 ? 'btn-update' : 'btn-primary'"
                   @click="adicionarRequisitoNaoFuncional"
                 >
@@ -218,8 +218,10 @@
             </div>
 
             <!-- Tabela de Requisitos Não Funcionais -->
-            <div v-if="listaRequisitosNaoFuncionais.length > 0">
-              <hr class="my-4 border-t border-gray-700" />
+            <div
+              v-if="listaRequisitosNaoFuncionais.length > 0"
+              class="base-section"
+            >
               <h3
                 class="text-lg font-medium mb-3 text-gray-700 dark:text-white"
               >

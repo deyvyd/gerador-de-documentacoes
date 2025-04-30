@@ -79,6 +79,12 @@
     @apply dark:hover:bg-green-600;
   }
 
+  .btn-border {
+    @apply bg-transparent text-black border-gray-300 dark:border-gray-600;
+    @apply hover:bg-blue-700;
+    @apply dark:text-white;
+  }
+
   .rf-0 {
     @apply text-sm px-6 py-2 mx-auto inline-block;
   }

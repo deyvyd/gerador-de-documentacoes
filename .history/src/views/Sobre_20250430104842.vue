@@ -961,8 +961,7 @@
               <span class="font-medium">Portal Corporativo</span>
             </a>
             <a
-              href="https://logap.com.br/"
-              target="_blank"
+              href="#"
               class="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg transition-colors duration-200"
             >
               <svg

@@ -208,7 +208,7 @@
                 <label for="botaoRNF" class="form-label">&nbsp;</label>
                 <button
                   type="button"
-                  class="btn btn-primary"
+                  class="btn btn-border"
                   :class="editIndexRNF !== -1 ? 'btn-update' : 'btn-primary'"
                   @click="adicionarRequisitoNaoFuncional"
                 >

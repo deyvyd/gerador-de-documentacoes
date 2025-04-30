@@ -703,10 +703,7 @@
                     d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
                   />
                 </svg>
-                <span
-                  >Desenvolvido com: Vue.js, Tailwind CSS e Python
-                  (Backend)</span
-                >
+                <span>Desenvolvido com: Vue.js, Tailwind CSS</span>
               </li>
             </ul>
           </div>
@@ -751,28 +748,14 @@
                 <li>Clique no ícone de upload (↑) na barra superior</li>
                 <li>
                   Se já houver dados preenchidos, o sistema solicitará
-                  confirmação para substituir os dados atuais
+                  confirmação
                 </li>
                 <li>Selecione o arquivo JSON que deseja importar</li>
                 <li>
                   Os dados serão carregados automaticamente nos respectivos
                   campos
                 </li>
-                <li>
-                  Revise os dados importados e faça as alterações necessárias
-                </li>
               </ol>
-              <div class="mt-2 border-yellow-300 border-l-4 bg-blue-900 p-2">
-                <h4 class="font-semibold mb-2 flex items-center">
-                  Importante:
-                </h4>
-                <p class="mt-2">
-                  O arquivo JSON deve estar no formato correto gerado pelo
-                  sistema e no tipo correto (Documentação Técnica ou
-                  Documentação de Desenvolvimento) para que a importação
-                  funcione corretamente.
-                </p>
-              </div>
             </div>
           </div>
 
@@ -961,8 +944,7 @@
               <span class="font-medium">Portal Corporativo</span>
             </a>
             <a
-              href="https://logap.com.br/"
-              target="_blank"
+              href="#"
               class="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg transition-colors duration-200"
             >
               <svg

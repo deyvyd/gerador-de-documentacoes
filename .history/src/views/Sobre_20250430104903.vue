@@ -762,7 +762,9 @@
                   Revise os dados importados e faça as alterações necessárias
                 </li>
               </ol>
-              <div class="mt-2 border-yellow-300 border-l-4 bg-blue-900 p-2">
+              <div
+                class="mt-2 border-yellow-300 border-l-4 bg-blue-900 p-2 rounded-md"
+              >
                 <h4 class="font-semibold mb-2 flex items-center">
                   Importante:
                 </h4>
@@ -961,8 +963,7 @@
               <span class="font-medium">Portal Corporativo</span>
             </a>
             <a
-              href="https://logap.com.br/"
-              target="_blank"
+              href="#"
               class="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg transition-colors duration-200"
             >
               <svg

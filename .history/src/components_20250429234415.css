@@ -79,7 +79,7 @@
     @apply dark:hover:bg-green-600;
   }
 
-  .rf-0 {
+  .btn-requirements .rf-0 {
     @apply text-sm px-6 py-2 mx-auto inline-block;
   }
 

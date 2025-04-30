@@ -758,21 +758,7 @@
                   Os dados serão carregados automaticamente nos respectivos
                   campos
                 </li>
-                <li>
-                  Revise os dados importados e faça as alterações necessárias
-                </li>
               </ol>
-              <div class="mt-2 border-yellow-300 border-l-4 bg-blue-900 p-2">
-                <h4 class="font-semibold mb-2 flex items-center">
-                  Importante:
-                </h4>
-                <p class="mt-2">
-                  O arquivo JSON deve estar no formato correto gerado pelo
-                  sistema e no tipo correto (Documentação Técnica ou
-                  Documentação de Desenvolvimento) para que a importação
-                  funcione corretamente.
-                </p>
-              </div>
             </div>
           </div>
 
@@ -961,8 +947,7 @@
               <span class="font-medium">Portal Corporativo</span>
             </a>
             <a
-              href="https://logap.com.br/"
-              target="_blank"
+              href="#"
               class="bg-blue-800 hover:bg-blue-700 p-4 rounded-lg transition-colors duration-200"
             >
               <svg
