@@ -79,7 +79,7 @@
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  class="lucide lucide-target-icon lucide-target text-blue-600 dark:text-blue-400"
+                  class="lucide lucide-target-icon lucide-target"
                 >
                   <circle cx="12" cy="12" r="10" />
                   <circle cx="12" cy="12" r="6" />
