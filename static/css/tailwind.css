@@ -4743,6 +4743,16 @@ body{
   border-color: rgb(133 77 14 / 0.5);
 }
 
+.dark\:border-gray-800:is(.dark *){
+  --tw-border-opacity: 1;
+  border-color: rgb(31 41 55 / var(--tw-border-opacity, 1));
+}
+
+.dark\:border-purple-900:is(.dark *){
+  --tw-border-opacity: 1;
+  border-color: rgb(88 28 135 / var(--tw-border-opacity, 1));
+}
+
 .dark\:bg-blue-100:is(.dark *){
   --tw-bg-opacity: 1;
   background-color: rgb(219 234 254 / var(--tw-bg-opacity, 1));

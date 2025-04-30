@@ -1233,7 +1233,7 @@
                 class="mt-3 border-l-4 border-yellow-400 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-r-md"
               >
                 <h4
-                  class="font-semibold text-base mb-1 flex items-center text-yellow-800 dark:text-yellow-100"
+                  class="font-semibold text-base mb-1 flex items-center text-yellow-800 dark:text-yellow-300"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1249,7 +1249,7 @@
                   </svg>
                   Importante:
                 </h4>
-                <p class="text-yellow-800 dark:text-white">
+                <p class="text-yellow-800 dark:text-yellow-300">
                   O arquivo JSON deve estar no formato correto gerado pelo
                   sistema e no tipo correto (Documentação Técnica ou
                   Documentação de Desenvolvimento) para que a importação
@@ -1307,7 +1307,7 @@
           </div>
 
           <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-gray-700 overflow-hidden transition-all duration-200 hover:shadow-md"
+            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 overflow-hidden transition-all duration-200 hover:shadow-md"
           >
             <div
               class="flex justify-between items-center p-4 cursor-pointer"
@@ -1381,7 +1381,7 @@
           </div>
 
           <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-gray-700 overflow-hidden transition-all duration-200 hover:shadow-md"
+            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-blue-700 overflow-hidden transition-all duration-200 hover:shadow-md"
           >
             <div
               class="flex justify-between items-center p-4 cursor-pointer"
@@ -1499,7 +1499,7 @@
 
         <!-- Seção Final com Links Úteis -->
         <div
-          class="links-card p-6 mb-8 border border-blue-300 dark:border-gray-700 rounded-xl shadow-md"
+          class="links-card p-6 mb-8 border border-blue-300 dark:border-blue-700 rounded-xl shadow-md"
         >
           <div class="flex items-center justify-center mb-6">
             <div

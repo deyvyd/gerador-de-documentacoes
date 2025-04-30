@@ -1249,7 +1249,7 @@
                   </svg>
                   Importante:
                 </h4>
-                <p class="text-yellow-800 dark:text-white">
+                <p class="text-yellow-800 dark:text-yellow-300">
                   O arquivo JSON deve estar no formato correto gerado pelo
                   sistema e no tipo correto (Documentação Técnica ou
                   Documentação de Desenvolvimento) para que a importação
