@@ -21,7 +21,7 @@ const routes = [
     component: DocumentacaoDesenvolvimento,
   },
   {
-    path: "/sobre",
+    path: "/soubre",
     name: "Sobre",
     component: Sobre,
   },

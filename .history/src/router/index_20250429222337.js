@@ -1,17 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Principal from "../views/Principal.vue";
 import DocumentacaoTecnica from "../views/DocumentacaoTecnica.vue";
 import DocumentacaoDesenvolvimento from "../views/DocumentacaoDesenvolvimento.vue";
-import Sobre from "../views/Sobre.vue";
+import AboutView from "../views/AboutView.vue";
+//import DevHome from '../views/DevHome.vue'
 
 const routes = [
   {
     path: "/",
-    name: "Principal",
-    component: Principal,
-  },
-  {
-    path: "/tec",
     name: "DocumentacaoTecnica",
     component: DocumentacaoTecnica,
   },
@@ -21,9 +16,9 @@ const routes = [
     component: DocumentacaoDesenvolvimento,
   },
   {
-    path: "/sobre",
-    name: "Sobre",
-    component: Sobre,
+    path: "/about",
+    name: "AboutView",
+    component: AboutView,
   },
 ];
 

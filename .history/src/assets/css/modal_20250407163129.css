@@ -13,8 +13,7 @@
   width: 100%;
   max-width: 35rem; /* 560px */
   border-radius: 0.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   margin: 0 1rem;
   padding: 1.5rem;
   max-height: 90vh;
@@ -267,6 +266,21 @@
   background-color: var(--dark-campo-vazio-bg);
   color: var(--dark-campo-vazio-color);
   border-color: var(--dark-campo-vazio-border);
+}
+
+/* Indicador de modo visualização */
+.modo-visualizacao-badge {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  background-color: var(--color-blue-100);
+  color: var(--color-blue-800);
+}
+
+.dark .modo-visualizacao-badge {
+  background-color: var(--color-blue-900);
+  color: var(--color-blue-200);
 }
 
 /* ===== Botões do modal ===== */

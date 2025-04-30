@@ -21,7 +21,7 @@
         >
           {{ titulo }}
         </h2>
-        <span v-if="modoVisualizacao" :class="['modal-view-badge']">
+        <span v-if="modoVisualizacao" :class="modo - visualizacao - badge">
           Modo Visualização
         </span>
       </div>

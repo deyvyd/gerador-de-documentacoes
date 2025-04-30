@@ -33,8 +33,12 @@
         ></upload-button>
         <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
         <info-button
-          tooltip-title="Sobre a Aplicação"
-          :tooltip-items="['Documentação sobre a aplicação']"
+          tooltip-title="Este sistema gera um arquivo .zip com documentos de desenvolvimento:"
+          :tooltip-items="[
+            'Estimativa de Esforço e Cronograma',
+            'Estratégia de Solução',
+            'Relatório de Acompanhamento de Projeto',
+          ]"
         ></info-button>
       </template>
     </app-header>

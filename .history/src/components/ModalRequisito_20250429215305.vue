@@ -21,7 +21,13 @@
         >
           {{ titulo }}
         </h2>
-        <span v-if="modoVisualizacao" :class="['modal-view-badge']">
+        <span
+          v-if="modoVisualizacao"
+          :class="[
+            'modal-view-badge text-purple-200 bg-purple-800',
+            isDarkMode ? 'modal-view-badge-dark' : 'modal-view-badge-light',
+          ]"
+        >
           Modo Visualização
         </span>
       </div>

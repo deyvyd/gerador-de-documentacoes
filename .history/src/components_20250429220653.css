@@ -527,8 +527,8 @@
 
   .modal-view-badge {
     @apply px-2 py-1 text-xs font-semibold rounded;
-    @apply bg-purple-200 text-purple-800;
-    @apply dark:text-purple-300 dark:dark:bg-purple-900;
+    @apply bg-purple-400 text-purple-800;
+    @apply dark:text-purple-200 dark:bg-purple-800;
   }
 
   .modal-tabs-container {

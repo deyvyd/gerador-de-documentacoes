@@ -17,6 +17,11 @@
         />
       </template>
       <template #actions>
+        <theme-toggle :is-dark="isDark" @toggle="toggleTheme" />
+        <info-button
+          tooltip-title="Sobre a Aplicação"
+          :tooltip-items="['Documentação sobre a aplicação']"
+        />
         <upload-button
           tooltip-title="Importar dados de arquivo JSON"
           @check-data="checkForImportConfirmation"
@@ -28,11 +33,6 @@
             )
           "
           ref="uploadButton"
-        />
-        <theme-toggle :is-dark="isDark" @toggle="toggleTheme" />
-        <info-button
-          tooltip-title="Sobre a Aplicação"
-          :tooltip-items="['Documentação sobre a aplicação']"
         />
       </template>
     </app-header>
