@@ -928,7 +928,7 @@
                 class="mt-3 border-l-4 border-blue-400 dark:border-blue-600 bg-blue-50 dark:bg-blue-750/20 p-3 rounded-r-md"
               >
                 <h4
-                  class="font-semibold text-sm mb-1 flex items-center text-blue-700 dark:text-blue-300"
+                  class="font-semibold text-base mb-1 flex items-center text-blue-800 dark:text-blue-300"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -944,7 +944,7 @@
                   </svg>
                   Observação importante
                 </h4>
-                <p class="text-sm text-blue-800 dark:text-white">
+                <p class="text-blue-800 dark:text-white">
                   Ao exportar a documentação, você pode selecionar qualquer
                   combinação de formatos DOCX e PDF, além do JSON que é sempre
                   gerado. Se apenas o formato JSON for selecionado, o sistema
@@ -1300,10 +1300,10 @@
                 </li>
               </ol>
               <div
-                class="mt-3 border-l-4 border-blue-400 dark:border-blue-600 bg-blue-100 dark:bg-blue-750/20 p-3 rounded-r-md"
+                class="mt-3 border-l-4 border-blue-400 dark:border-blue-600 bg-blue-50 dark:bg-blue-750/20 p-3 rounded-r-md"
               >
                 <h4
-                  class="font-semibold text-base mb-1 flex items-center text-blue-700 dark:text-blue-300"
+                  class="font-semibold text-base mb-1 flex items-center text-blue-750 dark:text-blue-300"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1487,26 +1487,23 @@
                 </div>
               </div>
               <div
-                class="mt-3 border-l-4 border-blue-400 dark:border-blue-600 bg-blue-100 dark:bg-blue-750/20 p-3 rounded-r-md"
+                class="mt-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800 p-3"
               >
-                <h4
-                  class="font-semibold text-sm mb-1 flex items-center text-blue-700 dark:text-blue-300"
-                >
+                <p class="flex items-start">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+                    class="h-5 w-5 mr-2 mt-0.5 text-blue-600 dark:text-blue-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
                     <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                      clip-rule="evenodd"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  Observação:
-                </h4>
-                <p class="flex items-start text-sm">
                   <span
                     >As informações <b>básicas da SS</b>&nbsp;
                     <i>(número, ano, título, descrição, datas e autores)</i> são

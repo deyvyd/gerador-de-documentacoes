@@ -928,7 +928,7 @@
                 class="mt-3 border-l-4 border-blue-400 dark:border-blue-600 bg-blue-50 dark:bg-blue-750/20 p-3 rounded-r-md"
               >
                 <h4
-                  class="font-semibold text-sm mb-1 flex items-center text-blue-700 dark:text-blue-300"
+                  class="font-semibold text-base mb-1 flex items-center text-blue-700 dark:text-blue-300"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
