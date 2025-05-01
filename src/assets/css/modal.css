@@ -1,0 +1,420 @@
+/* 
+ * Estilos específicos para modais
+ * Este arquivo contém todos os estilos relacionados a modais e suas variações
+ * Utiliza as variáveis de cores definidas em colors.css
+ */
+
+/* ===== Estilos base para modais ===== */
+.modal-open {
+  overflow: hidden !important;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 35rem; /* 560px */
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  margin: 0 1rem;
+  padding: 1.5rem;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.modal-content.light {
+  background-color: var(--light-bg-primary);
+  color: var(--light-text-primary);
+}
+
+.modal-content.dark {
+  background-color: var(--dark-bg-secondary);
+  color: var(--dark-text-primary);
+}
+
+/* ===== Animações para modais ===== */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.modal-enter {
+  animation: modalFadeIn 0.2s ease-out forwards;
+}
+
+.modal-leave {
+  animation: modalFadeOut 0.2s ease-in forwards;
+}
+
+/* ===== Modal overlay (fundo escuro) ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  overflow: auto;
+}
+
+/* ===== Cabeçalho do modal ===== */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  transition: background-color 0.2s;
+}
+
+.modal-close:hover {
+  background-color: var(--light-bg-secondary);
+}
+
+.dark .modal-close:hover {
+  background-color: var(--dark-bg-tertiary);
+}
+
+/* ===== Corpo do modal ===== */
+.modal-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+/* ===== Rodapé do modal ===== */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--light-border-primary);
+}
+
+.dark .modal-footer {
+  border-top-color: var(--dark-border-primary);
+}
+
+/* ===== Abas nos modais ===== */
+.modal-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--light-border-primary);
+  margin-bottom: 1rem;
+}
+
+.dark .modal-tabs {
+  border-bottom-color: var(--dark-border-primary);
+}
+
+.modal-tab {
+  padding: 0.5rem 1rem;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--light-text-secondary);
+}
+
+.dark .modal-tab {
+  color: var(--dark-text-secondary);
+}
+
+.modal-tab.active {
+  border-bottom-color: var(--tab-active-border);
+  color: var(--tab-active-color);
+}
+
+.dark .modal-tab.active {
+  border-bottom-color: var(--tab-active-dark-border);
+  color: var(--tab-active-dark-color);
+}
+
+.modal-tab:hover:not(.active) {
+  color: var(--light-text-tertiary);
+  background-color: var(--light-bg-hover-tab);
+}
+
+.dark .modal-tab:hover:not(.active) {
+  color: var(--dark-text-tertiary);
+  background-color: var(--dark-bg-tab-hover);
+}
+
+/* Transição para conteúdo das abas */
+.tab-content {
+  transition: opacity 0.2s ease;
+}
+
+.tab-content.fade-enter-active,
+.tab-content.fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.tab-content.fade-enter,
+.tab-content.fade-leave-to {
+  opacity: 0;
+}
+
+.tab-content-active {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Modal de confirmação ===== */
+.modal-confirmacao {
+  max-width: 28rem;
+  text-align: center;
+}
+
+.confirmation-icon {
+  margin: 0 auto 1rem auto;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+}
+
+/* ===== Modal de mensagem ===== */
+.modal-message {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ===== Modal em modo visualização ===== */
+.modo-visualizacao input:disabled,
+.modo-visualizacao textarea:disabled,
+.modo-visualizacao select:disabled,
+.modo-visualizacao .ql-editor {
+  background-color: var(--light-bg-input-disabled);
+  color: var(--light-text-secondary);
+  border-color: var(--light-border-primary);
+  border-style: dashed;
+  border-width: 1px;
+  cursor: default;
+}
+
+/* Adicione esta regra específica para corrigir o select */
+.modo-visualizacao select:disabled {
+  background-color: var(--light-bg-input-disabled) !important;
+  color: var(--light-text-secondary) !important;
+  opacity: 1 !important; /* Isso é importante para evitar que navegadores apliquem opacidade automática */
+  -webkit-appearance: none !important; /* Remove a aparência nativa em navegadores webkit */
+  -moz-appearance: none !important; /* Remove a aparência nativa no Firefox */
+  appearance: none !important; /* Remove a aparência nativa nos navegadores modernos */
+}
+
+.modo-visualizacao input:disabled,
+.modo-visualizacao textarea:disabled,
+.modo-visualizacao select:disabled,
+.modo-visualizacao .ql-editor {
+  background-color: var(--light-bg-input-disabled);
+  color: var(--light-text-secondary);
+  border-color: var(--light-border-primary);
+  border-style: dashed;
+  border-width: 1px;
+  cursor: default;
+}
+
+.dark .modo-visualizacao input:disabled,
+.dark .modo-visualizacao textarea:disabled,
+.dark .modo-visualizacao select:disabled,
+.dark .modo-visualizacao .ql-editor {
+  background-color: var(--dark-bg-input-disabled);
+  color: var(--dark-text-secondary);
+  border-color: var(--dark-border-primary);
+}
+
+/* Adicione esta regra específica para corrigir o select no tema escuro */
+.dark .modo-visualizacao select:disabled {
+  background-color: var(--dark-bg-input-disabled) !important;
+  color: var(--dark-text-secondary) !important;
+  opacity: 1 !important;
+}
+
+.modo-visualizacao .campo-vazio-indicador {
+  background-color: var(--light-campo-vazio-bg);
+  color: var(--light-campo-vazio-color);
+  border: 1px dashed var(--light-campo-vazio-border);
+  border-radius: 0.375rem;
+  text-align: center;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark .modo-visualizacao .campo-vazio-indicador {
+  background-color: var(--dark-campo-vazio-bg);
+  color: var(--dark-campo-vazio-color);
+  border-color: var(--dark-campo-vazio-border);
+}
+
+/* ===== Botões do modal ===== */
+.modal-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  min-width: 6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.modal-btn-primary {
+  background-color: var(--btn-primary);
+  color: var(--color-white);
+}
+
+.modal-btn-primary:hover {
+  background-color: var(--btn-primary-hover);
+}
+
+.modal-btn-secondary {
+  background-color: var(--color-gray-500);
+  color: var(--color-white);
+}
+
+.modal-btn-secondary:hover {
+  background-color: var(--color-gray-600);
+}
+
+.dark .modal-btn-secondary {
+  background-color: var(--dark-btn-secondary-bg);
+  color: var(--color-white);
+}
+
+.dark .modal-btn-secondary:hover {
+  background-color: var(--dark-btn-secondary-hover);
+}
+
+.modal-btn-danger {
+  background-color: var(--color-red-600);
+  color: var(--color-white);
+}
+
+.modal-btn-danger:hover {
+  background-color: var(--color-red-700);
+}
+
+.modal-btn-success {
+  background-color: var(--color-green-600);
+  color: var(--color-white);
+}
+
+.modal-btn-success:hover {
+  background-color: var(--color-green-700);
+}
+
+/* Campo de upload de imagens no modal */
+.modal-upload-area {
+  border: 2px dashed var(--light-border-secondary);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.modal-upload-area:hover {
+  border-color: var(--light-focus-border);
+}
+
+.dark .modal-upload-area {
+  border-color: var(--dark-border-primary);
+}
+
+.dark .modal-upload-area:hover {
+  border-color: var(--dark-edit-btn);
+}
+
+.modal-image-preview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.modal-image-item {
+  position: relative;
+}
+
+.modal-image-item img {
+  width: 100%;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.modal-image-remove {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background-color: var(--color-red-600);
+  color: var(--color-white);
+  border-radius: 9999px;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal-image-remove:hover {
+  background-color: var(--color-red-700);
+}
