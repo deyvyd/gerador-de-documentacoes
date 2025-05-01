@@ -1,0 +1,157 @@
+/* 
+ * Arquivo de definição de cores e temas
+ * Este arquivo define a paleta de cores base e as variáveis específicas dos temas
+ */
+
+:root {
+  /* Paleta de cores base - Apenas cores realmente usadas na aplicação */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  --color-dark-800: #2d2d2d;
+  --color-dark-900: #1a1a1a;
+
+  --color-blue-100: #dbeafe;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1f2937;
+  --color-blue-900: #0e1621;
+
+  --color-red-100: #fee2e2;
+  --color-red-400: #f87171;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-900: #7f1d1d;
+
+  --color-green-100: #d1fae5;
+  --color-green-400: #34d399;
+  --color-green-600: #059669;
+  --color-green-700: #047857;
+  --color-green-800: #065f46;
+  --color-green-900: #064e3b;
+
+  --color-yellow-400: #facc15;
+  --color-yellow-600: #ca8a04;
+
+  --color-purple-400: #c084fc;
+  --color-purple-600: #9333ea;
+
+  /* Cores específicas da aplicação, que não são parte de uma escala */
+  --color-app-blue-link: #0000ff;
+  --light-tooltip-bg: #1e40af;
+  --color-app-view-btn: #4f46e5;
+  --color-app-view-hover: #6366f1;
+  --color-app-bg-hover-table: #3b83f646;
+  --color-app-box-shadow: rgba(0, 0, 0, 0.342);
+  --color-app-bg-thead-tfoot: #dbeafe;
+  --color-app-table-total-label: #02248b;
+  --color-app-table-total-label-dark: #c9cbcf;
+  --color-app-menu-hover: #eab308;
+  --color-app-btn-update: #20ab53;
+  --color-app-btn-update-hover: #087e33;
+  --color-app-view-btn-dark: #818cf8;
+  --color-app-view-hover-dark: #a5b4fc;
+  --color-app-campo-vazio-bg: #f8fafc;
+  --color-app-campo-vazio-color: #94a3b8;
+  --color-app-campo-vazio-border: #e2e8f0;
+  --color-app-campo-vazio-bg-dark: #334155;
+  --color-app-campo-vazio-color-dark: #64748b;
+  --color-app-campo-vazio-border-dark: #475569;
+}
+
+/* Variáveis específicas de componentes que usam a paleta base */
+:root {
+  /* Cores do tema claro */
+  --light-bg-primary: var(--color-white);
+  --light-bg-secondary: var(--color-gray-50);
+  --light-bg-thead-tfoot: var(--color-app-bg-thead-tfoot);
+  --light-text-primary: var(--color-gray-800);
+  --light-text-secondary: var(--color-gray-500);
+  --light-text-tertiary: var(--color-gray-600);
+  --light-text-muted: var(--color-gray-400);
+  --light-border-primary: var(--color-gray-200);
+  --light-border-secondary: var(--color-gray-300);
+  --light-delete-btn: var(--color-red-600);
+  --light-delete-hover: var(--color-red-700);
+  --light-view-btn: var(--color-app-view-btn);
+  --light-view-hover: var(--color-app-view-hover);
+  --light-bg-hover: var(--color-app-bg-hover-table);
+  --light-bg-input-disabled: var(--color-gray-100);
+  --light-bg-hover-tab: var(--color-gray-100);
+  --light-editor-bg: var(--color-white);
+  --light-code-bg: rgba(56, 191, 248, 0.226);
+  --light-code-color: rgb(3, 105, 161);
+  --light-code-border: rgba(56, 189, 248, 0.2);
+  --light-editor-toolbar-bg: var(--color-gray-50);
+  --light-box-shadow: var(--color-app-box-shadow);
+  --light-blue-link: var(--color-app-blue-link);
+
+  /* Cores específicas para componentes de formulário */
+  --light-focus-ring: var(--color-blue-500);
+  --light-focus-border: var(--color-blue-500);
+  --light-error-bg: var(--color-red-100);
+  --light-error-color: var(--color-red-700);
+  --light-error-border: var(--color-red-400);
+  --light-success-bg: var(--color-green-100);
+  --light-success-color: var(--color-green-800);
+  --light-success-border: var(--color-green-400);
+  --light-campo-vazio-bg: var(--color-app-campo-vazio-bg);
+  --light-campo-vazio-color: var(--color-app-campo-vazio-color);
+  --light-campo-vazio-border: var(--color-app-campo-vazio-border);
+
+  /* Cores do tema escuro */
+  --dark-bg-primary: var(--color-dark-900);
+  --dark-bg-secondary: var(--color-dark-800);
+  --dark-bg-tertiary: var(--color-gray-800);
+  --dark-text-primary: var(--color-white);
+  --dark-text-secondary: var(--color-gray-400);
+  --dark-text-tertiary: var(--color-gray-200);
+  --dark-text-muted: var(--color-gray-500);
+  --dark-border-primary: var(--color-gray-600);
+  --dark-border-secondary: var(--color-gray-700);
+  --dark-edit-btn: var(--color-blue-400);
+  --dark-edit-hover: var(--color-blue-100);
+  --dark-delete-btn: var(--color-red-400);
+  --dark-delete-hover: var(--color-red-100);
+  --dark-view-btn: var(--color-app-view-btn-dark);
+  --dark-view-hover: var(--color-app-view-hover-dark);
+  --dark-success-bg: var(--color-green-800);
+  --dark-error-bg: var(--color-red-900);
+  --dark-bg-hover: var(--color-gray-700);
+  --dark-bg-tab-hover: var(--color-gray-700);
+  --dark-bg-input-disabled: var(--color-gray-700);
+  --dark-editor-bg: var(--color-gray-800);
+  --dark-code-bg: rgba(56, 189, 248, 0.08);
+  --dark-code-color: rgb(186, 230, 253);
+  --dark-code-border: rgba(14, 165, 233, 0.2);
+  --dark-editor-toolbar-bg: var(--color-dark-800);
+  --dark-campo-vazio-bg: var(--color-app-campo-vazio-bg-dark);
+  --dark-campo-vazio-color: var(--color-app-campo-vazio-color-dark);
+  --dark-campo-vazio-border: var(--color-app-campo-vazio-border-dark);
+  --dark-btn-secondary-bg: var(--color-gray-600);
+  --dark-btn-secondary-hover: var(--color-gray-500);
+
+  /* Cores independentes de tema */
+  --btn-primary: var(--color-blue-600);
+  --btn-primary-hover: var(--color-blue-700);
+  --btn-update: var(--color-app-btn-update);
+  --btn-update-hover: var(--color-app-btn-update-hover);
+  --tab-active-border: var(--color-blue-600);
+  --tab-active-color: var(--color-blue-600);
+  --tab-active-dark-border: var(--color-blue-500);
+  --tab-active-dark-color: var(--color-blue-400);
+  --error-color: var(--color-red-600);
+  --error-color-dark: var(--color-red-400);
+}

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerador de Documentações de Desenvolvimento</title>
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+
+    <!-- 1. Carrega primeiro as definições de cores -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/colors.css') }}"
+    />
+
+    <!-- 2. Carrega os estilos principais -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+
+    <!-- 3. Carrega os estilos de modais e toasts -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/modal.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/toast.css') }}"
+    />
+
+    <!-- 4. Carrega o CSS do Quill -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css"
+      rel="stylesheet"
+    />
+
+    <!-- 5. Carrega as sobrescrições para o Quill por último -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/quill-overrides.css') }}"
+    />
+
+    <!-- Tailwind CSS CLI -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/tailwind.css') }}"
+    />
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/maska@2.1.10/dist/maska.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+  </head>
+
+  <body>
+    {% raw %}
+    <div id="app">
+      <!-- Toggle de Tema -->
+      <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
+
+      <div class="container">
+        <div class="main-card">
+          <page-header
+            title="Gerador de Documentações de Desenvolvimento"
+            icon="📝"
+            tooltip-title="Este sistema gera um arquivo .zip com documentos de desenvolvimento:"
+            :tooltip-items="[
+                              'Estimativa de Esforço e Cronograma',
+                              'Estratégia de Solução',
+                              'Relatório de Acompanhamento de Projeto'
+                            ]"
+          ></page-header>
+
+          <basic-form-section
+            ref="basicFormSection"
+            :form-data="formData"
+            :selected-autores="selectedAutores"
+            :autor-input="autorInput"
+            :show-suggestions="showSuggestions"
+            :filtered-autores="filteredAutores"
+            :highlighted-index="highlightedIndex"
+            @update:numero-ss="formData.numeroSS = $event"
+            @format-ss="formatSS"
+            @update:autor-input="handleAutorInputUpdate"
+            @show-suggestions="toggleSuggestions"
+            @navigate-list="navigateList($event)"
+            @highlight-index="highlightedIndex = $event"
+            @handle-backspace="handleBackspace"
+            @select-autor="selectAutor($event)"
+            @remove-autor="removeAutor($event)"
+          ></basic-form-section>
+
+          <!-- Seção de Requisitos com abas -->
+          <div class="activities-section mb-4">
+            <!-- Cabeçalho da seção -->
+            <h2 class="activities-title mb-4">Requisitos e Total de PF's</h2>
+
+            <!-- Navegação das abas -->
+            <div class="modal-tabs">
+              <button
+                v-for="(tab, index) in requisitosTabs"
+                :key="index"
+                @click="requisitosTabAtiva = index"
+                class="modal-tab"
+                :class="{ 'active': requisitosTabAtiva === index }"
+              >
+                {{ tab.nome }}
+              </button>
+            </div>
+
+            <!-- Aba 1: Requisitos Funcionais -->
+            <div v-if="requisitosTabAtiva === 0">
+              <!-- Botão centralizado -->
+              <div class="flex justify-center mb-4">
+                <button
+                  @click="abrirModalRequisito"
+                  type="button"
+                  class="btn btn-primary text-sm px-4 py-2 w-auto"
+                  id="btnAddRequisito"
+                  ref="btnAddRequisito"
+                >
+                  Adicionar Requisito Funcional
+                </button>
+              </div>
+
+              <!-- Tabela de requisitos (exibida apenas se houver itens) -->
+              <data-table
+                v-if="requisitos.length > 0"
+                :items="requisitos"
+                :columns="[
+                            { key: 'id', label: '#', width: 'w-2/12', align: 'text-center', type: 'text' },
+                            { key: 'tituloRF', label: 'Título', width: 'w-3/12', align: 'text-left', type: 'text' },
+                            { key: 'local', label: 'Local', width: 'w-3/12', align: 'text-left', type: 'text' },
+                            { key: 'tipo', label: 'Tipo', width: 'w-2/12', align: 'text-center', type: 'text' },
+                            { key: 'actions', label: 'Ações', width: 'w-2/12', align: 'text-center', type: 'buttons', actions: { view: true, edit: true, delete: true } }
+                          ]"
+                :key-function="(requisito) => requisito.id"
+                drag-ref="dragArea"
+                :draggable="true"
+                :enable-truncation="true"
+                :non-truncated-columns="['actions']"
+                @view="visualizarRequisito"
+                @edit="editarRequisito"
+                @delete="removerRequisito"
+                @reorder="reordenarRequisitos"
+              >
+              </data-table>
+            </div>
+
+            <!-- Aba 2: Requisitos Não Funcionais -->
+            <div v-if="requisitosTabAtiva === 1">
+              <div class="flex gap-4">
+                <!-- Campo Título -->
+                <div class="form-group w-2/6 mb-0">
+                  <label class="form-label mb-1">
+                    Título
+                    <span class="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    v-model="requisitosNaoFuncionais.titulo"
+                    class="form-input"
+                    placeholder="Título do requisito"
+                  />
+                </div>
+
+                <!-- Campo Descrição -->
+                <div class="form-group w-3/6 mb-0">
+                  <label class="form-label mb-1">
+                    Descrição
+                    <span class="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    v-model="requisitosNaoFuncionais.descricao"
+                    class="form-input"
+                    placeholder="Descrição do requisito não funcional"
+                  />
+                </div>
+
+                <!-- Botão Adicionar -->
+                <div class="w-1/6 flex flex-col justify-end pb-2">
+                  <button
+                    type="button"
+                    class="btn btn-primary text-sm h-10 w-full"
+                    @click="adicionarRequisitoNaoFuncional"
+                  >
+                    Adicionar
+                  </button>
+                </div>
+              </div>
+
+              <!-- Tabela de Requisitos Não Funcionais -->
+              <div class="mt-4">
+                <data-table
+                  v-if="listaRequisitosNaoFuncionais.length > 0"
+                  :items="listaRequisitosNaoFuncionais"
+                  :columns="[
+                    { key: 'id', label: '#', width: 'w-1/12', align: 'text-center', type: 'text' },
+                    { key: 'titulo', label: 'Título', width: 'w-4/12', align: 'text-left', type: 'text' },
+                    { key: 'descricao', label: 'Descrição', width: 'w-7/12', align: 'text-left', type: 'text' }
+                  ]"
+                  :key-function="(requisito) => requisito.id"
+                  :enable-truncation="true"
+                  :draggable="true"
+                  drag-ref="rnfDragArea"
+                  @reorder="reordenarRequisitosNaoFuncionais"
+                >
+                </data-table>
+              </div>
+            </div>
+
+            <!-- Aba 3: Total de PF's -->
+            <div v-if="requisitosTabAtiva === 2">
+              <div class="flex justify-center">
+                <div class="form-group" style="width: 120px">
+                  <!-- Largura fixa em pixels -->
+                  <label class="form-label mb-2 text-center block">
+                    Total de Pontos de Função
+                  </label>
+                  <input
+                    type="text"
+                    inputmode="decimal"
+                    v-model="totalPontosFuncaoFormatado"
+                    @input="formatarNumeroDecimal"
+                    class="form-input text-center font-medium text-lg"
+                    placeholder="0,00"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seção de formatos e botão Gerar Documentos -->
+          <form-submit-section
+            :formatos="formData"
+            :is-loading="isLoading"
+            :is-formato-valido="formData.gerarDocx || formData.gerarPdf"
+            :status-message="status.message"
+            :status-type="status.type"
+            button-text="Gerar Documento"
+            loading-text="Processando..."
+            @submit="gerarDocumento"
+            @update:docx="formData.gerarDocx = $event"
+            @update:pdf="formData.gerarPdf = $event"
+          ></form-submit-section>
+        </div>
+      </div>
+
+      <!-- Modal de Requisito Funcional com Abas -->
+      <modal-requisito
+        ref="modalRequisito"
+        :show="showModal"
+        :titulo="modalTitulo"
+        :requisito="requisitoAtual"
+        :modo-visualizacao="modoVisualizacao"
+        :total-requisitos="requisitos.length"
+        @fechar="fecharModalRequisito"
+        @add-requisito="adicionarRequisito"
+        @update-requisito="atualizarRequisito"
+        @upload-imagem="handleFileUpload"
+        @remover-imagem="removerImagem"
+      ></modal-requisito>
+
+      <!-- Modal de Mensagem para confirmação -->
+      <modal-message
+        :show="showMessageModal"
+        :titulo="messageTitle"
+        :mensagem="messageContent"
+        tipo="caution"
+        :texto-botao-confirmar="'Remover'"
+        :texto-botao-cancelar="'Cancelar'"
+        :show-cancel-button="true"
+        :fechar-ao-clicar-fora="false"
+        @confirmar="confirmarModalMensagem"
+        @cancelar="cancelarModalMensagem"
+      ></modal-message>
+    </div>
+    {% endraw %}
+
+    <!-- Scripts da aplicação -->
+    <script src="{{ url_for('static', filename='js/components.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modal-confirmacao.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modal-message.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modal-requisito.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app-dev.js') }}"></script>
+  </body>
+</html>

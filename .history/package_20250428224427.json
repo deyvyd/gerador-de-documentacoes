@@ -1,0 +1,42 @@
+{
+  "name": "gerador-de-documentacoes",
+  "version": "1.0.0",
+  "description": "[![Python](https://img.shields.io/badge/Python-3.7+-blue?logo=python&logoColor=white)](https://www.python.org/downloads/)\r [![Flask](https://img.shields.io/badge/Flask-2.0+-darkgreen?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)\r [![HTML5](https://img.shields.io/badge/HTML-5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)\r [![Vue.js](https://img.shields.io/badge/Vue.js-3.0+-4FC08D?logo=vue.js&logoColor=white)](https://vuejs.org/)\r [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.0+-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)",
+  "main": "index.js",
+  "scripts": {
+    "dev-front": "vite",
+    "dev-back": "python -m flask run",
+    "build-css": "tailwindcss -i ./src/input.css -o ./static/css/tailwind.css --minify",
+    "watch-css": "tailwindcss -i ./src/input.css -o ./static/css/tailwind.css --watch",
+    "dev": "concurrently \"npm run dev-front\" \"npm run dev-back\" \"npm run watch-css\"",
+    "build": "tailwindcss -i ./src/input.css -o ./static/css/tailwind.css --minify && vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deyvyd/gerador-de-documentacoes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/deyvyd/gerador-de-documentacoes/issues"
+  },
+  "homepage": "https://github.com/deyvyd/gerador-de-documentacoes#readme",
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^9.1.2",
+    "postcss": "^8.4.31",
+    "postcss-import": "^16.1.0",
+    "tailwindcss": "^3.3.5",
+    "vite": "^5.1.4"
+  },
+  "dependencies": {
+    "maska": "^3.1.1",
+    "quill": "^2.0.3",
+    "sortablejs": "^1.15.6",
+    "vue": "^3.4.21",
+    "vue-router": "^4.5.1"
+  }
+}

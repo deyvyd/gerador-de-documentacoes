@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+
+/* Aqui definimos nossos componentes personalizados */
+@layer components {
+  /* Cards e seções */
+  .main-card {
+    @apply bg-white dark:bg-[#1e2330] rounded-lg shadow p-4 w-full max-w-[1050px] mx-auto;
+  }
+
+  .activities-section {
+    @apply bg-gray-50 dark:bg-[#1e2330] rounded-lg border dark:border-gray-700 p-4 my-4;
+  }
+
+  /* Botões */
+  .btn {
+    @apply px-4 h-10 rounded-md font-medium cursor-pointer transition-colors flex items-center justify-center gap-2 border-none;
+  }
+
+  .btn-primary {
+    @apply bg-[#2563eb] text-white hover:bg-[#1d4ed8];
+  }
+
+  /* Inputs e formulários */
+  .form-input {
+    @apply w-full p-2 border rounded-md bg-white dark:bg-[#111827] text-gray-800 dark:text-white border-gray-300 dark:border-gray-600;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+
+  /* Cores da tabela */
+  .activities-table thead {
+    @apply bg-[#dbeafe] dark:bg-[#1e3a5f];
+  }
+
+  .activities-table tbody tr {
+    @apply bg-gray-50 dark:bg-[#15192a];
+  }
+
+  .activities-table tbody tr:hover {
+    @apply bg-blue-50/30 dark:bg-gray-700;
+  }
+}
+
+@tailwind utilities;
+
+/* Estilos específicos para garantir que certas cores sejam fixas */
+html.dark {
+  @apply bg-[#0e1117]; /* Fundo escuro específico */
+}
+
+body {
+  @apply transition-colors;
+}
+
+.dark body {
+  @apply bg-[#0e1117] text-white;
+}

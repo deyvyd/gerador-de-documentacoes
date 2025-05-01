@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+
+/* Aqui definimos nossos componentes personalizados */
+@layer components {
+  /* Cards e seções */
+  .main-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow p-4 w-full max-w-[1050px] mx-auto;
+    background-color: var(--light-bg-primary);
+  }
+
+  .dark .main-card {
+    background-color: var(--dark-bg-secondary);
+  }
+
+  .activities-section {
+    @apply rounded-lg border p-4 my-4;
+    background-color: var(--light-bg-secondary);
+    border-color: var(--light-border-primary);
+  }
+
+  .dark .activities-section {
+    background-color: var(--dark-bg-secondary);
+    border-color: var(--dark-border-primary);
+  }
+
+  /* Botões */
+  .btn {
+    @apply px-4 h-10 rounded-md font-medium cursor-pointer transition-colors flex items-center justify-center gap-2 border-none;
+  }
+
+  .btn-primary {
+    @apply text-white;
+    background-color: var(--light-btn-primary);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--light-btn-primary-hover);
+  }
+
+  .dark .btn-primary {
+    background-color: var(--dark-btn-primary);
+  }
+
+  .dark .btn-primary:hover {
+    background-color: var(--dark-btn-primary-hover);
+  }
+
+  /* Inputs e formulários */
+  .form-input {
+    @apply w-full p-2 border rounded-md;
+    background-color: var(--light-bg-primary);
+    color: var(--light-text-primary);
+    border-color: var(--light-border-secondary);
+  }
+
+  .form-input:focus {
+    @apply outline-none ring-2;
+    border-color: var(--light-focus-border);
+    --tw-ring-color: var(--light-focus-ring);
+  }
+
+  .dark .form-input {
+    background-color: var(--dark-input-bg);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border-primary);
+  }
+
+  .dark .form-input:focus {
+    border-color: var(--dark-focus-border);
+    --tw-ring-color: var(--dark-focus-ring);
+  }
+
+  /* Cores da tabela */
+  .activities-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .activities-table thead {
+    background-color: var(--light-table-header);
+  }
+
+  .dark .activities-table thead {
+    background-color: var(--dark-table-header);
+  }
+
+  .activities-table tbody tr {
+    background-color: var(--light-table-body);
+  }
+
+  .dark .activities-table tbody tr {
+    background-color: var(--dark-table-body);
+  }
+
+  .activities-table tbody tr:hover {
+    background-color: var(--light-table-hover);
+  }
+
+  .dark .activities-table tbody tr:hover {
+    background-color: var(--dark-table-hover);
+  }
+
+  .activities-table tfoot {
+    background-color: var(--light-table-footer);
+  }
+
+  .dark .activities-table tfoot {
+    background-color: var(--dark-table-footer);
+  }
+}
+
+@tailwind utilities;
+
+/* Estilos específicos para garantir que certas cores sejam fixas */
+html {
+  background-color: var(--light-bg-primary);
+}
+
+html.dark {
+  background-color: var(--dark-bg-primary);
+}
+
+body {
+  @apply transition-colors;
+  background-color: var(--light-bg-primary);
+  color: var(--light-text-primary);
+}
+
+.dark body {
+  background-color: var(--dark-bg-primary);
+  color: var(--dark-text-primary);
+}

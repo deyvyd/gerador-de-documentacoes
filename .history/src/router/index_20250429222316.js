@@ -1,0 +1,30 @@
+import { createRouter, createWebHistory } from "vue-router";
+import DocumentacaoTecnica from "../views/DocumentacaoTecnica.vue";
+import DocumentacaoDesenvolvimento from "../views/DocumentacaoDesenvolvimento.vue";
+import AboutView from "../views/AboutView.vue";
+//import DevHome from '../views/DevHome.vue'
+
+const routes = [
+  {
+    path: "/",
+    name: "DocumentacaoTecnica",
+    component: DocumentacaoTecnica,
+  },
+  {
+    path: "/dev",
+    name: "DocumentacaoDesenvolvimento",
+    component: DocumentacaoDesenvolvimento,
+  },
+  {
+    path: "/about",
+    name: "AboutView",
+    component: DocumentacaoDesenvolvimento,
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
+
+export default router;
