@@ -9,9 +9,13 @@
 
 Uma aplicação web para geração automática de documentos técnicos e de desenvolvimento a partir de modelos com marcadores, otimizando o fluxo de trabalho para relatórios e especificações de projetos.
 
+Tela Inicial:
 ![Screenshot da aplicação](screenshot-app.png)
-![Screenshot da aplicação](screenshot-tec.png)
+Tela de Documentações de Desenvolvimento
 ![Screenshot da aplicação](screenshot-dev.png)
+Tela de Documentações Técnicas
+![Screenshot da aplicação](screenshot-tec.png)
+
 
 > [!NOTE]  
 > Este projeto foi desenvolvido para padronizar e automatizar o processo de criação de documentos para Solicitações de Serviço (SS), reduzindo o tempo gasto na documentação em até 60% e garantindo consistência nos documentos gerados.
