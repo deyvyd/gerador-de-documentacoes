@@ -11,8 +11,8 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "static", // <-- saída do build para a pasta static
-    emptyOutDir: false, // para não apagar outros arquivos da pasta static
+    outDir: "dist", // <-- saída do build para a pasta dist
+    emptyOutDir: true, // para apagar outros arquivos da pasta dist
     rollupOptions: {
       input: "./src/main.js", // ajuste se necessário
     },

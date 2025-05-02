@@ -2,7 +2,7 @@
   <div class="background-container min-h-screen text-white">
     <!-- Header -->
     <app-header
-      title="Gerador de Documentações"
+      title="Sobre o Gerador de Documentações"
       @swap-requested="handleSwapRequested"
     >
       <template #actions>
@@ -13,12 +13,6 @@
     <div class="container background-container mx-auto px-4 py-8 mt-8">
       <!-- Hero Section -->
       <div class="main-card background-container p-8 mb-8">
-        <h1
-          class="text-3xl text-blue-600 dark:text-blue-50 md:text-4xl font-bold mb-4 text-center"
-        >
-          Sobre o Gerador de Documentações
-        </h1>
-
         <!-- Contexto, Objetivo e Benefícios -->
         <section
           class="info-card mb-8 p-6 border border-blue-300 dark:border-gray-700 rounded-xl shadow-md"

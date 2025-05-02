@@ -3,6 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* Identificar e redirecionar referências à logo */
+      [src$="dark-logo.svg"],
+      [src*="/src/assets/dark-logo"],
+      [src*="assets/dark-logo-"] {
+        content: url("/static/dark-logo.svg") !important;
+      }
+    </style>
     <title>Gerador de Documentações</title>
   </head>
   <body>

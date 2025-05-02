@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./modelos:/app/modelos
+    environment:
+      - FLASK_ENV=production
+      - TZ=America/Recife
+    restart: unless-stopped
