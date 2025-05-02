@@ -140,7 +140,7 @@ A maneira mais simples de executar a aplicação é usando Docker, que encapsula
 2. **Execute o script de implantação** (Windows):
 
    ```bash
-   deploy.bat
+   .\deploy.bat
    ```
 
    O script `deploy.bat` automatiza todo o processo de:
