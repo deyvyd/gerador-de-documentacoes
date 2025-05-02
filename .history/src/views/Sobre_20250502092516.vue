@@ -1603,7 +1603,6 @@ blue
               <div class="mb-3 bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="text-blue-600 dark:text-blue-400"
                   height="24"
                   width="23.25"
                   viewBox="0 0 496 512"

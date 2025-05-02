@@ -5,7 +5,7 @@
     ></toast-notification>
 
     <app-header
-      title="Documentação Técnica"
+      title="Documentações Técnicas"
       @swap-requested="handleSwapRequested"
     >
       <template #swap-button>
