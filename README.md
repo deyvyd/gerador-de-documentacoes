@@ -18,7 +18,7 @@ Tela de Documentações Técnicas
 
 
 > [!NOTE]  
-> Este projeto foi desenvolvido para padronizar e automatizar o processo de criação de documentos para Solicitações de Serviço (SS), reduzindo o tempo gasto na documentação em até 60% e garantindo consistência nos documentos gerados.
+> Este projeto foi desenvolvido para padronizar e automatizar o processo de criação de documentos para Solicitações de Serviço (SS), reduzindo o tempo gasto na documentação e garantindo consistência nos documentos gerados.
 
 ## 📋 Sumário
 
