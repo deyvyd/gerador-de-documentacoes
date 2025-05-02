@@ -42,11 +42,6 @@ RUN node ./node_modules/tailwindcss/lib/cli.js -i ./src/input.css -o ./static/cs
 # Compila o frontend usando vite diretamente
 RUN node ./node_modules/vite/bin/vite.js build
 
-# Copia os arquivos essenciais da pasta dist para a pasta static
-RUN cp -r dist/assets static/ && \
-    cp -r dist/*.js static/ 2>/dev/null || true && \
-    cp -r dist/*.css static/ 2>/dev/null || true
-
 # Expõe a porta em que a aplicação vai rodar
 EXPOSE 5000
 
