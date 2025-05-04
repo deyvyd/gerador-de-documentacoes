@@ -21,9 +21,7 @@ blue
           <!-- Contexto -->
           <div class="mb-8">
             <div class="flex items-center mb-4">
-              <div
-                class="icon-box bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3"
-              >
+              <div class="p-2 rounded-lg mr-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-6 w-6 text-blue-600 dark:text-blue-400"
@@ -40,7 +38,7 @@ blue
                 </svg>
               </div>
               <h2
-                class="text-2xl font-semibold text-blue-700 dark:text-blue-300"
+                class="text-2xl font-semibold text-gray-700 dark:text-blue-200"
               >
                 Contexto
               </h2>
@@ -60,9 +58,7 @@ blue
           <!-- Objetivo -->
           <div class="mb-8">
             <div class="flex items-center mb-4">
-              <div
-                class="icon-box bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3"
-              >
+              <div class="p-2 rounded-lg mr-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -77,7 +73,7 @@ blue
                 </svg>
               </div>
               <h2
-                class="text-2xl font-semibold text-blue-700 dark:text-blue-300"
+                class="text-2xl font-semibold text-gray-700 dark:text-blue-200"
               >
                 Objetivo
               </h2>
@@ -159,9 +155,7 @@ blue
           <!-- Benefícios -->
           <div>
             <div class="flex items-center mb-4">
-              <div
-                class="icon-box bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3"
-              >
+              <div class="p-2 rounded-lg mr-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-6 w-6 text-blue-600 dark:text-blue-400"
@@ -178,7 +172,7 @@ blue
                 </svg>
               </div>
               <h2
-                class="text-2xl font-semibold text-blue-700 dark:text-blue-300"
+                class="text-2xl font-semibold text-gray-700 dark:text-blue-200"
               >
                 Benefícios
               </h2>
@@ -203,7 +197,7 @@ blue
                       />
                     </svg>
                     <h3
-                      class="text-lg font-semibold text-gray-700 dark:text-white"
+                      class="text-lg font-semibold text-gray-700 dark:text-blue-100"
                     >
                       Padronização
                     </h3>
@@ -230,7 +224,7 @@ blue
                       />
                     </svg>
                     <h3
-                      class="text-lg font-semibold text-gray-700 dark:text-white"
+                      class="text-lg font-semibold text-gray-700 dark:text-blue-100"
                     >
                       Eficiência
                     </h3>
@@ -257,7 +251,7 @@ blue
                       />
                     </svg>
                     <h3
-                      class="text-lg font-semibold text-gray-700 dark:text-white"
+                      class="text-lg font-semibold text-gray-700 dark:text-blue-100"
                     >
                       Versatilidade
                     </h3>
@@ -284,7 +278,7 @@ blue
                       />
                     </svg>
                     <h3
-                      class="text-lg font-semibold text-gray-700 dark:text-white"
+                      class="text-lg font-semibold text-gray-700 dark:text-blue-100"
                     >
                       Rastreabilidade
                     </h3>
@@ -323,7 +317,7 @@ blue
               </svg>
             </div>
             <h2
-              class="text-2xl font-semibold mb-0 text-center text-purple-700 dark:text-purple-300"
+              class="text-2xl font-semibold mb-0 text-center text-gray-700 dark:text-purple-200"
             >
               Guia de Campos por Tipo de Documentação
             </h2>
