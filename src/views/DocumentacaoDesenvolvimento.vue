@@ -180,6 +180,7 @@
                 <input
                   type="text"
                   id="tituloRNF"
+                  ref="tituloRNFInput"
                   v-model="requisitosNaoFuncionais.titulo"
                   class="form-input"
                   placeholder="Título do Requisito Não Funcional"
@@ -194,6 +195,7 @@
                 <input
                   type="text"
                   id="descricaoRNF"
+                  ref="descricaoRNFInput"
                   v-model="requisitosNaoFuncionais.descricao"
                   class="form-input"
                   placeholder="Descrição do Requisito Não Funcional"
@@ -618,30 +620,90 @@ export default {
     },
 
     adicionarRequisitoNaoFuncional() {
+      // Resetar quaisquer estilos de erro anteriores
+      const tituloInput = document.getElementById("tituloRNF");
+      const descricaoInput = document.getElementById("descricaoRNF");
+
+      if (tituloInput) tituloInput.classList.remove("campo-erro");
+      if (descricaoInput) descricaoInput.classList.remove("campo-erro");
+
       // Validar se os campos estão preenchidos
+      let isValid = true;
+
       if (
         !this.requisitosNaoFuncionais.titulo ||
-        !this.requisitosNaoFuncionais.descricao
+        this.requisitosNaoFuncionais.titulo.trim() === ""
       ) {
-        // Exibir mensagem de erro ou destacar campos obrigatórios
+        if (tituloInput) {
+          tituloInput.classList.add("campo-erro");
+          tituloInput.focus();
+          this.notificationService.show("Preencha o campo de Título", "error");
+        }
+        isValid = false;
+      } else if (
+        !this.requisitosNaoFuncionais.descricao ||
+        this.requisitosNaoFuncionais.descricao.trim() === ""
+      ) {
+        if (descricaoInput) {
+          descricaoInput.classList.add("campo-erro");
+          if (isValid) {
+            // Só focar se o título estiver válido
+            descricaoInput.focus();
+            this.notificationService.show(
+              "Preencha o campo de Descrição",
+              "error"
+            );
+          }
+        }
+        isValid = false;
+      }
+
+      // Se a validação falhar, mostrar mensagem e interromper a função
+      if (!isValid) {
         return;
       }
 
-      // Criar um novo ID sequencial (RNF-XX)
-      const novoId = `RNF-${String(
-        this.listaRequisitosNaoFuncionais.length + 1
-      ).padStart(2, "0")}`;
+      if (this.editIndexRNF >= 0) {
+        // Atualizar o requisito existente
+        this.listaRequisitosNaoFuncionais[this.editIndexRNF] = {
+          id: this.listaRequisitosNaoFuncionais[this.editIndexRNF].id,
+          titulo: this.requisitosNaoFuncionais.titulo,
+          descricao: this.requisitosNaoFuncionais.descricao,
+        };
 
-      // Adicionar o novo requisito à lista
-      this.listaRequisitosNaoFuncionais.push({
-        id: novoId,
-        titulo: this.requisitosNaoFuncionais.titulo,
-        descricao: this.requisitosNaoFuncionais.descricao,
-      });
+        // Resetar o modo de edição
+        this.editIndexRNF = -1;
+        this.notificationService.show(
+          "Requisito não funcional atualizado",
+          "success"
+        );
+      } else {
+        // Criar um novo ID sequencial (RNF-XX)
+        const novoId = `RNF-${String(
+          this.listaRequisitosNaoFuncionais.length + 1
+        ).padStart(2, "0")}`;
+
+        // Adicionar o novo requisito à lista
+        this.listaRequisitosNaoFuncionais.push({
+          id: novoId,
+          titulo: this.requisitosNaoFuncionais.titulo,
+          descricao: this.requisitosNaoFuncionais.descricao,
+        });
+
+        this.notificationService.show(
+          "Requisito não funcional adicionado",
+          "success"
+        );
+      }
 
       // Limpar o formulário
       this.requisitosNaoFuncionais.titulo = "";
       this.requisitosNaoFuncionais.descricao = "";
+
+      // Focar no campo de título para facilitar a adição de outro requisito
+      this.$nextTick(() => {
+        tituloInput.focus();
+      });
     },
 
     reordenarRequisitosNaoFuncionais({ oldIndex, newIndex }) {
@@ -850,65 +912,26 @@ export default {
 
     editarRequisitoNaoFuncional(index) {
       this.editIndexRNF = index;
+
+      // Resetar quaisquer estilos de erro anteriores
+      const tituloInput = document.getElementById("tituloRNF");
+      const descricaoInput = document.getElementById("descricaoRNF");
+
+      if (tituloInput) tituloInput.classList.remove("campo-erro");
+      if (descricaoInput) descricaoInput.classList.remove("campo-erro");
+
       // Preenche o formulário com os dados do requisito selecionado
       this.requisitosNaoFuncionais.titulo =
         this.listaRequisitosNaoFuncionais[index].titulo;
       this.requisitosNaoFuncionais.descricao =
         this.listaRequisitosNaoFuncionais[index].descricao;
-    },
 
-    // Método para atualizar a função adicionarRequisitoNaoFuncional para lidar com edição
-    adicionarRequisitoNaoFuncional() {
-      // Validar se os campos estão preenchidos
-      if (
-        !this.requisitosNaoFuncionais.titulo ||
-        !this.requisitosNaoFuncionais.descricao
-      ) {
-        // Exibir mensagem de erro ou destacar campos obrigatórios
-        this.notificationService.show(
-          "Preencha o título e a descrição do requisito não funcional",
-          "error"
-        );
-        return;
-      }
-
-      // Verifica se estamos editando ou adicionando
-      if (this.editIndexRNF >= 0) {
-        // Atualizar o requisito existente
-        this.listaRequisitosNaoFuncionais[this.editIndexRNF] = {
-          id: this.listaRequisitosNaoFuncionais[this.editIndexRNF].id,
-          titulo: this.requisitosNaoFuncionais.titulo,
-          descricao: this.requisitosNaoFuncionais.descricao,
-        };
-
-        // Resetar o modo de edição
-        this.editIndexRNF = -1;
-        this.notificationService.show(
-          "Requisito não funcional atualizado",
-          "success"
-        );
-      } else {
-        // Criar um novo ID sequencial (RNF-XX)
-        const novoId = `RNF-${String(
-          this.listaRequisitosNaoFuncionais.length + 1
-        ).padStart(2, "0")}`;
-
-        // Adicionar o novo requisito à lista
-        this.listaRequisitosNaoFuncionais.push({
-          id: novoId,
-          titulo: this.requisitosNaoFuncionais.titulo,
-          descricao: this.requisitosNaoFuncionais.descricao,
+      // Focar no campo de título
+      if (tituloInput) {
+        this.$nextTick(() => {
+          tituloInput.focus();
         });
-
-        this.notificationService.show(
-          "Requisito não funcional adicionado",
-          "success"
-        );
       }
-
-      // Limpar o formulário
-      this.requisitosNaoFuncionais.titulo = "";
-      this.requisitosNaoFuncionais.descricao = "";
     },
 
     // Método para remover um requisito não funcional com confirmação

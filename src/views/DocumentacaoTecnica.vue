@@ -151,7 +151,9 @@
                   actions: { edit: true, delete: true },
                 },
               ]"
-              :key-function="(item, index) => `atividade-${index}`"
+              :key-function="
+                (item) => item.id || `fallback-${item.nome}-${item.horas}`
+              "
               :drag-ref="'dragArea'"
               :draggable="true"
               :show-footer="true"
@@ -414,37 +416,25 @@ export default {
     // Gerenciamento de atividades
     adicionarAtividade() {
       if (this.novaAtividade.nome && this.novaAtividade.horas) {
+        // Cria um ID único se não existir
+        const newActivity = {
+          ...this.novaAtividade,
+          id: this.novaAtividade.id || Date.now().toString(),
+        };
+
         if (this.editingIndex !== null) {
-          this.atividades[this.editingIndex] = { ...this.novaAtividade };
+          this.atividades[this.editingIndex] = newActivity;
           this.editingIndex = null;
         } else {
-          this.atividades.push({ ...this.novaAtividade });
+          this.atividades.push(newActivity);
         }
         this.novaAtividade = { nome: "", horas: "" };
       }
     },
 
     editarAtividade(index) {
-      console.log("Editando atividade com índice:", index);
-
-      // Verificar se o índice é válido
-      if (index >= 0 && index < this.atividades.length) {
-        this.editingIndex = index;
-        // Clone profundo para evitar referências
-        this.novaAtividade = JSON.parse(JSON.stringify(this.atividades[index]));
-
-        // Rolar para o formulário e focar no primeiro campo
-        this.$nextTick(() => {
-          const input = this.$refs.atividadeInput;
-          if (input) {
-            input.focus();
-            // Opcional: rolar para o formulário
-            input.scrollIntoView({ behavior: "smooth", block: "center" });
-          }
-        });
-      } else {
-        console.error(`Índice inválido para edição: ${index}`, this.atividades);
-      }
+      this.editingIndex = index;
+      this.novaAtividade = JSON.parse(JSON.stringify(this.atividades[index]));
     },
 
     // Método modificado para mostrar confirmação antes de remover
