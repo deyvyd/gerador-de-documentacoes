@@ -20,3 +20,6 @@ Thumbs.db
 # Cache
 .cache/
 **/__pycache__/
+
+# Histórioco
+.history/
