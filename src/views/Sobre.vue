@@ -202,7 +202,11 @@ blue
                         d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"
                       />
                     </svg>
-                    <h3 class="text-lg font-semibold">Padronização</h3>
+                    <h3
+                      class="text-lg font-semibold text-gray-700 dark:text-white"
+                    >
+                      Padronização
+                    </h3>
                   </div>
                   <p class="text-gray-700 dark:text-gray-300">
                     Garante que todos os documentos sigam o mesmo padrão de
@@ -225,7 +229,11 @@ blue
                         d="M13 10V3L4 14h7v7l9-11h-7z"
                       />
                     </svg>
-                    <h3 class="text-lg font-semibold">Eficiência</h3>
+                    <h3
+                      class="text-lg font-semibold text-gray-700 dark:text-white"
+                    >
+                      Eficiência
+                    </h3>
                   </div>
                   <p class="text-gray-700 dark:text-gray-300">
                     Reduz o tempo gasto na criação de documentação em até 60%,
@@ -248,7 +256,11 @@ blue
                         d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"
                       />
                     </svg>
-                    <h3 class="text-lg font-semibold">Versatilidade</h3>
+                    <h3
+                      class="text-lg font-semibold text-gray-700 dark:text-white"
+                    >
+                      Versatilidade
+                    </h3>
                   </div>
                   <p class="text-gray-700 dark:text-gray-300">
                     Exportação em múltiplos formatos (JSON, DOCX, PDF) para
@@ -271,7 +283,11 @@ blue
                         d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
                       />
                     </svg>
-                    <h3 class="text-lg font-semibold">Rastreabilidade</h3>
+                    <h3
+                      class="text-lg font-semibold text-gray-700 dark:text-white"
+                    >
+                      Rastreabilidade
+                    </h3>
                   </div>
                   <p id="guia-campos" class="text-gray-700 dark:text-gray-300">
                     Mantém histórico de criação e modificação, permitindo
