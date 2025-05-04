@@ -425,25 +425,21 @@ export default {
     },
 
     editarAtividade(index) {
-      console.log("Editando atividade com índice:", index);
-
-      // Verificar se o índice é válido
+      // Certifique-se de que index seja o índice correto do item nas atividades
       if (index >= 0 && index < this.atividades.length) {
         this.editingIndex = index;
-        // Clone profundo para evitar referências
+        // Faça uma cópia profunda para evitar modificações diretas no objeto original
         this.novaAtividade = JSON.parse(JSON.stringify(this.atividades[index]));
 
-        // Rolar para o formulário e focar no primeiro campo
+        // Opcionalmente, role até o formulário de edição
         this.$nextTick(() => {
-          const input = this.$refs.atividadeInput;
-          if (input) {
-            input.focus();
-            // Opcional: rolar para o formulário
-            input.scrollIntoView({ behavior: "smooth", block: "center" });
+          // Se você tiver uma referência para o campo de input da atividade
+          if (this.$refs.atividadeInput) {
+            this.$refs.atividadeInput.focus();
           }
         });
       } else {
-        console.error(`Índice inválido para edição: ${index}`, this.atividades);
+        console.error(`Índice inválido para edição: ${index}`);
       }
     },
 

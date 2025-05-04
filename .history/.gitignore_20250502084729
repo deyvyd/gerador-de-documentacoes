@@ -1,5 +1,6 @@
 # Node.js
 node_modules/
+node_modules/caniuse-lite/
 
 # Dependências de build
 dist/
@@ -19,4 +20,3 @@ Thumbs.db
 
 # Cache
 .cache/
-**/__pycache__/

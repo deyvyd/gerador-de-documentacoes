@@ -36,8 +36,8 @@ RUN npm install --ignore-scripts
 # Copia o restante do código da aplicação
 COPY . .
 
-# Gera o CSS do tailwind manualmente
-RUN npx tailwindcss -i ./src/input.css -o ./static/css/tailwind.css --minify
+# Usa explicitamente o PostCSS para processar as importações do Tailwind
+RUN npx postcss ./src/input.css -o ./static/css/tailwind.css --use postcss-import tailwindcss autoprefixer --no-map
 
 # Compila o frontend usando vite diretamente
 RUN node ./node_modules/vite/bin/vite.js build
@@ -49,4 +49,4 @@ EXPOSE 5000
 ENV FLASK_ENV=production
 
 # Comando para iniciar a aplicação
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]

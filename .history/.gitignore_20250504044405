@@ -19,4 +19,3 @@ Thumbs.db
 
 # Cache
 .cache/
-**/__pycache__/
