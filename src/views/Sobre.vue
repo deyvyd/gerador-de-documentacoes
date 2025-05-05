@@ -962,9 +962,7 @@ blue
         class="info-system-card p-6 mb-8 border border-blue-300 dark:border-gray-700 rounded-xl shadow-md"
       >
         <div class="flex items-center justify-center mb-6">
-          <div
-            class="icon-box bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3"
-          >
+          <div class="p-2 rounded-lg mr-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 text-blue-600 dark:text-blue-400"
@@ -981,7 +979,7 @@ blue
             </svg>
           </div>
           <h2
-            class="text-xl font-semibold text-center text-blue-700 dark:text-blue-300"
+            class="text-xl font-semibold text-center text-gray-800 dark:text-blue-100"
           >
             Informações do Sistema
           </h2>
@@ -992,7 +990,7 @@ blue
             class="bg-white dark:bg-gray-800 p-5 rounded-lg border border-blue-200 dark:border-gray-700 shadow-sm"
           >
             <h3
-              class="text-lg font-semibold mb-3 flex items-center text-blue-700 dark:text-blue-300"
+              class="text-lg font-semibold mb-3 flex items-center text-gray-800 dark:text-blue-100"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -1064,7 +1062,7 @@ blue
             class="bg-white dark:bg-gray-800 p-5 rounded-lg border border-blue-200 dark:border-gray-700 shadow-sm"
           >
             <h3
-              class="text-lg font-semibold mb-3 flex items-center text-blue-700 dark:text-blue-300"
+              class="text-lg font-semibold mb-3 flex items-center text-gray-800 dark:text-blue-100"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -1157,9 +1155,7 @@ blue
         class="faq-card p-6 mb-8 border border-blue-300 dark:border-gray-700 rounded-xl shadow-md"
       >
         <div class="flex items-center justify-center mb-6">
-          <div
-            class="icon-box bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3"
-          >
+          <div class="p-2 rounded-lg mr-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6 text-blue-600 dark:text-blue-400"
@@ -1176,7 +1172,7 @@ blue
             </svg>
           </div>
           <h2
-            class="text-xl font-semibold text-center text-blue-700 dark:text-blue-300"
+            class="text-xl font-semibold text-center text-gray-800 dark:text-blue-100"
           >
             Perguntas Frequentes
           </h2>
@@ -1523,12 +1519,10 @@ blue
 
         <!-- Seção Final com Links Úteis -->
         <div
-          class="links-card p-6 mb-8 border border-blue-300 dark:border-gray-700 rounded-xl shadow-md"
+          class="links-card p-6 mb-8 mt-6 border border-blue-300 dark:border-gray-700 rounded-xl shadow-md"
         >
           <div class="flex items-center justify-center mb-6">
-            <div
-              class="icon-box bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3"
-            >
+            <div class="p-2 rounded-lg mr-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-6 w-6 text-blue-600 dark:text-blue-400"
@@ -1545,7 +1539,7 @@ blue
               </svg>
             </div>
             <h2
-              class="text-xl font-semibold text-center text-blue-700 dark:text-blue-300"
+              class="text-xl font-semibold text-center text-gray-800 dark:text-blue-100"
             >
               Links Úteis
             </h2>
