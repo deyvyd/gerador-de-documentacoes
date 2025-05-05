@@ -125,7 +125,7 @@ A aplicação automatiza o preenchimento dos documentos, substituindo marcadores
 > [!CAUTION]
 > Certifique-se de ter os requisitos instalados antes de prosseguir. O uso incorreto dos comandos de instalação pode afetar outros projetos no mesmo ambiente.
 
-### Método 1: Usando Docker (Recomendado)
+### Método 1: Usando Docker 🐋 (Recomendado)
 
 A maneira mais simples de executar a aplicação é usando Docker, que encapsula todas as dependências:
 
@@ -142,13 +142,13 @@ A maneira mais simples de executar a aplicação é usando Docker, que encapsula
    .\deploy.bat
    ```
 
-   O script `deploy.bat` automatiza todo o processo de:
+>O script `deploy.bat` automatiza todo o processo de:
+>
+> - Construir os assets frontend
+> - Verificar a instalação do Docker
+> - Construir e iniciar o contêiner Docker
 
-   - Construir os assets frontend
-   - Verificar a instalação do Docker
-   - Construir e iniciar o contêiner Docker
-
-   Para ambientes Linux/Mac, execute os comandos equivalentes:
+Para ambientes Linux/Mac, execute os comandos equivalentes:
 
    ```bash
    npm run build
@@ -156,7 +156,7 @@ A maneira mais simples de executar a aplicação é usando Docker, que encapsula
    ```
 
 3. **Acesse a aplicação**:
-   Abra seu navegador e acesse `http://localhost:5000`
+   Abra seu navegador e acesse http://localhost:5000
 
 ### Método 2: Execução em Ambiente de Desenvolvimento
 
@@ -220,8 +220,8 @@ Para desenvolvimento ou contribuição ao projeto:
    - Datas de início e fim
    - Link do board
    - Descrição detalhada
-     > [!NOTE]
-     > Você pode também carregar os dados de um JSON salvo anteriormente clicando no botão de "Importar" no cabeçalho da página
+> [!NOTE]
+> Você pode também carregar os dados de um JSON salvo anteriormente clicando no botão de "Importar" no cabeçalho da página
 
 3. **Preencha as informações específicas de acordo com o tipo de documentação**:
 
