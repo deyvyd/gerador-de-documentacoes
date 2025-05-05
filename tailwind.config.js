@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-const componentsPlugin = require("./src/tailwind-plugins/components");
-module.exports = {
+import componentsPlugin from "./src/tailwind-plugins/components.js";
+export default {
   content: [
     "./templates/**/*.html",
     "./static/**/*.{js,vue}",
-    "./src/**/*.{vue,js,ts,css}", // Adicione esta linha
-    "./src/components.css", // Adicione esta linha explicitamente
+    "./src/**/*.{vue,js,ts,css}",
+    "./src/components.css",
   ],
   darkMode: "class",
   theme: {

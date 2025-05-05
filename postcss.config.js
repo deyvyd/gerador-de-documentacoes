@@ -1,8 +1,9 @@
-module.exports = {
+// postcss.config.js - versão ESM
+export default {
   plugins: {
-    "postcss-import": {}, // Isso deve vir primeiro
-    "tailwindcss/nesting": {}, // Adicione o plugin de nesting
-    tailwindcss: {}, // Depois o tailwind
-    autoprefixer: {}, // Por último o autoprefixer
+    "postcss-import": {},
+    "tailwindcss/nesting": {},
+    tailwindcss: {},
+    autoprefixer: {},
   },
 };

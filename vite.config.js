@@ -1,32 +1,35 @@
-// vite.config.js
+// vite.config.js - versão ESM
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import path from "path";
+import { fileURLToPath, URL } from "url";
 
 export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
   build: {
-    outDir: "static", // <-- saída do build para a pasta dist
-    emptyOutDir: true, // para não apagar outros arquivos da pasta dist
+    outDir: "static",
+    emptyOutDir: false,
     rollupOptions: {
-      input: "./src/main.js", // ajuste se necessário
+      input: "./src/main.js",
+      output: {
+        manualChunks: {
+          vendor: ["vue", "axios"], // separa libs grandes
+        },
+      },
     },
   },
   server: {
     port: 5173,
     strictPort: true,
     proxy: {
-      // Adicione esta configuração de proxy
       "/gerar_documentos": {
-        target: "http://localhost:5000", // Supondo que o Flask esteja rodando na porta 5000
+        target: "http://localhost:5000",
         changeOrigin: true,
       },
-      // Se houver outras rotas da API, adicione-as aqui
       "/api": {
         target: "http://localhost:5000",
         changeOrigin: true,
