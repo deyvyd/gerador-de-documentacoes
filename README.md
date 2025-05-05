@@ -52,9 +52,9 @@ A aplicação automatiza o preenchimento dos documentos, substituindo marcadores
 ### Formulário Base
 
 - **Informações da SS**: Campos para número, ano e título da solicitação
-- **Seleção de autores**: Sistema de autocompletar com sugestões e tags
 - **Datas e descrição**: Campos para período de execução e descrição detalhada
 - **Link do board**: Integração com sistemas de gerenciamento de projetos
+- **Seleção de autores**: Sistema de autocompletar com sugestões e tags
 
 > [!TIP]
 > Você pode salvar seu trabalho a qualquer momento exportando apenas o arquivo JSON, que poderá ser importado posteriormente para continuar o preenchimento.

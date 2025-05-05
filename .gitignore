@@ -22,7 +22,7 @@ Thumbs.db
 **/__pycache__/
 
 # Arquivos temporários
-./static/assets/
+static/assets/
 
 # Histórico
 .history/
