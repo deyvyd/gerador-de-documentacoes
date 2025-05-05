@@ -21,5 +21,8 @@ Thumbs.db
 .cache/
 **/__pycache__/
 
-# Histórioco
+# Arquivos temporários
+./static/assets/
+
+# Histórico
 .history/

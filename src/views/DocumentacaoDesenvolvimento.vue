@@ -600,22 +600,26 @@ export default {
       );
 
       // Gera um novo ID para o requisito duplicado
-      const novoId = `RF-${String(this.requisitos.length + 1).padStart(
-        2,
-        "0"
-      )}`;
+      const novoId = `RF-${String(-1).padStart(2, "0")}`;
       requisitoDuplicado.id = novoId;
 
       // Modifica o título para indicar que é uma cópia
       requisitoDuplicado.tituloRF = `(Cópia) ${requisitoDuplicado.tituloRF}`;
 
-      // Adiciona o requisito duplicado ao final da lista
-      this.requisitos.push(requisitoDuplicado);
+      // Em vez de adicionar diretamente, configura o modal para exibir este item
+      this.modalTitulo = "Duplicar Requisito Funcional";
+      this.editIndex = -1; // Garante que estamos adicionando um novo item, não editando
+      this.modoVisualizacao = false; // Garante que não estamos em modo visualização
+      this.requisitoAtual = requisitoDuplicado; // Configura o requisito atual como a cópia
+      this.showModal = true; // Abre o modal
+
+      // Adicionar classe para prevenir rolagem do body
+      document.body.classList.add("modal-open");
 
       // Notifica o usuário
       this.notificationService.show(
-        `Requisito ${requisitoDuplicado.id} duplicado com sucesso!`,
-        "success"
+        `Duplicando requisito. Revise e clique em Salvar para confirmar.`,
+        "info"
       );
     },
 

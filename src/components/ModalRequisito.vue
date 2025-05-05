@@ -1058,30 +1058,68 @@ export default {
       this.requisito.banco = cleanContent(this.bancoContent);
 
       // Se chegou aqui, todos os campos estão preenchidos
-      const editIndex = this.requisito.id
-        ? parseInt(this.requisito.id.split("-")[1]) - 1
-        : -1;
+      if (
+        this.requisito &&
+        this.requisito.id &&
+        this.requisito.id.startsWith("RF-")
+      ) {
+        // Requisito existente - verificar se é um ID válido (não RF-00 ou similar para duplicados)
+        const idParts = this.requisito.id.split("-");
+        if (idParts.length === 2) {
+          const numPart = parseInt(idParts[1]);
+          // Verifica se é um número válido maior que zero
+          if (!isNaN(numPart) && numPart > 0) {
+            const editIndex = numPart - 1;
+            // Emitir evento de atualização com o requisito clonado
+            this.$emit(
+              "update-requisito",
+              editIndex,
+              JSON.parse(JSON.stringify(this.requisito)),
+              true // focusAddButton
+            );
 
-      // Adicionar parâmetro adicional focusAddButton=true ao emitir os eventos
-      if (editIndex >= 0) {
-        this.$emit(
-          "update-requisito",
-          editIndex,
-          JSON.parse(JSON.stringify(this.requisito)),
-          true // focusAddButton
-        );
+            // Adicionar notificação de sucesso após a edição
+            if (this.$parent && this.$parent.notificationService) {
+              this.$parent.notificationService.show(
+                `O requisito ${this.requisito.id} foi atualizado com sucesso!`,
+                "success"
+              );
+            }
+          } else {
+            // ID inválido ou temporário (como em duplicações), tratar como novo requisito
+            this.tratarComoNovoRequisito();
+          }
+        } else {
+          // Formato inválido, tratar como novo requisito
+          this.tratarComoNovoRequisito();
+        }
       } else {
-        const novoId =
-          "RF-" + String(this.totalRequisitos + 1).padStart(2, "0");
-        this.requisito.id = novoId;
-        this.$emit(
-          "add-requisito",
-          JSON.parse(JSON.stringify(this.requisito)),
-          true
-        ); // focusAddButton
+        // Novo requisito ou ID inválido
+        this.tratarComoNovoRequisito();
       }
 
       this.$emit("fechar", true); // focusAddButton
+    },
+
+    tratarComoNovoRequisito() {
+      // Gerar novo ID baseado no total de requisitos
+      const novoId = "RF-" + String(this.totalRequisitos + 1).padStart(2, "0");
+      this.requisito.id = novoId;
+
+      // Emitir evento para adicionar o requisito
+      this.$emit(
+        "add-requisito",
+        JSON.parse(JSON.stringify(this.requisito)),
+        true
+      );
+
+      // Adicionar notificação de sucesso
+      if (this.$parent && this.$parent.notificationService) {
+        this.$parent.notificationService.show(
+          `Requisito ${novoId} adicionado com sucesso!`,
+          "success"
+        );
+      }
     },
 
     // Método para lidar com upload de arquivos
