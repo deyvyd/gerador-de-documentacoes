@@ -471,14 +471,14 @@ export default {
             align: "center",
           },
         },
-        {
+        /*{
           element: "#RNFForm",
           popover: {
             title: "Adicionar Requisitos Não Funcionais",
             description: "Cadastre aqui os requisitos não funcionais da SS.",
             position: "right",
           },
-        },
+        },*/
         {
           element: "#pontosFuncao",
           popover: {

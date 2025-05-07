@@ -8,7 +8,11 @@
       @swap-requested="handleSwapRequested"
     >
       <template #actions>
-        <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
+        <theme-toggle
+          id="botaoTema"
+          :is-dark="isDark"
+          @toggle="toggleTheme"
+        ></theme-toggle>
       </template>
       <template #tour-button>
         <TourGuide :steps="tourSteps" :show-button="true" ref="tourGuide" />
@@ -257,7 +261,17 @@ export default {
           popover: {
             title: "Bem-vindo!",
             description: "Esta é a introdução do sistema.",
-            position: "bottom",
+            side: "left",
+            align: "center",
+          },
+        },
+        {
+          element: "#botaoTema",
+          popover: {
+            title: "Altere o tema para claro/escuro",
+            description: "Clique aqui e escolha o tema que preferir",
+            side: "bottom",
+            align: "center",
           },
         },
         {
@@ -265,7 +279,8 @@ export default {
           popover: {
             title: "Documentação Técnica",
             description: "Clique aqui para gerar documentação técnica de SS.",
-            position: "right",
+            side: "left",
+            align: "center",
           },
         },
         {
@@ -274,7 +289,8 @@ export default {
             title: "Documentação de Desenvolvimento",
             description:
               "Clique aqui para gerar requisitos funcionais e não funcionais.",
-            position: "left",
+            side: "right",
+            align: "center",
           },
         },
         {
@@ -282,7 +298,8 @@ export default {
           popover: {
             title: "Sobre a Aplicação",
             description: "Veja tutoriais e informações gerais da plataforma.",
-            position: "top",
+            side: "top",
+            align: "center",
           },
         },
       ],
