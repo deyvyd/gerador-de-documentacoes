@@ -364,6 +364,36 @@
     @apply bg-purple-100 dark:bg-purple-900;
   }
 
+  /* ===== Tour Button ===== */
+
+  .tour-btn {
+    @apply bg-transparent text-white px-3 py-2 hover:text-indigo-300 transition-colors duration-200;
+    @apply flex items-center gap-1;
+    @apply relative;
+  }
+
+  .tour-tooltip {
+    @apply absolute invisible opacity-0;
+    @apply -right-4 top-12 w-48;
+    @apply bg-indigo-200 text-indigo-800 rounded-lg p-4 shadow-lg;
+    @apply dark:bg-indigo-900 dark:text-indigo-100;
+    @apply z-50 text-left;
+    @apply transition-all duration-300;
+  }
+
+  .tour-btn:hover .tour-tooltip {
+    @apply visible opacity-100;
+  }
+
+  .tour-tooltip .tooltip-arrow {
+    @apply absolute top-0 right-7 -mt-2 w-4 h-4 transform rotate-45;
+    @apply bg-indigo-200 dark:bg-indigo-900;
+  }
+
+  .tour-tooltip .tooltip-title {
+    @apply font-medium;
+  }
+
   /* ===== Input de sugestões de Autores ===== */
 
   /* Container principal do seletor de autores */
@@ -842,12 +872,6 @@
 
   .driver-popover-progress-text {
     @apply text-gray-500 dark:text-gray-400 text-sm;
-  }
-
-  /* Botão para iniciar o tour */
-  .tour-btn {
-    @apply bg-transparent text-white px-3 py-2 hover:text-indigo-200 transition-colors duration-200;
-    @apply flex items-center gap-1;
   }
 
   /* Ajustes para telas pequenas */
