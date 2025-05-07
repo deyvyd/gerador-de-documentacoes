@@ -11,6 +11,7 @@
     >
       <template #swap-button>
         <swap-button
+          id="trocarParaTec"
           target-url="/tec"
           target-type="tecnica"
           tooltip="Trocar para documentação Técnica"
@@ -20,6 +21,7 @@
       </template>
       <template #actions>
         <upload-button
+          id="botaoImportar"
           tooltip-title="Importar dados de arquivo JSON"
           @check-data="checkForImportConfirmation"
           @json-loaded="processImportedJSON"
@@ -37,28 +39,35 @@
           :tooltip-items="['Documentação sobre a aplicação']"
         ></info-button>
       </template>
+      <template #tour-button>
+        <TourGuide :steps="tourSteps" :show-button="true" ref="tourGuide" />
+      </template>
     </app-header>
 
     <div class="container">
       <div class="main-card">
-        <basic-form-section
-          ref="basicFormSection"
-          :form-data="formData"
-          :selected-autores="selectedAutores"
-          :autor-input="autorInput"
-          :show-suggestions="showSuggestions"
-          :filtered-autores="filteredAutores"
-          :highlighted-index="highlightedIndex"
-          @update:numero-ss="formData.numeroSS = $event"
+        <BasicFormSection
+          id="infoSS"
+          :formData="formData"
+          @update:numeroSS="formData.numeroSS = $event"
           @format-ss="formatSS"
-          @update:autor-input="handleAutorInputUpdate"
-          @show-suggestions="toggleSuggestions"
-          @navigate-list="navigateList($event)"
-          @highlight-index="highlightedIndex = $event"
+        />
+
+        <AuthorSelector
+          id="autores"
+          :selectedAutores="selectedAutores"
+          :autorInput="autorInput"
+          :showSuggestions="showSuggestions"
+          :filteredAutores="filteredAutores"
+          :highlightedIndex="highlightedIndex"
+          @update:autorInput="(val) => (autorInput = val)"
+          @show-suggestions="(val) => (showSuggestions = val)"
           @handle-backspace="handleBackspace"
-          @select-autor="selectAutor($event)"
-          @remove-autor="removeAutor($event)"
-        ></basic-form-section>
+          @select-autor="selectAutor"
+          @remove-autor="removeAutor"
+          @navigate-list="navigateList"
+          @highlight-index="highlightedIndex = $event"
+        />
 
         <!-- Seção de Requisitos com abas -->
         <div class="base-section mb-4">
@@ -79,7 +88,7 @@
           </div>
 
           <!-- Aba 1: Requisitos Funcionais -->
-          <div v-if="requisitosTabAtiva === 0">
+          <div v-if="requisitosTabAtiva === 0" id="RFForm">
             <!-- Botão centralizado -->
             <div
               v-if="requisitos.length === 0"
@@ -274,7 +283,7 @@
         </div>
 
         <!-- Seção de Pontos de Função -->
-        <div class="base-section mb-4">
+        <div class="base-section mb-4" id="pontosFuncao">
           <div class="flex items-center justify-center gap-4 mb-1">
             <h3 class="text-base font-medium">Total de Pontos de Função</h3>
             <input
@@ -337,6 +346,7 @@
 <script>
 import ToastNotification from "../components/ToastNotification.vue";
 import AppHeader from "../components/AppHeader.vue";
+import AuthorSelector from "../components/AuthorSelector.vue";
 import SwapButton from "../components/SwapButton.vue";
 import ThemeToggle from "../components/ThemeToggle.vue";
 import InfoButton from "../components/InfoButton.vue";
@@ -347,6 +357,7 @@ import FormSubmitSection from "../components/FormSubmitSection.vue";
 import ModalRequisito from "../components/ModalRequisito.vue";
 import RichTextEditor from "../components/RichTextEditor.vue";
 import ModalMessage from "../components/ModalMessage.vue";
+import TourGuide from "../components/TourGuide.vue";
 import appBase from "../mixins/appBase";
 import Sortable from "sortablejs";
 
@@ -363,11 +374,13 @@ export default {
     InfoButton,
     UploadButton,
     BasicFormSection,
+    AuthorSelector,
     DataTable,
     FormSubmitSection,
     ModalMessage,
     ModalRequisito,
     RichTextEditor,
+    TourGuide,
   },
   data() {
     // Dados específicos deste app
@@ -408,6 +421,94 @@ export default {
       dataModificacao: null,
       iniciaisAutorCriacao: null,
       iniciaisAutorModificacao: null,
+      tourSteps: [
+        {
+          element: "#trocarParaTec",
+          popover: {
+            title: "Trocar para Técnica",
+            description:
+              "Clique aqui para trocar para a tela Documentações Técnicas.",
+            side: "bottom",
+            align: "center",
+          },
+        },
+        {
+          element: "#botaoImportar",
+          popover: {
+            title: "Importar dados (JSON)",
+            description:
+              "Clique aqui caso já tenha um arquivo JSON com as informações da SS e deseje importar.",
+            side: "bottom",
+            align: "center",
+          },
+        },
+        {
+          element: "#infoSS",
+          popover: {
+            title: "Informações Básicas",
+            description:
+              "Preencha aqui as informações básicas da Solicitação de Serviço.",
+            side: "left",
+            align: "start",
+          },
+        },
+        {
+          element: "#autores",
+          popover: {
+            title: "Autor(es)",
+            description:
+              "Pesquise seu nome e adicione na lista. A sigla será adicionada na documentação.",
+            side: "left",
+            align: "start",
+          },
+        },
+        {
+          element: "#RFForm",
+          popover: {
+            title: "Adicionar Requisitos Funcionais",
+            description: "Cadastre aqui os requisitos funcionais da SS.",
+            side: "left",
+            align: "center",
+          },
+        },
+        {
+          element: "#RNFForm",
+          popover: {
+            title: "Adicionar Requisitos Não Funcionais",
+            description: "Cadastre aqui os requisitos não funcionais da SS.",
+            position: "right",
+          },
+        },
+        {
+          element: "#pontosFuncao",
+          popover: {
+            title: "Adicionar os Pontos de Função",
+            description: "Cadastre aqui o total de pontos de função da SS.",
+            side: "top",
+            align: "center",
+          },
+        },
+        {
+          element: "#formatoArquivos",
+          popover: {
+            title: "Formatos de Exportação",
+            description:
+              "Escolha em quais formatos você deseja gerar sua documentação.",
+            side: "top",
+            align: "center",
+          },
+        },
+        {
+          element: "#botaoGerar",
+          popover: {
+            title: "Gerar Documentação",
+            description:
+              "Clique aqui para gerar a documentação nos formatos selecionados.",
+            side: "top",
+            align: "center",
+          },
+        },
+      ],
     };
   },
   computed: {
@@ -456,6 +557,11 @@ export default {
   },
 
   methods: {
+    startTour() {
+      if (this.$refs.tourGuide) {
+        this.$refs.tourGuide.startTour();
+      }
+    },
     initQuill() {
       // Verificar se o elemento existe no DOM antes de inicializar
       const element = document.getElementById(this.containerId);

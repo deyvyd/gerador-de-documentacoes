@@ -7,6 +7,7 @@
       <!-- Campo de pesquisa -->
       <div class="relative w-full sm:w-auto mb-2 sm:mb-0">
         <input
+          id="campoFiltro"
           type="text"
           v-model="searchQuery"
           placeholder="Pesquisar..."
@@ -44,6 +45,7 @@
         <div class="flex items-center">
           <label class="mr-2 text-base font-medium text-center">Mostrar:</label>
           <select
+            id="itensPorPagina"
             v-model="perPage"
             class="form-input py-2 pr-8 pl-2"
             @change="handlePerPageChange"

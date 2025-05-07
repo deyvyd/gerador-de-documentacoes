@@ -10,11 +10,14 @@
       <template #actions>
         <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
       </template>
+      <template #tour-button>
+        <TourGuide :steps="tourSteps" :show-button="true" ref="tourGuide" />
+      </template>
     </app-header>
 
     <div class="container mx-auto px-4 py-8 mt-8">
       <!-- Hero Section -->
-      <div class="main-card p-8 mb-8 text-center">
+      <div class="main-card p-8 mb-8 text-center" id="title">
         <h1 class="text-3xl md:text-4xl font-bold mb-4">
           Bem-vindo ao Gerador de Documentações
         </h1>
@@ -42,6 +45,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
         <!-- Card 1 - Documentação Técnica -->
         <div
+          id="card-tec"
           class="main-card p-6 transition-all hover:shadow-lg hover:shadow-orange-500/20 cursor-pointer"
           @click="navigateTo('/tec')"
         >
@@ -111,6 +115,7 @@
 
         <!-- Card 2 - Documentação de Desenvolvimento -->
         <div
+          id="card-dev"
           class="main-card p-6 transition-all hover:shadow-lg hover:shadow-green-500/20 cursor-pointer"
           @click="navigateTo('/dev')"
         >
@@ -184,6 +189,7 @@
       <!-- About Section Preview -->
       <div class="flex justify-center mb-8">
         <div
+          id="card-about"
           class="main-card p-6 transition-all hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer md:w-1/2"
           @click="navigateTo('/sobre')"
         >
@@ -231,6 +237,7 @@
 import AppHeader from "../components/AppHeader.vue";
 import ThemeToggle from "../components/ThemeToggle.vue";
 import InfoButton from "../components/InfoButton.vue";
+import TourGuide from "../components/TourGuide.vue";
 import appBase from "../mixins/appBase";
 
 export default {
@@ -240,6 +247,46 @@ export default {
     AppHeader,
     ThemeToggle,
     InfoButton,
+    TourGuide,
+  },
+  data() {
+    return {
+      tourSteps: [
+        {
+          element: "#title",
+          popover: {
+            title: "Bem-vindo!",
+            description: "Esta é a introdução do sistema.",
+            position: "bottom",
+          },
+        },
+        {
+          element: "#card-tec",
+          popover: {
+            title: "Documentação Técnica",
+            description: "Clique aqui para gerar documentação técnica de SS.",
+            position: "right",
+          },
+        },
+        {
+          element: "#card-dev",
+          popover: {
+            title: "Documentação de Desenvolvimento",
+            description:
+              "Clique aqui para gerar requisitos funcionais e não funcionais.",
+            position: "left",
+          },
+        },
+        {
+          element: "#card-about",
+          popover: {
+            title: "Sobre a Aplicação",
+            description: "Veja tutoriais e informações gerais da plataforma.",
+            position: "top",
+          },
+        },
+      ],
+    };
   },
   methods: {
     navigateTo(route) {
@@ -260,6 +307,11 @@ export default {
     },
     handleSwapRequested(targetUrl) {
       this.navigateTo(targetUrl);
+    },
+    startTour() {
+      if (this.$refs.tourGuide) {
+        this.$refs.tourGuide.startTour();
+      }
     },
   },
 };

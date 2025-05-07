@@ -37,7 +37,12 @@ export default defineConfig({
     },
     fs: {
       strict: true,
-      allow: ["src/", "static/", "./node_modules/quill"],
+      allow: [
+        "src/",
+        "static/",
+        "./node_modules/quill",
+        "./node_modules/driver.js",
+      ],
     },
   },
 });

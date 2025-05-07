@@ -824,6 +824,32 @@
     @apply mt-4 mb-2;
   }
 
+  .driver-popover {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-lg;
+  }
+
+  .driver-popover-title {
+    @apply text-gray-800 dark:text-white text-lg font-medium mb-2;
+  }
+
+  .driver-popover-description {
+    @apply text-gray-600 dark:text-gray-300 text-base mb-4;
+  }
+
+  .driver-popover-footer {
+    @apply border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-between;
+  }
+
+  .driver-popover-progress-text {
+    @apply text-gray-500 dark:text-gray-400 text-sm;
+  }
+
+  /* Botão para iniciar o tour */
+  .tour-btn {
+    @apply bg-transparent text-white px-3 py-2 hover:text-indigo-200 transition-colors duration-200;
+    @apply flex items-center gap-1;
+  }
+
   /* Ajustes para telas pequenas */
   @media (max-width: 640px) {
     .base-section {

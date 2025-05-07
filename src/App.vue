@@ -43,6 +43,7 @@ import ThemeToggle from "./components/ThemeToggle.vue";
 import ToastNotification from "./components/ToastNotification.vue";
 import UploadButton from "./components/UploadButton.vue";
 import appBase from "./mixins/appBase";
+import TourGuide from "./components/TourGuide.vue";
 
 export default {
   name: "App",
@@ -60,7 +61,25 @@ export default {
     ThemeToggle,
     ToastNotification,
     UploadButton,
+    TourGuide,
   },
-  // Restante da lógica
+  methods: {
+    startTour() {
+      console.log("Tentando iniciar o tour");
+      const route = this.$route.name;
+      console.log("Rota atual:", route);
+
+      // Usar a função global
+      if (
+        route === "DocumentacaoTecnica" &&
+        window.startDocumentacaoTecnicaTour
+      ) {
+        console.log("Função do tour encontrada, iniciando...");
+        window.startDocumentacaoTecnicaTour();
+      } else {
+        console.log("Função do tour não encontrada para esta página");
+      }
+    },
+  },
 };
 </script>

@@ -10,6 +10,7 @@
     >
       <template #swap-button>
         <swap-button
+          id="trocarParaDev"
           target-url="/dev"
           target-type="desenvolvimento"
           tooltip="Trocar para documentação de Desenvolvimento"
@@ -18,6 +19,7 @@
       </template>
       <template #actions>
         <upload-button
+          id="botaoImportar"
           tooltip-title="Importar dados de arquivo JSON"
           @check-data="checkForImportConfirmation"
           @json-loaded="processImportedJSON"
@@ -35,32 +37,39 @@
           :tooltip-items="['Documentação sobre a aplicação']"
         />
       </template>
+      <template #tour-button>
+        <TourGuide :steps="tourSteps" :show-button="true" ref="tourGuide" />
+      </template>
     </app-header>
 
     <div class="container">
       <div class="main-card">
         <!-- Formulário de Informações básicas da SS -->
-        <basic-form-section
-          ref="basicFormSection"
-          :form-data="formData"
-          :selected-autores="selectedAutores"
-          :autor-input="autorInput"
-          :show-suggestions="showSuggestions"
-          :filtered-autores="filteredAutores"
-          :highlighted-index="highlightedIndex"
-          @update:numero-ss="formData.numeroSS = $event"
+        <BasicFormSection
+          id="infoSS"
+          :formData="formData"
+          @update:numeroSS="formData.numeroSS = $event"
           @format-ss="formatSS"
-          @update:autor-input="handleAutorInputUpdate"
-          @show-suggestions="toggleSuggestions"
-          @navigate-list="navigateList($event)"
-          @highlight-index="highlightedIndex = $event"
+        />
+
+        <AuthorSelector
+          id="autores"
+          :selectedAutores="selectedAutores"
+          :autorInput="autorInput"
+          :showSuggestions="showSuggestions"
+          :filteredAutores="filteredAutores"
+          :highlightedIndex="highlightedIndex"
+          @update:autorInput="(val) => (autorInput = val)"
+          @show-suggestions="(val) => (showSuggestions = val)"
           @handle-backspace="handleBackspace"
-          @select-autor="selectAutor($event)"
-          @remove-autor="removeAutor($event)"
+          @select-autor="selectAutor"
+          @remove-autor="removeAutor"
+          @navigate-list="navigateList"
+          @highlight-index="highlightedIndex = $event"
         />
 
         <!-- Seção de Atividades -->
-        <div class="base-section">
+        <div class="base-section" id="atividades">
           <h2 class="base-title">Gerenciar Atividades</h2>
 
           <!-- Formulário de Atividade -->
@@ -171,6 +180,7 @@
 
         <!-- Seção de formatos e botão Gerar Documentos -->
         <form-submit-section
+          id="formatos"
           :formatos="formData"
           :is-loading="isLoading"
           :is-formato-valido="formData.gerarDocx || formData.gerarPdf"
@@ -200,6 +210,7 @@
 <script>
 import ToastNotification from "../components/ToastNotification.vue";
 import AppHeader from "../components/AppHeader.vue";
+import AuthorSelector from "../components/AuthorSelector.vue";
 import SwapButton from "../components/SwapButton.vue";
 import ThemeToggle from "../components/ThemeToggle.vue";
 import InfoButton from "../components/InfoButton.vue";
@@ -208,6 +219,7 @@ import BasicFormSection from "../components/BasicFormSection.vue";
 import DataTable from "../components/DataTable.vue";
 import FormSubmitSection from "../components/FormSubmitSection.vue";
 import ModalMessage from "../components/ModalMessage.vue";
+import TourGuide from "../components/TourGuide.vue";
 import appBase from "../mixins/appBase";
 import Sortable from "sortablejs";
 
@@ -224,9 +236,11 @@ export default {
     InfoButton,
     UploadButton,
     BasicFormSection,
+    AuthorSelector,
     DataTable,
     FormSubmitSection,
     ModalMessage,
+    TourGuide,
   },
   data() {
     // Dados específicos deste app
@@ -243,6 +257,78 @@ export default {
       },
       atividades: [],
       atividadesChangeCounter: 0,
+      tourSteps: [
+        {
+          element: "#trocarParaDev",
+          popover: {
+            title: "Trocar para Desenvolvimento",
+            description:
+              "Clique aqui para trocar para a tela Documentações de Desenvolvimento.",
+            side: "bottom",
+            align: "center",
+          },
+        },
+        {
+          element: "#botaoImportar",
+          popover: {
+            title: "Importar dados (JSON)",
+            description:
+              "Clique aqui caso já tenha um arquivo JSON com as informações da SS e deseje importar.",
+            side: "bottom",
+            align: "center",
+          },
+        },
+        {
+          element: "#infoSS",
+          popover: {
+            title: "Informações Básicas",
+            description:
+              "Preencha aqui as informações básicas da Solicitação de Serviço.",
+            side: "left",
+            align: "start",
+          },
+        },
+        {
+          element: "#autores",
+          popover: {
+            title: "Autor(es)",
+            description:
+              "Pesquise seu nome e adicione na lista. A sigla será adicionada na documentação.",
+            side: "left",
+            align: "center",
+          },
+        },
+        {
+          element: "#atividades",
+          popover: {
+            title: "Adicionar Atividades",
+            description:
+              "Registre aqui as atividades realizadas e suas respectivas horas.",
+            side: "left",
+            align: "center",
+          },
+        },
+        {
+          element: "#formatoArquivos",
+          popover: {
+            title: "Formatos de Exportação",
+            description:
+              "Escolha em quais formatos você deseja gerar sua documentação.",
+            side: "top",
+            align: "center",
+          },
+        },
+        {
+          element: "#botaoGerar",
+          popover: {
+            title: "Gerar Documentação",
+            description:
+              "Clique aqui para gerar a documentação nos formatos selecionados.",
+            side: "top",
+            align: "center",
+          },
+        },
+      ],
     };
   },
   computed: {
@@ -313,6 +399,13 @@ export default {
   mounted() {
     // Inicialização específica deste app
     this.initSortable();
+
+    // Logs para debug
+    this.tourSteps.forEach((step, index) => {
+      if (step.element) {
+        const el = document.querySelector(step.element);
+      }
+    });
   },
 
   beforeUnmount() {
@@ -321,6 +414,12 @@ export default {
 
   methods: {
     // Métodos específicos deste app
+    startTour() {
+      if (this.$refs.tourGuide) {
+        this.$refs.tourGuide.startTour();
+      }
+    },
+
     initSortable() {
       return new Promise((resolve) => {
         this.$nextTick(() => {

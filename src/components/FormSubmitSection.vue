@@ -2,7 +2,10 @@
   <div class="mt-6">
     <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
       <div class="format-section w-full sm:w-auto">
-        <div class="flex flex-col sm:flex-row items-center gap-4 w-full">
+        <div
+          class="flex flex-col sm:flex-row items-center gap-4 w-full"
+          id="formatoArquivos"
+        >
           <h3 class="format-title whitespace-nowrap">Formato dos arquivos</h3>
           <div class="flex gap-4 flex-wrap">
             <!-- Opção JSON (sempre selecionada) -->
@@ -44,6 +47,7 @@
 
       <!-- Botão com texto dinâmico e ícone de download -->
       <button
+        id="botaoGerar"
         @click="$emit('submit')"
         class="btn btn-primary w-full sm:w-64"
         :disabled="isLoading"

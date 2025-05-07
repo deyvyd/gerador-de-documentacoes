@@ -1,5 +1,4 @@
 <template>
-  <!-- Formulário principal -->
   <form>
     <!-- Seção de Informações básicas da SS -->
     <div class="base-section mb-4">
@@ -9,8 +8,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-10 gap-4">
         <div class="form-group col-span-1 sm:col-span-1">
           <label for="numeroSS" class="form-label">
-            Número
-            <span class="text-red-600">*</span>
+            Número <span class="text-red-600">*</span>
           </label>
           <input
             type="text"
@@ -28,8 +26,7 @@
 
         <div class="form-group col-span-1 sm:col-span-1">
           <label for="anoSS" class="form-label">
-            Ano
-            <span class="text-red-600">*</span>
+            Ano <span class="text-red-600">*</span>
           </label>
           <input
             type="number"
@@ -42,8 +39,7 @@
 
         <div class="form-group col-span-1 sm:col-span-8">
           <label for="tituloSS" class="form-label">
-            Título
-            <span class="text-red-600">*</span>
+            Título <span class="text-red-600">*</span>
           </label>
           <input
             type="text"
@@ -60,8 +56,7 @@
       <!-- Segunda linha: Descrição -->
       <div class="form-group">
         <label for="descricaoSS" class="form-label">
-          Descrição
-          <span class="text-red-600">*</span>
+          Descrição <span class="text-red-600">*</span>
         </label>
         <textarea
           v-model="formData.descricao"
@@ -78,8 +73,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-10 gap-4">
         <div class="form-group col-span-2">
           <label for="dataInicioSS" class="form-label">
-            Data de Início
-            <span class="text-red-600">*</span>
+            Data de Início <span class="text-red-600">*</span>
           </label>
           <input
             id="dataInicioSS"
@@ -93,8 +87,7 @@
 
         <div class="form-group col-span-2">
           <label for="dataFimSS" class="form-label">
-            Data de Fim
-            <span class="text-red-600">*</span>
+            Data de Fim <span class="text-red-600">*</span>
           </label>
           <input
             id="dataFimSS"
@@ -105,6 +98,7 @@
             required
           />
         </div>
+
         <div class="form-group col-span-6">
           <label for="linkBoardSS" class="form-label">Link do board</label>
           <input
@@ -118,66 +112,7 @@
       </div>
     </div>
 
-    <!-- Quarta linha: Autor(es) -->
-    <div class="form-group">
-      <label for="autorSS" class="form-label">
-        Autor(es)
-        <span class="text-red-600">*</span>
-      </label>
-      <div class="author-selector-container">
-        <div class="author-input-area autor-container">
-          <!-- Tags dos autores selecionados -->
-          <span
-            v-for="autor in selectedAutores"
-            :key="autor.nome"
-            class="author-tag"
-          >
-            {{ autor.nome }}
-            <button
-              @click.prevent="removeAutor(autor)"
-              class="author-remove-btn"
-            >
-              ×
-            </button>
-          </span>
-          <!-- Input para digitar -->
-          <input
-            type="text"
-            id="autorSS"
-            v-model="inputValue"
-            @input="updateAutorInput"
-            @focus="handleInputFocus"
-            @blur="handleAutorBlur"
-            @keydown.down.prevent="$emit('navigate-list', 'down')"
-            @keydown.up.prevent="$emit('navigate-list', 'up')"
-            @keydown.enter.prevent="selectHighlighted"
-            @keydown.backspace="handleBackspace"
-            placeholder="Digite o nome do autor..."
-            class="author-input-field"
-            ref="autorInput"
-          />
-        </div>
-
-        <!-- Lista de sugestões (mantive a referência às classes que criamos anteriormente) -->
-        <div
-          v-if="showSuggestions && filteredAutores.length > 0"
-          class="suggestions-list"
-        >
-          <div
-            v-for="(autor, index) in filteredAutores"
-            :key="autor.nome"
-            @mousedown="selectAutor(autor)"
-            @mouseover="$emit('highlight-index', index)"
-            :class="[
-              'suggestion-item',
-              highlightedIndex === index ? 'suggestion-item-highlighted' : '',
-            ]"
-          >
-            {{ autor.nome }}
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- A parte de autores foi removida e deve ser colocada no componente pai, ou onde necessário -->
   </form>
 </template>
 
@@ -188,36 +123,6 @@ export default {
     formData: {
       type: Object,
       required: true,
-    },
-    selectedAutores: {
-      type: Array,
-      required: true,
-    },
-    autorInput: {
-      type: String,
-      required: true,
-    },
-    showSuggestions: {
-      type: Boolean,
-      default: false,
-    },
-    filteredAutores: {
-      type: Array,
-      default: () => [],
-    },
-    highlightedIndex: {
-      type: Number,
-      default: 0,
-    },
-  },
-  data() {
-    return {
-      inputValue: this.autorInput,
-    };
-  },
-  watch: {
-    autorInput(newVal) {
-      this.inputValue = newVal;
     },
   },
   methods: {
@@ -231,39 +136,10 @@ export default {
         this.$emit("format-ss");
       }
     },
-    updateAutorInput() {
-      this.$emit("update:autorInput", this.inputValue);
-    },
-    handleAutorBlur(event) {
-      // Pequeno delay para permitir o clique na sugestão
-      setTimeout(() => {
-        this.$emit("show-suggestions", false);
-      }, 200);
-    },
-    handleBackspace(event) {
-      // Se o input estiver vazio e houver autores selecionados
-      if (this.inputValue === "") {
-        this.$emit("handle-backspace");
-      }
-    },
-    selectHighlighted() {
-      if (
-        this.filteredAutores.length &&
-        this.filteredAutores[this.highlightedIndex]
-      ) {
-        this.selectAutor(this.filteredAutores[this.highlightedIndex]);
-      }
-    },
-    selectAutor(autor) {
-      this.$emit("select-autor", autor);
-    },
-    removeAutor(autor) {
-      this.$emit("remove-autor", autor);
-    },
   },
 };
 </script>
 
 <style scoped>
-/* Estilos específicos deste componente (opcional) */
+/* Estilos específicos do formulário, se necessário */
 </style>

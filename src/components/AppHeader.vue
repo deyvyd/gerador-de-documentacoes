@@ -12,6 +12,7 @@
       </div>
       <div class="app-header-actions">
         <slot name="actions"></slot>
+        <slot name="tour-button"></slot>
       </div>
     </div>
   </header>
