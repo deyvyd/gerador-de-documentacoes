@@ -142,7 +142,7 @@ A maneira mais simples de executar a aplicação é usando Docker, que encapsula
    .\deploy.bat
    ```
 
->O script `deploy.bat` automatiza todo o processo de:
+> O script `deploy.bat` automatiza todo o processo de:
 >
 > - Construir os assets frontend
 > - Verificar a instalação do Docker
@@ -150,10 +150,10 @@ A maneira mais simples de executar a aplicação é usando Docker, que encapsula
 
 Para ambientes Linux/Mac, execute os comandos equivalentes:
 
-   ```bash
-   npm run build
-   docker-compose up --build -d
-   ```
+```bash
+npm run build
+docker-compose up --build -d
+```
 
 3. **Acesse a aplicação**:
    Abra seu navegador e acesse http://localhost:5000
@@ -220,8 +220,8 @@ Para desenvolvimento ou contribuição ao projeto:
    - Datas de início e fim
    - Link do board
    - Descrição detalhada
-> [!NOTE]
-> Você pode também carregar os dados de um JSON salvo anteriormente clicando no botão de "Importar" no cabeçalho da página
+     > [!NOTE]
+     > Você pode também carregar os dados de um JSON salvo anteriormente clicando no botão de "Importar" no cabeçalho da página
 
 3. **Preencha as informações específicas de acordo com o tipo de documentação**:
 
