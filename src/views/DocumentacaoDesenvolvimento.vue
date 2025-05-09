@@ -46,15 +46,17 @@
 
     <div class="container">
       <div class="main-card">
-        <BasicFormSection
+        <basic-form-section
+          ref="basicFormSection"
           id="infoSS"
           :formData="formData"
           @update:numeroSS="formData.numeroSS = $event"
           @format-ss="formatSS"
         />
 
-        <AuthorSelector
+        <author-selector
           id="autores"
+          ref="authorSelector"
           :selectedAutores="selectedAutores"
           :autorInput="autorInput"
           :showSuggestions="showSuggestions"

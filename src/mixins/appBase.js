@@ -597,11 +597,39 @@ export default {
         refs.forEach((ref) => {
           const elemento = basicFormSection.$refs[ref];
           if (elemento) {
-            elemento.classList.remove("campo-erro");
+            // Verifica se é um elemento DOM ou um componente Vue
+            if (elemento instanceof HTMLElement) {
+              elemento.classList.remove("campo-erro");
+            } else if (elemento.$el) {
+              elemento.$el.classList.remove("campo-erro");
+            }
           }
         });
 
-        // Limpar o container de autores
+        // Limpar o container de autores no AuthorSelector
+        const authorSelector = this.$refs.authorSelector;
+        if (authorSelector) {
+          try {
+            // Tenta limpar diretamente no componente AuthorSelector
+            if (authorSelector.$el) {
+              const containers = authorSelector.$el.querySelectorAll(
+                ".autor-container, .author-input-area"
+              );
+              containers.forEach((container) => {
+                container.classList.remove("campo-erro");
+              });
+            }
+
+            // Se o AuthorSelector tiver um método para resetar erros, chama-o
+            if (typeof authorSelector.resetErrors === "function") {
+              authorSelector.resetErrors();
+            }
+          } catch (error) {
+            console.warn("Erro ao resetar erros no AuthorSelector:", error);
+          }
+        }
+
+        // Também chama o método resetAutorFieldError que já foi adaptado
         this.resetAutorFieldError();
       } catch (error) {
         console.warn("Erro ao resetar os campos:", error);
@@ -610,6 +638,27 @@ export default {
 
     resetAutorFieldError() {
       const basicFormSection = this.$refs.basicFormSection;
+      const authorSelector = this.$refs.authorSelector;
+
+      // Verifica se authorSelector existe e tenta resetar primeiro
+      if (authorSelector) {
+        try {
+          if (
+            authorSelector.$el &&
+            typeof authorSelector.$el.querySelector === "function"
+          ) {
+            const container = authorSelector.$el.querySelector(
+              ".autor-container, .author-input-area"
+            );
+            if (container) {
+              container.classList.remove("campo-erro");
+              return;
+            }
+          }
+        } catch (error) {
+          console.warn("Erro ao tentar resetar erro no AuthorSelector:", error);
+        }
+      }
 
       // Verifica se basicFormSection existe e tem a propriedade $el
       if (!basicFormSection) {
@@ -640,13 +689,20 @@ export default {
             return;
           }
 
-          // Tenta outros seletores
-          const alternativeSelector =
-            ".author-input-area, .form-group:nth-child(4) .form-input";
-          const alternativeContainer =
-            document.querySelector(alternativeSelector);
-          if (alternativeContainer) {
-            alternativeContainer.classList.remove("campo-erro");
+          // Tenta outros seletores, agora incluindo seletores relativos ao AuthorSelector
+          const selectors = [
+            ".author-input-area",
+            ".form-group:nth-child(4) .form-input",
+            ".author-selector .autor-container",
+            "[data-component='author-selector'] .autor-container",
+          ];
+
+          for (const selector of selectors) {
+            const alternativeContainer = document.querySelector(selector);
+            if (alternativeContainer) {
+              alternativeContainer.classList.remove("campo-erro");
+              return;
+            }
           }
         } catch (error) {
           console.warn(
@@ -666,14 +722,36 @@ export default {
           return;
         }
 
+        // Se não encontrou no basicFormSection, tenta acessar através do authorSelector
+        if (authorSelector && authorSelector.$el) {
+          const container = authorSelector.$el.querySelector(
+            ".autor-container, .author-input-area"
+          );
+          if (container) {
+            container.classList.remove("campo-erro");
+            return;
+          }
+        }
+
         // Tenta outros seletores
         const otherSelectors = [
           ".author-input-area",
           ".form-group:nth-child(4) .form-input",
+          ".author-selector .autor-container",
         ];
 
         for (const selector of otherSelectors) {
-          const container = basicFormSection.$el.querySelector(selector);
+          // Tenta no basicFormSection
+          if (basicFormSection.$el) {
+            const container = basicFormSection.$el.querySelector(selector);
+            if (container) {
+              container.classList.remove("campo-erro");
+              return;
+            }
+          }
+
+          // Tenta no documento inteiro
+          const container = document.querySelector(selector);
           if (container) {
             container.classList.remove("campo-erro");
             return;
@@ -701,99 +779,74 @@ export default {
       return true;
     },
 
-    aplicarErroTemporarioAutores(duracao = 3000) {
-      const basicFormSection = this.$refs.basicFormSection;
-      if (!basicFormSection) return false;
-
+    aplicarErroTemporarioAutores() {
       try {
-        // Verifica se podemos usar $el.querySelector
-        if (
-          basicFormSection.$el &&
-          typeof basicFormSection.$el.querySelector === "function"
-        ) {
-          // Tentativa direta usando querySelector com a nova classe
-          let inputContainer =
-            basicFormSection.$el.querySelector(".autor-container");
+        const basicFormSection = this.$refs.basicFormSection;
+        const authorSelector = this.$refs.authorSelector;
 
-          // Se não encontrar, tenta alternativas
-          if (!inputContainer) {
-            // Buscar pelo container de autor usando sua posição relativa
-            const formGroups =
-              basicFormSection.$el.querySelectorAll(".form-group");
-            // O campo de autor geralmente é o 4º form-group
-            const autorFormGroup = Array.from(formGroups).find(
-              (group) =>
-                group.querySelector("label") &&
-                group.querySelector("label").textContent.includes("Autor")
-            );
-
-            if (autorFormGroup) {
-              inputContainer =
-                autorFormGroup.querySelector(".form-input") ||
-                autorFormGroup.querySelector(".author-input-area");
-            }
-          }
-
-          if (inputContainer) {
-            // Aplicar a classe de erro
-            inputContainer.classList.add("campo-erro");
-
-            // Focar no campo
-            const autorInput =
-              basicFormSection.$refs && basicFormSection.$refs.autorInput;
-            if (autorInput) {
-              autorInput.focus();
-            }
-
-            // Remover a classe após o tempo definido
-            setTimeout(() => {
-              inputContainer.classList.remove("campo-erro");
-            }, duracao);
-
-            return true;
-          }
-        } else {
-          // Abordagem alternativa usando seletores globais
-          const containers = [
-            document.querySelector(".autor-container"),
-            document.querySelector(".author-input-area"),
-            document.querySelector(".form-group:nth-child(4) .form-input"),
-          ];
-
-          // Usa o primeiro container encontrado
-          const inputContainer = containers.find(
-            (container) => container !== null
+        // Tenta primeiro no AuthorSelector
+        if (authorSelector && authorSelector.$el) {
+          const container = authorSelector.$el.querySelector(
+            ".autor-container, .author-input-area"
           );
+          if (container) {
+            container.classList.add("campo-erro");
 
-          if (inputContainer) {
-            // Aplicar a classe de erro
-            inputContainer.classList.add("campo-erro");
-
-            // Tentar focar no campo de input
-            const autorInput = document.querySelector(".author-input-field");
-            if (autorInput) {
-              autorInput.focus();
-            }
-
-            // Remover a classe após o tempo definido
+            // Programar a remoção da classe após 3 segundos
             setTimeout(() => {
-              inputContainer.classList.remove("campo-erro");
-            }, duracao);
+              container.classList.remove("campo-erro");
+            }, 3000);
 
             return true;
           }
         }
 
-        // Exibe uma notificação se não encontrar o elemento
-        this.notificationService.show("Selecione pelo menos um autor", "error");
+        // Se não conseguiu pelo AuthorSelector, tenta pelo BasicFormSection
+        if (!basicFormSection) {
+          return false;
+        }
+
+        // Tenta encontrar o container no BasicFormSection
+        if (basicFormSection.$el) {
+          const container =
+            basicFormSection.$el.querySelector(".autor-container");
+          if (container) {
+            container.classList.add("campo-erro");
+
+            // Programar a remoção da classe após 3 segundos
+            setTimeout(() => {
+              container.classList.remove("campo-erro");
+            }, 3000);
+
+            return true;
+          }
+        }
+
+        // Última tentativa - procurar no DOM global
+        const selectors = [
+          ".autor-container",
+          ".author-input-area",
+          ".author-selector .autor-container",
+          "[data-component='author-selector'] .autor-container",
+        ];
+
+        for (const selector of selectors) {
+          const container = document.querySelector(selector);
+          if (container) {
+            container.classList.add("campo-erro");
+
+            // Programar a remoção da classe após 3 segundos
+            setTimeout(() => {
+              container.classList.remove("campo-erro");
+            }, 3000);
+
+            return true;
+          }
+        }
 
         return false;
       } catch (error) {
-        console.warn("Erro ao aplicar destaque ao campo de autores:", error);
-
-        // Garantir que a notificação seja exibida mesmo se houver erro
-        this.notificationService.show("Selecione pelo menos um autor", "error");
-
+        console.warn("Erro ao aplicar estilo de erro temporário:", error);
         return false;
       }
     },
@@ -803,6 +856,8 @@ export default {
       try {
         // Validação dos campos obrigatórios
         const basicFormSection = this.$refs.basicFormSection;
+        const authorSelector = this.$refs.authorSelector;
+
         if (!basicFormSection) {
           console.error("Componente BasicFormSection não encontrado");
           this.notificationService.show(
@@ -854,17 +909,64 @@ export default {
           return false;
         }
 
-        // Validação de autores
-        if (this.selectedAutores.length === 0) {
-          const result = this.aplicarErroTemporarioAutores();
-          if (!result) {
-            // Se aplicarErroTemporarioAutores não conseguiu destacar o campo,
-            // pelo menos exibe a notificação
-            this.notificationService.show(
-              "Selecione pelo menos um autor",
-              "error"
-            );
+        // Validação de autores - agora verificando tanto no componente pai quanto no filho
+        let temAutores = false;
+
+        // Verifica primeiro no AuthorSelector, se existir
+        if (authorSelector) {
+          // Tenta diferentes propriedades ou métodos que podem conter os autores
+          if (authorSelector.value && authorSelector.value.length > 0) {
+            temAutores = true;
+          } else if (
+            authorSelector.selectedAutores &&
+            authorSelector.selectedAutores.length > 0
+          ) {
+            temAutores = true;
+          } else if (typeof authorSelector.getSelectedAutores === "function") {
+            const autores = authorSelector.getSelectedAutores();
+            if (autores && autores.length > 0) {
+              temAutores = true;
+            }
           }
+        }
+
+        // Se não encontrou no AuthorSelector, verifica no componente pai
+        if (
+          !temAutores &&
+          this.selectedAutores &&
+          this.selectedAutores.length > 0
+        ) {
+          temAutores = true;
+        }
+
+        if (!temAutores) {
+          // Tenta aplicar o erro visual
+          let erroAplicado = false;
+
+          // Tenta primeiro com o método existente
+          if (typeof this.aplicarErroTemporarioAutores === "function") {
+            erroAplicado = this.aplicarErroTemporarioAutores();
+          }
+
+          // Se o método falhou, tenta diretamente no AuthorSelector
+          if (!erroAplicado && authorSelector) {
+            try {
+              const container = authorSelector.$el.querySelector(
+                ".autor-container, .author-input-area"
+              );
+              if (container) {
+                container.classList.add("campo-erro");
+                erroAplicado = true;
+              }
+            } catch (e) {
+              console.warn("Erro ao tentar aplicar estilo de erro:", e);
+            }
+          }
+
+          this.notificationService.show(
+            "Selecione pelo menos um autor",
+            "error"
+          );
           this.isLoading = false;
           return false;
         }

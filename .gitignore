@@ -23,6 +23,7 @@ Thumbs.db
 
 # Arquivos temporários
 static/assets/
+static/css/
 
 # Histórico
 .history/
