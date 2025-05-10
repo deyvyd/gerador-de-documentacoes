@@ -346,7 +346,7 @@ export default {
       // Calcula os pontos de função: (horas / 10) * (250 / 100)
       const pf = (this.totalHoras / 10) * (250 / 100);
       // Formata para sempre mostrar 2 casas decimais
-      return pf.toFixed(2);
+      return this.formatarNumeroPF(pf);
     },
 
     // Propriedades para conversão de data
@@ -628,6 +628,22 @@ export default {
           this.initSortable();
         });
       });
+    },
+
+    formatarNumeroPF(valor) {
+      // Converte para string removendo zeros à direita desnecessários
+      // Usamos toFixed com precisão alta e depois removemos zeros extra
+      const valorStr = parseFloat(valor).toFixed(2);
+      //.toFixed(10)
+      //.replace(/\.?0+$/, "");
+
+      // Se o número for inteiro (não contém ponto), retorna sem casas decimais
+      if (!valorStr.includes(".")) {
+        return valorStr;
+      }
+
+      // Substitui ponto por vírgula para o formato brasileiro
+      return valorStr.replace(".", ",");
     },
 
     // Método para campos de atividade

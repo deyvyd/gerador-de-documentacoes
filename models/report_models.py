@@ -36,7 +36,22 @@ class DocumentacaoTecnica:
             import logging
             logging.getLogger(__name__).error(f"Erro ao calcular pontos de função: {e}")
             return 0
-    
+
+    def _formatar_numero_pf(self, valor):
+        """
+        Formata um número decimal seguindo as regras específicas:
+        - Se for inteiro, exibe sem casas decimais
+        - Se tiver 1 casa decimal significativa, exibe com 1 casa decimal
+        - Se tiver 2 casas decimais significativas, exibe com 2 casas decimais
+        - Usa vírgula como separador decimal
+        """
+        # Converte para string removendo zeros à direita desnecessários
+        # valor_str = f"{valor:.10f}".rstrip('0').rstrip('.') if '.' in f"{valor:.10f}" else f"{valor:.0f}"
+        valor_str = f"{valor:.2f}"
+        
+        # Substitui ponto por vírgula para o formato brasileiro
+        return valor_str.replace('.', ',')
+
     def get_substituicoes(self):
         """Retorna o dicionário de substituições para o documento"""
         data_atual = datetime.now().strftime('%d/%m/%Y')
@@ -52,7 +67,7 @@ class DocumentacaoTecnica:
             '[DATA_FIM]': self.data_fim.strftime('%d/%m/%Y'),
             '[TOTAL_HORAS]': str(self.total_horas),
             '[DIAS_UTEIS]': str(self.dias_uteis),
-            '[N_PF]': str(self.n_pf),
+            '[N_PF]': self._formatar_numero_pf(self.n_pf),
             '[LINK_BOARD]': str(self.link_board)
         }
 

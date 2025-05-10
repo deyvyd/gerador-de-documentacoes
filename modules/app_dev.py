@@ -220,6 +220,20 @@ def gerar_documentos_dev():
                 self.iniciais_autor_criacao = iniciais_autor_criacao
                 self.iniciais_autor_modificacao = iniciais_autor_modificacao
                 
+            def _formatar_numero_pf(self, valor):
+                """
+                Formata um número decimal seguindo as regras específicas:
+                - Se for inteiro, exibe sem casas decimais
+                - Se tiver 1 casa decimal significativa, exibe com 1 casa decimal
+                - Se tiver 2 casas decimais significativas, exibe com 2 casas decimais
+                - Usa vírgula como separador decimal
+                """
+                # Converte para string removendo zeros à direita desnecessários
+                valor_str = f"{valor:.10f}".rstrip('0').rstrip('.') if '.' in f"{valor:.10f}" else f"{valor:.0f}"
+                
+                # Substitui ponto por vírgula para o formato brasileiro
+                return valor_str.replace('.', ',')
+
             def get_substituicoes(self):
                 """Retorna o dicionário de substituições para o documento"""
                 # Obtém as substituições básicas da classe pai
