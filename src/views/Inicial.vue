@@ -15,7 +15,14 @@
         ></theme-toggle>
       </template>
       <template #tour-button>
-        <TourGuide :steps="tourSteps" :show-button="true" ref="tourGuide" />
+        <TourGuide
+          :steps="tourSteps"
+          :show-button="true"
+          :auto-start="true"
+          tour-id="inicial-page"
+          ref="tourGuide"
+          @tour-completed="onTourCompleted"
+        />
       </template>
     </app-header>
 
@@ -303,6 +310,7 @@ export default {
           },
         },
       ],
+      tourCompleted: false,
     };
   },
   methods: {
@@ -322,13 +330,26 @@ export default {
         this.$router.push(route);
       }
     },
+
     handleSwapRequested(targetUrl) {
       this.navigateTo(targetUrl);
     },
+
     startTour() {
       if (this.$refs.tourGuide) {
         this.$refs.tourGuide.startTour();
       }
+    },
+
+    onTourCompleted() {
+      this.tourCompleted = true;
+      // Você pode adicionar aqui qualquer lógica adicional após o término do tour
+    },
+
+    resetAllTours() {
+      // Método para resetar todos os tours (útil para testes)
+      localStorage.clear();
+      this.$refs.tourGuide.resetTour();
     },
   },
 };

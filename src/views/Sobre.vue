@@ -3,11 +3,22 @@ blue
   <div class="background-container min-h-screen text-white">
     <!-- Header -->
     <app-header
+      id="appHeader"
       title="Sobre o Gerador de Documentações"
       @swap-requested="handleSwapRequested"
     >
       <template #actions>
         <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
+      </template>
+      <template #tour-button>
+        <TourGuide
+          :steps="tourSteps"
+          :show-button="true"
+          :auto-start="true"
+          tour-id="sobre-page"
+          ref="tourGuide"
+          @tour-completed="onTourCompleted"
+        />
       </template>
     </app-header>
 
@@ -1644,6 +1655,7 @@ blue
 import AppHeader from "../components/AppHeader.vue";
 import ThemeToggle from "../components/ThemeToggle.vue";
 import InfoButton from "../components/InfoButton.vue";
+import TourGuide from "../components/TourGuide.vue";
 import appBase from "../mixins/appBase";
 
 export default {
@@ -1653,6 +1665,7 @@ export default {
     AppHeader,
     ThemeToggle,
     InfoButton,
+    TourGuide,
   },
   data() {
     return {
@@ -1663,6 +1676,47 @@ export default {
         { nome: "Formatos de Exportação" },
       ],
       activeFaq: null,
+      tourCompleted: false,
+      /*tourSteps: [
+        {
+          element: "#appHeader",
+          popover: {
+            title: "Bem-vindo à página Sobre!",
+            description:
+              "Aqui você encontra informações sobre o gerador de documentações.",
+            side: "bottom",
+            align: "center",
+          },
+        },
+        {
+          element: ".info-card",
+          popover: {
+            title: "Contexto, Objetivo e Benefícios",
+            description: "Conheça mais sobre a ferramenta nesta seção.",
+            side: "left",
+            align: "center",
+          },
+        },
+        {
+          element: ".tabs-card",
+          popover: {
+            title: "Guia de Campos",
+            description:
+              "Confira todos os campos disponíveis em cada tipo de documentação.",
+            side: "right",
+            align: "center",
+          },
+        },
+        {
+          element: ".info-system-card",
+          popover: {
+            title: "Informações do Sistema",
+            description: "Veja detalhes técnicos e informações sobre suporte.",
+            side: "top",
+            align: "center",
+          },
+        },
+      ],*/
     };
   },
   methods: {
@@ -1691,6 +1745,15 @@ export default {
       } else {
         this.activeFaq = index;
       }
+    },
+    startTour() {
+      if (this.$refs.tourGuide) {
+        this.$refs.tourGuide.startTour();
+      }
+    },
+
+    onTourCompleted() {
+      this.tourCompleted = true;
     },
   },
 };

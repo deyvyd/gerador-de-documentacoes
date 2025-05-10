@@ -40,7 +40,14 @@
         ></info-button>
       </template>
       <template #tour-button>
-        <TourGuide :steps="tourSteps" :show-button="true" ref="tourGuide" />
+        <TourGuide
+          :steps="tourSteps"
+          :show-button="true"
+          :auto-start="true"
+          tour-id="dev-page"
+          ref="tourGuide"
+          @tour-completed="onTourCompleted"
+        />
       </template>
     </app-header>
 
@@ -511,6 +518,7 @@ export default {
           },
         },
       ],
+      tourCompleted: false,
     };
   },
   computed: {
@@ -564,6 +572,11 @@ export default {
         this.$refs.tourGuide.startTour();
       }
     },
+
+    onTourCompleted() {
+      this.tourCompleted = true;
+    },
+
     initQuill() {
       // Verificar se o elemento existe no DOM antes de inicializar
       const element = document.getElementById(this.containerId);

@@ -38,7 +38,14 @@
         />
       </template>
       <template #tour-button>
-        <TourGuide :steps="tourSteps" :show-button="true" ref="tourGuide" />
+        <TourGuide
+          :steps="tourSteps"
+          :show-button="true"
+          :auto-start="true"
+          tour-id="tec-page"
+          ref="tourGuide"
+          @tour-completed="onTourCompleted"
+        />
       </template>
     </app-header>
 
@@ -331,6 +338,7 @@ export default {
           },
         },
       ],
+      tourCompleted: false,
     };
   },
   computed: {
@@ -489,6 +497,10 @@ export default {
           resolve();
         }
       });
+    },
+
+    onTourCompleted() {
+      this.tourCompleted = true;
     },
 
     reordenarAtividades({ oldIndex, newIndex }) {

@@ -47,23 +47,50 @@ export default {
       type: Boolean,
       default: false,
     },
+    tourId: {
+      type: String,
+      required: true, // Identificador único para cada tour
+    },
   },
   data() {
     return {
       driverObj: null,
+      tourActive: false,
     };
   },
   mounted() {
     this.initDriver();
 
     if (this.autoStart) {
-      setTimeout(() => {
-        this.startTour();
-      }, 1000);
+      const tourCompleted = localStorage.getItem(
+        `tour_${this.tourId}_completed`
+      );
+      if (!tourCompleted) {
+        // Se o tour ainda não foi completado para esta tela, inicia automaticamente
+        setTimeout(() => {
+          this.startTour();
+        }, 1000);
+      }
     }
+
+    // Adicionar um evento global para detectar quando o tour é fechado
+    document.addEventListener("keydown", this.handleKeyDown);
 
     // Expor a função startTour globalmente
     window.startDocumentacaoTecnicaTour = this.startTour;
+  },
+  beforeUnmount() {
+    // Remover os event listeners
+    document.removeEventListener("keydown", this.handleKeyDown);
+
+    // Se o tour estiver ativo, marcá-lo como completo
+    if (this.tourActive && this.driverObj) {
+      this.tourActive = false;
+      localStorage.setItem(`tour_${this.tourId}_completed`, "true");
+    }
+
+    // Limpar a referência global
+    window.startDocumentacaoTecnicaTour = null;
   },
   unmounted() {
     // Limpar a referência global quando o componente for desmontado
@@ -72,7 +99,6 @@ export default {
   methods: {
     initDriver() {
       try {
-        // Configuração básica
         const config = {
           animate: true,
           showProgress: true,
@@ -87,6 +113,15 @@ export default {
 
         // Criar instância do driver
         this.driverObj = driver(config);
+
+        // Diagnóstico: Listar todos os métodos disponíveis
+        console.log("Driver.js instance:", this.driverObj);
+        console.log(
+          "Available methods:",
+          Object.keys(this.driverObj)
+            .filter((key) => typeof this.driverObj[key] === "function")
+            .join(", ")
+        );
       } catch (error) {
         console.error("Erro ao inicializar o Driver.js:", error);
       }
@@ -95,19 +130,96 @@ export default {
       if (this.driverObj) {
         try {
           // Verificar se os elementos existem
+          let allElementsExist = true;
           this.steps.forEach((step, index) => {
             if (step.element) {
               const el = document.querySelector(step.element);
+              if (!el) {
+                console.warn(
+                  `Elemento ${step.element} não encontrado para o passo ${index}`
+                );
+                allElementsExist = false;
+              }
             }
           });
 
+          if (!allElementsExist) {
+            console.warn(
+              "Alguns elementos do tour não foram encontrados no DOM"
+            );
+          }
+
+          // Marcar que o tour está ativo
+          this.tourActive = true;
+
+          // Iniciar o tour
           this.driverObj.drive();
           this.$emit("tour-start");
+
+          // Configurar um observador para verificar periodicamente se o tour ainda está ativo
+          this.checkTourActiveInterval = setInterval(() => {
+            if (
+              this.driverObj &&
+              typeof this.driverObj.isActive === "function"
+            ) {
+              const isActive = this.driverObj.isActive();
+              if (this.tourActive && !isActive) {
+                // O tour estava ativo, mas agora não está - foi fechado
+                this.tourActive = false;
+                clearInterval(this.checkTourActiveInterval);
+                localStorage.setItem(`tour_${this.tourId}_completed`, "true");
+                this.$emit("tour-completed");
+                console.log("Tour completed or closed");
+              }
+            }
+          }, 500); // Verificar a cada 500ms
         } catch (error) {
           console.error("Erro ao iniciar o tour:", error);
+          this.tourActive = false;
+          // Se houver erro, marca como completado para evitar loops
+          localStorage.setItem(`tour_${this.tourId}_completed`, "true");
         }
       } else {
         console.warn("O driver não está inicializado!");
+      }
+    },
+
+    // Adicione estes novos métodos:
+    handleKeyDown(event) {
+      // Verificar se a tecla ESC foi pressionada
+      if (event.key === "Escape" && this.tourActive) {
+        this.handleTourClose();
+      }
+    },
+
+    handleTourClose() {
+      if (this.tourActive) {
+        this.tourActive = false;
+        clearInterval(this.checkTourActiveInterval);
+        localStorage.setItem(`tour_${this.tourId}_completed`, "true");
+        this.$emit("tour-completed");
+        console.log("Tour closed manually");
+
+        // Se o tour ainda estiver tecnicamente ativo, destrua-o
+        if (
+          this.driverObj &&
+          typeof this.driverObj.isActive === "function" &&
+          this.driverObj.isActive()
+        ) {
+          this.driverObj.destroy();
+        }
+      }
+    },
+
+    resetTour() {
+      // Método para resetar o tour desta tela
+      localStorage.removeItem(`tour_${this.tourId}_completed`);
+    },
+
+    // Adicione este método em beforeDestroy ou beforeUnmount:
+    beforeDestroy() {
+      if (this.checkTourActiveInterval) {
+        clearInterval(this.checkTourActiveInterval);
       }
     },
   },
