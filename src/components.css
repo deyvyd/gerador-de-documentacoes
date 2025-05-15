@@ -855,23 +855,23 @@
   }
 
   .driver-popover {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-lg;
+    @apply bg-indigo-900 rounded-lg shadow-lg;
   }
 
   .driver-popover-title {
-    @apply text-gray-800 dark:text-white text-lg font-medium mb-2;
+    @apply text-white text-lg font-medium mb-2;
   }
 
   .driver-popover-description {
-    @apply text-gray-600 dark:text-gray-300 text-base mb-4;
+    @apply text-indigo-50 text-base mb-4;
   }
 
   .driver-popover-footer {
-    @apply border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-between;
+    @apply border-t border-indigo-500 pt-3 flex justify-between;
   }
 
   .driver-popover-progress-text {
-    @apply text-gray-500 dark:text-gray-400 text-sm;
+    @apply text-indigo-100 text-sm;
   }
 
   /* Ajustes para telas pequenas */
