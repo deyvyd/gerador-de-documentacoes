@@ -129,6 +129,9 @@ A aplicação automatiza o preenchimento dos documentos, substituindo marcadores
 
 A maneira mais simples de executar a aplicação é usando Docker, que encapsula todas as dependências:
 
+> [!IMPORTANT]  
+> Antes de mais nada é importante ter o [Docker Desktop](https://docs.docker.com/desktop/setup/install/) instalado e colocá-lo em execução no sistema
+
 1. **Clone o repositório**:
 
    ```bash
@@ -186,6 +189,8 @@ Para desenvolvimento ou contribuição ao projeto:
    ```
 
 3. **Instale o Concurrently**:
+> [!IMPORTANT]  
+> Antes de mais nada é importante ter o [Node.js](https://nodejs.org/pt/download/current/) e o [LibreOffice](https://pt-br.libreoffice.org/baixe-ja/libreoffice-novo/) instalados
    ```bash
    # Para rodar os servidores de front e back com apenas um comando
    npm install concurrently
