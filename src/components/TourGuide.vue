@@ -278,6 +278,15 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* --- Cor do botão fechar --- */
+.driverjs-theme .driver-popover-close-btn {
+  color: #a2a9b4;
+}
+
+.driverjs-theme .driver-popover-close-btn:hover {
+  color: #d89191;
+}
+
 /* Estilo específico para os botões próximo/anterior */
 .driver-popover-footer
   .driver-popover-navigation-btns
@@ -285,7 +294,7 @@ export default {
 .driver-popover-footer
   .driver-popover-navigation-btns
   button.driver-popover-next-btn {
-  background-color: oklch(67.3% 0.182 276.935);
+  background-color: #4a74c7;
   color: white;
   border: none;
   font-weight: 500;
@@ -297,58 +306,25 @@ export default {
 .driver-popover-footer
   .driver-popover-navigation-btns
   button.driver-popover-next-btn:hover {
-  background-color: oklch(51.1% 0.262 276.966);
+  background-color: #345ba7;
   transform: translateY(-1px);
-}
-
-/* --- Cor do botão fechar --- */
-.driverjs-theme .driver-popover-close-btn {
-  color: #4d525a;
-}
-
-.driverjs-theme .driver-popover-close-btn:hover {
-  color: #ee5454;
-}
-
-.dark .driverjs-theme .driver-popover-close-btn {
-  color: #a2a9b4;
-}
-
-.dark .driverjs-theme .driver-popover-close-btn:hover {
-  color: #d89191;
 }
 
 /* --- Cor da seta --- */
 
 .driverjs-theme .driver-popover-arrow-side-left.driver-popover-arrow {
-  border-left-color: oklch(35.9% 0.144 278.697);
+  border-left-color: #1e3a87;
 }
 
 .driverjs-theme .driver-popover-arrow-side-right.driver-popover-arrow {
-  border-right-color: oklch(35.9% 0.144 278.697);
+  border-right-color: #1e3a87;
 }
 
 .driverjs-theme .driver-popover-arrow-side-top.driver-popover-arrow {
-  border-top-color: oklch(35.9% 0.144 278.697);
+  border-top-color: #1e3a87;
 }
 
 .driverjs-theme .driver-popover-arrow-side-bottom.driver-popover-arrow {
-  border-bottom-color: oklch(35.9% 0.144 278.697);
-}
-
-.dark .driverjs-theme .driver-popover-arrow-side-left.driver-popover-arrow {
-  border-left-color: oklch(35.9% 0.144 278.697);
-}
-
-.dark .driverjs-theme .driver-popover-arrow-side-right.driver-popover-arrow {
-  border-right-color: oklch(35.9% 0.144 278.697);
-}
-
-.dark .driverjs-theme .driver-popover-arrow-side-top.driver-popover-arrow {
-  border-top-color: oklch(35.9% 0.144 278.697);
-}
-
-.dark .driverjs-theme .driver-popover-arrow-side-bottom.driver-popover-arrow {
-  border-bottom-color: oklch(35.9% 0.144 278.697);
+  border-bottom-color: #1e3a87;
 }
 </style>

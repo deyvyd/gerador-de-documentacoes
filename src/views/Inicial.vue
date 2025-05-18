@@ -206,7 +206,7 @@
         >
           <div class="flex items-center mb-4">
             <div
-              class="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mr-4"
+              class="w-12 h-12 bg-sky-600 text-white rounded-full flex items-center justify-center mr-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -229,7 +229,7 @@
             Saiba mais sobre o funcionamento do sistema, tutoriais e como
             utilizá-lo para maximizar sua produtividade.
           </p>
-          <button class="btn bg-blue-600 hover:bg-blue-700 text-white w-full">
+          <button class="btn bg-sky-600 hover:bg-sky-700 text-white w-full">
             Acessar Documentação
           </button>
         </div>

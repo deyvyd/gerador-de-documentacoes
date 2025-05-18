@@ -15,7 +15,7 @@
 
   /* ! tailwindcss */
   .main-card {
-    @apply bg-white dark:bg-blue-800 rounded-lg shadow px-3 pt-0.5 w-full max-w-[1050px] mx-auto mb-3;
+    @apply bg-gray-50 dark:bg-blue-800 rounded-lg shadow px-3 pt-0.5 w-full max-w-[1050px] mx-auto mb-3;
   }
 
   .base-section {
@@ -232,9 +232,9 @@
   /* Complementar os estilos de ===== Toggle de tema ===== */
   .theme-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-1 top-12 w-48;
+    @apply -right-1 top-12 w-32;
     @apply rounded-lg p-4 shadow-lg;
-    @apply z-50 text-left;
+    @apply z-50 flex items-center justify-center text-center;
     @apply transition-all duration-300;
   }
 
@@ -244,6 +244,7 @@
 
   .theme-tooltip .tooltip-arrow {
     @apply absolute -top-2 right-4 h-4 w-4 transform rotate-45;
+    @apply transition-all duration-300;
   }
 
   /* Variante para o tema claro */
@@ -257,11 +258,11 @@
 
   /* Variante para o tema escuro */
   .theme-tooltip-dark {
-    @apply bg-gray-800 text-gray-100;
+    @apply bg-blue-800 text-gray-100;
   }
 
   .theme-tooltip-dark .tooltip-arrow {
-    @apply bg-gray-800;
+    @apply bg-blue-800;
   }
 
   /* Estilo para o titulo do tooltip */
@@ -291,7 +292,7 @@
     @apply relative p-2 rounded-lg cursor-pointer transition-all duration-200;
     @apply text-white bg-transparent;
     @apply flex items-center justify-center;
-    @apply hover:text-blue-500;
+    @apply hover:text-sky-400;
   }
   .info-icon {
     @apply h-6 w-6;
@@ -304,16 +305,16 @@
 
   .info-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-1 top-12 w-64;
-    @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
-    @apply dark:bg-blue-700 dark:text-white;
-    @apply z-50 text-left;
+    @apply -right-1 top-12 w-44;
+    @apply bg-sky-200 text-sky-900 rounded-lg p-4 shadow-lg;
+    @apply dark:bg-sky-600 dark:text-white;
+    @apply z-50 flex items-center justify-center text-center;
     @apply transition-all duration-300;
   }
 
   .info-tooltip .tooltip-arrow {
     @apply absolute top-0 -mt-2 w-4 h-4 transform rotate-45;
-    @apply bg-blue-200 dark:bg-blue-700;
+    @apply bg-sky-200 dark:bg-sky-600;
   }
 
   .app-header .tooltip-content {
@@ -352,10 +353,10 @@
 
   .upload-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-4 top-12 w-60;
+    @apply -right-4 top-12 w-40;
     @apply bg-purple-100 text-purple-800 rounded-lg p-4 shadow-lg;
     @apply dark:bg-purple-900 dark:text-purple-100;
-    @apply z-50 text-left;
+    @apply z-50 flex items-center justify-center text-center;
     @apply transition-all duration-300;
   }
 
@@ -367,17 +368,17 @@
   /* ===== Tour Button ===== */
 
   .tour-btn {
-    @apply bg-transparent text-white px-3 py-2 hover:text-indigo-300 transition-colors duration-200;
+    @apply bg-transparent text-white px-3 py-2 hover:text-blue-500 transition-colors duration-200;
     @apply flex items-center gap-1;
     @apply relative;
   }
 
   .tour-tooltip {
     @apply absolute invisible opacity-0;
-    @apply -right-4 top-12 w-48;
-    @apply bg-indigo-200 text-indigo-800 rounded-lg p-4 shadow-lg;
-    @apply dark:bg-indigo-900 dark:text-indigo-100;
-    @apply z-50 text-left;
+    @apply -right-4 top-12 w-32;
+    @apply bg-blue-200 text-blue-800 rounded-lg p-4 shadow-lg;
+    @apply dark:bg-blue-700 dark:text-blue-100;
+    @apply z-50 flex items-center justify-center text-center;
     @apply transition-all duration-300;
   }
 
@@ -387,11 +388,31 @@
 
   .tour-tooltip .tooltip-arrow {
     @apply absolute top-0 right-7 -mt-2 w-4 h-4 transform rotate-45;
-    @apply bg-indigo-200 dark:bg-indigo-900;
+    @apply bg-blue-200 dark:bg-blue-700;
   }
 
   .tour-tooltip .tooltip-title {
     @apply font-medium;
+  }
+
+  .driver-popover {
+    @apply bg-blue-750 rounded-lg shadow-lg;
+  }
+
+  .driver-popover-title {
+    @apply text-white text-lg font-medium mb-2;
+  }
+
+  .driver-popover-description {
+    @apply text-blue-50 text-base mb-4;
+  }
+
+  .driver-popover-footer {
+    @apply border-t border-blue-200/40 pt-3 flex justify-between;
+  }
+
+  .driver-popover-progress-text {
+    @apply text-blue-100 text-sm;
   }
 
   /* ===== Input de sugestões de Autores ===== */
@@ -491,8 +512,8 @@
   .base-table tbody tr {
     @apply bg-gray-50;
     @apply dark:bg-blue-800;
-    @apply hover:bg-blue-50/30;
-    @apply dark:hover:bg-gray-700;
+    @apply hover:bg-sky-100/30;
+    @apply dark:hover:bg-sky-800/30;
   }
 
   .base-table tfoot {
@@ -588,11 +609,11 @@
   }
 
   .modal-requisito-light {
-    @apply bg-white text-gray-800;
+    @apply bg-white text-blue-800;
   }
 
   .modal-requisito-dark {
-    @apply bg-gray-800 text-white;
+    @apply bg-blue-800 text-white;
   }
 
   .modal-requisito-header {
@@ -852,26 +873,6 @@
   /* Contêiner para a tabela com estilo diferenciado */
   .table-section {
     @apply mt-4 mb-2;
-  }
-
-  .driver-popover {
-    @apply bg-indigo-900 rounded-lg shadow-lg;
-  }
-
-  .driver-popover-title {
-    @apply text-white text-lg font-medium mb-2;
-  }
-
-  .driver-popover-description {
-    @apply text-indigo-50 text-base mb-4;
-  }
-
-  .driver-popover-footer {
-    @apply border-t border-indigo-500 pt-3 flex justify-between;
-  }
-
-  .driver-popover-progress-text {
-    @apply text-indigo-100 text-sm;
   }
 
   /* Ajustes para telas pequenas */

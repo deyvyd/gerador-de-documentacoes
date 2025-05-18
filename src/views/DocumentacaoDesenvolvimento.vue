@@ -34,10 +34,7 @@
           ref="uploadButton"
         ></upload-button>
         <theme-toggle :is-dark="isDark" @toggle="toggleTheme"></theme-toggle>
-        <info-button
-          tooltip-title="Sobre a Aplicação"
-          :tooltip-items="['Documentação sobre a aplicação']"
-        ></info-button>
+        <info-button tooltip-title="Sobre a Aplicação"></info-button>
       </template>
       <template #tour-button>
         <TourGuide
@@ -79,7 +76,7 @@
         />
 
         <!-- Seção de Requisitos com abas -->
-        <div class="base-section mb-4">
+        <div id="gerenciar_requisitos" class="base-section mb-4">
           <!-- Cabeçalho da seção -->
           <h2 class="base-title mb-4">Gerenciar Requisitos</h2>
 
@@ -472,10 +469,11 @@ export default {
           },
         },
         {
-          element: "#RFForm",
+          element: "#gerenciar_requisitos",
           popover: {
-            title: "Adicionar Requisitos Funcionais",
-            description: "Cadastre aqui os requisitos funcionais da SS.",
+            title: "Gerenciar Requisitos",
+            description:
+              "Cadastre aqui os requisitos funcionais e não funcionais da SS.",
             side: "left",
             align: "center",
           },

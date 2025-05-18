@@ -32,10 +32,7 @@
           ref="uploadButton"
         />
         <theme-toggle :is-dark="isDark" @toggle="toggleTheme" />
-        <info-button
-          tooltip-title="Sobre a Aplicação"
-          :tooltip-items="['Documentação sobre a aplicação']"
-        />
+        <info-button tooltip-title="Sobre a Aplicação" />
       </template>
       <template #tour-button>
         <TourGuide
