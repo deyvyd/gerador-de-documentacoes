@@ -84,7 +84,7 @@ def gerar_documentos_dev():
                             'linkBoard': dados['linkBoard'],
                             'iniciaisAutorCriacao': iniciais_autor_criacao,
                             'iniciaisAutorModificacao': dados['iniciaisAutor'],
-                            'dataCriacao': dados.get('dataCriacao', ''),
+                            'dataCriacao': dados.get('dataCriacao', data_atual),
                             'dataModificacao': data_atual,
                         },
                         'requisitos': requisitos,
@@ -153,7 +153,7 @@ def gerar_documentos_dev():
                         'linkBoard': dados['linkBoard'],
                         'iniciaisAutorCriacao': iniciais_autor_criacao,
                         'iniciaisAutorModificacao': dados['iniciaisAutor'],
-                        'dataCriacao': dados.get('dataCriacao', ''),
+                        'dataCriacao': dados.get('dataCriacao', data_atual),
                         'dataMoficacao': data_atual,
                     },
                     'requisitos': requisitos,
@@ -246,12 +246,12 @@ def gerar_documentos_dev():
                 # Usados quando pontos de função é zero ou quando foram carregados do JSON
                 if hasattr(self, 'data_criacao') and self.data_criacao:
                     substituicoes['[DATA_CRIACAO]'] = self.data_criacao
-                elif self.total_pontos_funcao == 0:
+                else:
                     substituicoes['[DATA_CRIACAO]'] = data_atual
                         
                 if hasattr(self, 'iniciais_autor_criacao') and self.iniciais_autor_criacao:
                     substituicoes['[INICIAIS_AUTOR_CRIACAO]'] = self.iniciais_autor_criacao
-                elif self.total_pontos_funcao == 0:
+                else:
                     substituicoes['[INICIAIS_AUTOR_CRIACAO]'] = substituicoes['[INICIAIS_AUTOR]']
                         
                 # Lógica para DATA_MODIFICACAO e INICIAIS_AUTOR_MODIFICACAO

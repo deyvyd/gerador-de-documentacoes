@@ -121,7 +121,7 @@
                     @click="submitAtividade"
                     id="botaoAtividade"
                     ref="activityButton"
-                    class="btn btn-primary w-full"
+                    class="btn w-full"
                     :class="
                       editingIndex !== null ? 'btn-update' : 'btn-primary'
                     "
