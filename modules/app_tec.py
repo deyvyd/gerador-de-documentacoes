@@ -56,6 +56,11 @@ def gerar_documentos_tec():
 
         if apenas_json:
             try:
+                from datetime import datetime
+                # Converter para o formato brasileiro antes de salvar no JSON
+                data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+
                 # Criamos um dicionário com os dados disponíveis
                 dados_json = {
                     'tipo': tipo_formulario,  # Adiciona o tipo
@@ -64,8 +69,8 @@ def gerar_documentos_tec():
                         'anoSS': dados.get('anoSS', ''), 
                         'tituloSS': dados.get('tituloSS', ''),
                         'descricao': dados.get('descricao', ''),
-                        'dataInicio': dados.get('dataInicio', ''),
-                        'dataFim': dados.get('dataFim', ''),
+                        'dataInicio': data_inicio_formatada,
+                        'dataFim': data_fim_formatada,
                         'linkBoard': dados.get('linkBoard', ''),
                         'iniciaisAutor': dados.get('iniciaisAutor', ''),
                         'totalHoras': total_horas
@@ -95,6 +100,11 @@ def gerar_documentos_tec():
 
         json_path = None
         try:
+            from datetime import datetime
+            # Converter para o formato brasileiro antes de salvar no JSON
+            data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+            data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+
             # Criamos um dicionário com todos os dados
             dados_json = {
                 'tipo': tipo_formulario,  # Adiciona o tipo
@@ -103,8 +113,8 @@ def gerar_documentos_tec():
                     'anoSS': dados['anoSS'], 
                     'tituloSS': dados['tituloSS'],
                     'descricao': dados['descricao'],
-                    'dataInicio': dados['dataInicio'],
-                    'dataFim': dados['dataFim'],
+                    'dataInicio': data_inicio_formatada,
+                    'dataFim': data_fim_formatada,
                     'totalHoras': dados.get('totalHoras', 0),
                     'linkBoard': dados['linkBoard'],
                     'iniciaisAutor': dados['iniciaisAutor']

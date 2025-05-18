@@ -9,8 +9,32 @@ class DocumentacaoTecnica:
         self.iniciais_autor = iniciais_autor
         self.titulo_ss = titulo_ss
         self.descricao = descricao
-        self.data_inicio = datetime.strptime(data_inicio, '%Y-%m-%d').date()
-        self.data_fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
+
+        # Modifica o processamento da data com tratamento de erros
+        try:
+            if isinstance(data_inicio, str):
+                if '/' in data_inicio:  # Formato DD/MM/YYYY
+                    self.data_inicio = datetime.strptime(data_inicio, '%d/%m/%Y').date()
+                else:  # Formato YYYY-MM-DD (ISO)
+                    self.data_inicio = datetime.strptime(data_inicio, '%Y-%m-%d').date()
+            else:
+                self.data_inicio = data_inicio
+
+            if isinstance(data_fim, str):
+                if '/' in data_fim:  # Formato DD/MM/YYYY
+                    self.data_fim = datetime.strptime(data_fim, '%d/%m/%Y').date()
+                else:  # Formato YYYY-MM-DD (ISO)
+                    self.data_fim = datetime.strptime(data_fim, '%Y-%m-%d').date()
+            else:
+                self.data_fim = data_fim
+        except ValueError as e:
+            # Logging do erro
+            import logging
+            logging.error(f"Erro ao processar datas: {e}")
+            # Valores padrão ou fallback
+            self.data_inicio = datetime.now().date() if isinstance(data_inicio, str) else data_inicio
+            self.data_fim = datetime.now().date() if isinstance(data_fim, str) else data_fim
+        
         self.total_horas = int(total_horas)
         self.link_board = link_board 
         self.atividades = atividades or []

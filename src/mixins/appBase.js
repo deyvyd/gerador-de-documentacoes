@@ -299,8 +299,8 @@ export default {
             anoSS: "anoSS",
             tituloSS: "tituloSS",
             descricao: "descricao",
-            dataInicio: "dataInicio",
-            dataFim: "dataFim",
+            //dataInicio: "dataInicio",
+            //dataFim: "dataFim",
             totalHoras: "totalHoras",
             linkBoard: "linkBoard",
             iniciaisAutor: "iniciaisAutor",
@@ -310,6 +310,29 @@ export default {
           for (const [jsonField, formField] of Object.entries(fieldsMapping)) {
             if (data.info[jsonField] !== undefined) {
               this.formData[formField] = data.info[jsonField];
+            }
+          }
+
+          // Processamento especial para datas (converter de DD/MM/YYYY para YYYY-MM-DD)
+          if (data.info.dataInicio) {
+            if (data.info.dataInicio.includes("/")) {
+              // Formato brasileiro DD/MM/YYYY
+              const parts = data.info.dataInicio.split("/");
+              this.formData.dataInicio = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            } else {
+              // Já está no formato ISO YYYY-MM-DD
+              this.formData.dataInicio = data.info.dataInicio;
+            }
+          }
+
+          if (data.info.dataFim) {
+            if (data.info.dataFim.includes("/")) {
+              // Formato brasileiro DD/MM/YYYY
+              const parts = data.info.dataFim.split("/");
+              this.formData.dataFim = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            } else {
+              // Já está no formato ISO YYYY-MM-DD
+              this.formData.dataFim = data.info.dataFim;
             }
           }
 

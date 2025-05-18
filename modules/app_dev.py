@@ -72,6 +72,10 @@ def gerar_documentos_dev():
                     data_atual = datetime.now().strftime('%d/%m/%Y')
                     # Garantir que temos iniciaisAutorCriacao
                     iniciais_autor_criacao = dados.get('iniciaisAutorCriacao') or dados.get('iniciaisAutor')
+                    # Converter para o formato brasileiro antes de salvar no JSON
+                    data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+
                     dados_json = {
                         'tipo': tipo_formulario,
                         'info': {
@@ -79,8 +83,8 @@ def gerar_documentos_dev():
                             'anoSS': dados['anoSS'], 
                             'tituloSS': dados['tituloSS'],
                             'descricao': dados['descricao'],
-                            'dataInicio': dados['dataInicio'],
-                            'dataFim': dados['dataFim'],
+                            'dataInicio': data_inicio_formatada,
+                            'dataFim': data_fim_formatada,
                             'linkBoard': dados['linkBoard'],
                             'iniciaisAutorCriacao': iniciais_autor_criacao,
                             'iniciaisAutorModificacao': dados['iniciaisAutor'],
@@ -94,6 +98,9 @@ def gerar_documentos_dev():
                 else:
                     from datetime import datetime
                     data_atual = datetime.now().strftime('%d/%m/%Y')
+                    # Converter para o formato brasileiro antes de salvar no JSON
+                    data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
                     dados_json = {
                         'tipo': tipo_formulario,
                         'info': {
@@ -101,8 +108,8 @@ def gerar_documentos_dev():
                             'anoSS': dados['anoSS'], 
                             'tituloSS': dados['tituloSS'],
                             'descricao': dados['descricao'],
-                            'dataInicio': dados['dataInicio'],
-                            'dataFim': dados['dataFim'],
+                            'dataInicio': data_inicio_formatada,
+                            'dataFim': data_fim_formatada,
                             'linkBoard': dados['linkBoard'],
                             'iniciaisAutorCriacao': dados['iniciaisAutor'],
                             'dataCriacao': data_atual,
@@ -141,6 +148,10 @@ def gerar_documentos_dev():
                 from datetime import datetime
                 data_atual = datetime.now().strftime('%d/%m/%Y')
                 iniciais_autor_criacao = dados.get('iniciaisAutorCriacao') or dados.get('iniciaisAutor')
+                # Converter para o formato brasileiro antes de salvar no JSON
+                data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+
                 dados_json = {
                     'tipo': tipo_formulario,
                     'info': {
@@ -148,8 +159,8 @@ def gerar_documentos_dev():
                         'anoSS': dados['anoSS'], 
                         'tituloSS': dados['tituloSS'],
                         'descricao': dados['descricao'],
-                        'dataInicio': dados['dataInicio'],
-                        'dataFim': dados['dataFim'],
+                        'dataInicio': data_inicio_formatada,
+                        'dataFim': data_fim_formatada,
                         'linkBoard': dados['linkBoard'],
                         'iniciaisAutorCriacao': iniciais_autor_criacao,
                         'iniciaisAutorModificacao': dados['iniciaisAutor'],
@@ -162,6 +173,9 @@ def gerar_documentos_dev():
                 }
             else:
                 from datetime import datetime
+                # Converter para o formato brasileiro antes de salvar no JSON
+                data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
                 dados_json = {
                     'tipo': tipo_formulario,
                     'info': {
@@ -169,8 +183,8 @@ def gerar_documentos_dev():
                         'anoSS': dados['anoSS'], 
                         'tituloSS': dados['tituloSS'],
                         'descricao': dados['descricao'],
-                        'dataInicio': dados['dataInicio'],
-                        'dataFim': dados['dataFim'],
+                        'dataInicio': data_inicio_formatada,
+                        'dataFim': data_fim_formatada,
                         'linkBoard': dados['linkBoard'],
                         'iniciaisAutorCriacao': dados['iniciaisAutor'],
                         'dataCriacao': datetime.now().strftime('%d/%m/%Y'),
@@ -275,6 +289,10 @@ def gerar_documentos_dev():
                 
                 return substituicoes
                 
+        # Converter para o formato brasileiro antes de salvar no JSON
+        data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+        data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+
         # Cria a instância de documentação de desenvolvimento
         documentacao = DocumentacaoDesenvolvimento(
             numero_ss=dados['numeroSS'],
@@ -282,8 +300,8 @@ def gerar_documentos_dev():
             iniciais_autor=dados['iniciaisAutor'],
             titulo_ss=dados['tituloSS'],
             descricao=dados['descricao'],
-            data_inicio=dados['dataInicio'],
-            data_fim=dados['dataFim'],
+            data_inicio=data_inicio_formatada,
+            data_fim=data_fim_formatada,
             link_board=dados['linkBoard'],
             requisitos=requisitos,
             requisitos_nao_funcionais=requisitos_nao_funcionais,
