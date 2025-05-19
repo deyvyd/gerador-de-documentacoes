@@ -1190,78 +1190,303 @@ blue
         </div>
 
         <div class="space-y-4">
-          <!-- Pergunta 1: Como importar um arquivo JSON -->
+          <!-- Pergunta 1: Sobre a funcionalidade do Tour -->
           <FaqItem
-            question="Como importar um arquivo JSON salvo anteriormente?"
+            question="Como funciona o tour guiado na aplicação?"
             :isDark="isDark"
-            infoBoxType="warning"
+            infoBoxType="tip"
           >
-            <p>Para importar um arquivo JSON salvo anteriormente:</p>
-            <ol class="list-decimal pl-5 mt-2 space-y-1">
+            <p>
+              O tour guiado é uma funcionalidade que ajuda novos usuários a
+              conhecerem as principais áreas e funcionalidades de cada tela do
+              sistema:
+            </p>
+
+            <ul class="list-disc pl-5 mt-2 space-y-1">
               <li>
-                Clique no ícone de upload
+                Ao acessar cada tela pela primeira vez, o tour inicia
+                automaticamente
+              </li>
+              <li>
+                O sistema salva no navegador quais tours você já visualizou
+              </li>
+              <li>
+                Se precisar rever o tour de qualquer tela a qualquer momento,
+                basta clicar no ícone
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  class="inline-block text-blue-500 align-text-bottom mx-1"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
+                  class="h-4 w-4 inline-block"
+                  viewBox="0 0 448 512"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M429.6 92.1c4.9-11.9 2.1-25.6-7-34.7s-22.8-11.9-34.7-7l-352 144c-14.2 5.8-22.2 20.8-19.3 35.8s16.1 25.8 31.4 25.8l176 0 0 176c0 15.3 10.8 28.4 25.8 31.4s30-5.1 35.8-19.3l144-352z"
+                  />
+                </svg>
+                no canto superior direito
+              </li>
+            </ul>
+
+            <div
+              class="mt-3 bg-blue-300/20 dark:bg-blue-750/20 p-3 rounded-lg flex items-start"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400 mt-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                >
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="17 8 12 3 7 8"></polyline>
-                  <line x1="12" y1="3" x2="12" y2="15"></line>
-                </svg>
-                na barra superior
-              </li>
-              <li>
-                Se já houver dados preenchidos, o sistema solicitará confirmação
-                para substituir os dados atuais
-              </li>
-              <li>Selecione o arquivo JSON que deseja importar</li>
-              <li>
-                Os dados serão carregados automaticamente nos respectivos campos
-              </li>
-              <li>
-                Revise os dados importados e faça as alterações necessárias
-              </li>
-            </ol>
+                  stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <p>
+                Cada tela possui seu próprio tour personalizado, destacando as
+                funcionalidades específicas disponíveis naquela parte do
+                sistema.
+              </p>
+            </div>
 
             <template #info-box>
-              O arquivo JSON deve estar no formato correto gerado pelo sistema e
-              no tipo correto (Documentação Técnica ou Documentação de
-              Desenvolvimento) para que a importação funcione corretamente.
+              Durante o tour, você pode navegar entre os passos usando os botões
+              de "Próximo" e "Anterior", ou interromper o tour a qualquer
+              momento clicando no botão "Fechar" ou pressionando a tecla ESC.
             </template>
           </FaqItem>
 
-          <!-- Pergunta 2: Posso editar um documento gerado anteriormente? -->
+          <!-- Pergunta 2: Sobre o contrato utilizado -->
           <FaqItem
-            question="Posso editar um documento gerado anteriormente?"
+            question="É possível selecionar diferentes contratos para gerar os documentos?"
             :isDark="isDark"
             infoBoxType="note"
           >
-            <p>Sim! Para editar um documento anterior:</p>
-            <ol class="list-decimal pl-5 mt-2 space-y-1">
-              <li>
-                Importe o arquivo JSON do documento (veja a pergunta anterior)
-              </li>
-              <li>Faça as alterações necessárias nos campos</li>
-              <li>
-                Gere o documento novamente, selecionando os formatos desejados
-              </li>
-            </ol>
+            <p>
+              Não. Todos os documentos são gerados usando o contrato .Net como
+              padrão:
+            </p>
+            <div
+              class="mt-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg flex items-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <p class="font-medium">Contrato: CTNI-0534-2021.00</p>
+            </div>
+          </FaqItem>
 
-            <template #info-box>
-              Se o documento foi criado por outro autor, um novo registro de
-              modificação será adicionado com as suas iniciais.
+          <!-- Pergunta 3: Cálculo de dias úteis -->
+          <FaqItem
+            question="Como é calculado o período entre as datas de início e fim?"
+            :isDark="isDark"
+            layout="custom"
+          >
+            <template #custom-layout>
+              <p>
+                O sistema calcula o período entre a data de início e a data de
+                fim considerando:
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-3">
+                <div
+                  class="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 flex flex-col items-center border border-green-200 dark:border-green-800"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-10 w-10 mb-2 text-green-600 dark:text-green-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <h4 class="font-semibold mb-1 text-center">Dias de semana</h4>
+                  <p class="text-sm text-center">
+                    Segunda a sexta-feira são contabilizados
+                  </p>
+                </div>
+
+                <div
+                  class="bg-red-50 dark:bg-red-900/20 rounded-lg p-3 flex flex-col items-center border border-red-200 dark:border-red-800"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-10 w-10 mb-2 text-red-600 dark:text-red-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <h4 class="font-semibold mb-1 text-center">
+                    Finais de semana
+                  </h4>
+                  <p class="text-sm text-center">
+                    Sábados e domingos são excluídos
+                  </p>
+                </div>
+
+                <div
+                  class="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-3 flex flex-col items-center border border-yellow-200 dark:border-yellow-800"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-10 w-10 mb-2 text-yellow-600 dark:text-yellow-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                  <h4 class="font-semibold mb-1 text-center">Feriados</h4>
+                  <p class="text-sm text-center">
+                    Não são considerados no cálculo atual
+                  </p>
+                </div>
+              </div>
             </template>
           </FaqItem>
 
-          <!-- Pergunta 3: Como reordenar requisitos -->
+          <!-- Pergunta 4: Campos obrigatórios e requisitos mínimos -->
+          <FaqItem
+            question="Quais são os requisitos mínimos para gerar cada tipo de documentação?"
+            :isDark="isDark"
+            infoBoxType="tip"
+          >
+            <p>
+              Cada tipo de documentação possui requisitos mínimos que devem ser
+              preenchidos. Além dos campos obrigatórios básicos, é necessário:
+            </p>
+
+            <ul class="list-disc pl-5 mt-2 space-y-2">
+              <li>
+                <span class="font-semibold text-orange-600 dark:text-orange-400"
+                  >Documentação Técnica:</span
+                >
+                <span> Deve conterpelo menos uma atividade cadastrada.</span>
+              </li>
+              <li>
+                <span class="font-semibold text-green-600 dark:text-green-400"
+                  >Documentação de Desenvolvimento:</span
+                >
+                <span>
+                  Deve conter pelo menos um requisito funcional
+                  cadastrado.</span
+                >
+              </li>
+            </ul>
+
+            <template #info-box>
+              Se você precisa salvar seu progresso mas ainda não preencheu todos
+              os campos obrigatórios, gere apenas o arquivo JSON (sem selecionar
+              DOCX ou PDF). Neste caso, o sistema não validará os campos
+              obrigatórios, permitindo salvar documentos incompletos.
+            </template>
+          </FaqItem>
+
+          <!-- Pergunta 5: Preenchimento de requisitos funcionais -->
+          <FaqItem
+            question="Como preencher os campos de requisitos funcionais corretamente?"
+            :isDark="isDark"
+            layout="custom"
+          >
+            <template #custom-layout>
+              <p>
+                Ao cadastrar requisitos funcionais, observe estas orientações
+                importantes:
+              </p>
+
+              <div
+                class="mt-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3"
+              >
+                <h4
+                  class="font-semibold mb-2 text-gray-700 dark:text-gray-300 flex items-center"
+                >
+                  Requisitos que são rotinas ou processos
+                </h4>
+                <p>
+                  Quando o requisito for uma rotina ou processo (sem interface
+                  específica), preencha os campos obrigatórios <b>Local</b>,
+                  <b>Usuário</b> e <b>Perfil</b> com o valor "<code>--</code>"
+                  (dois hífens).
+                </p>
+              </div>
+
+              <div
+                class="mt-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3"
+              >
+                <h4
+                  class="font-semibold mb-2 text-gray-700 dark:text-gray-300 flex items-center"
+                >
+                  Campos de regras e banco de dados
+                </h4>
+                <p>
+                  Se os campos de regras de validação, regras de negócio ou
+                  alterações de banco de dados forem deixados vazios, o
+                  documento será gerado com uma mensagem padrão informando que
+                  não houve alteração naquela parte.
+                </p>
+              </div>
+
+              <InfoBox type="tip" :isDark="isDark" class="mt-3">
+                <div class="flex items-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-10 w-5 mr-2 flex-shrink-0"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                    />
+                  </svg>
+                  <span>
+                    Para facilitar a criação de múltiplos requisitos com
+                    atributos semelhantes, você pode fixar valores padrão para
+                    os campos <b>Tipo</b>, <b>Local</b>, <b>Perfil</b> e
+                    <b>Usuário</b> clicando no ícone de cadeado ao lado de cada
+                    campo. Para desativar, basta clicar novamente no mesmo
+                    ícone.
+                  </span>
+                </div>
+              </InfoBox>
+            </template>
+          </FaqItem>
+
+          <!-- Pergunta 6: Como reordenar requisitos -->
           <FaqItem
             question="Como reordenar requisitos funcionais ou não funcionais?"
             :isDark="isDark"
@@ -1307,76 +1532,131 @@ blue
             </template>
           </FaqItem>
 
-          <!-- Pergunta 4: Por que as informações são diferentes entre os tipos de documentação -->
+          <!-- Pergunta 7: Campo de Total de Pontos de Função -->
           <FaqItem
-            question="Por que algumas informações são diferentes entre os tipos de documentação?"
+            question="Como funciona o campo de Total de Pontos de Função e qual o fluxo ideal de preenchimento?"
             :isDark="isDark"
-            layout="custom"
+            infoBoxType="important"
           >
-            <template #custom-layout>
-              <p>
-                A documentação técnica e a documentação de desenvolvimento têm
-                propósitos e estruturas diferentes:
-              </p>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                <div
-                  class="bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800 p-3"
-                >
-                  <h4
-                    class="font-semibold mb-2 text-orange-700 dark:text-orange-300 flex items-center"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5 mr-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
-                    Documentação Técnica
-                  </h4>
-                  <p>Focada em atividades e horas trabalhadas</p>
-                </div>
-                <div
-                  class="bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 p-3"
-                >
-                  <h4
-                    class="font-semibold mb-2 text-green-700 dark:text-green-300 flex items-center"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5 mr-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                      />
-                    </svg>
-                    Documentação de Desenvolvimento
-                  </h4>
-                  <p>Focada em requisitos funcionais e não funcionais</p>
-                </div>
-              </div>
+            <p>
+              Ao preencher o campo <strong>Total de Pontos de Função</strong> na
+              Documentação de Desenvolvimento, a aplicação registra
+              automaticamente uma linha adicional no histórico dos documentos.
+              Esta linha contém a data atual e o autor atual, referente à adição
+              dos pontos de função.
+            </p>
 
-              <InfoBox type="important" :isDark="isDark" class="mt-3">
-                As informações <b>básicas da SS</b>&nbsp;
-                <i>(número, ano, título, descrição, datas e autores)</i> são
-                comuns a ambos os tipos, mas os demais campos são específicos de
-                cada tipo de documentação. Ao tentar importar um JSON de um tipo
-                diferente de documentação a aplicação exibe uma mensagem de erro
-                e não carrega nenhum dado.
-              </InfoBox>
+            <div
+              class="mt-3 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg border border-blue-200 dark:border-blue-700"
+            >
+              <h4
+                class="font-semibold mb-2 text-blue-700 dark:text-blue-300 flex items-center"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                  />
+                </svg>
+                Fluxo ideal para adição de pontos de função:
+              </h4>
+              <ol class="list-decimal pl-5 space-y-1">
+                <li>Preencher todos os campos da documentação</li>
+                <li>Gerar a documentação (Estratégia de Solução)</li>
+                <li>Enviar documentação para contagem de pontos de função</li>
+                <li>Receber o resultado da contagem</li>
+                <li>Importar o JSON gerado anteriormente</li>
+                <li>Adicionar os pontos de função no campo específico</li>
+                <li>Ajustar o autor, se necessário</li>
+                <li>Gerar a documentação final</li>
+              </ol>
+            </div>
+
+            <template #info-box>
+              Caso não seja realizada a importação do JSON, tanto a data como o
+              autor dos dois registros (criação do documento e adição dos pontos
+              de função) serão os atuais no momento da geração. A importação do
+              JSON é essencial para manter o histórico correto de criação do
+              documento original.
+            </template>
+          </FaqItem>
+
+          <!-- Pergunta 8: Como importar um arquivo JSON -->
+          <FaqItem
+            question="Como importar um arquivo JSON salvo anteriormente?"
+            :isDark="isDark"
+            infoBoxType="warning"
+          >
+            <p>Para importar um arquivo JSON salvo anteriormente:</p>
+            <ol class="list-decimal pl-5 mt-2 space-y-1">
+              <li>
+                Clique no ícone de upload
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  class="inline-block text-blue-600 dark:text-blue-400 align-text-bottom mx-1"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                na barra superior
+              </li>
+              <li>
+                Se já houver dados preenchidos, o sistema solicitará confirmação
+                para substituir os dados atuais
+              </li>
+              <li>Selecione o arquivo JSON que deseja importar</li>
+              <li>
+                Os dados serão carregados automaticamente nos respectivos campos
+              </li>
+              <li>
+                Revise os dados importados e faça as alterações necessárias
+              </li>
+            </ol>
+
+            <template #info-box>
+              O arquivo JSON deve estar no formato correto gerado pelo sistema e
+              no tipo correto (Documentação Técnica ou Documentação de
+              Desenvolvimento) para que a importação funcione corretamente.
+            </template>
+          </FaqItem>
+
+          <!-- Pergunta 9: Posso editar um documento gerado anteriormente? -->
+          <FaqItem
+            question="Posso editar um documento gerado anteriormente?"
+            :isDark="isDark"
+            infoBoxType="note"
+          >
+            <p>Sim! Para editar um documento anterior:</p>
+            <ol class="list-decimal pl-5 mt-2 space-y-1">
+              <li>
+                Importe o arquivo JSON do documento (veja a pergunta anterior)
+              </li>
+              <li>Faça as alterações necessárias nos campos</li>
+              <li>
+                Gere o documento novamente, selecionando os formatos desejados
+              </li>
+            </ol>
+
+            <template #info-box>
+              Se o documento foi criado por outro autor, um novo registro de
+              modificação será adicionado com as suas iniciais.
             </template>
           </FaqItem>
         </div>
@@ -1488,8 +1768,8 @@ blue
         </div>
 
         <!-- Rodapé -->
-        <div class="footer-section mt-12 mb-8 text-center">
-          <div class="py-3 border-t border-gray-300 dark:border-gray-700">
+        <div class="footer-section mt-8 mb-0 pb-0 text-center">
+          <div class="pt-2 pb-0 border-t border-gray-300 dark:border-gray-700">
             <p class="text-gray-600 dark:text-gray-400 text-sm">
               © 2025 Gerador de Documentações - Todos os direitos reservados
             </p>
