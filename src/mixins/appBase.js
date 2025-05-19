@@ -792,7 +792,7 @@ export default {
       }
     },
 
-    aplicarErroTemporario(elemento, duracao = 3000) {
+    aplicarErroTemporario(elemento, duracao = 2000) {
       if (!elemento) return;
 
       // Adiciona a classe de erro
@@ -817,8 +817,15 @@ export default {
         const basicFormSection = this.$refs.basicFormSection;
         const authorSelector = this.$refs.authorSelector;
 
+        let erroAplicado = false;
+
         // Tenta primeiro no AuthorSelector
-        if (authorSelector && authorSelector.$el) {
+        if (authorSelector) {
+          // Tenta chamar o método focus diretamente no AuthorSelector
+          if (typeof authorSelector.focus === "function") {
+            authorSelector.focus();
+          }
+
           const container = authorSelector.$el.querySelector(
             ".autor-container, .author-input-area"
           );
@@ -831,10 +838,12 @@ export default {
             // Programar a remoção da classe após 3 segundos
             setTimeout(() => {
               container.classList.remove("campo-erro");
-            }, 3000);
+            }, 2000);
 
-            return true;
+            erroAplicado = true;
           }
+
+          return erroAplicado;
         }
 
         // Se não conseguiu pelo AuthorSelector, tenta pelo BasicFormSection
@@ -855,7 +864,7 @@ export default {
             // Programar a remoção da classe após 3 segundos
             setTimeout(() => {
               container.classList.remove("campo-erro");
-            }, 3000);
+            }, 2000);
 
             return true;
           }
@@ -880,7 +889,7 @@ export default {
             // Programar a remoção da classe após 3 segundos
             setTimeout(() => {
               container.classList.remove("campo-erro");
-            }, 3000);
+            }, 2000);
 
             return true;
           }

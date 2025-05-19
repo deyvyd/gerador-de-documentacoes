@@ -34,6 +34,7 @@
           placeholder="Digite o nome do autor..."
           class="author-input-field"
           ref="autorInput"
+          autocomplete="off"
         />
       </div>
 
@@ -82,7 +83,15 @@ export default {
   methods: {
     focusInput() {
       // Focar no input quando clicar em qualquer lugar da área
-      this.$refs.autorInput.focus();
+      if (this.$refs.autorInput) {
+        this.$refs.autorInput.focus();
+      }
+    },
+    // Método público para expor o foco
+    focus() {
+      if (this.$refs.autorInput) {
+        this.$refs.autorInput.focus();
+      }
     },
     updateAutorInput() {
       this.$emit("update:autorInput", this.inputValue);

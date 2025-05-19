@@ -1179,7 +1179,7 @@ export default {
           // Remove a classe após um tempo
           setTimeout(() => {
             btnAddRequisito.classList.remove("btn-erro");
-          }, 3000);
+          }, 2000);
         }
         this.notificationService.show(
           "Adicione pelo menos um requisito funcional",
