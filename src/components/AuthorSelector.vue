@@ -6,7 +6,7 @@
     </label>
 
     <div class="author-selector-container">
-      <div class="author-input-area autor-container">
+      <div class="author-input-area autor-container" @click="focusInput">
         <!-- Tags dos autores selecionados -->
         <span
           v-for="autor in selectedAutores"
@@ -14,7 +14,7 @@
           class="author-tag"
         >
           {{ autor.nome }}
-          <button @click.prevent="removeAutor(autor)" class="author-remove-btn">
+          <button @click.stop="removeAutor(autor)" class="author-remove-btn">
             ×
           </button>
         </span>
@@ -80,6 +80,10 @@ export default {
     },
   },
   methods: {
+    focusInput() {
+      // Focar no input quando clicar em qualquer lugar da área
+      this.$refs.autorInput.focus();
+    },
     updateAutorInput() {
       this.$emit("update:autorInput", this.inputValue);
     },
