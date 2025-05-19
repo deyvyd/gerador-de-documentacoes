@@ -113,5 +113,11 @@ export default {
 </script>
 
 <style scoped>
-/* Você pode copiar os estilos já existentes do autor-selector se quiser mantê-los aqui */
+.author-input-field:focus {
+  @apply outline-none border-blue-500;
+}
+
+.author-input-area:focus-within {
+  @apply outline-none border-blue-500;
+}
 </style>
