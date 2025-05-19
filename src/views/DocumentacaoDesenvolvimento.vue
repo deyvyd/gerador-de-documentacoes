@@ -326,6 +326,9 @@
       :requisito="requisitoAtual"
       :modo-visualizacao="modoVisualizacao"
       :total-requisitos="requisitos.length"
+      :default-fields="defaultFields"
+      @update-default-field="updateDefaultField"
+      @remove-default-field="removeDefaultField"
       @fechar="fecharModalRequisito"
       @add-requisito="adicionarRequisito"
       @update-requisito="atualizarRequisito"
@@ -427,6 +430,12 @@ export default {
       dataModificacao: null,
       iniciaisAutorCriacao: null,
       iniciaisAutorModificacao: null,
+      defaultFields: {
+        tipo: null,
+        local: null,
+        usuario: null,
+        perfil: null,
+      },
       tourSteps: [
         {
           element: "#trocarParaTec",
@@ -565,6 +574,32 @@ export default {
   },
 
   methods: {
+    // Atualiza um campo padrão
+    updateDefaultField(field, value) {
+      const updatedFields = { ...this.defaultFields };
+      updatedFields[field] = value;
+      this.defaultFields = updatedFields;
+
+      // Notificação
+      this.notificationService.show(
+        `Campo "${field}" definido como padrão`,
+        "success"
+      );
+    },
+
+    // Remove um campo padrão
+    removeDefaultField(field) {
+      const updatedFields = { ...this.defaultFields };
+      updatedFields[field] = null;
+      this.defaultFields = updatedFields;
+
+      // Notificação
+      this.notificationService.show(
+        `Padrão removido do campo "${field}"`,
+        "info"
+      );
+    },
+
     startTour() {
       if (this.$refs.tourGuide) {
         this.$refs.tourGuide.startTour();
@@ -954,6 +989,19 @@ export default {
         banco: "",
         imagens: [],
       };
+
+      // Aplicar valores padrão se existirem
+      if (this.defaultFields) {
+        Object.keys(this.defaultFields).forEach((key) => {
+          if (
+            this.defaultFields[key] !== null &&
+            this.requisitoAtual.hasOwnProperty(key)
+          ) {
+            this.requisitoAtual[key] = this.defaultFields[key];
+          }
+        });
+      }
+
       this.showModal = true;
       // Adicionar classe para prevenir rolagem do body
       document.body.classList.add("modal-open");

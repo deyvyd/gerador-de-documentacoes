@@ -220,6 +220,13 @@ export default {
 
     // Método para processar o arquivo JSON importado
     processImportedJSON(data) {
+      // Resetar campos padrão
+      this.defaultFields = {
+        tipo: null,
+        local: null,
+        usuario: null,
+        perfil: null,
+      };
       try {
         // Validação básica da estrutura do JSON
         if (!data || typeof data !== "object") {

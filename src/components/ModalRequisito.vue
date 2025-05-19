@@ -86,7 +86,7 @@
               />
             </div>
 
-            <div class="modal-form-group col-span-1">
+            <div class="modal-form-group col-span-1" style="position: relative">
               <label
                 for="req-tipo"
                 :class="[
@@ -99,9 +99,37 @@
                 Tipo
                 <span class="text-red-600">*</span>
               </label>
+              <!-- Ícone de cadeado -->
+              <svg
+                v-if="!modoVisualizacao"
+                @click="toggleDefaultField('tipo')"
+                class="lock-icon-custom"
+                :class="{ 'locked-custom': isDefaultField('tipo') }"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                :style="getLockIconPosition('tipo', true)"
+              >
+                <path
+                  v-if="isDefaultField('tipo')"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                ></path>
+                <path
+                  v-else
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+                ></path>
+              </svg>
               <select
                 id="req-tipo"
                 v-model="requisito.tipo"
+                :style="getDefaultFieldStyle('tipo')"
                 :class="[
                   'modal-form-input',
                   isDarkMode
@@ -130,10 +158,38 @@
               Local
               <span class="text-red-600">*</span>
             </label>
+            <!-- Ícone de cadeado -->
+            <svg
+              v-if="!modoVisualizacao"
+              @click="toggleDefaultField('local')"
+              class="lock-icon-custom"
+              :class="{ 'locked-custom': isDefaultField('local') }"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              :style="getLockIconPosition('local')"
+            >
+              <path
+                v-if="isDefaultField('local')"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              ></path>
+              <path
+                v-else
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+              ></path>
+            </svg>
             <input
               type="text"
               id="req-local"
               v-model="requisito.local"
+              :style="getDefaultFieldStyle('local')"
               :class="[
                 'modal-form-input',
                 isDarkMode ? 'modal-form-input-dark' : 'modal-form-input-light',
@@ -147,7 +203,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="modal-form-group">
               <label
-                for="req-usuario"
+                for="req-usuario-teste"
                 :class="[
                   'modal-form-label',
                   isDarkMode
@@ -158,10 +214,46 @@
                 Usuário
                 <span class="text-red-600">*</span>
               </label>
+              <!-- Ícone de cadeado -->
+              <svg
+                v-if="!modoVisualizacao"
+                @click="toggleDefaultField('usuario')"
+                class="lock-icon-custom"
+                :class="{ 'locked-custom': isDefaultField('usuario') }"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                style="
+                  position: absolute;
+                  right: 10px;
+                  top: 35px;
+                  width: 16px;
+                  height: 16px;
+                  cursor: pointer;
+                  z-index: 5;
+                "
+              >
+                <path
+                  v-if="isDefaultField('usuario')"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                ></path>
+                <path
+                  v-else
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+                ></path>
+              </svg>
               <input
                 type="text"
-                id="req-usuario"
+                id="req-usuario-teste"
                 v-model="requisito.usuario"
+                :style="getDefaultFieldStyle('usuario')"
                 :class="[
                   'modal-form-input',
                   isDarkMode
@@ -171,6 +263,11 @@
                 :placeholder="modoVisualizacao ? '' : 'Usuário alvo'"
                 :disabled="modoVisualizacao"
                 :tabindex="tabIndexes.usuario"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                data-form-type="other"
+                data-lpignore="true"
               />
             </div>
 
@@ -187,10 +284,38 @@
                 Perfil
                 <span class="text-red-600">*</span>
               </label>
+              <!-- Ícone de cadeado -->
+              <svg
+                v-if="!modoVisualizacao"
+                @click="toggleDefaultField('perfil')"
+                class="lock-icon-custom"
+                :class="{ 'locked-custom': isDefaultField('perfil') }"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                :style="getLockIconPosition('perfil')"
+              >
+                <path
+                  v-if="isDefaultField('perfil')"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                ></path>
+                <path
+                  v-else
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+                ></path>
+              </svg>
               <input
                 type="text"
                 id="req-perfil"
                 v-model="requisito.perfil"
+                :style="getDefaultFieldStyle('perfil')"
                 :class="[
                   'modal-form-input',
                   isDarkMode
@@ -585,8 +710,10 @@
 
 <script>
 import RichTextEditor from "../components/RichTextEditor.vue";
+import defaultFieldMixin from "../mixins/defaultFieldMixin";
 export default {
   name: "ModalRequisito",
+  mixins: [defaultFieldMixin],
   components: {
     "rich-text-editor": RichTextEditor,
   },
@@ -598,6 +725,15 @@ export default {
     totalRequisitos: {
       type: Number,
       default: 0,
+    },
+    defaultFields: {
+      type: Object,
+      default: () => ({
+        tipo: null,
+        local: null,
+        usuario: null,
+        perfil: null,
+      }),
     },
   },
   data() {
@@ -1299,5 +1435,27 @@ export default {
 
 .modal-open {
   overflow: hidden;
+}
+
+.form-group,
+.modal-form-group {
+  position: relative;
+}
+
+.lock-icon-custom {
+  transition: all 0.2s ease;
+  color: #9ca3af; /* Cor padrão */
+}
+
+.lock-icon-custom:hover {
+  transform: scale(1.2);
+}
+
+.locked-custom {
+  color: #3b82f6 !important; /* Cor azul quando bloqueado */
+}
+
+.dark .locked-custom {
+  color: #2a90de !important; /* Cor azul quando bloqueado no modo escuro */
 }
 </style>
