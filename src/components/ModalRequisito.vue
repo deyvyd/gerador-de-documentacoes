@@ -83,6 +83,7 @@
                 "
                 :disabled="modoVisualizacao"
                 :tabindex="tabIndexes.tituloRF"
+                autocomplete="off"
               />
             </div>
 
@@ -197,6 +198,7 @@
               :placeholder="modoVisualizacao ? '' : 'Local de implementação'"
               :disabled="modoVisualizacao"
               :tabindex="tabIndexes.local"
+              autocomplete="off"
             />
           </div>
 
@@ -325,6 +327,7 @@
                 :placeholder="modoVisualizacao ? '' : 'Perfil de acesso'"
                 :disabled="modoVisualizacao"
                 :tabindex="tabIndexes.perfil"
+                autocomplete="off"
                 @keydown="onKeydown($event, 1)"
               />
             </div>

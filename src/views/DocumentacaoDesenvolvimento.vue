@@ -199,6 +199,7 @@
                   v-model="requisitosNaoFuncionais.titulo"
                   class="form-input"
                   placeholder="Título do Requisito Não Funcional"
+                  autocomplete="off"
                 />
               </div>
 
@@ -214,6 +215,7 @@
                   v-model="requisitosNaoFuncionais.descricao"
                   class="form-input"
                   placeholder="Descrição do Requisito Não Funcional"
+                  autocomplete="off"
                   @keydown.enter.prevent="adicionarRequisitoNaoFuncional"
                 />
               </div>
@@ -300,6 +302,7 @@
               @input="formatarNumeroDecimal"
               class="form-input pontos-funcao-input"
               placeholder="0,00"
+              autocomplete="off"
             />
           </div>
         </div>

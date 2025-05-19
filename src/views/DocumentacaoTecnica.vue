@@ -93,6 +93,7 @@
                   required
                   class="form-input"
                   placeholder="Nome da atividade"
+                  autocomplete="off"
                 />
               </div>
 

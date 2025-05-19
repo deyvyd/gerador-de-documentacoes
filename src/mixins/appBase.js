@@ -801,6 +801,9 @@ export default {
       // Foca no elemento para mostrar ao usuário onde está o problema
       elemento.focus();
 
+      // Adiciona scroll suave para o elemento
+      elemento.scrollIntoView({ behavior: "smooth", block: "center" });
+
       // Define um timeout para remover a classe após a duração especificada
       setTimeout(() => {
         elemento.classList.remove("campo-erro");
@@ -821,6 +824,9 @@ export default {
           );
           if (container) {
             container.classList.add("campo-erro");
+
+            // Adiciona scroll suave para o elemento
+            container.scrollIntoView({ behavior: "smooth", block: "center" });
 
             // Programar a remoção da classe após 3 segundos
             setTimeout(() => {
@@ -843,6 +849,9 @@ export default {
           if (container) {
             container.classList.add("campo-erro");
 
+            // Adiciona scroll suave para o elemento
+            container.scrollIntoView({ behavior: "smooth", block: "center" });
+
             // Programar a remoção da classe após 3 segundos
             setTimeout(() => {
               container.classList.remove("campo-erro");
@@ -864,6 +873,9 @@ export default {
           const container = document.querySelector(selector);
           if (container) {
             container.classList.add("campo-erro");
+
+            // Adiciona scroll suave para o elemento
+            container.scrollIntoView({ behavior: "smooth", block: "center" });
 
             // Programar a remoção da classe após 3 segundos
             setTimeout(() => {

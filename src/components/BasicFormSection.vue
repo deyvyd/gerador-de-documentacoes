@@ -19,6 +19,7 @@
             placeholder="000"
             @input="handleInput"
             @blur="formatSS"
+            autocomplete="off"
             class="form-input text-center"
             required
           />
@@ -48,6 +49,7 @@
             ref="tituloSS"
             class="form-input"
             placeholder="Título informado no e-mail de abertura da SS"
+            autocomplete="off"
             required
           />
         </div>
@@ -107,6 +109,7 @@
             v-model="formData.linkBoard"
             placeholder="https://gitlab.com/chesf.gov.br/..."
             class="form-input"
+            autocomplete="off"
           />
         </div>
       </div>
