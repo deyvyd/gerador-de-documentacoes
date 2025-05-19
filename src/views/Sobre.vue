@@ -1131,7 +1131,7 @@ blue
                   />
                 </svg>
                 <span class="text-gray-800 dark:text-gray-200"
-                  >Data da última atualização: 30 de Abril, 2025</span
+                  >Data da última atualização: 18 de Maio, 2025</span
                 >
               </li>
               <li
@@ -1190,255 +1190,130 @@ blue
         </div>
 
         <div class="space-y-4">
-          <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-gray-700 overflow-hidden transition-all duration-200 hover:shadow-md"
+          <!-- Pergunta 1: Como importar um arquivo JSON -->
+          <FaqItem
+            question="Como importar um arquivo JSON salvo anteriormente?"
+            :isDark="isDark"
+            infoBoxType="warning"
           >
-            <div
-              class="flex justify-between items-center p-4 cursor-pointer"
-              @click="toggleFaq(1)"
-            >
-              <h3 class="font-semibold text-gray-800 dark:text-white">
-                Como importar um arquivo JSON salvo anteriormente?
-              </h3>
-              <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
+            <p>Para importar um arquivo JSON salvo anteriormente:</p>
+            <ol class="list-decimal pl-5 mt-2 space-y-1">
+              <li>
+                Clique no ícone de upload
                 <svg
-                  :class="[activeFaq === 1 ? 'transform rotate-180' : '']"
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600 dark:text-blue-400 transition-transform duration-200"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
+                  width="16"
+                  height="16"
+                  class="inline-block text-blue-500 align-text-bottom mx-1"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
                 </svg>
-              </div>
-            </div>
-            <div
-              v-if="activeFaq === 1"
-              class="border-t border-blue-100 dark:border-blue-900 px-4 py-3 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 transition-all duration-200"
-            >
-              <p>Para importar um arquivo JSON salvo anteriormente:</p>
-              <ol class="list-decimal pl-5 mt-2 space-y-1">
-                <li>Clique no ícone de upload (↑) na barra superior</li>
-                <li>
-                  Se já houver dados preenchidos, o sistema solicitará
-                  confirmação para substituir os dados atuais
-                </li>
-                <li>Selecione o arquivo JSON que deseja importar</li>
-                <li>
-                  Os dados serão carregados automaticamente nos respectivos
-                  campos
-                </li>
-                <li>
-                  Revise os dados importados e faça as alterações necessárias
-                </li>
-              </ol>
+                na barra superior
+              </li>
+              <li>
+                Se já houver dados preenchidos, o sistema solicitará confirmação
+                para substituir os dados atuais
+              </li>
+              <li>Selecione o arquivo JSON que deseja importar</li>
+              <li>
+                Os dados serão carregados automaticamente nos respectivos campos
+              </li>
+              <li>
+                Revise os dados importados e faça as alterações necessárias
+              </li>
+            </ol>
+
+            <template #info-box>
+              O arquivo JSON deve estar no formato correto gerado pelo sistema e
+              no tipo correto (Documentação Técnica ou Documentação de
+              Desenvolvimento) para que a importação funcione corretamente.
+            </template>
+          </FaqItem>
+
+          <!-- Pergunta 2: Posso editar um documento gerado anteriormente? -->
+          <FaqItem
+            question="Posso editar um documento gerado anteriormente?"
+            :isDark="isDark"
+            infoBoxType="note"
+          >
+            <p>Sim! Para editar um documento anterior:</p>
+            <ol class="list-decimal pl-5 mt-2 space-y-1">
+              <li>
+                Importe o arquivo JSON do documento (veja a pergunta anterior)
+              </li>
+              <li>Faça as alterações necessárias nos campos</li>
+              <li>
+                Gere o documento novamente, selecionando os formatos desejados
+              </li>
+            </ol>
+
+            <template #info-box>
+              Se o documento foi criado por outro autor, um novo registro de
+              modificação será adicionado com as suas iniciais.
+            </template>
+          </FaqItem>
+
+          <!-- Pergunta 3: Como reordenar requisitos -->
+          <FaqItem
+            question="Como reordenar requisitos funcionais ou não funcionais?"
+            :isDark="isDark"
+            layout="multi-column"
+            columns="2"
+          >
+            <template #columns>
               <div
-                class="mt-3 border-l-4 border-yellow-400 dark:border-yellow-600 bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-r-md"
+                class="bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-3"
               >
-                <h4
-                  class="font-semibold text-base mb-1 flex items-center text-yellow-800 dark:text-yellow-100"
-                >
+                <ol class="list-decimal pl-4 space-y-1">
+                  <li>
+                    Posicione o cursor sobre a linha do requisito que deseja
+                    mover
+                  </li>
+                  <li>Clique e mantenha pressionado o botão do mouse</li>
+                  <li>Arraste o item para a posição desejada</li>
+                  <li>Solte o botão do mouse</li>
+                </ol>
+              </div>
+              <div
+                class="bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 p-3"
+              >
+                <p class="flex items-start">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-1"
+                    class="h-5 w-5 mr-2 mt-0.5 text-green-600 dark:text-green-400"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
                     <path
                       fill-rule="evenodd"
-                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                      d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                       clip-rule="evenodd"
                     />
                   </svg>
-                  Importante:
-                </h4>
-                <p class="text-yellow-800 dark:text-white">
-                  O arquivo JSON deve estar no formato correto gerado pelo
-                  sistema e no tipo correto (Documentação Técnica ou
-                  Documentação de Desenvolvimento) para que a importação
-                  funcione corretamente.
+                  <span>
+                    Os IDs dos requisitos serão automaticamente atualizados para
+                    manter a sequência correta.
+                  </span>
                 </p>
               </div>
-            </div>
-          </div>
+            </template>
+          </FaqItem>
 
-          <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-gray-700 overflow-hidden transition-all duration-200 hover:shadow-md"
+          <!-- Pergunta 4: Por que as informações são diferentes entre os tipos de documentação -->
+          <FaqItem
+            question="Por que algumas informações são diferentes entre os tipos de documentação?"
+            :isDark="isDark"
+            layout="custom"
           >
-            <div
-              class="flex justify-between items-center p-4 cursor-pointer"
-              @click="toggleFaq(2)"
-            >
-              <h3 class="font-semibold text-gray-800 dark:text-white">
-                Posso editar um documento gerado anteriormente?
-              </h3>
-              <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
-                <svg
-                  :class="[activeFaq === 2 ? 'transform rotate-180' : '']"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600 dark:text-blue-400 transition-transform duration-200"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              v-if="activeFaq === 2"
-              class="border-t border-blue-100 dark:border-blue-900 px-4 py-3 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 transition-all duration-200"
-            >
-              <p>Sim! Para editar um documento anterior:</p>
-              <ol class="list-decimal pl-5 mt-2 space-y-1">
-                <li>
-                  Importe o arquivo JSON do documento (veja a pergunta anterior)
-                </li>
-                <li>Faça as alterações necessárias nos campos</li>
-                <li>
-                  Gere o documento novamente, selecionando os formatos desejados
-                </li>
-              </ol>
-              <div
-                class="mt-3 border-l-4 border-blue-400 dark:border-blue-600 bg-blue-100 dark:bg-blue-750/20 p-3 rounded-r-md"
-              >
-                <h4
-                  class="font-semibold text-base mb-1 flex items-center text-blue-700 dark:text-blue-300"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  Observação:
-                </h4>
-                <p class="text-blue-800 dark:text-white">
-                  Se o documento foi criado por outro autor, um novo registro de
-                  modificação será adicionado com as suas iniciais.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-gray-700 overflow-hidden transition-all duration-200 hover:shadow-md"
-          >
-            <div
-              class="flex justify-between items-center p-4 cursor-pointer"
-              @click="toggleFaq(3)"
-            >
-              <h3 class="font-semibold text-gray-800 dark:text-white">
-                Como reordenar requisitos funcionais ou não funcionais?
-              </h3>
-              <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
-                <svg
-                  :class="[activeFaq === 3 ? 'transform rotate-180' : '']"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600 dark:text-blue-400 transition-transform duration-200"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              v-if="activeFaq === 3"
-              class="border-t border-blue-100 dark:border-blue-900 px-4 py-3 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 transition-all duration-200"
-            >
-              <p>
-                Os requisitos podem ser reordenados facilmente com a
-                funcionalidade de arraste e solte:
-              </p>
-              <div class="flex mt-2">
-                <div
-                  class="bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 p-3 flex-1 mr-2"
-                >
-                  <ol class="list-decimal pl-4 space-y-1">
-                    <li>
-                      Posicione o cursor sobre a linha do requisito que deseja
-                      mover
-                    </li>
-                    <li>Clique e mantenha pressionado o botão do mouse</li>
-                    <li>Arraste o item para a posição desejada</li>
-                    <li>Solte o botão do mouse</li>
-                  </ol>
-                </div>
-                <div
-                  class="bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 p-3 flex-1"
-                >
-                  <p class="flex items-start">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="h-5 w-5 mr-2 mt-0.5 text-green-600 dark:text-green-400"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                    <span
-                      >Os IDs dos requisitos serão automaticamente atualizados
-                      para manter a sequência correta.</span
-                    >
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="faq-item bg-white dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-gray-700 overflow-hidden transition-all duration-200 hover:shadow-md"
-          >
-            <div
-              class="flex justify-between items-center p-4 cursor-pointer"
-              @click="toggleFaq(4)"
-            >
-              <h3 class="font-semibold text-gray-800 dark:text-white">
-                Por que algumas informações são diferentes entre os tipos de
-                documentação?
-              </h3>
-              <div class="rounded-full bg-blue-100 dark:bg-blue-800 p-1">
-                <svg
-                  :class="[activeFaq === 4 ? 'transform rotate-180' : '']"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 text-blue-600 dark:text-blue-400 transition-transform duration-200"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div
-              v-if="activeFaq === 4"
-              class="border-t border-blue-100 dark:border-blue-900 px-4 py-3 text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 transition-all duration-200"
-            >
+            <template #custom-layout>
               <p>
                 A documentação técnica e a documentação de desenvolvimento têm
                 propósitos e estruturas diferentes:
@@ -1493,39 +1368,17 @@ blue
                   <p>Focada em requisitos funcionais e não funcionais</p>
                 </div>
               </div>
-              <div
-                class="mt-3 border-l-4 border-blue-400 dark:border-blue-600 bg-blue-100 dark:bg-blue-750/20 p-3 rounded-r-md"
-              >
-                <h4
-                  class="font-semibold text-sm mb-1 flex items-center text-blue-700 dark:text-blue-300"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5 mr-1"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                      clip-rule="evenodd"
-                    />
-                  </svg>
-                  Observação:
-                </h4>
-                <p class="flex items-start text-sm">
-                  <span
-                    >As informações <b>básicas da SS</b>&nbsp;
-                    <i>(número, ano, título, descrição, datas e autores)</i> são
-                    comuns a ambos os tipos, mas os demais campos são
-                    específicos de cada tipo de documentação. Ao tentar importar
-                    um JSON de um tipo diferente de documentação a aplicação
-                    exibe uma mensagem de erro e não carrega nenhum dado.</span
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
+
+              <InfoBox type="important" :isDark="isDark" class="mt-3">
+                As informações <b>básicas da SS</b>&nbsp;
+                <i>(número, ano, título, descrição, datas e autores)</i> são
+                comuns a ambos os tipos, mas os demais campos são específicos de
+                cada tipo de documentação. Ao tentar importar um JSON de um tipo
+                diferente de documentação a aplicação exibe uma mensagem de erro
+                e não carrega nenhum dado.
+              </InfoBox>
+            </template>
+          </FaqItem>
         </div>
 
         <!-- Seção Final com Links Úteis -->
@@ -1655,7 +1508,9 @@ blue
 import AppHeader from "../components/AppHeader.vue";
 import ThemeToggle from "../components/ThemeToggle.vue";
 import InfoButton from "../components/InfoButton.vue";
+import InfoBox from "../components/InfoBox.vue";
 import TourGuide from "../components/TourGuide.vue";
+import FaqItem from "../components/FaqItem.vue";
 import appBase from "../mixins/appBase";
 
 export default {
@@ -1666,6 +1521,8 @@ export default {
     ThemeToggle,
     InfoButton,
     TourGuide,
+    InfoBox,
+    FaqItem,
   },
   data() {
     return {
