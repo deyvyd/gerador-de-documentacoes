@@ -6,6 +6,7 @@
 
     <app-header
       title="Documentação Técnica"
+      default-state="expanded"
       @swap-requested="handleSwapRequested"
     >
       <template #swap-button>
@@ -31,8 +32,11 @@
           "
           ref="uploadButton"
         />
-        <theme-toggle :is-dark="isDark" @toggle="toggleTheme" />
-        <info-button tooltip-title="Sobre a Aplicação" />
+        <theme-toggle
+          id="themeButtom"
+          :is-dark="isDark"
+          @toggle="toggleTheme"
+        />
       </template>
       <template #tour-button>
         <TourGuide
@@ -40,6 +44,7 @@
           :show-button="true"
           :auto-start="true"
           tour-id="tec-page"
+          id="tourGuide"
           ref="tourGuide"
           @tour-completed="onTourCompleted"
         />
@@ -266,26 +271,6 @@ export default {
       atividadesChangeCounter: 0,
       tourSteps: [
         {
-          element: "#trocarParaDev",
-          popover: {
-            title: "Trocar para Desenvolvimento",
-            description:
-              "Clique aqui para trocar para a tela Documentações de Desenvolvimento.",
-            side: "bottom",
-            align: "center",
-          },
-        },
-        {
-          element: "#botaoImportar",
-          popover: {
-            title: "Importar dados (JSON)",
-            description:
-              "Clique aqui caso já tenha um arquivo JSON com as informações da SS e deseje importar.",
-            side: "bottom",
-            align: "center",
-          },
-        },
-        {
           element: "#infoSS",
           popover: {
             title: "Informações Básicas",
@@ -332,6 +317,26 @@ export default {
             description:
               "Clique aqui para gerar a documentação nos formatos selecionados.",
             side: "top",
+            align: "center",
+          },
+        },
+        {
+          element: "#trocarParaDev",
+          popover: {
+            title: "Trocar para Desenvolvimento",
+            description:
+              "Clique aqui para trocar para a tela Documentações de Desenvolvimento.",
+            side: "bottom",
+            align: "center",
+          },
+        },
+        {
+          element: "#botaoImportar",
+          popover: {
+            title: "Importar dados (JSON)",
+            description:
+              "Clique aqui caso já tenha um arquivo JSON com as informações da SS e deseje importar.",
+            side: "bottom",
             align: "center",
           },
         },

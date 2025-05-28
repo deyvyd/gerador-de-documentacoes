@@ -5,6 +5,8 @@
     <!-- Header já possui estilo próprio, não precisa de ajuste -->
     <app-header
       title="Gerador de Documentações"
+      ref="appHeader"
+      default-state="expanded"
       @swap-requested="handleSwapRequested"
     >
       <template #actions>
@@ -20,6 +22,7 @@
           :show-button="true"
           :auto-start="true"
           tour-id="inicial-page"
+          id="tourGuide"
           ref="tourGuide"
           @tour-completed="onTourCompleted"
         />
@@ -52,7 +55,7 @@
         </div>
       </div>
 
-      <!-- Cards Section -->
+      <!-- Primeira linha de cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
         <!-- Card 1 - Documentação Técnica -->
         <div
@@ -62,7 +65,7 @@
         >
           <div class="flex items-center mb-4">
             <div
-              class="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center mr-4"
+              class="w-12 h-12 bg-orange-600 text-white dark:bg-orange-700 rounded-full flex items-center justify-center mr-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +135,7 @@
         >
           <div class="flex items-center mb-4">
             <div
-              class="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mr-4"
+              class="w-12 h-12 dark:bg-green-600 bg-green-500 text-white rounded-full flex items-center justify-center mr-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -197,16 +200,17 @@
         </div>
       </div>
 
-      <!-- About Section Preview -->
-      <div class="flex justify-center mb-8">
+      <!-- Segunda linha de cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+        <!-- Card 3 - Sobre a Aplicação -->
         <div
           id="card-about"
-          class="main-card p-6 transition-all hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer md:w-1/2"
+          class="main-card p-6 transition-all hover:shadow-lg hover:shadow-blue-500/20 cursor-pointer"
           @click="navigateTo('/sobre')"
         >
           <div class="flex items-center mb-4">
             <div
-              class="w-12 h-12 bg-sky-600 text-white rounded-full flex items-center justify-center mr-4"
+              class="w-12 h-12 bg-sky-500 text-white dark:bg-sky-600 rounded-full flex items-center justify-center mr-4"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -229,8 +233,47 @@
             Saiba mais sobre o funcionamento do sistema, tutoriais e como
             utilizá-lo para maximizar sua produtividade.
           </p>
-          <button class="btn bg-sky-600 hover:bg-sky-700 text-white w-full">
-            Acessar Documentação
+          <button
+            class="btn bg-sky-500 hover:bg-sky-600 dark:bg-sky-700 dark:hover:bg-sky-600 text-white w-full"
+          >
+            Acessar Informações Gerais
+          </button>
+        </div>
+        <div
+          id="card-manual"
+          class="main-card p-6 transition-all hover:shadow-lg hover:shadow-indigo-500/20 cursor-pointer"
+          @click="navigateTo('/manual')"
+        >
+          <!-- Card 4 - Manual do Usuário -->
+          <div class="flex items-center mb-4">
+            <div
+              class="w-12 h-12 dark:bg-indigo-600 bg-indigo-500 text-white rounded-full flex items-center justify-center mr-4"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-8 w-8 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+            </div>
+            <h2 class="text-xl font-semibold">Manual do Usuário</h2>
+          </div>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">
+            Explore a documentação completa das funcionalidades do sistema,
+            incluindo critérios de aceitação, regras e cenários de teste.
+          </p>
+          <button
+            class="btn bg-indigo-500 hover:bg-indigo-600 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white w-full"
+          >
+            Acessar Manual do Usuário
           </button>
         </div>
       </div>
@@ -273,15 +316,6 @@ export default {
           },
         },
         {
-          element: "#botaoTema",
-          popover: {
-            title: "Altere o tema para claro/escuro",
-            description: "Clique aqui e escolha o tema que preferir",
-            side: "bottom",
-            align: "center",
-          },
-        },
-        {
           element: "#card-tec",
           popover: {
             title: "Documentação Técnica",
@@ -304,8 +338,39 @@ export default {
           element: "#card-about",
           popover: {
             title: "Sobre a Aplicação",
-            description: "Veja tutoriais e informações gerais da plataforma.",
+            description:
+              "Veja perguntas frequentes e informações gerais da plataforma.",
             side: "top",
+            align: "center",
+          },
+        },
+        {
+          element: "#card-manual",
+          popover: {
+            title: "Manual do Usuário",
+            description:
+              "Acesse a documentação completa das funcionalidades do sistema.",
+            side: "top",
+            align: "center",
+          },
+        },
+        {
+          element: "#botaoTema",
+          popover: {
+            title: "Tema",
+            description:
+              "Clique aqui para alternar entre o tema claro e escuro.",
+            side: "bottom",
+            align: "center",
+          },
+        },
+        {
+          element: "#tourGuide",
+          popover: {
+            title: "Iniciar Tour",
+            description:
+              "Clique aqui para iniciar este guia de ajuda novamente.",
+            side: "bottom",
             align: "center",
           },
         },

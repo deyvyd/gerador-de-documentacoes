@@ -113,15 +113,6 @@ export default {
 
         // Criar instância do driver
         this.driverObj = driver(config);
-
-        // Diagnóstico: Listar todos os métodos disponíveis
-        console.log("Driver.js instance:", this.driverObj);
-        console.log(
-          "Available methods:",
-          Object.keys(this.driverObj)
-            .filter((key) => typeof this.driverObj[key] === "function")
-            .join(", ")
-        );
       } catch (error) {
         console.error("Erro ao inicializar o Driver.js:", error);
       }

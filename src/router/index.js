@@ -3,6 +3,7 @@ import Inicial from "../views/Inicial.vue";
 import DocumentacaoTecnica from "../views/DocumentacaoTecnica.vue";
 import DocumentacaoDesenvolvimento from "../views/DocumentacaoDesenvolvimento.vue";
 import Sobre from "../views/Sobre.vue";
+import ManualDoUsuario from "../views/ManualDoUsuario.vue";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: "/sobre",
     name: "Sobre",
     component: Sobre,
+  },
+  {
+    path: "/manual",
+    name: "ManulDoUsuario",
+    component: ManualDoUsuario,
   },
 ];
 

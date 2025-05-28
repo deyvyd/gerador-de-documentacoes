@@ -25,7 +25,7 @@ export default {
       }
 
       if (this.isDarkMode && this.isDefaultField(field)) {
-        return "border-color: #1e40af; background-color: #1e3a8a;";
+        return "border-color: #075891; background-color: #043559;";
       } else if (this.isDefaultField(field)) {
         return "border-color: #93c5fd; background-color: #eff6ff;";
       }

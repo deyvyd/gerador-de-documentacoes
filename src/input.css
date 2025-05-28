@@ -10,6 +10,7 @@ html.dark {
 
 body {
   @apply transition-colors;
+  @apply bg-gray-100 text-gray-900;
 }
 
 .dark body {

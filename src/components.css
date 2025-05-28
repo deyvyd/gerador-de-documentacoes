@@ -143,6 +143,51 @@
     @apply flex items-center gap-4;
   }
 
+  /* Transições do header recolhível */
+  .header-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .header-collapsed {
+    transform: translateY(-100%);
+  }
+
+  .header-expanded {
+    transform: translateY(0);
+  }
+
+  .header-hover-expand {
+    transform: translateY(0);
+  }
+
+  /* Botão toggle */
+  .toggle-button {
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .toggle-button:hover {
+    transform: scale(1.1) translateX(-50%);
+    transform-origin: center;
+  }
+
+  /* Ícone rotativo */
+  .icon-rotate {
+    transition: transform 0.3s ease;
+  }
+
+  /* Correção para o transform do botão */
+  .toggle-button {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .toggle-button:hover {
+    transform: translateX(-50%) scale(1.1);
+  }
+
   /* ===== Swap Button ===== */
   /* Estilos base */
   .swap-toggle {
@@ -873,6 +918,63 @@
   /* Contêiner para a tabela com estilo diferenciado */
   .table-section {
     @apply mt-4 mb-2;
+  }
+
+  /* Estilos para documentação de funcionalidades */
+  .doc-sidebar {
+    @apply w-64 bg-white dark:bg-gray-800 shadow-md overflow-y-auto;
+  }
+
+  .doc-sidebar-header {
+    @apply p-4 border-b border-gray-200 dark:border-gray-700;
+  }
+
+  .doc-sidebar-search {
+    @apply mt-2 relative;
+  }
+
+  .doc-category-header {
+    @apply px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-medium;
+  }
+
+  .doc-category-item {
+    @apply px-4 py-2 pl-6 cursor-pointer border-l-4 text-sm;
+  }
+
+  .doc-category-item-active {
+    @apply bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-400 text-blue-700 dark:text-blue-300;
+  }
+
+  .doc-category-item-inactive {
+    @apply border-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300;
+  }
+
+  .doc-content {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow p-6;
+  }
+
+  .doc-section {
+    @apply mb-6;
+  }
+
+  .doc-section-title {
+    @apply text-xl font-semibold text-gray-800 dark:text-white mb-3;
+  }
+
+  .doc-code-block {
+    @apply bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700;
+  }
+
+  .doc-criteria-block {
+    @apply mb-3 bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700;
+  }
+
+  .doc-badge {
+    @apply inline-block px-2 py-1 mr-2 bg-blue-500 text-white dark:bg-blue-600 rounded text-sm;
+  }
+
+  .doc-scenario-block {
+    @apply mb-4 bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700;
   }
 
   /* Ajustes para telas pequenas */

@@ -3,13 +3,6 @@
     <toast-notification
       :toasts="notificationService.toasts"
     ></toast-notification>
-    <app-header
-      title="Gerador de Documentações"
-      @swap-requested="handleSwapRequested"
-    >
-      <!-- Template slots como antes -->
-    </app-header>
-
     <div class="container">
       <router-view />
     </div>
