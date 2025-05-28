@@ -994,9 +994,9 @@ video {
   transform: translateY(0);
 }
 
-/* Botão toggle */
+/* Botão toggle posicionado à direita */
 
-.toggle-button {
+.toggle-button-right {
   transition: all 0.2s ease;
   -webkit-backdrop-filter: blur(10px);
           backdrop-filter: blur(10px);
@@ -1004,26 +1004,14 @@ video {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.toggle-button:hover {
-  transform: scale(1.1) translateX(-50%);
-  transform-origin: center;
+.toggle-button-right:hover {
+  transform: scale(1.1);
 }
 
 /* Ícone rotativo */
 
 .icon-rotate {
   transition: transform 0.3s ease;
-}
-
-/* Correção para o transform do botão */
-
-.toggle-button {
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.toggle-button:hover {
-  transform: translateX(-50%) scale(1.1);
 }
 
 /* ===== Swap Button ===== */
@@ -3464,6 +3452,10 @@ video {
 
 .left-1\/2{
   left: 50%;
+}
+
+.left-4{
+  left: 1rem;
 }
 
 .right-0{

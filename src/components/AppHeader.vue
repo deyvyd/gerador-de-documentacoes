@@ -35,7 +35,7 @@
     <!-- Botão Toggle (sempre visível) -->
     <button
       @click="toggleHeaderState"
-      class="absolute -bottom-6 left-1/2 transform -translate-x-1/2 glass-effect rounded-full p-2 toggle-button"
+      class="absolute -bottom-6 right-4 glass-effect rounded-full p-2 toggle-button-right"
       :title="
         headerState === 'expanded' ? 'Recolher Header' : 'Expandir Header'
       "
