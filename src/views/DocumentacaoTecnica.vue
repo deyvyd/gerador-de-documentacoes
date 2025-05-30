@@ -404,11 +404,6 @@ export default {
     },
   },
 
-  created() {
-    // Inicializa o último formato como DOCX já que é o padrão
-    this.lastFormat = "gerarDocx";
-  },
-
   mounted() {
     // Inicialização específica deste app
     this.initSortable();

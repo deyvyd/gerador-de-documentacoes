@@ -390,7 +390,7 @@
               <div
                 v-for="(imagem, idx) in requisito.imagens"
                 :key="idx"
-                class="modal-image-container"
+                class="modal-image-container relative"
               >
                 <img :src="imagem" alt="Preview" class="modal-image" />
                 <button
@@ -400,6 +400,12 @@
                 >
                   ×
                 </button>
+                <!-- Indicador de tamanho -->
+                <div
+                  class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white text-xs p-1 text-center"
+                >
+                  {{ calcularTamanhoImagem(imagem) }}
+                </div>
               </div>
             </div>
           </div>
@@ -1196,6 +1202,27 @@ export default {
       this.requisito.regras = cleanContent(this.regrasContent);
       this.requisito.banco = cleanContent(this.bancoContent);
 
+      // Verificar tamanho total das imagens
+      if (this.requisito.imagens && this.requisito.imagens.length > 0) {
+        const totalSize = this.requisito.imagens.reduce((acc, img) => {
+          // Estimar tamanho do base64 (aproximadamente 1.37x o tamanho binário)
+          return acc + img.length * 0.75;
+        }, 0);
+
+        const totalSizeMB = totalSize / (1024 * 1024);
+
+        if (totalSizeMB > 5) {
+          // Limite de 5MB total
+          this.notificationService.show(
+            `O tamanho total das imagens (${totalSizeMB.toFixed(
+              2
+            )}MB) excede o limite de 5MB. Por favor, remova algumas imagens ou use imagens menores.`,
+            "error"
+          );
+          return;
+        }
+      }
+
       // Se chegou aqui, todos os campos estão preenchidos
       if (
         this.requisito &&
@@ -1259,6 +1286,16 @@ export default {
           "success"
         );
       }
+    },
+
+    calcularTamanhoImagem(base64String) {
+      const sizeInBytes = base64String.length * 0.75;
+      const sizeInKB = sizeInBytes / 1024;
+
+      if (sizeInKB > 1024) {
+        return `${(sizeInKB / 1024).toFixed(2)} MB`;
+      }
+      return `${sizeInKB.toFixed(2)} KB`;
     },
 
     // Método para lidar com upload de arquivos

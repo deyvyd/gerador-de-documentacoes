@@ -24,6 +24,7 @@ Thumbs.db
 # Arquivos temporários
 static/assets/
 static/css/
+tailwind.css
 
 # Histórico
 .history/
