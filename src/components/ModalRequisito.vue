@@ -19,7 +19,18 @@
               : 'modal-requisito-title-light',
           ]"
         >
-          {{ titulo }}
+          <!-- Título base do modal -->
+          <span class="titulo-base">{{ tituloModalBase }} RF: </span>
+
+          <!-- Separador e título do RF (se existir) -->
+          <template v-if="tituloRF">
+            <span
+              class="titulo-rf"
+              :class="isDarkMode ? 'titulo-rf-dark' : 'titulo-rf-light'"
+            >
+              {{ tituloRF }}
+            </span>
+          </template>
         </h2>
       </div>
 
@@ -392,17 +403,50 @@
                 :key="idx"
                 class="modal-image-container relative"
               >
-                <img :src="imagem" alt="Preview" class="modal-image" />
+                <!-- Área clicável para visualizar a imagem -->
+                <div
+                  class="image-clickable-area group"
+                  @click="abrirVisualizadorImagem(imagem)"
+                >
+                  <img
+                    :src="imagem"
+                    alt="Preview"
+                    class="modal-image group-hover:opacity-80 group-hover:scale-105 transition-all duration-200"
+                  />
+
+                  <!-- Indicador de clique -->
+                  <div
+                    class="image-hover-overlay group-hover:bg-black group-hover:bg-opacity-20 transition-all duration-200"
+                  >
+                    <svg
+                      class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Botão de remover (fora da área clicável) -->
                 <button
-                  @click="removerImagem(idx)"
-                  class="modal-image-remove-button"
+                  @click.stop="removerImagem(idx)"
+                  class="modal-image-remove-button group"
                   :tabindex="tabIndexes.selectImagens + 1 + idx"
+                  title="Remover imagem"
                 >
                   ×
                 </button>
+
                 <!-- Indicador de tamanho -->
                 <div
-                  class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white text-xs p-1 text-center"
+                  class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white text-xs p-1 text-center pointer-events-none"
                 >
                   {{ calcularTamanhoImagem(imagem) }}
                 </div>
@@ -428,29 +472,65 @@
               <div
                 v-for="(imagem, idx) in requisito.imagens"
                 :key="idx"
-                class="modal-image-container"
+                class="modal-image-container relative"
               >
-                <img
-                  :src="imagem"
-                  alt="Imagem do requisito"
-                  :class="[
-                    'modal-view-image',
-                    isDarkMode
-                      ? 'modal-view-image-dark'
-                      : 'modal-view-image-light',
-                  ]"
-                />
+                <!-- Área clicável para visualizar a imagem -->
+                <div
+                  class="image-clickable-area group cursor-pointer"
+                  @click="abrirVisualizadorImagem(imagem)"
+                >
+                  <img
+                    :src="imagem"
+                    alt="Imagem do requisito"
+                    :class="[
+                      'modal-view-image group-hover:opacity-80 group-hover:scale-105 transition-all duration-200',
+                      isDarkMode
+                        ? 'modal-view-image-dark'
+                        : 'modal-view-image-light',
+                    ]"
+                  />
+
+                  <!-- Indicador de clique para visualização -->
+                  <div
+                    class="image-hover-overlay group-hover:bg-black group-hover:bg-opacity-20 transition-all duration-200"
+                  >
+                    <svg
+                      class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- Quando não há imagens -->
             <div
               v-else
               :class="[
-                'modal-no-images',
-                isDarkMode ? 'modal-no-images-dark' : 'modal-no-images-light',
+                'modal-empty-field',
+                isDarkMode
+                  ? 'modal-empty-field-dark'
+                  : 'modal-empty-field-light',
               ]"
+              style="min-height: 90px; padding: 0.7rem"
             >
-              Não foram inseridas imagens nesse RF
+              <em
+                :class="
+                  isDarkMode
+                    ? 'modal-empty-text-dark'
+                    : 'modal-empty-text-light'
+                "
+              >
+                Nenhuma imagem foi inserida
+              </em>
             </div>
           </div>
 
@@ -714,17 +794,26 @@
         </div>
       </div>
     </div>
+    <!-- Visualizador de Imagens -->
+    <image-viewer
+      :show="showImageViewer"
+      :todas-imagens="requisito.imagens || []"
+      :indice-inicial="indiceInicialVisualizacao"
+      @fechar="fecharVisualizadorImagem"
+    ></image-viewer>
   </div>
 </template>
 
 <script>
 import RichTextEditor from "../components/RichTextEditor.vue";
+import ImageViewer from "../components/ImageViewer.vue";
 import defaultFieldMixin from "../mixins/defaultFieldMixin";
 export default {
   name: "ModalRequisito",
   mixins: [defaultFieldMixin],
   components: {
     "rich-text-editor": RichTextEditor,
+    ImageViewer,
   },
   props: {
     show: Boolean,
@@ -770,6 +859,10 @@ export default {
       validacoesEditor: null,
       regrasEditor: null,
       bancoEditor: null,
+      // Dados para o visualizador de imagens
+      showImageViewer: false,
+      indiceInicialVisualizacao: 0,
+      imagemVisualizacao: "",
     };
   },
   computed: {
@@ -805,6 +898,22 @@ export default {
         btnCancelar: 502,
         btnVoltar: 501,
       };
+    },
+    // Título base do modal
+    tituloModalBase() {
+      return this.titulo; // "Adicionar Requisito Funcional", "Editar Requisito Funcional", etc.
+    },
+
+    // Título do RF (se existir)
+    tituloRF() {
+      if (
+        this.requisito &&
+        this.requisito.tituloRF &&
+        this.requisito.tituloRF.trim()
+      ) {
+        return this.requisito.tituloRF.trim();
+      }
+      return null;
     },
   },
   watch: {
@@ -882,8 +991,29 @@ export default {
         this.requisito.banco = newVal;
       }
     },
+    "requisito.tituloRF": {
+      handler(newVal) {
+        // O título será atualizado automaticamente pela computed property
+        // Este watcher garante que mudanças sejam detectadas
+      },
+      immediate: false,
+    },
   },
   methods: {
+    // Métodos para o visualizador de imagens
+    abrirVisualizadorImagem(imagemSrc) {
+      // Encontrar o índice da imagem clicada
+      const indice = this.requisito.imagens.findIndex(
+        (img) => img === imagemSrc
+      );
+      this.indiceInicialVisualizacao = Math.max(0, indice);
+      this.showImageViewer = true;
+    },
+
+    fecharVisualizadorImagem() {
+      this.showImageViewer = false;
+    },
+
     focarPrimeiroElementoDaAba() {
       // Encontra o primeiro campo focável da aba atual
       const seletores = [
@@ -1497,5 +1627,123 @@ export default {
 
 .dark .locked-custom {
   color: #2a90de !important; /* Cor azul quando bloqueado no modo escuro */
+}
+
+.modal-image-container {
+  position: relative;
+}
+
+.modal-view-images-grid .modal-image-container {
+  position: relative;
+}
+
+/* Indicador visual de que a imagem é clicável */
+.modal-image-container:hover .modal-image,
+.modal-image-container:hover .modal-view-image {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+.image-clickable-area {
+  @apply relative w-full h-full cursor-pointer;
+}
+
+.image-hover-overlay {
+  @apply absolute inset-0 flex items-center justify-center transition-all duration-200;
+}
+
+/* Melhorar o botão de remoção */
+.modal-image-remove-button {
+  @apply absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg z-10 cursor-pointer;
+  @apply hover:bg-red-600 transition-colors duration-200;
+}
+
+/* Garantir que o indicador de tamanho não interfira com cliques */
+.modal-image-container .pointer-events-none {
+  pointer-events: none;
+}
+
+/* Efeito hover mais suave para a imagem */
+.image-clickable-area:hover .modal-image {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+.modal-requisito-title {
+  /* Permitir quebra de linha para títulos longos */
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+
+  /* Limitar altura máxima se necessário */
+  max-height: 4.5em; /* Aproximadamente 3 linhas */
+  overflow: hidden;
+
+  /* Melhorar espaçamento entre linhas */
+  line-height: 1.4;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 640px) {
+  .modal-requisito-title {
+    font-size: 1.1rem; /* Diminuir fonte em telas pequenas */
+    max-height: 6em; /* Mais espaço em mobile */
+  }
+}
+
+.modal-requisito-title {
+  /* Permitir quebra de linha para títulos longos */
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+
+  /* Limitar altura máxima se necessário */
+  max-height: 4.5em; /* Aproximadamente 3 linhas */
+  overflow: hidden;
+
+  /* Melhorar espaçamento entre linhas */
+  line-height: 1.4;
+}
+
+/* Título base - mantém o estilo original (negrito) */
+.titulo-base {
+  font-weight: bold;
+}
+
+/* Separador entre títulos */
+.titulo-separador {
+  font-weight: bold;
+  opacity: 0.7;
+}
+
+/* Título do RF - estilo diferenciado */
+.titulo-rf {
+  font-weight: normal; /* Remove negrito */
+  font-style: italic; /* Adiciona itálico */
+  font-size: 1.1rem; /* Tamanho de fonte um pouco maior */
+}
+
+/* Cores para modo claro */
+.titulo-rf-light {
+  @apply text-gray-700;
+}
+
+/* Cores para modo escuro */
+.titulo-rf-dark {
+  @apply text-gray-400;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 640px) {
+  .modal-requisito-title {
+    font-size: 1.1rem; /* Diminuir fonte em telas pequenas */
+    max-height: 6em; /* Mais espaço em mobile */
+  }
+
+  /* Em telas muito pequenas, quebrar em linhas separadas */
+  .titulo-separador {
+    display: block;
+    margin: 0.2rem 0;
+  }
 }
 </style>

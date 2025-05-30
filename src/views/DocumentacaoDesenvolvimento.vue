@@ -405,7 +405,7 @@ export default {
       modoVisualizacao: false,
       sortableInstance: null,
       showModal: false, // Garantir que o modal começa fechado
-      modalTitulo: "Adicionar Requisito Funcional",
+      modalTitulo: "Adicionar RF",
       editIndex: -1,
       requisitos: [],
       requisitoAtual: {
@@ -954,7 +954,7 @@ export default {
 
     // Gerenciamento de requisitos
     visualizarRequisito(index) {
-      this.modalTitulo = "Visualizar Requisito Funcional";
+      this.modalTitulo = "Visualizar";
       this.editIndex = -1; // Não estamos editando
       this.modoVisualizacao = true; // Ativar modo de visualização
 
@@ -976,7 +976,7 @@ export default {
 
     // Modificar o método de abrir modal para garantir que não estamos em modo visualização
     abrirModalRequisito() {
-      this.modalTitulo = "Adicionar Requisito Funcional";
+      this.modalTitulo = "Adicionar";
       this.editIndex = -1;
       this.modoVisualizacao = false; // Garantir que não estamos em modo visualização
       this.requisitoAtual = {
@@ -1012,7 +1012,7 @@ export default {
 
     // Também precisamos modificar o método de edição
     editarRequisito(index) {
-      this.modalTitulo = "Editar Requisito Funcional";
+      this.modalTitulo = "Editar";
       this.editIndex = index;
       this.modoVisualizacao = false; // Garantir que não estamos em modo visualização
       // Clonar o requisito para evitar edição direta
