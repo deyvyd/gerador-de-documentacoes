@@ -86,45 +86,242 @@
             </svg>
           </div>
 
-          <!-- Funcionalidades dentro da categoria -->
+          <!-- Conteúdo da categoria -->
           <transition name="slide">
-            <ul v-if="categoriasExpanded.includes(categoria.id)">
-              <li
-                v-for="(func, index) in funcionalidadesFiltradas.filter(
-                  (f) => f.categoria === categoria.id
-                )"
-                :key="'func-' + index"
-                @click="selecionarFuncionalidade(func.id)"
-                :class="[
-                  'px-4 py-2 pl-6 cursor-pointer border-l-4 text-sm flex items-center',
-                  funcionalidadeSelecionada === func.id
-                    ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-400 text-blue-700 dark:text-blue-300'
-                    : 'border-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
-                ]"
-              >
-                <svg
-                  v-if="func.icone"
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 mr-2"
-                  :class="
-                    funcionalidadeSelecionada === func.id
-                      ? 'text-blue-500 dark:text-blue-400'
-                      : 'text-gray-500 dark:text-gray-400'
-                  "
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+            <div v-if="categoriasExpanded.includes(categoria.id)">
+              <!-- PRIMEIRO: Subgrupos da categoria -->
+              <div v-if="categoria.subgrupos" class="pl-4">
+                <div
+                  v-for="(subgrupo, subIndex) in categoria.subgrupos"
+                  :key="'sub-' + subIndex"
+                  class="mt-1"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    :d="func.icone"
-                  />
-                </svg>
-                {{ func.titulo }}
-              </li>
-            </ul>
+                  <!-- Cabeçalho do subgrupo -->
+                  <div
+                    @click="toggleSubgrupo(subgrupo.id)"
+                    class="px-3 py-1.5 flex justify-between items-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/50 text-gray-700 dark:text-gray-300 text-sm font-medium"
+                  >
+                    <span>{{ subgrupo.nome }}</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4 transform transition-transform"
+                      :class="
+                        subgruposExpanded.includes(subgrupo.id)
+                          ? 'rotate-180'
+                          : ''
+                      "
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+
+                  <!-- Conteúdo do subgrupo -->
+                  <transition name="slide">
+                    <div
+                      v-if="subgruposExpanded.includes(subgrupo.id)"
+                      class="pl-3"
+                    >
+                      <!-- Sub-subgrupos (se existem) -->
+                      <template v-if="subgrupo.subsubgrupos">
+                        <div
+                          v-for="(
+                            subsubgrupo, subsubIndex
+                          ) in subgrupo.subsubgrupos"
+                          :key="'subsub-' + subsubIndex"
+                          class="mt-1"
+                        >
+                          <!-- Cabeçalho do sub-subgrupo -->
+                          <div
+                            @click="toggleSubsubgrupo(subsubgrupo.id)"
+                            class="px-2 py-1 flex justify-between items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium"
+                          >
+                            <span>{{ subsubgrupo.nome }}</span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              class="h-4 w-4 transform transition-transform"
+                              :class="
+                                subsubgruposExpanded.includes(subsubgrupo.id)
+                                  ? 'rotate-180'
+                                  : ''
+                              "
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M19 9l-7 7-7-7"
+                              />
+                            </svg>
+                          </div>
+
+                          <!-- Funcionalidades do sub-subgrupo -->
+                          <transition name="slide">
+                            <ul
+                              v-if="
+                                subsubgruposExpanded.includes(subsubgrupo.id)
+                              "
+                              class="pl-2"
+                            >
+                              <li
+                                v-for="(
+                                  func, index
+                                ) in funcionalidadesFiltradas.filter(
+                                  (f) =>
+                                    f.categoria === categoria.id &&
+                                    f.subgrupo === subgrupo.id &&
+                                    f.subsubgrupo === subsubgrupo.id
+                                )"
+                                :key="'func-subsub-' + index"
+                                @click="selecionarFuncionalidade(func.id)"
+                                :class="[
+                                  'px-2 py-1 cursor-pointer border-l-2 text-sm flex items-center',
+                                  funcionalidadeSelecionada === func.id
+                                    ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-400 text-blue-700 dark:text-blue-300'
+                                    : 'border-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                                ]"
+                              >
+                                <svg
+                                  v-if="func.icone"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  class="h-4 w-4 mr-1.5"
+                                  :class="
+                                    funcionalidadeSelecionada === func.id
+                                      ? 'text-blue-500 dark:text-blue-400'
+                                      : 'text-gray-500 dark:text-gray-400'
+                                  "
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    :d="func.icone"
+                                  />
+                                </svg>
+                                {{ func.titulo }}
+                              </li>
+                            </ul>
+                          </transition>
+                        </div>
+                      </template>
+
+                      <!-- Funcionalidades diretas do subgrupo (sem sub-subgrupo) -->
+                      <ul
+                        v-if="
+                          funcionalidadesFiltradas.some(
+                            (f) =>
+                              f.categoria === categoria.id &&
+                              f.subgrupo === subgrupo.id &&
+                              !f.subsubgrupo
+                          )
+                        "
+                        :class="subgrupo.subsubgrupos ? 'mt-2' : ''"
+                      >
+                        <li
+                          v-for="(
+                            func, index
+                          ) in funcionalidadesFiltradas.filter(
+                            (f) =>
+                              f.categoria === categoria.id &&
+                              f.subgrupo === subgrupo.id &&
+                              !f.subsubgrupo
+                          )"
+                          :key="'func-sub-direct-' + index"
+                          @click="selecionarFuncionalidade(func.id)"
+                          :class="[
+                            'px-3 py-1.5 cursor-pointer border-l-3 text-sm flex items-center',
+                            funcionalidadeSelecionada === func.id
+                              ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-400 text-blue-700 dark:text-blue-300'
+                              : 'border-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                          ]"
+                        >
+                          <svg
+                            v-if="func.icone"
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4 mr-2"
+                            :class="
+                              funcionalidadeSelecionada === func.id
+                                ? 'text-blue-500 dark:text-blue-400'
+                                : 'text-gray-500 dark:text-gray-400'
+                            "
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              :d="func.icone"
+                            />
+                          </svg>
+                          {{ func.titulo }}
+                        </li>
+                      </ul>
+                    </div>
+                  </transition>
+                </div>
+              </div>
+
+              <!-- DEPOIS: Funcionalidades diretas da categoria (sem subgrupo) -->
+              <ul
+                v-if="
+                  funcionalidadesFiltradas.some(
+                    (f) => f.categoria === categoria.id && !f.subgrupo
+                  )
+                "
+                :class="categoria.subgrupos ? 'mt-2' : ''"
+              >
+                <li
+                  v-for="(func, index) in funcionalidadesFiltradas.filter(
+                    (f) => f.categoria === categoria.id && !f.subgrupo
+                  )"
+                  :key="'func-direct-' + index"
+                  @click="selecionarFuncionalidade(func.id)"
+                  :class="[
+                    'px-4 py-2 pl-6 cursor-pointer border-l-4 text-sm flex items-center',
+                    funcionalidadeSelecionada === func.id
+                      ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-400 text-blue-700 dark:text-blue-300'
+                      : 'border-transparent hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300',
+                  ]"
+                >
+                  <svg
+                    v-if="func.icone"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 mr-2"
+                    :class="
+                      funcionalidadeSelecionada === func.id
+                        ? 'text-blue-500 dark:text-blue-400'
+                        : 'text-gray-500 dark:text-gray-400'
+                    "
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      :d="func.icone"
+                    />
+                  </svg>
+                  {{ func.titulo }}
+                </li>
+              </ul>
+            </div>
           </transition>
         </div>
       </aside>
@@ -582,11 +779,59 @@ export default {
     return {
       filtroFuncionalidade: "",
       categoriasExpanded: ["comum"], // Categorias expandidas por padrão
+      subgruposExpanded: ["appHeader"], // Subgrupos expandidos por padrão
+      subsubgruposExpanded: ["crud-atividades", "crud-rf", "crud-rnf"], // Sub-subgrupos expandidos por padrão
+
+      //Salvar estado anterior à busca
+      estadoAnteriorBusca: {
+        categoriasExpanded: [],
+        subgruposExpanded: [],
+        subsubgruposExpanded: [],
+      },
+      estaEmBusca: false,
+
       funcionalidadeSelecionada: "tour-guiado", // ID da funcionalidade selecionada
       categorias: [
-        { id: "comum", nome: "Funcionalidades Comuns" },
-        { id: "doc-tecnica", nome: "Documentação Técnica" },
-        { id: "doc-dev", nome: "Documentação de Desenvolvimento" },
+        {
+          id: "comum",
+          nome: "Funcionalidades Comuns",
+          subgrupos: [
+            { id: "appHeader", nome: "Cabeçalho" },
+            { id: "formulario", nome: "Formulário" },
+          ],
+        },
+        {
+          id: "doc-tecnica",
+          nome: "Documentação Técnica",
+          subgrupos: [
+            {
+              id: "atividades",
+              nome: "Atividades",
+              subsubgrupos: [
+                { id: "crud-atividades", nome: "CRUD Atividades" },
+              ],
+            },
+          ],
+        },
+        {
+          id: "doc-dev",
+          nome: "Documentação de Desenvolvimento",
+          subgrupos: [
+            {
+              id: "requisitos-funcionais",
+              nome: "Requisitos Funcionais",
+              subsubgrupos: [
+                { id: "crud-rf", nome: "CRUD RF" },
+                { id: "imagens", nome: "CRUD Imagens" },
+              ],
+            },
+            {
+              id: "requisitos-nao-funcionais",
+              nome: "Requisitos Não Funcionais",
+              subsubgrupos: [{ id: "crud-rnf", nome: "CRUD RNF" }],
+            },
+          ],
+        },
       ],
       funcionalidades: [
         // --- Funcionalidades comuns em ambos tipos de documentação --- //
@@ -594,6 +839,7 @@ export default {
         {
           id: "tour-guiado",
           categoria: "comum",
+          subgrupo: "appHeader",
           titulo: "Tour Guiado Interativo",
           icone: iconesPorTipo.tourGuiado,
           bdd: `Eu, como novo usuário do sistema,
@@ -691,6 +937,7 @@ Para aprender a usar o sistema de forma eficiente`,
         {
           id: "modo-claro-escuro",
           categoria: "comum",
+          subgrupo: "appHeader",
           titulo: "Alternância de Tema (Claro/Escuro)",
           icone: iconesPorTipo.temaClaro,
           bdd: `Eu, como usuário do sistema,
@@ -782,6 +1029,7 @@ Para adequar a interface às minhas preferências visuais`,
         {
           id: "troca-tipo-documentacao",
           categoria: "comum",
+          subgrupo: "appHeader",
           titulo: "Troca do Tipo de Documentação",
           icone: iconesPorTipo.troca,
           bdd: `Eu, como usuário do sistema,
@@ -888,6 +1136,7 @@ Para acessar a #o#documentação técnica# ou a #g#documentação de desenvolvim
         {
           id: "formulario-informacoes-basicas",
           categoria: "comum",
+          subgrupo: "formulario",
           titulo: "Informações Básicas da SS",
           icone: iconesPorTipo.formulario,
           bdd: `Eu, como usuário do sistema,
@@ -992,6 +1241,7 @@ Para documentar os dados essenciais do trabalho realizado`,
         {
           id: "selecao-multipla-autores",
           categoria: "comum",
+          subgrupo: "formulario",
           titulo: "Seleção Múltipla de Autores",
           icone: iconesPorTipo.formulario,
           bdd: `Eu, como usuário do sistema,
@@ -1099,6 +1349,7 @@ Para registrar todos os contribuidores do trabalho`,
         {
           id: "exportacao-multiplos-formatos",
           categoria: "comum",
+          subgrupo: "formulario",
           titulo: "Exportação em Múltiplos Formatos",
           icone: iconesPorTipo.exportar,
           bdd: `Eu, como usuário do sistema,
@@ -1195,6 +1446,7 @@ Para distribuir e armazenar da maneira mais adequada`,
         {
           id: "importacao-arquivo-json",
           categoria: "comum",
+          subgrupo: "appHeader",
           titulo: "Importação de Arquivo JSON",
           icone: iconesPorTipo.importar,
           bdd: `Eu, como usuário do sistema,
@@ -1294,6 +1546,8 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
         {
           id: "cadastro-atividades",
           categoria: "doc-tecnica",
+          subgrupo: "atividades",
+          subsubgrupo: "crud-atividades",
           titulo: "Cadastro de Atividades",
           icone: iconesPorTipo.cadastro,
           bdd: `Eu, como líder de desenvolvimento / analista de requisitos,
@@ -1385,6 +1639,8 @@ Para contabilizar o esforço técnico dessa SS`,
         {
           id: "listagem-atividades",
           categoria: "doc-tecnica",
+          subgrupo: "atividades",
+          subsubgrupo: "crud-atividades",
           titulo: "Listagem de Atividades",
           icone: iconesPorTipo.listagem,
           bdd: `Eu, como líder de desenvolvimento / analista de requisitos,
@@ -1473,6 +1729,8 @@ Para ter uma visão clara do trabalho realizado e poder reorganizá-las conforme
         {
           id: "editar-atividades",
           categoria: "doc-tecnica",
+          subgrupo: "atividades",
+          subsubgrupo: "crud-atividades",
           titulo: "Edição de Atividades",
           icone: iconesPorTipo.edicao,
           bdd: `Eu, como usuário,
@@ -1567,6 +1825,8 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
         {
           id: "remocao-atividades",
           categoria: "doc-tecnica",
+          subgrupo: "atividades",
+          subsubgrupo: "crud-atividades",
           titulo: "Remoção de Atividades",
           icone: iconesPorTipo.remocao,
           bdd: `Eu, como líder de desenvolvimento / analista de requisitos,
@@ -1631,7 +1891,7 @@ Para manter a documentação precisa e atualizada`,
         {
           id: "geracao-documentacao-tecnica",
           categoria: "doc-tecnica",
-          titulo: "Geração de #o#Documentação Técnica#",
+          titulo: "Geração de Documentação Técnica",
           icone: iconesPorTipo.exportar,
           bdd: `Eu, como líder de desenvolvimento / analista de requisitos,
 Quero gerar #o#documentação técnica# em diferentes formatos
@@ -1748,6 +2008,8 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
         {
           id: "cadastro-requisito-funcional",
           categoria: "doc-dev",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "crud-rf",
           titulo: "Cadastro de Requisito Funcional",
           icone: iconesPorTipo.cadastro,
           bdd: `Eu, como analista de requisitos,
@@ -1856,98 +2118,10 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
         },
 
         {
-          id: "visualizacao-requisito-funcional",
-          categoria: "doc-dev",
-          titulo: "Visualização de Requisito Funcional",
-          icone: iconesPorTipo.visualizacao,
-          bdd: `Eu, como analista de requisitos,
-Quero visualizar os detalhes completos de um requisito funcional
-Para verificar suas especificações sem risco de alteração acidental`,
-          caminhoAcesso: [
-            "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
-            'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
-            "Clicar no botão de visualização (ícone de olho)",
-          ],
-          criteriosAceitacao: [
-            {
-              titulo: "Modal de visualização: o modal deve:",
-              itens: [
-                "Abrir no modo somente leitura (todos os campos desabilitados)",
-                "Ter o título 'Visualizar Requisito Funcional'",
-                "Exibir todos os dados do requisito, inclusive imagens",
-                "Permitir navegação entre as abas mas não a edição dos campos",
-                'Apresentar apenas o botão "Voltar" no rodapé',
-              ],
-            },
-            {
-              titulo: "Exibição de campos não preenchidos: o sistema deve:",
-              itens: [
-                'Exibir a mensagem "Não preenchido" em campos opcionais que não possuem conteúdo',
-                "Mostrar todas as imagens anexadas, se houver",
-                'Exibir a mensagem "Não foram inseridas imagens nesse RF" se não houver imagens',
-              ],
-            },
-          ],
-          regrasNegocio: [
-            {
-              descricao:
-                "O modo de visualização não permite nenhuma alteração nos dados",
-            },
-            {
-              descricao:
-                "Todos os dados são exibidos, mesmo os campos opcionais não preenchidos",
-            },
-          ],
-          regrasInterface: [
-            {
-              descricao:
-                "O botão de visualização é representado por um ícone de olho na lista de requisitos",
-            },
-            {
-              descricao:
-                "Os campos aparecem em modo somente leitura, com visual diferente dos campos editáveis",
-            },
-            {
-              descricao:
-                "Os ícones de cadeado para fixar campos como padrão não são exibidos no modo visualização",
-            },
-            {
-              descricao:
-                "O botão de upload de imagens não é exibido no modo visualização",
-            },
-          ],
-          cenariosTeste: [
-            {
-              titulo: "Visualização de requisito completo",
-              dado: "que existe um requisito funcional com todos os campos preenchidos",
-              quando:
-                "o usuário clica no ícone de visualização desse requisito",
-              entao: "o sistema deve abrir o modal no modo somente leitura",
-              e_entao: "exibir todos os dados do requisito sem permitir edição",
-            },
-            {
-              titulo:
-                "Visualização de requisito com campos opcionais não preenchidos",
-              dado: "que existe um requisito com alguns campos opcionais não preenchidos",
-              quando:
-                "o usuário clica no ícone de visualização desse requisito",
-              entao: "o sistema deve abrir o modal no modo somente leitura",
-              e_entao: 'exibir "Não preenchido" nos campos opcionais vazios',
-            },
-            {
-              titulo: "Retorno à lista de requisitos",
-              dado: "que o usuário está visualizando um requisito",
-              quando: 'o usuário clica no botão "Voltar"',
-              entao: "o sistema deve fechar o modal de visualização",
-              e_entao: "retornar à lista de requisitos",
-            },
-          ],
-        },
-
-        {
           id: "listagem-requisito-funcional",
           categoria: "doc-dev",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "crud-rf",
           titulo: "Listagem de Requisito Funcionais",
           icone: iconesPorTipo.listagem,
           bdd: `Eu, como analista de requisitos,
@@ -2042,8 +2216,102 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de im
         },
 
         {
+          id: "visualizacao-requisito-funcional",
+          categoria: "doc-dev",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "crud-rf",
+          titulo: "Visualização de Requisito Funcional",
+          icone: iconesPorTipo.visualizacao,
+          bdd: `Eu, como analista de requisitos,
+Quero visualizar os detalhes completos de um requisito funcional
+Para verificar suas especificações sem risco de alteração acidental`,
+          caminhoAcesso: [
+            "Acessar o sistema",
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
+            "Clicar no botão de visualização (ícone de olho)",
+          ],
+          criteriosAceitacao: [
+            {
+              titulo: "Modal de visualização: o modal deve:",
+              itens: [
+                "Abrir no modo somente leitura (todos os campos desabilitados)",
+                "Ter o título 'Visualizar Requisito Funcional'",
+                "Exibir todos os dados do requisito, inclusive imagens",
+                "Permitir navegação entre as abas mas não a edição dos campos",
+                'Apresentar apenas o botão "Voltar" no rodapé',
+              ],
+            },
+            {
+              titulo: "Exibição de campos não preenchidos: o sistema deve:",
+              itens: [
+                'Exibir a mensagem "Não preenchido" em campos opcionais que não possuem conteúdo',
+                "Mostrar todas as imagens anexadas, se houver",
+                'Exibir a mensagem "Não foram inseridas imagens nesse RF" se não houver imagens',
+              ],
+            },
+          ],
+          regrasNegocio: [
+            {
+              descricao:
+                "O modo de visualização não permite nenhuma alteração nos dados",
+            },
+            {
+              descricao:
+                "Todos os dados são exibidos, mesmo os campos opcionais não preenchidos",
+            },
+          ],
+          regrasInterface: [
+            {
+              descricao:
+                "O botão de visualização é representado por um ícone de olho na lista de requisitos",
+            },
+            {
+              descricao:
+                "Os campos aparecem em modo somente leitura, com visual diferente dos campos editáveis",
+            },
+            {
+              descricao:
+                "Os ícones de cadeado para fixar campos como padrão não são exibidos no modo visualização",
+            },
+            {
+              descricao:
+                "O botão de upload de imagens não é exibido no modo visualização",
+            },
+          ],
+          cenariosTeste: [
+            {
+              titulo: "Visualização de requisito completo",
+              dado: "que existe um requisito funcional com todos os campos preenchidos",
+              quando:
+                "o usuário clica no ícone de visualização desse requisito",
+              entao: "o sistema deve abrir o modal no modo somente leitura",
+              e_entao: "exibir todos os dados do requisito sem permitir edição",
+            },
+            {
+              titulo:
+                "Visualização de requisito com campos opcionais não preenchidos",
+              dado: "que existe um requisito com alguns campos opcionais não preenchidos",
+              quando:
+                "o usuário clica no ícone de visualização desse requisito",
+              entao: "o sistema deve abrir o modal no modo somente leitura",
+              e_entao: 'exibir "Não preenchido" nos campos opcionais vazios',
+            },
+            {
+              titulo: "Retorno à lista de requisitos",
+              dado: "que o usuário está visualizando um requisito",
+              quando: 'o usuário clica no botão "Voltar"',
+              entao: "o sistema deve fechar o modal de visualização",
+              e_entao: "retornar à lista de requisitos",
+            },
+          ],
+        },
+
+        {
           id: "edicao-requisito-funcional",
           categoria: "doc-dev",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "crud-rf",
           titulo: "Edição de Requisito Funcional",
           icone: iconesPorTipo.edicao,
           bdd: `Eu, como analista de requisitos,
@@ -2143,6 +2411,8 @@ Para atualizar ou corrigir as especificações conforme necessário`,
         {
           id: "remocao-requisito-funcional",
           categoria: "doc-dev",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "crud-rf",
           titulo: "Remoção de Requisito Funcional",
           icone: iconesPorTipo.remocao,
           bdd: `Eu, como analista de requisitos,
@@ -2227,8 +2497,468 @@ Para manter a documentação atualizada e relevante`,
         },
 
         {
+          id: "adicao-imagem-rf",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "imagens",
+          categoria: "doc-dev",
+          titulo: "Adição de Imagens em Requisito Funcional",
+          icone: iconesPorTipo.cadastro,
+          bdd: `Eu, como analista de requisitos,
+Quero adicionar imagens aos requisitos funcionais
+Para ilustrar melhor as especificações e facilitar o entendimento`,
+          caminhoAcesso: [
+            "Acessar o sistema",
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            'Na aba "Requisitos Funcionais", clicar em "Adicionar Requisito Funcional" ou editar um existente',
+            'Navegar para a aba "Imagens e Descrição"',
+            'Clicar no botão "Selecionar imagens"',
+            "Escolher as imagens desejadas no explorador de arquivos",
+            'Clicar em "Salvar" para confirmar o requisito',
+          ],
+          criteriosAceitacao: [
+            {
+              titulo: "Seleção de imagens: o sistema deve permitir:",
+              itens: [
+                "Upload de múltiplas imagens simultaneamente",
+                "Aceitar formatos comuns: JPG, JPEG, PNG, GIF, WEBP",
+                "Validar tamanho máximo de 5MB para o total de todas as imagens",
+                "Exibir preview das imagens selecionadas imediatamente após o upload",
+              ],
+            },
+            {
+              titulo: "Área de upload: o sistema deve apresentar:",
+              itens: [
+                'Botão "Selecionar imagens" claramente visível',
+                "Suporte a drag and drop para facilitar o upload",
+                "Indicador visual quando imagens estão sendo processadas",
+                "Grade de visualização das imagens após o upload",
+              ],
+            },
+            {
+              titulo: "Validações: o sistema deve:",
+              itens: [
+                "Rejeitar arquivos que não sejam imagens válidas",
+                "Alertar quando o tamanho total exceder 5MB",
+                "Mostrar informações de tamanho de cada imagem",
+                "Preservar qualidade das imagens no formato base64",
+              ],
+            },
+          ],
+          regrasNegocio: [
+            {
+              descricao:
+                "As imagens são convertidas para base64 e armazenadas junto com o requisito",
+            },
+            {
+              descricao:
+                "O limite total de 5MB visa manter a performance do sistema",
+            },
+            {
+              descricao:
+                "As imagens são opcionais - um requisito pode não ter imagens",
+            },
+            {
+              descricao:
+                "A ordem das imagens na grade é preservada na documentação gerada",
+            },
+          ],
+          regrasInterface: [
+            {
+              descricao:
+                "As imagens são exibidas em uma grade responsiva de 3 colunas",
+            },
+            {
+              descricao:
+                "Cada imagem mostra uma miniatura com indicador de tamanho",
+            },
+            {
+              descricao:
+                "Botão de upload usa ícones intuitivos e texto descritivo",
+            },
+            {
+              descricao:
+                "Feedback visual imediato para uploads bem-sucedidos ou com erro",
+            },
+          ],
+          cenariosTeste: [
+            {
+              titulo: "Upload bem-sucedido de múltiplas imagens",
+              dado: "que o usuário está na aba 'Imagens e Descrição' de um requisito",
+              quando:
+                "seleciona múltiplas imagens válidas dentro do limite de tamanho",
+              entao:
+                "o sistema deve processar e exibir todas as imagens na grade",
+              e_entao: "mostrar o tamanho individual de cada imagem",
+            },
+            {
+              titulo: "Tentativa de upload excedendo limite de tamanho",
+              dado: "que o usuário tenta adicionar imagens",
+              quando: "o tamanho total das imagens selecionadas excede 5MB",
+              entao: "o sistema deve rejeitar o upload",
+              e_entao:
+                "exibir mensagem informando o limite e sugerindo usar imagens menores",
+            },
+            {
+              titulo: "Upload de arquivo inválido",
+              dado: "que o usuário tenta fazer upload de um arquivo",
+              quando: "seleciona um arquivo que não é uma imagem válida",
+              entao: "o sistema deve rejeitar o arquivo",
+              e_entao: "exibir mensagem informando os formatos aceitos",
+            },
+          ],
+        },
+
+        {
+          id: "listagem-imagens-rf",
+          categoria: "doc-dev",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "imagens",
+          titulo: "Listagem de Imagens em Requisito Funcional",
+          icone: iconesPorTipo.listagem,
+          bdd: `Eu, como usuário do sistema,
+Quero visualizar todas as imagens de um requisito funcional organizadas em grade
+Para ter uma visão geral das imagens anexadas e facilitar sua gestão`,
+          caminhoAcesso: [
+            "Acessar o sistema",
+            "Selecionar a opção Documentação de Desenvolvimento",
+            'Na aba "Requisitos Funcionais", visualizar ou editar qualquer requisito',
+            'Navegar para a aba "Imagens e Descrição"',
+            "As imagens cadastradas são exibidas automaticamente na grade",
+          ],
+          criteriosAceitacao: [
+            {
+              titulo: "Exibição da grade: o sistema deve mostrar:",
+              itens: [
+                "Grade responsiva com até 3 colunas em telas grandes",
+                "Miniaturas das imagens com proporções mantidas",
+                "Indicador de tamanho no canto inferior de cada imagem",
+                "Efeito hover para indicar interatividade",
+              ],
+            },
+            {
+              titulo: "Informações visuais: cada imagem deve exibir:",
+              itens: [
+                "Miniatura clara e bem definida",
+                "Tamanho formatado (ex: '245,3 KB' ou '1,2 MB')",
+                "Botão de remoção no modo edição",
+                "Indicação visual quando a imagem é clicável",
+              ],
+            },
+            {
+              titulo: "Estados da listagem:",
+              itens: [
+                "Estado vazio: mensagem 'Nenhuma imagem foi inserida' quando não há imagens",
+                "Estado de carregamento durante upload de novas imagens",
+                "Estado de edição: botões de remoção visíveis",
+                "Estado de visualização: apenas visualização das imagens",
+              ],
+            },
+            {
+              titulo: "Responsividade: a grade deve adaptar-se:",
+              itens: [
+                "3 colunas em telas grandes (desktop)",
+                "2 colunas em tablets",
+                "1 coluna em smartphones",
+                "Espaçamento adequado entre as imagens",
+              ],
+            },
+          ],
+          regrasNegocio: [
+            {
+              descricao:
+                "As imagens são exibidas na ordem em que foram adicionadas",
+            },
+            {
+              descricao:
+                "A reordenação manual não é suportada - ordem segue cronologia de upload",
+            },
+            {
+              descricao:
+                "No modo visualização, as imagens não podem ser removidas",
+            },
+            {
+              descricao:
+                "O estado vazio é exibido quando não há imagens cadastradas",
+            },
+          ],
+          regrasInterface: [
+            {
+              descricao:
+                "Hover effect nas imagens para indicar que são clicáveis",
+            },
+            {
+              descricao:
+                "Animações suaves ao adicionar/remover imagens da grade",
+            },
+            {
+              descricao: "Layout consistente com o restante do sistema",
+            },
+            {
+              descricao:
+                "Cores e estilos adaptam-se ao tema atual (claro/escuro)",
+            },
+          ],
+          cenariosTeste: [
+            {
+              titulo: "Exibição de grade com múltiplas imagens",
+              dado: "que um requisito possui várias imagens cadastradas",
+              quando: "o usuário acessa a aba 'Imagens e Descrição'",
+              entao:
+                "o sistema deve exibir todas as imagens em grade organizada",
+              e_entao: "mostrar o tamanho individual de cada imagem",
+            },
+            {
+              titulo: "Comportamento responsivo",
+              dado: "que há imagens na grade",
+              quando: "o usuário redimensiona a janela do navegador",
+              entao:
+                "o sistema deve ajustar automaticamente o número de colunas",
+              e_entao: "manter a proporção e qualidade das miniaturas",
+            },
+            {
+              titulo: "Estado vazio",
+              dado: "que um requisito não possui imagens cadastradas",
+              quando: "o usuário acessa a aba 'Imagens e Descrição'",
+              entao: "o sistema deve exibir a mensagem de estado vazio",
+              e_entao: "manter visível a área de upload para adicionar imagens",
+            },
+            {
+              titulo: "Diferenciação entre modos",
+              dado: "que há imagens na grade",
+              quando: "o usuário alterna entre modo edição e visualização",
+              entao:
+                "o sistema deve mostrar/ocultar os botões de remoção adequadamente",
+              e_entao:
+                "manter a funcionalidade de clique para visualização em ambos os modos",
+            },
+          ],
+        },
+
+        {
+          id: "visualizacao-imagem-rf",
+          categoria: "doc-dev",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "imagens",
+          titulo: "Visualização de Imagens de Requisito Funcional",
+          icone: iconesPorTipo.visualizacao,
+          bdd: `Eu, como usuário do sistema,
+Quero visualizar imagens de requisitos funcionais em tamanho ampliado
+Para analisar detalhes e ter melhor compreensão das especificações`,
+          caminhoAcesso: [
+            "Acessar o sistema",
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            'Na aba "Requisitos Funcionais", visualizar ou editar um requisito que possui imagens',
+            'Navegar para a aba "Imagens e Descrição"',
+            "Clicar em qualquer imagem na grade para abrir o visualizador",
+          ],
+          criteriosAceitacao: [
+            {
+              titulo:
+                "Abertura do visualizador: ao clicar em uma imagem, o sistema deve:",
+              itens: [
+                "Abrir um modal em tela cheia com fundo escuro semi-transparente",
+                "Exibir a imagem centralizada com tamanho otimizado",
+                "Mostrar botões de navegação se houver múltiplas imagens",
+                "Bloquear o scroll da página de fundo durante a visualização",
+              ],
+            },
+            {
+              titulo: "Navegação entre imagens: o visualizador deve permitir:",
+              itens: [
+                "Navegar para imagem anterior/próxima com setas laterais",
+                "Usar teclas de seta do teclado para navegação",
+                "Exibir contador 'X de Y' para indicar posição atual",
+                "Loop infinito (após a última, volta para a primeira)",
+              ],
+            },
+            {
+              titulo: "Informações da imagem: o visualizador deve exibir:",
+              itens: [
+                "Nome do arquivo gerado automaticamente",
+                "Tamanho do arquivo formatado (KB/MB)",
+                "Dimensões da imagem (largura × altura)",
+                "Quantidade de caracteres do base64",
+              ],
+            },
+            {
+              titulo:
+                "Controles de fechamento: deve ser possível fechar através de:",
+              itens: [
+                "Botão 'X' no canto superior direito",
+                "Tecla ESC do teclado",
+                "Clique fora da área da imagem (no overlay)",
+              ],
+            },
+          ],
+          regrasNegocio: [
+            {
+              descricao:
+                "As imagens são redimensionadas proporcionalmente para caber na tela",
+            },
+            {
+              descricao:
+                "Imagens menores que o viewport são exibidas em tamanho original",
+            },
+            {
+              descricao:
+                "A navegação por teclado funciona em ambos os modos (claro/escuro)",
+            },
+            {
+              descricao:
+                "O visualizador é responsivo e funciona em diferentes tamanhos de tela",
+            },
+          ],
+          regrasInterface: [
+            {
+              descricao:
+                "Indicação visual de que a imagem é clicável (cursor pointer + hover effect)",
+            },
+            {
+              descricao:
+                "Botões de navegação só aparecem quando há múltiplas imagens",
+            },
+            {
+              descricao: "Interface adapta-se ao tema atual (claro/escuro)",
+            },
+            {
+              descricao: "Transições suaves entre imagens e ao abrir/fechar",
+            },
+          ],
+          cenariosTeste: [
+            {
+              titulo: "Visualização de imagem única",
+              dado: "que um requisito possui apenas uma imagem",
+              quando: "o usuário clica na imagem",
+              entao:
+                "o sistema deve abrir o visualizador sem setas de navegação",
+              e_entao:
+                "mostrar apenas as informações da imagem e botão de fechar",
+            },
+            {
+              titulo: "Navegação entre múltiplas imagens",
+              dado: "que um requisito possui várias imagens",
+              quando: "o usuário abre o visualizador e navega com as setas",
+              entao: "o sistema deve alternar entre as imagens sequencialmente",
+              e_entao: "atualizar o contador e as informações de cada imagem",
+            },
+            {
+              titulo: "Fechamento com tecla ESC",
+              dado: "que o visualizador está aberto",
+              quando: "o usuário pressiona a tecla ESC",
+              entao: "o sistema deve fechar o visualizador",
+              e_entao: "retornar o foco para a grade de imagens",
+            },
+            {
+              titulo: "Navegação por teclado",
+              dado: "que o visualizador está aberto com múltiplas imagens",
+              quando: "o usuário usa as setas do teclado (← →)",
+              entao: "o sistema deve navegar entre as imagens",
+              e_entao: "funcionar da mesma forma que os botões na tela",
+            },
+          ],
+        },
+
+        {
+          id: "remocao-imagem-rf",
+          categoria: "doc-dev",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "imagens",
+          titulo: "Remoção de Imagens de Requisito Funcional",
+          icone: iconesPorTipo.remocao,
+          bdd: `Eu, como analista de requisitos,
+Quero remover imagens de requisitos funcionais
+Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
+          caminhoAcesso: [
+            "Acessar o sistema",
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            'Na aba "Requisitos Funcionais", editar um requisito que possui imagens',
+            'Navegar para a aba "Imagens e Descrição"',
+            "Localizar a imagem a ser removida na grade",
+            "Clicar no botão 'X' no canto superior direito da imagem",
+            'Clicar em "Salvar" para confirmar as alterações',
+          ],
+          criteriosAceitacao: [
+            {
+              titulo: "Botão de remoção: cada imagem deve ter:",
+              itens: [
+                "Botão 'X' vermelho no canto superior direito",
+                "Ícone claramente visível sobre a imagem",
+                "Tooltip explicativo ao passar o mouse",
+                "Remoção imediata sem necessidade de confirmação adicional",
+              ],
+            },
+            {
+              titulo: "Feedback visual: o sistema deve:",
+              itens: [
+                "Remover a imagem da grade imediatamente após o clique",
+                "Reorganizar automaticamente as imagens restantes",
+                "Atualizar o cálculo de tamanho total das imagens",
+                "Manter a numeração sequencial das imagens restantes",
+              ],
+            },
+          ],
+          regrasNegocio: [
+            {
+              descricao:
+                "A remoção é imediata e não requer confirmação adicional",
+            },
+            {
+              descricao: "As imagens restantes mantêm sua ordem original",
+            },
+            {
+              descricao:
+                "É possível remover todas as imagens, deixando o campo vazio",
+            },
+            {
+              descricao: "A remoção só é definitiva após salvar o requisito",
+            },
+          ],
+          regrasInterface: [
+            {
+              descricao:
+                "Botão de remoção só aparece no modo de edição/criação",
+            },
+            {
+              descricao: "Hover effect no botão para melhor usabilidade",
+            },
+            {
+              descricao: "Animação suave na remoção da imagem da grade",
+            },
+            {
+              descricao:
+                "Área de upload permanece visível mesmo após remover todas as imagens",
+            },
+          ],
+          cenariosTeste: [
+            {
+              titulo: "Remoção de imagem individual",
+              dado: "que um requisito possui múltiplas imagens",
+              quando: "o usuário clica no 'X' de uma imagem específica",
+              entao: "o sistema deve remover apenas aquela imagem",
+              e_entao: "reorganizar as imagens restantes na grade",
+            },
+            {
+              titulo: "Remoção de todas as imagens",
+              dado: "que um requisito possui imagens",
+              quando: "o usuário remove todas as imagens uma por uma",
+              entao: "o sistema deve manter a área de upload visível",
+              e_entao: "permitir adicionar novas imagens posteriormente",
+            },
+            {
+              titulo: "Cancelamento de edição após remoção",
+              dado: "que o usuário removeu algumas imagens durante a edição",
+              quando: "cancela a edição sem salvar",
+              entao: "o sistema deve manter as imagens originais",
+              e_entao: "descartar as alterações de remoção",
+            },
+          ],
+        },
+
+        {
           id: "cadastro-requisito-nao-funcional",
           categoria: "doc-dev",
+          subgrupo: "requisitos-nao-funcionais",
+          subsubgrupo: "crud-rnf",
           titulo: "Cadastro de Requisito Não Funcional",
           icone: iconesPorTipo.cadastro,
           bdd: `Eu, como analista de requisitos,
@@ -2322,6 +3052,8 @@ Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
         {
           id: "listagem-requisito-nao-funcional",
           categoria: "doc-dev",
+          subgrupo: "requisitos-nao-funcionais",
+          subsubgrupo: "crud-rnf",
           titulo: "Listagem de Requisito Não Funcional",
           icone: iconesPorTipo.listagem,
           bdd: `Eu, como analista de requisitos,
@@ -2413,6 +3145,8 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem de prioridade
         {
           id: "edicao-requisito-nao-funcional",
           categoria: "doc-dev",
+          subgrupo: "requisitos-nao-funcionais",
+          subsubgrupo: "crud-rnf",
           titulo: "Edição de Requisito Não Funcional",
           icone: iconesPorTipo.edicao,
           bdd: `Eu, como analista de requisitos,
@@ -2509,6 +3243,8 @@ Para atualizar ou corrigir as especificações conforme necessário`,
         {
           id: "remocao-requisito-nao-funcional",
           categoria: "doc-dev",
+          subgrupo: "requisitos-nao-funcionais",
+          subsubgrupo: "crud-rnf",
           titulo: "Remoção de Requisito Não Funcional",
           icone: iconesPorTipo.remocao,
           bdd: `Eu, como analista de requisitos,
@@ -2931,29 +3667,99 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
         categoriaIdsComFuncionalidades.includes(c.id)
       );
     },
+
     funcionalidadesFiltradas() {
       const filtro = this.filtroFuncionalidade.trim().toLowerCase();
       if (!filtro) {
         return this.funcionalidades;
       }
 
-      return this.funcionalidades.filter(
-        (f) =>
-          f.titulo.toLowerCase().includes(filtro) ||
-          f.bdd.toLowerCase().includes(filtro) ||
+      return this.funcionalidades.filter((f) => {
+        // Busca no título
+        if (f.titulo.toLowerCase().includes(filtro)) return true;
+
+        // Busca no BDD
+        if (f.bdd && f.bdd.toLowerCase().includes(filtro)) return true;
+
+        // Busca no caminho de acesso
+        if (
+          f.caminhoAcesso &&
+          f.caminhoAcesso.some((caminho) =>
+            caminho.toLowerCase().includes(filtro)
+          )
+        )
+          return true;
+
+        // Busca nos critérios de aceitação
+        if (
+          f.criteriosAceitacao &&
           f.criteriosAceitacao.some(
             (c) =>
               c.titulo.toLowerCase().includes(filtro) ||
-              c.itens.some((i) => i.toLowerCase().includes(filtro))
-          ) ||
-          f.regrasNegocio.some((r) =>
-            r.descricao.toLowerCase().includes(filtro)
-          ) ||
-          f.regrasInterface.some((r) =>
-            r.descricao.toLowerCase().includes(filtro)
+              (c.itens &&
+                c.itens.some((item) => item.toLowerCase().includes(filtro))) ||
+              (c.descricao && c.descricao.toLowerCase().includes(filtro))
           )
-      );
+        )
+          return true;
+
+        // Busca nas regras de negócio
+        if (
+          f.regrasNegocio &&
+          f.regrasNegocio.some((r) => {
+            if (typeof r === "string") {
+              return r.toLowerCase().includes(filtro);
+            }
+            return (
+              (r.descricao && r.descricao.toLowerCase().includes(filtro)) ||
+              (r.titulo && r.titulo.toLowerCase().includes(filtro)) ||
+              (r.itens &&
+                r.itens.some((item) => item.toLowerCase().includes(filtro)))
+            );
+          })
+        )
+          return true;
+
+        // Busca nas regras de interface
+        if (
+          f.regrasInterface &&
+          f.regrasInterface.some((r) => {
+            if (typeof r === "string") {
+              return r.toLowerCase().includes(filtro);
+            }
+            return (
+              (r.descricao && r.descricao.toLowerCase().includes(filtro)) ||
+              (r.titulo && r.titulo.toLowerCase().includes(filtro)) ||
+              (r.itens &&
+                r.itens.some((item) => item.toLowerCase().includes(filtro)))
+            );
+          })
+        )
+          return true;
+
+        // Busca nos cenários de teste
+        if (
+          f.cenariosTeste &&
+          f.cenariosTeste.some((c) => {
+            return (
+              (c.titulo && c.titulo.toLowerCase().includes(filtro)) ||
+              (c.descricao && c.descricao.toLowerCase().includes(filtro)) ||
+              (c.dado && c.dado.toLowerCase().includes(filtro)) ||
+              (c.quando && c.quando.toLowerCase().includes(filtro)) ||
+              (c.entao && c.entao.toLowerCase().includes(filtro)) ||
+              (c.e && c.e.toLowerCase().includes(filtro)) ||
+              (c.e_entao && c.e_entao.toLowerCase().includes(filtro)) ||
+              (c.itens &&
+                c.itens.some((item) => item.toLowerCase().includes(filtro)))
+            );
+          })
+        )
+          return true;
+
+        return false;
+      });
     },
+
     funcionalidadeProcessada() {
       if (!this.funcionalidadeAtual) return null;
 
@@ -3060,43 +3866,69 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
   },
 
   watch: {
-    filtroFuncionalidade(newValue) {
-      if (!newValue.trim()) {
-        // Se o filtro estiver vazio, mantenha apenas a categoria "comum" expandida por padrão
-        this.categoriasExpanded = ["comum"];
+    filtroFuncionalidade(newValue, oldValue) {
+      const temFiltro = newValue.trim();
+      const tinhaFiltro = oldValue && oldValue.trim();
+
+      if (!temFiltro && tinhaFiltro) {
+        // Acabou de limpar a busca - restaurar estado anterior
+        this.categoriasExpanded = [
+          ...this.estadoAnteriorBusca.categoriasExpanded,
+        ];
+        this.subgruposExpanded = [
+          ...this.estadoAnteriorBusca.subgruposExpanded,
+        ];
+        this.subsubgruposExpanded = [
+          ...this.estadoAnteriorBusca.subsubgruposExpanded,
+        ];
+        this.estaEmBusca = false;
         return;
       }
 
-      // Quando há um filtro, expande automaticamente as categorias que têm resultados
-      const filtro = newValue.trim().toLowerCase();
+      if (!temFiltro) {
+        // Filtro vazio desde o início - manter estado padrão
+        this.estaEmBusca = false;
+        return;
+      }
 
-      // Identifica quais categorias têm funcionalidades que correspondem ao filtro
-      const categoriasComResultados = this.funcionalidades
-        .filter(
-          (f) =>
-            f.titulo.toLowerCase().includes(filtro) ||
-            f.bdd.toLowerCase().includes(filtro) ||
-            f.criteriosAceitacao.some(
-              (c) =>
-                c.titulo.toLowerCase().includes(filtro) ||
-                c.itens.some((i) => i.toLowerCase().includes(filtro))
-            ) ||
-            f.regrasNegocio.some((r) =>
-              r.descricao.toLowerCase().includes(filtro)
-            ) ||
-            f.regrasInterface.some((r) =>
-              r.descricao.toLowerCase().includes(filtro)
-            )
-        )
-        .map((f) => f.categoria);
+      if (temFiltro && !tinhaFiltro) {
+        // Começou a buscar - salvar estado atual antes de modificar
+        this.estadoAnteriorBusca = {
+          categoriasExpanded: [...this.categoriasExpanded],
+          subgruposExpanded: [...this.subgruposExpanded],
+          subsubgruposExpanded: [...this.subsubgruposExpanded],
+        };
+        this.estaEmBusca = true;
+      }
 
-      // Remove duplicatas (caso haja várias funcionalidades na mesma categoria)
-      const categoriasUnicas = [...new Set(categoriasComResultados)];
+      // Lógica de busca (só executa se está em busca)
+      if (this.estaEmBusca) {
+        const funcionalidadesEncontradas = this.funcionalidadesFiltradas;
 
-      // Define apenas as categorias com resultados como expandidas
-      this.categoriasExpanded = categoriasUnicas;
+        // Identifica quais categorias têm funcionalidades que correspondem ao filtro
+        const categoriasComResultados = funcionalidadesEncontradas.map(
+          (f) => f.categoria
+        );
+        const categoriasUnicas = [...new Set(categoriasComResultados)];
+        this.categoriasExpanded = categoriasUnicas;
+
+        // Identifica quais subgrupos têm funcionalidades que correspondem ao filtro
+        const subgruposComResultados = funcionalidadesEncontradas
+          .filter((f) => f.subgrupo)
+          .map((f) => f.subgrupo);
+        const subgruposUnicos = [...new Set(subgruposComResultados)];
+        this.subgruposExpanded = subgruposUnicos;
+
+        // Identifica quais sub-subgrupos têm funcionalidades que correspondem ao filtro
+        const subsubgruposComResultados = funcionalidadesEncontradas
+          .filter((f) => f.subsubgrupo)
+          .map((f) => f.subsubgrupo);
+        const subsubgruposUnicos = [...new Set(subsubgruposComResultados)];
+        this.subsubgruposExpanded = subsubgruposUnicos;
+      }
     },
   },
+
   methods: {
     handleSwapRequested(targetUrl) {
       // Se houver dados preenchidos, mostrar confirmação antes de navegar
@@ -3111,6 +3943,26 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
       } else {
         this.$router.push(targetUrl);
       }
+    },
+
+    // Método para salvar estado manualmente (útil para outras situações)
+    salvarEstadoAtual() {
+      this.estadoAnteriorBusca = {
+        categoriasExpanded: [...this.categoriasExpanded],
+        subgruposExpanded: [...this.subgruposExpanded],
+        subsubgruposExpanded: [...this.subsubgruposExpanded],
+      };
+    },
+
+    // Método para restaurar estado manualmente
+    restaurarEstadoAnterior() {
+      this.categoriasExpanded = [
+        ...this.estadoAnteriorBusca.categoriasExpanded,
+      ];
+      this.subgruposExpanded = [...this.estadoAnteriorBusca.subgruposExpanded];
+      this.subsubgruposExpanded = [
+        ...this.estadoAnteriorBusca.subsubgruposExpanded,
+      ];
     },
 
     processarMarkdown(texto) {
@@ -3245,6 +4097,26 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
         );
       } else {
         this.categoriasExpanded.push(categoriaId);
+      }
+    },
+
+    toggleSubgrupo(subgrupoId) {
+      if (this.subgruposExpanded.includes(subgrupoId)) {
+        this.subgruposExpanded = this.subgruposExpanded.filter(
+          (id) => id !== subgrupoId
+        );
+      } else {
+        this.subgruposExpanded.push(subgrupoId);
+      }
+    },
+
+    toggleSubsubgrupo(subsubgrupoId) {
+      if (this.subsubgruposExpanded.includes(subsubgrupoId)) {
+        this.subsubgruposExpanded = this.subsubgruposExpanded.filter(
+          (id) => id !== subsubgrupoId
+        );
+      } else {
+        this.subsubgruposExpanded.push(subsubgrupoId);
       }
     },
 
