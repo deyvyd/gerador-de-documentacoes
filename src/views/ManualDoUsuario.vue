@@ -786,17 +786,17 @@ Para adequar a interface às minhas preferências visuais`,
           icone: iconesPorTipo.troca,
           bdd: `Eu, como usuário do sistema,
 Quero alternar entre os tipos de documentação disponíveis
-Para acessar a documentação técnica ou a documentação de desenvolvimento conforme minha necessidade`,
+Para acessar a #o#documentação técnica# ou a #g#documentação de desenvolvimento# conforme minha necessidade`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Na tela inicial, selecionar entre 'Documentação Técnica' ou 'Documentação de Desenvolvimento'",
+            "Na tela inicial, selecionar entre #o#Documentação Técnica# ou #g#Documentação de Desenvolvimento#",
             "Alternativamente, durante o preenchimento, clicar no botão de alternância no topo da página para trocar de tipo",
           ],
           criteriosAceitacao: [
             {
               titulo: "Seleção de tipo na tela inicial:",
               itens: [
-                "Exibir opções de 'Documentação Técnica' e 'Documentação de Desenvolvimento' na tela inicial",
+                "Exibir opções de #o#Documentação Técnica# e #g#Documentação de Desenvolvimento# na tela inicial",
                 "Permitir seleção através de botões destacados visualmente",
                 "Ao selecionar um tipo, o sistema deve carregar o formulário correspondente",
               ],
@@ -817,11 +817,11 @@ Para acessar a documentação técnica ou a documentação de desenvolvimento co
             },
             {
               descricao:
-                "A documentação técnica é focada em atividades e pontos de função  (PFs)",
+                "A #o#documentação técnica# é focada em atividades e pontos de função  (PFs)",
             },
             {
               descricao:
-                "A documentação de desenvolvimento é focada em requisitos funcionais (RFs) e não funcionais (RNFs)",
+                "A #g#documentação de desenvolvimento# é focada em requisitos funcionais (RFs) e não funcionais (RNFs)",
             },
             {
               descricao:
@@ -848,21 +848,21 @@ Para acessar a documentação técnica ou a documentação de desenvolvimento co
           ],
           cenariosTeste: [
             {
-              titulo: "Seleção inicial de documentação técnica",
+              titulo: "Seleção inicial de #o#documentação técnica#",
               dado: "que o usuário acessou o sistema",
               quando:
-                "seleciona a opção 'Documentação Técnica' na tela inicial",
+                "seleciona a opção #o#Documentação Técnica# na tela inicial",
               entao:
-                "o sistema carrega o formulário específico para documentação técnica",
+                "o sistema carrega o formulário específico para #o#documentação técnica#",
               e_entao: "exibe as seções de atividades e pontos de função",
             },
             {
-              titulo: "Seleção inicial de documentação de desenvolvimento",
+              titulo: "Seleção inicial de #g#documentação de desenvolvimento#",
               dado: "que o usuário acessou o sistema",
               quando:
-                "seleciona a opção 'Documentação de Desenvolvimento' na tela inicial",
+                "seleciona a opção #g#Documentação de Desenvolvimento# na tela inicial",
               entao:
-                "o sistema carrega o formulário específico para documentação de desenvolvimento",
+                "o sistema carrega o formulário específico para #g#documentação de desenvolvimento#",
               e_entao:
                 "exibe as seções de requisitos funcionais e não funcionais",
             },
@@ -1221,7 +1221,7 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
               titulo: "Compatibilidade entre tipos de documento:",
               itens: [
                 "Verificar se o arquivo #p#JSON# é compatível com o tipo de documento atual",
-                "Impedir importação de #p#JSON# de documentação técnica em documentação de desenvolvimento e vice-versa",
+                "Impedir importação de #p#JSON# de #o#documentação técnica# em #g#documentação de desenvolvimento# e vice-versa",
                 "Exibir mensagem de erro caso tente importar arquivo incompatível",
               ],
             },
@@ -1283,7 +1283,7 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
               titulo: "Tentativa de importação de arquivo incompatível",
               dado: "que o usuário tenta importar um #p#JSON# de tipo diferente",
               quando:
-                "seleciona um arquivo #p#JSON# de documentação técnica na tela de desenvolvimento",
+                "seleciona um arquivo #p#JSON# de #o#documentação técnica# na tela de desenvolvimento",
               entao: "o sistema detecta a incompatibilidade",
               e_entao: "exibe mensagem de erro explicando o problema",
             },
@@ -1301,7 +1301,7 @@ Quero registrar as atividades técnicas realizadas
 Para contabilizar o esforço técnico dessa SS`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação Técnica"',
+            "Selecionar a opção #o#Documentação Técnica#",
             "Preencher o formulário de informações básicas da SS",
             'Na seção "Gerenciar Atividades", preencher o nome da atividade e estimativa de horas',
             'Clicar no botão "Adicionar"',
@@ -1311,8 +1311,8 @@ Para contabilizar o esforço técnico dessa SS`,
               titulo:
                 "Dados gerais: o usuário deve realizar as seguintes ações nos campos abaixo:",
               itens: [
-                "Atividade: preenchimento obrigatório do campo do tipo texto com, no máximo, 255 caracteres",
-                "Estimativa de horas: preenchimento obrigatório do campo do tipo numérico, com valor positivo maior que zero",
+                "#s#Atividade:# preenchimento obrigatório do campo do tipo texto com, no máximo, 255 caracteres",
+                "#s#Estimativa de horas:# preenchimento obrigatório do campo do tipo numérico, com valor positivo maior que zero",
               ],
             },
             {
@@ -1392,7 +1392,7 @@ Quero visualizar todas as atividades cadastradas em uma lista ordenada
 Para ter uma visão clara do trabalho realizado e poder reorganizá-las conforme necessário`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação Técnica"',
+            "Selecionar a opção #o#Documentação Técnica#",
             "As atividades já cadastradas são exibidas na tabela 'Lista de Atividades'",
           ],
           criteriosAceitacao: [
@@ -1400,9 +1400,9 @@ Para ter uma visão clara do trabalho realizado e poder reorganizá-las conforme
               titulo:
                 "Listagem: o sistema deve exibir as atividades com as seguintes informações:",
               itens: [
-                "Atividade: nome da atividade cadastrada",
-                "Estimativa de horas: horas registradas para a atividade",
-                "Ações: botões para editar e remover a atividade",
+                "#s#Atividade:# nome da atividade cadastrada",
+                "#s#Estimativa de horas:# horas registradas para a atividade",
+                "#s#Ações:# botões para editar e remover a atividade",
               ],
             },
             {
@@ -1454,7 +1454,7 @@ Para ter uma visão clara do trabalho realizado e poder reorganizá-las conforme
             {
               titulo: "Visualização da lista com múltiplas atividades",
               dado: "que existem atividades cadastradas",
-              quando: "o usuário acessa a tela de Documentação Técnica",
+              quando: "o usuário acessa a tela de #o#Documentação Técnica#",
               entao:
                 "o sistema deve exibir todas as atividades cadastradas na tabela",
               e_entao:
@@ -1480,7 +1480,7 @@ Quero editar atividades já cadastradas
 Para corrigir ou atualizar informações sobre o trabalho realizado`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar "Documentação Técnica"',
+            "Selecionar #o#Documentação Técnica#",
             "Na lista de atividades, clicar no ícone de edição (lápis) de uma atividade",
             "Modificar os campos desejados",
             'Clicar em "Atualizar"',
@@ -1489,8 +1489,8 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
             {
               titulo: "Edição de campos: o sistema deve permitir modificar:",
               itens: [
-                "Nome da atividade",
-                "Quantidade de horas estimadas",
+                "#s#Nome da atividade#",
+                "#s#Quantidade de horas estimadas#",
                 "O botão 'Adicionar' deve mudar para 'Atualizar' durante a edição",
               ],
             },
@@ -1574,7 +1574,7 @@ Quero poder remover atividades técnicas incorretas ou desnecessárias
 Para manter a documentação precisa e atualizada`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação Técnica"',
+            "Selecionar a opção #o#Documentação Técnica#",
             "Preencher o formulário de informações básicas da SS",
             'Na seção "Lista de Atividades", localizar a atividade desejada',
             "Clicar no botão de remover (ícone de lixeira)",
@@ -1631,14 +1631,14 @@ Para manter a documentação precisa e atualizada`,
         {
           id: "geracao-documentacao-tecnica",
           categoria: "doc-tecnica",
-          titulo: "Geração de Documentação Técnica",
+          titulo: "Geração de #o#Documentação Técnica#",
           icone: iconesPorTipo.exportar,
           bdd: `Eu, como líder de desenvolvimento / analista de requisitos,
-Quero gerar documentação técnica em diferentes formatos
+Quero gerar #o#documentação técnica# em diferentes formatos
 Para facilitar a comunicação e o registro formal do trabalho realizado`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação Técnica"',
+            "Selecionar a opção #o#Documentação Técnica#",
             "Preencher todos os campos obrigatórios do formulário",
             "Adicionar pelo menos uma atividade",
             "Selecionar os formatos desejados (JSON, DOCX, PDF)",
@@ -1755,7 +1755,7 @@ Quero cadastrar requisitos funcionais detalhados
 Para documentar as especificações do sistema que precisam ser implementadas`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             "Preencher o formulário de informações básicas da SS",
             'Na aba "Requisitos Funcionais", clicar no botão "Adicionar Requisito Funcional"',
             "Preencher os campos no modal que será aberto",
@@ -1767,19 +1767,19 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
                 "Modal de cadastro: o modal deve conter as seguintes abas e campos:",
               itens: [
                 "Aba 1 - Informações básicas:",
-                "- Título: campo obrigatório de texto para o título do requisito",
-                "- Tipo: seleção obrigatória entre Alteração, Inclusão ou Remoção",
-                "- Local: campo obrigatório para informar onde o requisito será implementado",
-                "- Usuário: campo obrigatório para informar o perfil de usuário",
-                "- Perfil: campo obrigatório para informar o perfil de acesso",
+                "- #s#Título:# campo obrigatório de texto para o título do requisito",
+                "- #s#Tipo:# seleção obrigatória entre Alteração, Inclusão ou Remoção",
+                "- #s#Local:# campo obrigatório para informar onde o requisito será implementado",
+                "- #s#Usuário:# campo obrigatório para informar o perfil de usuário",
+                "- #s#Perfil:# campo obrigatório para informar o perfil de acesso",
                 "Aba 2 - Imagens e Descrição:",
-                "- Imagens: área para upload de múltiplas imagens (opcional)",
-                "- Descrição: campo obrigatório com editor de texto rico para detalhar o requisito",
+                "- #s#Imagens:# área para upload de múltiplas imagens (opcional)",
+                "- #s#Descrição:# campo obrigatório com editor de texto rico para detalhar o requisito",
                 "Aba 3 - Regras:",
-                "- Regras de validações dos campos: editor de texto rico (opcional)",
-                "- Regras de negócio: editor de texto rico (opcional)",
+                "- #s#Regras de validações dos campos:# editor de texto rico (opcional)",
+                "- #s#Regras de negócio:# editor de texto rico (opcional)",
                 "Aba 4 - Banco de dados:",
-                "- Mudança de banco: editor de texto rico para detalhar mudanças no banco (opcional)",
+                "- #s#Mudança de banco:# editor de texto rico para detalhar mudanças no banco (opcional)",
               ],
             },
             {
@@ -1865,7 +1865,7 @@ Quero visualizar os detalhes completos de um requisito funcional
 Para verificar suas especificações sem risco de alteração acidental`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
             "Clicar no botão de visualização (ícone de olho)",
           ],
@@ -1955,7 +1955,7 @@ Quero visualizar todos os requisitos funcionais em uma lista ordenada
 Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de implementação`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Selecionar a aba "Requisitos Funcionais"',
           ],
           criteriosAceitacao: [
@@ -1963,11 +1963,11 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de im
               titulo:
                 "Exibição da lista: o sistema deve exibir os requisitos funcionais com as seguintes informações:",
               itens: [
-                "ID: identificador sequencial no formato RF-XX",
-                "Título: título do requisito funcional",
-                "Local: local de implementação do requisito",
-                "Tipo: tipo do requisito (Alteração, Inclusão ou Remoção)",
-                "Ações: botões para visualizar, editar, duplicar e remover o requisito",
+                "#s#ID:# identificador sequencial no formato RF-XX",
+                "#s#Título:# título do requisito funcional",
+                "#s#Local:# local de implementação do requisito",
+                "#s#Tipo:# tipo do requisito (Alteração, Inclusão ou Remoção)",
+                "#s#Ações:# botões para visualizar, editar, duplicar e remover o requisito",
               ],
             },
             {
@@ -2051,7 +2051,7 @@ Quero editar requisitos funcionais já cadastrados
 Para atualizar ou corrigir as especificações conforme necessário`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
             "Clicar no botão de edição (ícone de lápis)",
             "Alterar os campos desejados no modal que será aberto",
@@ -2150,7 +2150,7 @@ Quero remover requisitos funcionais que não são mais necessários
 Para manter a documentação atualizada e relevante`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
             "Clicar no botão de remoção (ícone de lixeira)",
           ],
@@ -2236,7 +2236,7 @@ Quero cadastrar requisitos não funcionais
 Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Selecionar a aba "Requisitos Não Funcionais"',
             "Preencher os campos de título e descrição",
             'Clicar no botão "Adicionar"',
@@ -2246,8 +2246,8 @@ Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
               titulo:
                 "Formulário de cadastro: o sistema deve exibir um formulário com os seguintes campos:",
               itens: [
-                "Título: campo obrigatório de texto para o título do requisito não funcional",
-                "Descrição: campo obrigatório de texto para a descrição detalhada do requisito",
+                "#s#Título:# campo obrigatório de texto para o título do requisito não funcional",
+                "#s#Descrição:# campo obrigatório de texto para a descrição detalhada do requisito",
                 'Botão "Adicionar" para salvar o requisito',
               ],
             },
@@ -2329,7 +2329,7 @@ Quero visualizar todos os requisitos não funcionais em uma lista ordenada
 Para ter uma visão geral e poder reorganizá-los conforme a ordem de prioridade`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Selecionar a aba "Requisitos Não Funcionais"',
           ],
           criteriosAceitacao: [
@@ -2337,10 +2337,10 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem de prioridade
               titulo:
                 "Exibição da lista: o sistema deve exibir os requisitos não funcionais (RNFs) com as seguintes informações:",
               itens: [
-                "ID: identificador sequencial no formato RNF-XX",
-                "Título: título do requisito não funcional",
-                "Descrição: descrição detalhada do requisito",
-                "Ações: botões para editar e remover o requisito",
+                "#s#ID:# identificador sequencial no formato RNF-XX",
+                "#s#Título:# título do requisito não funcional",
+                "#s#Descrição:# descrição detalhada do requisito",
+                "#s#Ações:# botões para editar e remover o requisito",
               ],
             },
             {
@@ -2420,7 +2420,7 @@ Quero editar requisitos não funcionais já cadastrados
 Para atualizar ou corrigir as especificações conforme necessário`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Selecionar a aba "Requisitos Não Funcionais"',
             "Localizar o requisito desejado na lista",
             "Clicar no botão de edição (ícone de lápis)",
@@ -2516,7 +2516,7 @@ Quero remover requisitos não funcionais que não são mais necessários
 Para manter a documentação atualizada e relevante`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Selecionar a aba "Requisitos Não Funcionais"',
             "Localizar o requisito desejado na lista",
             "Clicar no botão de remoção (ícone de lixeira)",
@@ -2605,7 +2605,7 @@ Quero registrar o total de pontos de função após contagem
 Para documentar a complexidade funcional do sistema`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar "Documentação de Desenvolvimento"',
+            "Selecionar #g#Documentação de Desenvolvimento#",
             "Preencher informações básicas e requisitos",
             'Na seção "Pontos de Função", inserir o valor total contabilizado',
             'Clicar em "Gerar Documentos"',
@@ -2693,11 +2693,11 @@ Para documentar a complexidade funcional do sistema`,
           titulo: "Geração de Docucmentação de Desenvolvimento",
           icone: iconesPorTipo.exportar,
           bdd: `Eu, como analista de requisitos,
-Quero gerar documentação de desenvolvimento em diferentes formatos
+Quero gerar #g#documentação de desenvolvimento# em diferentes formatos
 Para formalizar e compartilhar as especificações do sistema a ser desenvolvido`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar a opção "Documentação de Desenvolvimento"',
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
             "Preencher todos os campos obrigatórios do formulário",
             "Adicionar pelo menos um requisito funcional",
             "Selecionar os formatos desejados (JSON, DOCX, PDF)",
