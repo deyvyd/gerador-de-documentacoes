@@ -178,9 +178,10 @@
               </svg>
               História de usuário
             </h2>
-            <pre class="whitespace-pre-wrap text-gray-700 dark:text-gray-300">{{
-              funcionalidadeProcessada.bdd
-            }}</pre>
+            <pre
+              class="whitespace-pre-wrap text-gray-700 dark:text-gray-300"
+              v-html="processarMarkdown(funcionalidadeProcessada.bdd)"
+            ></pre>
           </section>
 
           <!-- Separador -->
@@ -214,9 +215,8 @@
                 v-for="(passo, index) in funcionalidadeProcessada.caminhoAcesso"
                 :key="index"
                 class="mb-1"
-              >
-                {{ passo }}
-              </li>
+                v-html="processarMarkdown(passo)"
+              ></li>
             </ol>
           </section>
 
@@ -257,8 +257,16 @@
                 >
                   {{ criterio.id }}
                 </span>
-                - {{ criterio.titulo }}
+                - <span v-html="processarMarkdown(criterio.titulo)"></span>
               </h3>
+
+              <!-- Descrição opcional -->
+              <div
+                v-if="criterio.descricao"
+                class="text-gray-700 dark:text-gray-300 mb-2 pl-4"
+                v-html="processarMarkdown(criterio.descricao)"
+              ></div>
+
               <ul class="list-disc pl-6">
                 <template
                   v-for="(item, itemIndex) in criterio.itens"
@@ -267,15 +275,13 @@
                   <li
                     v-if="!item.startsWith('- ')"
                     class="text-gray-700 dark:text-gray-300 mb-1"
-                  >
-                    {{ item }}
-                  </li>
+                    v-html="processarMarkdown(item)"
+                  ></li>
                   <li
                     v-else
                     class="text-gray-700 dark:text-gray-300 mb-1 ml-6 list-disc"
-                  >
-                    {{ item.substring(2) }}
-                  </li>
+                    v-html="processarMarkdown(item.substring(2))"
+                  ></li>
                 </template>
               </ul>
             </div>
@@ -305,18 +311,49 @@
               </svg>
               Regras de negócio:
             </h2>
-            <ul class="pl-4">
-              <li
-                v-for="(regra, index) in funcionalidadeProcessada.regrasNegocio"
-                :key="index"
-                class="mb-2 text-gray-700 dark:text-gray-300"
-              >
-                <span class="font-medium text-gray-900 dark:text-white"
-                  >{{ regra.id }}:</span
+            <div
+              v-for="(regra, index) in funcionalidadeProcessada.regrasNegocio"
+              :key="index"
+              class="mb-1 p-2 rounded-lg"
+            >
+              <h3 class="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                <span
+                  class="font-mono inline-block px-1 py-0 mr-0 bg-[#D2F0FD] text-[#0369A1] dark:text-[#BAE6FD] dark:bg-[#172935] border border-[#B3E6FC] dark:border-[#154259] rounded text-sm"
                 >
-                {{ regra.descricao }}
-              </li>
-            </ul>
+                  {{ regra.id }}
+                </span>
+                - <span v-html="processarMarkdown(regra.titulo)"></span>
+              </h3>
+
+              <!-- Descrição opcional (apenas se existir e for diferente do título) -->
+              <div
+                v-if="regra.descricao && regra.descricao !== regra.titulo"
+                class="text-gray-700 dark:text-gray-300 mb-2 pl-4"
+                v-html="processarMarkdown(regra.descricao)"
+              ></div>
+
+              <!-- Itens da regra -->
+              <ul
+                v-if="regra.itens && regra.itens.length > 0"
+                class="list-disc pl-6"
+              >
+                <template
+                  v-for="(item, itemIndex) in regra.itens"
+                  :key="itemIndex"
+                >
+                  <li
+                    v-if="!item.startsWith('- ')"
+                    class="text-gray-700 dark:text-gray-300 mb-1"
+                    v-html="processarMarkdown(item)"
+                  ></li>
+                  <li
+                    v-else
+                    class="text-gray-700 dark:text-gray-300 mb-1 ml-6 list-disc"
+                    v-html="processarMarkdown(item.substring(2))"
+                  ></li>
+                </template>
+              </ul>
+            </div>
           </section>
 
           <!-- Separador -->
@@ -343,20 +380,49 @@
               </svg>
               Regras de interface:
             </h2>
-            <ul class="pl-4">
-              <li
-                v-for="(
-                  regra, index
-                ) in funcionalidadeProcessada.regrasInterface"
-                :key="index"
-                class="mb-2 text-gray-700 dark:text-gray-300"
-              >
-                <span class="font-medium text-gray-900 dark:text-white"
-                  >{{ regra.id }}:</span
+            <div
+              v-for="(regra, index) in funcionalidadeProcessada.regrasInterface"
+              :key="index"
+              class="mb-1 p-2 rounded-lg"
+            >
+              <h3 class="font-medium text-gray-800 dark:text-gray-200 mb-2">
+                <span
+                  class="font-mono inline-block px-1 py-0 mr-0 bg-[#D2F0FD] text-[#0369A1] dark:text-[#BAE6FD] dark:bg-[#172935] border border-[#B3E6FC] dark:border-[#154259] rounded text-sm"
                 >
-                {{ regra.descricao }}
-              </li>
-            </ul>
+                  {{ regra.id }}
+                </span>
+                - <span v-html="processarMarkdown(regra.titulo)"></span>
+              </h3>
+
+              <!-- Descrição opcional (apenas se existir e for diferente do título) -->
+              <div
+                v-if="regra.descricao && regra.descricao !== regra.titulo"
+                class="text-gray-700 dark:text-gray-300 mb-2 pl-4"
+                v-html="processarMarkdown(regra.descricao)"
+              ></div>
+
+              <!-- Itens da regra -->
+              <ul
+                v-if="regra.itens && regra.itens.length > 0"
+                class="list-disc pl-6"
+              >
+                <template
+                  v-for="(item, itemIndex) in regra.itens"
+                  :key="itemIndex"
+                >
+                  <li
+                    v-if="!item.startsWith('- ')"
+                    class="text-gray-700 dark:text-gray-300 mb-1"
+                    v-html="processarMarkdown(item)"
+                  ></li>
+                  <li
+                    v-else
+                    class="text-gray-700 dark:text-gray-300 mb-1 ml-6 list-disc"
+                    v-html="processarMarkdown(item.substring(2))"
+                  ></li>
+                </template>
+              </ul>
+            </div>
           </section>
 
           <!-- Separador -->
@@ -389,25 +455,71 @@
               class="mb-1 p-2 rounded-lg"
             >
               <h3 class="font-medium text-gray-800 dark:text-gray-200 mb-2">
-                {{ cenario.id }}: {{ cenario.titulo }}
+                <span
+                  class="font-mono inline-block px-1 py-0 mr-0 bg-[#D2F0FD] text-[#0369A1] dark:text-[#BAE6FD] dark:bg-[#172935] border border-[#B3E6FC] dark:border-[#154259] rounded text-sm"
+                >
+                  {{ cenario.id }}
+                </span>
+                - <span v-html="processarMarkdown(cenario.titulo)"></span>
               </h3>
-              <div class="pl-4 text-gray-700 dark:text-gray-300">
-                <p class="mb-1">
-                  <span class="font-medium">Dado</span> {{ cenario.dado }}
+
+              <!-- Descrição opcional -->
+              <div
+                v-if="cenario.descricao"
+                class="text-gray-700 dark:text-gray-300 mb-2 pl-4"
+                v-html="processarMarkdown(cenario.descricao)"
+              ></div>
+
+              <!-- Formato BDD (comportamento antigo e novo) -->
+              <div
+                v-if="cenario.dado || cenario.quando || cenario.entao"
+                class="pl-4 text-gray-700 dark:text-gray-300"
+              >
+                <p v-if="cenario.dado" class="mb-1">
+                  <span class="font-medium">Dado</span>
+                  <span v-html="' ' + processarMarkdown(cenario.dado)"></span>
                 </p>
-                <p class="mb-1" v-if="cenario.e">
-                  <span class="font-medium">E</span> {{ cenario.e }}
+                <p v-if="cenario.e" class="mb-1">
+                  <span class="font-medium">E</span>
+                  <span v-html="' ' + processarMarkdown(cenario.e)"></span>
                 </p>
-                <p class="mb-1">
-                  <span class="font-medium">Quando</span> {{ cenario.quando }}
+                <p v-if="cenario.quando" class="mb-1">
+                  <span class="font-medium">Quando</span>
+                  <span v-html="' ' + processarMarkdown(cenario.quando)"></span>
                 </p>
-                <p class="mb-1">
-                  <span class="font-medium">Então</span> {{ cenario.entao }}
+                <p v-if="cenario.entao" class="mb-1">
+                  <span class="font-medium">Então</span>
+                  <span v-html="' ' + processarMarkdown(cenario.entao)"></span>
                 </p>
                 <p v-if="cenario.e_entao" class="mb-1">
-                  <span class="font-medium">E</span> {{ cenario.e_entao }}
+                  <span class="font-medium">E</span>
+                  <span
+                    v-html="' ' + processarMarkdown(cenario.e_entao)"
+                  ></span>
                 </p>
               </div>
+
+              <!-- Itens do cenário (novo formato) -->
+              <ul
+                v-if="cenario.itens && cenario.itens.length > 0"
+                class="list-disc pl-6"
+              >
+                <template
+                  v-for="(item, itemIndex) in cenario.itens"
+                  :key="itemIndex"
+                >
+                  <li
+                    v-if="!item.startsWith('- ')"
+                    class="text-gray-700 dark:text-gray-300 mb-1"
+                    v-html="processarMarkdown(item)"
+                  ></li>
+                  <li
+                    v-else
+                    class="text-gray-700 dark:text-gray-300 mb-1 ml-6 list-disc"
+                    v-html="processarMarkdown(item.substring(2))"
+                  ></li>
+                </template>
+              </ul>
             </div>
           </section>
         </div>
@@ -791,19 +903,19 @@ Para documentar os dados essenciais do trabalho realizado`,
               titulo:
                 "Campos obrigatórios: o usuário deve preencher os seguintes dados:",
               itens: [
-                "Número SS: campo numérico de 3 dígitos (preenchido com zeros à esquerda)",
-                "Ano SS: ano da solicitação (padrão é o ano atual)",
-                "Título: descrição breve da solicitação",
-                "Descrição: detalhamento da solicitação",
-                "Data de Início: data de início do trabalho",
-                "Data de Fim: data de conclusão do trabalho",
-                "Autor(es): ao menos um autor deve ser selecionado",
+                "#s#Número SS:# campo numérico de 3 dígitos (preenchido com zeros à esquerda)",
+                "#s#Ano SS:# ano da solicitação (padrão é o ano atual)",
+                "#s#Título:# descrição breve da solicitação",
+                "#s#Descrição:# detalhamento da solicitação",
+                "#s#Data de Início:# data de início do trabalho",
+                "#s#Data de Fim:# data de conclusão do trabalho",
+                "#s#Autor(es):# ao menos um autor deve ser selecionado",
               ],
             },
             {
               titulo: "Campo opcional:",
               itens: [
-                "Link do board: URL opcional para o board do projeto (GitLab, Jira, etc.)",
+                "#s#Link do board:# URL opcional para o board do projeto (GitLab, Jira, etc.)",
               ],
             },
           ],
@@ -1004,31 +1116,31 @@ Para distribuir e armazenar da maneira mais adequada`,
               titulo:
                 "Formatos disponíveis: o sistema deve permitir exportação nos seguintes formatos:",
               itens: [
-                "JSON: formato sempre disponível, útil para importação posterior",
-                "DOCX: documento Microsoft Word com formatação completa",
-                "PDF: documento em formato PDF para distribuição final",
+                "#p#JSON:# formato sempre disponível, útil para importação posterior",
+                "#b#DOCX:# documento Microsoft Word com formatação completa",
+                "#r#PDF:# documento em formato PDF para distribuição final",
               ],
             },
             {
               titulo: "Validação antes da exportação:",
               itens: [
-                "Para exportação em DOCX ou PDF, todos os campos obrigatórios devem estar preenchidos",
-                "Para exportação apenas em JSON, a validação completa é opcional (útil para salvar rascunhos)",
+                "Para exportação em #b#DOCX# ou #r#PDF#, todos os campos obrigatórios devem estar preenchidos",
+                "Para exportação apenas em #p#JSON#, a validação completa é opcional (útil para salvar rascunhos)",
               ],
             },
           ],
           regrasNegocio: [
             {
               descricao:
-                "O formato JSON é sempre gerado, independente das opções selecionadas",
+                "O formato #p#JSON# é sempre gerado, independente das opções selecionadas",
             },
             {
               descricao:
-                "A exportação em DOCX/PDF requer que todos os campos obrigatórios estejam preenchidos",
+                "A exportação em #b#DOCX#/#r#PDF# requer que todos os campos obrigatórios estejam preenchidos",
             },
             {
               descricao:
-                "Se apenas o formato JSON for selecionado, é possível salvar documentos incompletos",
+                "Se apenas o formato #p#JSON# for selecionado, é possível salvar documentos incompletos",
             },
             {
               descricao:
@@ -1038,7 +1150,7 @@ Para distribuir e armazenar da maneira mais adequada`,
           regrasInterface: [
             {
               descricao:
-                "O checkbox de JSON está sempre marcado e desabilitado (não pode ser desmarcado)",
+                "O checkbox de #p#JSON# está sempre marcado e desabilitado (não pode ser desmarcado)",
             },
             {
               descricao:
@@ -1053,16 +1165,17 @@ Para distribuir e armazenar da maneira mais adequada`,
             {
               titulo: "Exportação apenas em formato JSON",
               dado: "que o usuário preencheu alguns campos mas não todos obrigatórios",
-              quando: "seleciona apenas JSON e clica em 'Baixar JSON'",
+              quando: "seleciona apenas #p#JSON# e clica em 'Baixar JSON'",
               entao:
-                "o sistema gera o arquivo JSON sem validar todos os campos",
+                "o sistema gera o arquivo #p#JSON# sem validar todos os campos",
               e_entao:
-                "inicia o download do arquivo JSON com o formato 'SS NNN-AAAA.json'",
+                "inicia o download do arquivo #p#JSON# com o formato 'SS NNN-AAAA.json'",
             },
             {
               titulo: "Exportação em formatos DOCX e PDF",
               dado: "que o usuário preencheu todos os campos obrigatórios",
-              quando: "seleciona DOCX e PDF e clica em 'Gerar Documentos'",
+              quando:
+                "seleciona #b#DOCX# e #r#PDF# e clica em 'Gerar Documentos'",
               entao:
                 "o sistema valida todos os campos, gera os arquivos e os empacota",
               e_entao: "inicia o download do arquivo ZIP com todos os formatos",
@@ -1070,7 +1183,8 @@ Para distribuir e armazenar da maneira mais adequada`,
             {
               titulo: "Tentativa de exportação DOCX/PDF com campos faltantes",
               dado: "que o usuário não preencheu todos os campos obrigatórios",
-              quando: "seleciona DOCX ou PDF e clica em 'Gerar Documentos'",
+              quando:
+                "seleciona #b#DOCX# ou #r#PDF# e clica em 'Gerar Documentos'",
               entao:
                 "o sistema valida os campos e destaca os obrigatórios não preenchidos",
               e_entao: "exibe mensagens de erro e não gera os documentos",
@@ -1097,7 +1211,7 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
             {
               titulo: "Importação de dados: o sistema deve:",
               itens: [
-                "Carregar todos os dados do arquivo JSON nos campos correspondentes",
+                "Carregar todos os dados do arquivo #p#JSON# nos campos correspondentes",
                 "Preencher informações básicas como número SS, título, descrição, datas, etc.",
                 "Recuperar listas de atividades ou requisitos conforme o tipo de documento",
                 "Preservar informações de autoria e datas originais",
@@ -1106,8 +1220,8 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
             {
               titulo: "Compatibilidade entre tipos de documento:",
               itens: [
-                "Verificar se o arquivo JSON é compatível com o tipo de documento atual",
-                "Impedir importação de JSON de documentação técnica em documentação de desenvolvimento e vice-versa",
+                "Verificar se o arquivo #p#JSON# é compatível com o tipo de documento atual",
+                "Impedir importação de #p#JSON# de documentação técnica em documentação de desenvolvimento e vice-versa",
                 "Exibir mensagem de erro caso tente importar arquivo incompatível",
               ],
             },
@@ -1151,7 +1265,7 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
           cenariosTeste: [
             {
               titulo: "Importação bem-sucedida de arquivo JSON",
-              dado: "que o usuário tem um arquivo JSON válido e compatível",
+              dado: "que o usuário tem um arquivo #p#JSON# válido e compatível",
               quando: "clica no botão de importação e seleciona o arquivo",
               entao:
                 "o sistema carrega todos os dados nos campos correspondentes",
@@ -1161,15 +1275,15 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
             {
               titulo: "Importação com confirmação quando há dados existentes",
               dado: "que o usuário já preencheu alguns campos",
-              quando: "tenta importar um arquivo JSON",
+              quando: "tenta importar um arquivo #p#JSON#",
               entao: "o sistema exibe modal de confirmação",
               e_entao: "substitui os dados apenas se o usuário confirmar",
             },
             {
               titulo: "Tentativa de importação de arquivo incompatível",
-              dado: "que o usuário tenta importar um JSON de tipo diferente",
+              dado: "que o usuário tenta importar um #p#JSON# de tipo diferente",
               quando:
-                "seleciona um arquivo JSON de documentação técnica na tela de desenvolvimento",
+                "seleciona um arquivo #p#JSON# de documentação técnica na tela de desenvolvimento",
               entao: "o sistema detecta a incompatibilidade",
               e_entao: "exibe mensagem de erro explicando o problema",
             },
@@ -1545,11 +1659,11 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
               titulo:
                 "Seleção de formatos: o sistema deve permitir a seleção de diferentes formatos:",
               itens: [
-                "JSON (sempre selecionado por padrão, não pode ser desmarcado)",
-                "DOCX (opcional)",
-                "PDF (opcional)",
-                'O texto do botão muda para "Baixar JSON" quando apenas JSON está selecionado',
-                'O texto do botão é "Gerar Documentos" quando DOCX e/ou PDF estão selecionados',
+                "#p#JSON# (sempre selecionado por padrão, não pode ser desmarcado)",
+                "#b#DOCX# (opcional)",
+                "#r#PDF# (opcional)",
+                'O texto do botão muda para "Baixar JSON" quando apenas #p#JSON# está selecionado',
+                'O texto do botão é "Gerar Documentos" quando #b#DOCX# e/ou #r#PDF# estão selecionados',
               ],
             },
             {
@@ -1557,8 +1671,8 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
                 "Geração de documentos: ao clicar no botão, o sistema deve:",
               itens: [
                 "Exibir indicador de carregamento durante o processamento",
-                "Se apenas JSON estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
-                "Se DOCX e/ou PDF estiverem selecionados, validar todos os campos obrigatórios",
+                "Se apenas #p#JSON# estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
+                "Se #b#DOCX# e/ou #r#PDF# estiverem selecionados, validar todos os campos obrigatórios",
                 "Gerar os documentos nos formatos selecionados",
                 "Disponibilizar os arquivos para download",
                 "Exibir mensagem de sucesso após a geração",
@@ -1568,19 +1682,19 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
           regrasNegocio: [
             {
               descricao:
-                "JSON é sempre gerado, independentemente de outras seleções",
+                "#p#JSON# é sempre gerado, independentemente de outras seleções",
             },
             {
               descricao:
-                "DOCX e PDF são opcionais e podem ser selecionados individualmente ou em conjunto",
+                "#b#DOCX# e #r#PDF# são opcionais e podem ser selecionados individualmente ou em conjunto",
             },
             {
               descricao:
-                "Quando apenas JSON é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
+                "Quando apenas #p#JSON# é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
             },
             {
               descricao:
-                "Quando DOCX e/ou PDF são selecionados, todos os campos obrigatórios devem ser preenchidos",
+                "Quando #b#DOCX# e/ou #r#PDF# são selecionados, todos os campos obrigatórios devem ser preenchidos",
             },
           ],
           regrasInterface: [
@@ -1594,7 +1708,7 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
             },
             {
               descricao:
-                "Os formatos são selecionados através de checkboxes, com JSON sempre marcado e desabilitado",
+                "Os formatos são selecionados através de checkboxes, com #p#JSON# sempre marcado e desabilitado",
             },
           ],
           cenariosTeste: [
@@ -1602,26 +1716,26 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
               titulo: "Geração de todos os formatos com dados completos",
               dado: "que o usuário preencheu todos os campos obrigatórios",
               e: "adicionou pelo menos uma atividade",
-              e: "selecionou os formatos JSON, DOCX e PDF",
+              e: "selecionou os formatos #p#JSON#, #b#DOCX# e #r#PDF#",
               quando: 'o usuário clica em "Gerar Documentos"',
               entao: "o sistema deve processar e gerar os três formatos",
               e_entao:
                 "disponibilizar um arquivo ZIP contendo todos os documentos para download",
             },
             {
-              titulo: "Geração apenas de JSON (rascunho)",
+              titulo: "Geração apenas de #p#JSON# (rascunho)",
               dado: "que o usuário preencheu parcialmente os campos",
-              e: "manteve apenas o formato JSON selecionado",
+              e: "manteve apenas o formato #p#JSON# selecionado",
               quando: 'o usuário clica em "Baixar JSON"',
               entao:
-                "o sistema deve gerar o arquivo JSON mesmo com campos obrigatórios não preenchidos",
-              e_entao: "disponibilizar o arquivo JSON para download",
+                "o sistema deve gerar o arquivo #p#JSON# mesmo com campos obrigatórios não preenchidos",
+              e_entao: "disponibilizar o arquivo #p#JSON# para download",
             },
             {
               titulo: "Tentativa de geração sem atividades",
               dado: "que o usuário preencheu todos os campos obrigatórios",
               e: "não adicionou nenhuma atividade",
-              e: "selecionou os formatos JSON, DOCX e PDF",
+              e: "selecionou os formatos #p#JSON#, #b#DOCX# e #r#PDF#",
               quando: 'o usuário clica em "Gerar Documentos"',
               entao: "o sistema deve exibir mensagem de erro",
               e_entao:
@@ -2604,11 +2718,11 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               titulo:
                 "Seleção de formatos: o sistema deve permitir a seleção de diferentes formatos:",
               itens: [
-                "JSON (sempre selecionado por padrão, não pode ser desmarcado)",
-                "DOCX (opcional)",
-                "PDF (opcional)",
-                'O texto do botão muda para "Baixar JSON" quando apenas JSON está selecionado',
-                'O texto do botão é "Gerar Documentos" quando DOCX e/ou PDF estão selecionados',
+                "#p#JSON# (sempre selecionado por padrão, não pode ser desmarcado)",
+                "#b#DOCX# (opcional)",
+                "#r#PDF# (opcional)",
+                'O texto do botão muda para "Baixar JSON" quando apenas #p#JSON# está selecionado',
+                'O texto do botão é "Gerar Documentos" quando #b#DOCX# e/ou #r#PDF# estão selecionados',
               ],
             },
             {
@@ -2616,8 +2730,8 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
                 "Geração de documentos: ao clicar no botão, o sistema deve:",
               itens: [
                 "Exibir indicador de carregamento durante o processamento",
-                "Se apenas JSON estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
-                "Se DOCX e/ou PDF estiverem selecionados, validar todos os campos obrigatórios",
+                "Se apenas #p#JSON# estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
+                "Se #b#DOCX# e/ou #r#PDF# estiverem selecionados, validar todos os campos obrigatórios",
                 "Incluir todos os requisitos funcionais (RFs) e não funcionais (RNFs) nos documentos gerados",
                 "Gerar os documentos nos formatos selecionados",
                 "Disponibilizar os arquivos para download",
@@ -2628,7 +2742,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               titulo: "Controle de versão no histórico do documento:",
               itens: [
                 "Se o documento estiver sendo criado pela primeira vez, registrar a data atual e o autor atual como criador",
-                "Se o documento estiver sendo modificado (importado de JSON e alterado), registrar a data atual e o autor atual como modificador",
+                "Se o documento estiver sendo modificado (importado de #p#JSON# e alterado), registrar a data atual e o autor atual como modificador",
                 "Se houver um valor no campo 'Total de Pontos de Função', registrar também uma linha no histórico indicando a adição desse valor",
               ],
             },
@@ -2636,19 +2750,19 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
           regrasNegocio: [
             {
               descricao:
-                "JSON é sempre gerado, independentemente de outras seleções",
+                "#p#JSON# é sempre gerado, independentemente de outras seleções",
             },
             {
               descricao:
-                "DOCX e PDF são opcionais e podem ser selecionados individualmente ou em conjunto",
+                "#b#DOCX# e #r#PDF# são opcionais e podem ser selecionados individualmente ou em conjunto",
             },
             {
               descricao:
-                "Quando apenas JSON é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
+                "Quando apenas #p#JSON# é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
             },
             {
               descricao:
-                "Quando DOCX e/ou PDF são selecionados, todos os campos obrigatórios devem ser preenchidos e pelo menos um requisito funcional deve estar cadastrado",
+                "Quando #b#DOCX# e/ou #r#PDF# são selecionados, todos os campos obrigatórios devem ser preenchidos e pelo menos um requisito funcional deve estar cadastrado",
             },
             {
               descricao:
@@ -2666,7 +2780,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
             },
             {
               descricao:
-                "Os formatos são selecionados através de checkboxes, com JSON sempre marcado e desabilitado",
+                "Os formatos são selecionados através de checkboxes, com #p#JSON# sempre marcado e desabilitado",
             },
           ],
           cenariosTeste: [
@@ -2674,7 +2788,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               titulo: "Geração de todos os formatos com dados completos",
               dado: "que o usuário preencheu todos os campos obrigatórios",
               e: "adicionou pelo menos um requisito funcional",
-              e: "selecionou os formatos JSON, DOCX e PDF",
+              e: "selecionou os formatos #p#JSON#, #b#DOCX# e #r#PDF#",
               quando: 'o usuário clica em "Gerar Documentos"',
               entao: "o sistema deve processar e gerar os três formatos",
               e_entao:
@@ -2683,17 +2797,17 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
             {
               titulo: "Geração apenas de JSON (rascunho)",
               dado: "que o usuário preencheu parcialmente os campos",
-              e: "manteve apenas o formato JSON selecionado",
+              e: "manteve apenas o formato #p#JSON# selecionado",
               quando: 'o usuário clica em "Baixar JSON"',
               entao:
-                "o sistema deve gerar o arquivo JSON mesmo com campos obrigatórios não preenchidos",
-              e_entao: "disponibilizar o arquivo JSON para download",
+                "o sistema deve gerar o arquivo #p#JSON# mesmo com campos obrigatórios não preenchidos",
+              e_entao: "disponibilizar o arquivo #p#JSON# para download",
             },
             {
               titulo: "Geração com pontos de função (PFs) após importação",
-              dado: "que o usuário importou um documento JSON existente",
+              dado: "que o usuário importou um documento #p#JSON# existente",
               e: "adicionou um valor no campo 'Total de Pontos de Função'",
-              e: "selecionou os formatos DOCX e PDF",
+              e: "selecionou os formatos #b#DOCX# e #r#PDF#",
               quando: 'o usuário clica em "Gerar Documentos"',
               entao:
                 "o sistema deve incluir tanto o registro de criação original quanto o de adição de pontos de função (PFs) no histórico",
@@ -2859,10 +2973,29 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
           });
       }
 
-      // Adiciona IDs às regras de negócio
+      // Processa regras de negócio - suporta tanto formato antigo quanto novo
       if (funcProcessada.regrasNegocio) {
         funcProcessada.regrasNegocio = funcProcessada.regrasNegocio.map(
           (regra, index) => {
+            // Se for formato antigo (apenas descrição como string)
+            if (typeof regra === "string") {
+              return {
+                id: `RN${index + 1}`,
+                titulo: regra, // Usa a descrição como título
+                descricao: null,
+                itens: [],
+              };
+            }
+            // Se for formato antigo (objeto com descrição mas sem título)
+            else if (regra.descricao && !regra.titulo) {
+              return {
+                id: `RN${index + 1}`,
+                titulo: regra.descricao, // Usa a descrição como título
+                descricao: null,
+                itens: regra.itens || [],
+              };
+            }
+            // Se for novo formato, apenas adiciona o ID
             return {
               ...regra,
               id: `RN${index + 1}`,
@@ -2871,10 +3004,29 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
         );
       }
 
-      // Adiciona IDs às regras de interface
+      // Processa regras de interface - suporta tanto formato antigo quanto novo
       if (funcProcessada.regrasInterface) {
         funcProcessada.regrasInterface = funcProcessada.regrasInterface.map(
           (regra, index) => {
+            // Se for formato antigo (apenas descrição como string)
+            if (typeof regra === "string") {
+              return {
+                id: `RI${index + 1}`,
+                titulo: regra, // Usa a descrição como título
+                descricao: null,
+                itens: [],
+              };
+            }
+            // Se for formato antigo (objeto com descrição mas sem título)
+            else if (regra.descricao && !regra.titulo) {
+              return {
+                id: `RI${index + 1}`,
+                titulo: regra.descricao, // Usa a descrição como título
+                descricao: null,
+                itens: regra.itens || [],
+              };
+            }
+            // Se for novo formato, apenas adiciona o ID
             return {
               ...regra,
               id: `RI${index + 1}`,
@@ -2883,10 +3035,18 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
         );
       }
 
-      // Adiciona IDs aos cenários de teste
+      // Processa cenários de teste - suporta tanto formato antigo quanto novo
       if (funcProcessada.cenariosTeste) {
         funcProcessada.cenariosTeste = funcProcessada.cenariosTeste.map(
           (cenario, index) => {
+            // Se for formato antigo, converte para novo formato
+            if (cenario.dado && cenario.quando && cenario.entao) {
+              return {
+                ...cenario,
+                id: `CT${index + 1}`,
+              };
+            }
+            // Se for novo formato, apenas adiciona o ID
             return {
               ...cenario,
               id: `CT${index + 1}`,
@@ -2952,6 +3112,122 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
         this.$router.push(targetUrl);
       }
     },
+
+    processarMarkdown(texto) {
+      if (!texto) return "";
+
+      let processado = texto;
+
+      // Novo sistema de cores com #c#texto# onde c é a inicial da cor
+      // Azul/Blue (#b#texto#)
+      processado = processado.replace(
+        /#b#([\s\S]*?)#/g,
+        '<span class="highlight-blue">$1</span>'
+      );
+
+      // Azul claro/Sky (#s#texto#)
+      processado = processado.replace(
+        /#s#([\s\S]*?)#/g,
+        '<span class="highlight-sky">$1</span>'
+      );
+
+      // Verde/Green (#g#texto#)
+      processado = processado.replace(
+        /#g#([\s\S]*?)#/g,
+        '<span class="highlight-green">$1</span>'
+      );
+
+      // Amarelo/Yellow (#y#texto#)
+      processado = processado.replace(
+        /#y#([\s\S]*?)#/g,
+        '<span class="highlight-amber">$1</span>'
+      );
+
+      // Vermelho/Red (#r#texto#)
+      processado = processado.replace(
+        /#r#([\s\S]*?)#/g,
+        '<span class="highlight-red">$1</span>'
+      );
+
+      // Roxo/Purple (#p#texto#)
+      processado = processado.replace(
+        /#p#([\s\S]*?)#/g,
+        '<span class="highlight-purple">$1</span>'
+      );
+
+      // Laranja/Orange (#o#texto#)
+      processado = processado.replace(
+        /#o#([\s\S]*?)#/g,
+        '<span class="highlight-orange">$1</span>'
+      );
+
+      processado = processado.replace(
+        /class="highlight-orange"/g,
+        'class="text-orange-600 dark:text-orange-400 font-medium"'
+      );
+
+      // Depois, processa negrito e itálico (que podem estar dentro dos destaques)
+      // Processa negrito (**texto**)
+      processado = processado.replace(
+        /\*\*([\s\S]*?)\*\*/g,
+        "<strong>$1</strong>"
+      );
+
+      // Processa itálico (*texto*)
+      processado = processado.replace(/\*([\s\S]*?)\*/g, "<em>$1</em>");
+
+      // Por último, aplica as classes CSS finais aos destaques
+      processado = processado.replace(
+        /class="highlight-blue"/g,
+        'class="text-blue-600 dark:text-blue-400 font-medium"'
+      );
+
+      processado = processado.replace(
+        /class="highlight-sky"/g,
+        'class="text-sky-600 dark:text-sky-400 font-medium"'
+      );
+
+      processado = processado.replace(
+        /class="highlight-green"/g,
+        'class="text-green-600 dark:text-green-400 font-medium"'
+      );
+      processado = processado.replace(
+        /class="highlight-amber"/g,
+        'class="text-amber-600 dark:text-amber-400 font-medium"'
+      );
+      processado = processado.replace(
+        /class="highlight-red"/g,
+        'class="text-red-700 dark:text-red-400 font-medium"'
+      );
+
+      processado = processado.replace(
+        /class="highlight-purple"/g,
+        'class="text-purple-600 dark:text-purple-400 font-medium"'
+      );
+
+      // Processa listas não ordenadas (- item)
+      processado = processado.replace(/^- (.+)$/gm, '<li class="ml-4">$1</li>');
+
+      // Processa listas ordenadas (1. item)
+      processado = processado.replace(/^\d+\.\s(.+)$/gm, () => {
+        return `<li class="ml-4" style="list-style-type: decimal; list-style-position: inside;">${arguments[1]}</li>`;
+      });
+
+      // Agrupa itens de lista consecutivos
+      processado = processado.replace(/(<li[^>]*>.*?<\/li>\s*)+/g, (match) => {
+        if (match.includes("list-style-type: decimal")) {
+          return `<ol class="list-decimal list-inside ml-4">${match}</ol>`;
+        } else {
+          return `<ul class="list-disc list-inside ml-4">${match}</ul>`;
+        }
+      });
+
+      // Quebras de linha
+      processado = processado.replace(/\n/g, "<br>");
+
+      return processado;
+    },
+
     selecionarFuncionalidade(id) {
       this.funcionalidadeSelecionada = id;
 
@@ -2961,6 +3237,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
         mainContent.scrollTop = 0;
       }
     },
+
     toggleCategoria(categoriaId) {
       if (this.categoriasExpanded.includes(categoriaId)) {
         this.categoriasExpanded = this.categoriasExpanded.filter(
@@ -2970,10 +3247,12 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
         this.categoriasExpanded.push(categoriaId);
       }
     },
+
     hasFilledData() {
       // No caso desta tela, não há dados de entrada pelo usuário para salvar
       return false;
     },
+
     onTourStart() {
       console.log("Tour iniciado");
     },

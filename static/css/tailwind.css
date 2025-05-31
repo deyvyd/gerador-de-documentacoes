@@ -3636,6 +3636,10 @@ video {
   margin-left: 0.25rem;
 }
 
+.ml-4{
+  margin-left: 1rem;
+}
+
 .ml-6{
   margin-left: 1.5rem;
 }
@@ -3690,14 +3694,6 @@ video {
 
 .mt-8{
   margin-top: 2rem;
-}
-
-.mt-0{
-  margin-top: 0px;
-}
-
-.-mt-1{
-  margin-top: -0.25rem;
 }
 
 .block{
@@ -4606,10 +4602,6 @@ video {
   background-color: rgb(113 63 18 / 0.2);
 }
 
-.bg-opacity-0{
-  --tw-bg-opacity: 0;
-}
-
 .bg-opacity-30{
   --tw-bg-opacity: 0.3;
 }
@@ -4779,10 +4771,6 @@ video {
   padding-top: 1rem;
 }
 
-.pb-1{
-  padding-bottom: 0.25rem;
-}
-
 .text-left{
   text-align: left;
 }
@@ -4870,6 +4858,11 @@ video {
 .text-\[\#27447E\]{
   --tw-text-opacity: 1;
   color: rgb(39 68 126 / var(--tw-text-opacity, 1));
+}
+
+.text-amber-600{
+  --tw-text-opacity: 1;
+  color: rgb(217 119 6 / var(--tw-text-opacity, 1));
 }
 
 .text-blue-100{
@@ -5030,6 +5023,16 @@ video {
 .text-red-600{
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity, 1));
+}
+
+.text-red-700{
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity, 1));
+}
+
+.text-sky-600{
+  --tw-text-opacity: 1;
+  color: rgb(2 132 199 / var(--tw-text-opacity, 1));
 }
 
 .text-sky-900{
@@ -5323,10 +5326,6 @@ body{
   background-color: rgb(161 98 7 / var(--tw-bg-opacity, 1));
 }
 
-.hover\:bg-opacity-20:hover{
-  --tw-bg-opacity: 0.2;
-}
-
 .hover\:text-blue-500:hover{
   --tw-text-opacity: 1;
   color: rgb(59 130 246 / var(--tw-text-opacity, 1));
@@ -5340,14 +5339,6 @@ body{
 .hover\:text-purple-600:hover{
   --tw-text-opacity: 1;
   color: rgb(147 51 234 / var(--tw-text-opacity, 1));
-}
-
-.hover\:opacity-100:hover{
-  opacity: 1;
-}
-
-.hover\:opacity-80:hover{
-  opacity: 0.8;
 }
 
 .hover\:shadow:hover{
@@ -5694,6 +5685,11 @@ body{
   color: rgb(186 230 253 / var(--tw-text-opacity, 1));
 }
 
+.dark\:text-amber-400:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(251 191 36 / var(--tw-text-opacity, 1));
+}
+
 .dark\:text-blue-100:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(219 234 254 / var(--tw-text-opacity, 1));
@@ -5777,6 +5773,11 @@ body{
 .dark\:text-red-400:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(248 113 113 / var(--tw-text-opacity, 1));
+}
+
+.dark\:text-sky-400:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(56 189 248 / var(--tw-text-opacity, 1));
 }
 
 .dark\:text-white:is(.dark *){
