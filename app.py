@@ -12,6 +12,9 @@ logger = logging.getLogger(__name__)
 
 # Inicialização da aplicação Flask
 app = Flask(__name__, static_folder='static')
+app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024
+app.config['MAX_FORM_PARTS'] = None
+app.config['MAX_FORM_MEMORY_SIZE'] = None
 
 # Dicionário de tipos MIME
 MIME_TYPES = {
