@@ -22,9 +22,9 @@
         </svg>
       </button>
 
-      <!-- Seta esquerda (apenas se houver múltiplas imagens) -->
+      <!-- Seta esquerda (apenas se houver múltiplas imagens E não estiver na primeira) -->
       <button
-        v-if="todasImagens.length > 1"
+        v-if="todasImagens.length > 1 && indiceAtual > 0"
         @click="imagemAnterior"
         class="image-nav-btn image-nav-left"
         :class="isDarkMode ? 'nav-btn-dark' : 'nav-btn-light'"
@@ -44,9 +44,9 @@
         </svg>
       </button>
 
-      <!-- Seta direita (apenas se houver múltiplas imagens) -->
+      <!-- Seta direita (apenas se houver múltiplas imagens E não estiver na última) -->
       <button
-        v-if="todasImagens.length > 1"
+        v-if="todasImagens.length > 1 && indiceAtual < todasImagens.length - 1"
         @click="proximaImagem"
         class="image-nav-btn image-nav-right"
         :class="isDarkMode ? 'nav-btn-dark' : 'nav-btn-light'"
@@ -92,10 +92,6 @@
           class="image-info"
           :class="isDarkMode ? 'image-info-dark' : 'image-info-light'"
         >
-          <div class="image-info-row">
-            <span class="info-label">Nome:</span>
-            <span class="info-value">{{ nomeArquivo }}</span>
-          </div>
           <div class="image-info-row">
             <span class="info-label">Tamanho:</span>
             <span class="info-value">{{ tamanhoFormatado }}</span>
@@ -145,26 +141,7 @@ export default {
     imagemAtual() {
       return this.todasImagens[this.indiceAtual] || "";
     },
-    nomeArquivo() {
-      if (!this.imagemAtual.startsWith("data:")) {
-        return "Imagem";
-      }
 
-      const mimeMatch = this.imagemAtual.match(/data:([^;]+);/);
-      const mimeType = mimeMatch ? mimeMatch[1] : "image/unknown";
-
-      const extensoes = {
-        "image/jpeg": "jpg",
-        "image/jpg": "jpg",
-        "image/png": "png",
-        "image/gif": "gif",
-        "image/webp": "webp",
-        "image/svg+xml": "svg",
-      };
-
-      const extensao = extensoes[mimeType] || "img";
-      return `imagem_${this.indiceAtual + 1}.${extensao}`;
-    },
     tamanhoFormatado() {
       if (!this.imagemAtual) return "0 KB";
 
@@ -254,15 +231,11 @@ export default {
     proximaImagem() {
       if (this.indiceAtual < this.todasImagens.length - 1) {
         this.indiceAtual++;
-      } else {
-        this.indiceAtual = 0; // Volta para o início
       }
     },
     imagemAnterior() {
       if (this.indiceAtual > 0) {
         this.indiceAtual--;
-      } else {
-        this.indiceAtual = this.todasImagens.length - 1; // Vai para o final
       }
     },
     handleKeyPress(event) {
