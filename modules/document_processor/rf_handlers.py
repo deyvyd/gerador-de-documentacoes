@@ -478,6 +478,31 @@ def substituir_html_com_formatacao(tabela, marcador, html_texto):
         
         return run
     
+    def detectar_nivel_por_classe(elemento):
+        """Detecta o nível de recuo baseado nas classes CSS do Quill"""
+        try:
+            if not hasattr(elemento, 'get'):
+                return 0
+                
+            classes = elemento.get('class', [])
+            if isinstance(classes, str):
+                classes = classes.split()
+            
+            # Quill usa classes como ql-indent-1, ql-indent-2, etc.
+            for classe in classes:
+                if classe.startswith('ql-indent-'):
+                    try:
+                        nivel = int(classe.split('-')[-1])
+                        return nivel
+                    except ValueError:
+                        continue
+            
+            return 0
+            
+        except Exception as e:
+            logger.error(f"Erro em detectar_nivel_por_classe: {e}")
+            return 0
+        
     # Função auxiliar para processar listas
     def processar_lista(lista_elemento, usar_numeros=True):
         """Processa listas ordenadas ou não ordenadas"""
@@ -490,6 +515,9 @@ def substituir_html_com_formatacao(tabela, marcador, html_texto):
             else:
                 primeiro_processado = False
             
+            # Detectar nível pela classe CSS em vez de usar nivel_recuo
+            nivel_real = detectar_nivel_por_classe(li)
+
             # Verificar se o item da lista tem data-list="bullet"
             if li.get('data-list') == 'bullet' or lista_elemento.get('data-list') == 'bullet':
                 # Lista não ordenada
@@ -501,19 +529,22 @@ def substituir_html_com_formatacao(tabela, marcador, html_texto):
             else:
                 # Lista não ordenada (fallback)
                 paragrafo_atual.add_run("• ")
-            
+
             # Processar o conteúdo do item de lista mantendo formatação
             for item in li.contents:
                 if item.name in ['strong', 'b', 'em', 'i', 'u', 'code', 'span']:  # Adicionado 'u', 'code' e 'span'
                     processar_conteudo_formatado(item, paragrafo_atual)
                 elif item.name in ['ul', 'ol']:
                     # Lista aninhada - processar recursivamente
-                    processar_lista(item, item.name == 'ol' and item.get('data-list') != 'bullet')
+                    usar_numeros_aninhada = item.name == 'ol' and item.get('data-list') != 'bullet'
+                    processar_lista(item, usar_numeros_aninhada, nivel_real + 1)
                 elif item.string:
                     paragrafo_atual.add_run(item.string)
             
             # Aplicar recuo
-            paragrafo_atual.paragraph_format.left_indent = Pt(20)
+            recuo_total = Pt(20 + (nivel_real * 20))
+            paragrafo_atual.paragraph_format.left_indent = recuo_total
+            paragrafo_atual.paragraph_format.first_line_indent = Pt(-12)
     
     # Processar cada elemento do HTML
     for elemento in soup:
