@@ -11,6 +11,7 @@ from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import qn
 from copy import deepcopy
 from bs4 import BeautifulSoup
+from PIL import Image
 
 # Configuração de logging
 logging.basicConfig(
@@ -656,8 +657,35 @@ def processar_imagens(paragrafo, imagens):
                 
                 # Adicionar ao documento
                 run = paragrafo.add_run()
-                # Define a largura máxima como 6 polegadas (ajuste conforme necessário)
-                run.add_picture(imagem_bytes, width=Inches(6))
+                # Obter dimensões originais da imagem
+                from PIL import Image
+                import io
+
+                # Resetar o ponteiro do BytesIO para o início
+                imagem_bytes.seek(0)
+                with Image.open(imagem_bytes) as img:
+                    largura_original_px, altura_original_px = img.size
+
+                # Resetar novamente para o python-docx
+                imagem_bytes.seek(0)
+
+                # Converter pixels para polegadas (assumindo 96 DPI)
+                DPI = 96
+                largura_original_inches = largura_original_px / DPI
+
+                # Definir largura máxima (6 polegadas)
+                largura_maxima_inches = 6
+
+                # Se a largura original for menor que o máximo, usar o tamanho original
+                # Caso contrário, redimensionar mantendo a proporção
+                if largura_original_inches <= largura_maxima_inches:
+                    # Usar tamanho original
+                    run.add_picture(imagem_bytes)
+                    logger.info(f"Imagem {i+1} adicionada com tamanho original: {largura_original_px}x{altura_original_px}px ({largura_original_inches:.2f}\")")
+                else:
+                    # Redimensionar para a largura máxima
+                    run.add_picture(imagem_bytes, width=Inches(largura_maxima_inches))
+                    logger.info(f"Imagem {i+1} redimensionada para largura máxima: {largura_maxima_inches}\" (original: {largura_original_inches:.2f}\")")
                 
                 logger.info(f"Imagem {i+1} processada com sucesso")
                 
