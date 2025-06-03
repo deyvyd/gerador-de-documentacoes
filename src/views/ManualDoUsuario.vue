@@ -744,7 +744,7 @@ const iconesPorTipo = {
   remocao:
     "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16",
   exportar: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12",
-  importar: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4",
+  importar: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12",
 
   // Ícones específicos para requisitos
   requisito:
@@ -835,14 +835,14 @@ Para aprender a usar o sistema de forma eficiente`,
           caminhoAcesso: [
             "Acessar o sistema",
             "O tour inicia automaticamente na primeira visita a cada tela",
-            'Alternativamente, clicar no botão de tour (ícone de "seta diagonal") no canto superior direito',
+            "Alternativamente, clicar no botão de tour [btn:tour:gps/] no canto superior direito",
           ],
           criteriosAceitacao: [
             {
               titulo: "Inicialização do tour:",
               itens: [
                 "- Iniciar automaticamente na primeira visita a cada tela",
-                "- Disponibilizar botão para iniciar o tour manualmente",
+                "- Disponibilizar botão [btn:tour:gps/] para iniciar o tour manualmente",
                 "- Manter registro das telas já visitadas para não repetir o tour",
               ],
             },
@@ -913,7 +913,8 @@ Para aprender a usar o sistema de forma eficiente`,
             {
               titulo: "Inicialização manual do tour",
               dado: "que o usuário já viu o tour anteriormente",
-              quando: "clica no botão de tour no canto superior direito",
+              quando:
+                "clica no botão de tour [btn:tour:gps/] no canto superior direito",
               entao: "o sistema inicia o tour novamente",
               e_entao:
                 "permite visualizar todas as dicas mesmo que já tenha feito antes",
@@ -938,7 +939,7 @@ Para adequar a interface às minhas preferências visuais`,
             {
               titulo: "Funcionalidade de alternância:",
               itens: [
-                "- Botão com ícone intuitivo (sol para modo claro, lua para modo escuro)",
+                "- Botão com ícone intuitivo ([btn:dark_theme:sun/] - sol para modo claro, [btn:light_theme:moon/] - lua para modo escuro)",
                 "- Transição suave entre os temas",
                 "- Mudança global afetando todos os elementos da interface",
                 "- Persistência da preferência entre sessões",
@@ -973,10 +974,12 @@ Para adequar a interface às minhas preferências visuais`,
           ],
           regrasInterface: [
             {
-              descricao: "Ícone de sol representa mudança para tema claro",
+              descricao:
+                "Ícone de sol :sun: representa mudança para tema claro",
             },
             {
-              descricao: "Ícone de lua representa mudança para tema escuro",
+              descricao:
+                "Ícone de lua :moon: representa mudança para tema escuro",
             },
             {
               descricao: "Tooltip explica a função ao passar o mouse",
@@ -992,7 +995,7 @@ Para adequar a interface às minhas preferências visuais`,
               quando: "clica no ícone de alternância de tema",
               entao: "o sistema aplica o tema escuro a toda a interface",
               e_entao:
-                "atualiza o ícone para representar o sol (volta ao modo claro)",
+                "atualiza o ícone para representar o sol [btn:dark_theme:sun/] (volta ao modo claro)",
             },
             {
               titulo: "Persistência de preferência",
@@ -1025,7 +1028,7 @@ Para acessar a documentação técnica ou a documentação de desenvolvimento co
           caminhoAcesso: [
             "Acessar o sistema",
             "Na tela inicial, selecionar entre #o#Documentação Técnica# ou #g#Documentação de Desenvolvimento#",
-            "Alternativamente, durante o preenchimento, clicar no botão de alternância no topo da página para trocar de tipo",
+            "Alternativamente, durante o preenchimento, clicar no botão de alternância :swap: no topo da página para trocar de tipo",
           ],
           criteriosAceitacao: [
             {
@@ -1039,7 +1042,7 @@ Para acessar a documentação técnica ou a documentação de desenvolvimento co
             {
               titulo: "Alternância durante o preenchimento:",
               itens: [
-                "- Disponibilizar botão de troca de tipo no topo da página durante o preenchimento",
+                "- Disponibilizar botão de troca de tipo :swap: no topo da página durante o preenchimento",
                 "- Ao tentar alternar com dados já preenchidos, exibir confirmação para evitar perda acidental",
                 "- Após confirmação, carregar o formulário do novo tipo selecionado",
               ],
@@ -1104,7 +1107,7 @@ Para acessar a documentação técnica ou a documentação de desenvolvimento co
             {
               titulo: "Troca de tipo com dados não preenchidos",
               dado: "que o usuário está em um formulário vazio",
-              quando: "clica no botão de troca de tipo no cabeçalho",
+              quando: "clica no botão de troca de tipo :swap: no cabeçalho",
               entao:
                 "o sistema troca imediatamente para o outro tipo de documentação",
               e_entao: "carrega o novo formulário sem solicitar confirmação",
@@ -1131,7 +1134,7 @@ Quero preencher as informações básicas da Solicitação de Serviço
 Para documentar os dados essenciais do trabalho realizado`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar qualquer tipo de documentação ("Técnica" ou "Desenvolvimento")',
+            "Selecionar qualquer tipo de documentação (#o#Técnica# ou #g#Desenvolvimento#)",
             "A seção 'Informações básicas da SS' está sempre disponível no topo do formulário",
           ],
           criteriosAceitacao: [
@@ -1236,7 +1239,7 @@ Quero selecionar múltiplos autores para um documento
 Para registrar todos os contribuidores do trabalho`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar qualquer tipo de documentação ("Técnica" ou "Desenvolvimento")',
+            "Selecionar qualquer tipo de documentação (#o#Técnica# ou #g#Desenvolvimento#)",
             'No campo "Autor(es)", começar a digitar o nome de um autor',
             "Selecionar o autor na lista de sugestões",
             "Repetir o processo para adicionar mais autores se necessário",
@@ -1344,10 +1347,10 @@ Quero exportar a documentação em diferentes formatos
 Para distribuir e armazenar da maneira mais adequada`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar qualquer tipo de documentação ("Técnica" ou "Desenvolvimento")',
+            "Selecionar qualquer tipo de documentação (#o#Técnica# ou #g#Desenvolvimento#)",
             "Preencher todos os campos obrigatórios",
             'Na seção "Formato dos arquivos", selecionar os formatos desejados',
-            'Clicar no botão "Gerar Documentos"',
+            "Clicar no botão [btn:blue:download]Gerar Documentos[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -1392,11 +1395,16 @@ Para distribuir e armazenar da maneira mais adequada`,
             },
             {
               descricao:
-                "O texto do botão muda conforme os formatos selecionados ('Baixar JSON' ou 'Gerar Documentos')",
+                "O texto do botão muda conforme os formatos selecionados:",
+              itens: [
+                "[btn:blue:download]Baixar JSON[/btn]",
+                "[btn:blue:download]Gerar Documentos[/btn]",
+              ],
             },
             {
               descricao:
-                "Durante o processamento, o botão exibe um ícone de carregamento e texto 'Processando...'",
+                "Durante o processamento, o botão exibe um ícone de carregamento e texto:",
+              itens: ["[btn:blue:loading]Processando...[/btn]"],
             },
           ],
           cenariosTeste: [
@@ -1441,8 +1449,8 @@ Quero importar dados a partir de um arquivo JSON salvo anteriormente
 Para continuar o trabalho sem precisar preencher tudo novamente`,
           caminhoAcesso: [
             "Acessar o sistema",
-            'Selecionar qualquer tipo de documentação ("Técnica" ou "Desenvolvimento")',
-            "Clicar no botão de importação (ícone de upload) na barra superior",
+            "Selecionar qualquer tipo de documentação (#o#Técnica# ou #g#Desenvolvimento#)",
+            "Clicar no botão de importação [btn:import:upload/] na barra superior",
             "Selecionar um arquivo JSON previamente gerado pelo sistema",
             "Confirmar a importação se solicitado",
           ],
@@ -1486,7 +1494,7 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
           regrasInterface: [
             {
               descricao:
-                "O botão de importação está sempre visível na barra superior",
+                "O botão de importação [btn:import:upload/] está sempre visível na barra superior",
             },
             {
               descricao:
@@ -1505,7 +1513,8 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
             {
               titulo: "Importação bem-sucedida de arquivo JSON",
               dado: "que o usuário tem um arquivo #p#JSON# válido e compatível",
-              quando: "clica no botão de importação e seleciona o arquivo",
+              quando:
+                "clica no botão de importação [btn:import:upload/] e seleciona o arquivo",
               entao:
                 "o sistema carrega todos os dados nos campos correspondentes",
               e_entao:
@@ -1545,7 +1554,7 @@ Para contabilizar o esforço técnico dessa SS`,
             "Selecionar a opção #o#Documentação Técnica#",
             "Preencher o formulário de informações básicas da SS",
             'Na seção "Gerenciar Atividades", preencher o nome da atividade e estimativa de horas',
-            'Clicar no botão "Adicionar"',
+            "Clicar no botão [btn:blue]Adicionar[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -1560,8 +1569,8 @@ Para contabilizar o esforço técnico dessa SS`,
               titulo:
                 "Cadastrar: ao clicar no botão Adicionar, o sistema deve seguir as seguintes regras:",
               itens: [
-                "- Enquanto existem campos obrigatórios que não preenchidos, o botão Adicionar deve permanecer habilitado mas mostrar mensagem de erro quando clicado",
-                "- Quando todos os campos obrigatórios estão preenchidos e o usuário clicar no botão Adicionar, o sistema deve salvar a atividade na lista de atividades",
+                "- Enquanto existem campos obrigatórios que não preenchidos, o botão [btn:blue]Adicionar[/btn] deve permanecer habilitado mas mostrar mensagem de erro quando clicado",
+                "- Quando todos os campos obrigatórios estão preenchidos e o usuário clicar no botão [btn:blue]Adicionar[/btn], o sistema deve salvar a atividade na lista de atividades",
               ],
             },
           ],
@@ -1597,7 +1606,7 @@ Para contabilizar o esforço técnico dessa SS`,
               titulo: "Cadastro com todos os campos preenchidos corretamente",
               dado: "que o usuário deseja cadastrar uma atividade",
               e: "preencheu todos os campos obrigatórios corretamente",
-              quando: "o usuário clicar no botão Adicionar",
+              quando: "o usuário clicar no botão [btn:blue]Adicionar[/btn]",
               entao: "o sistema deverá adicionar a atividade à lista",
               e_entao:
                 'exibir a seguinte mensagem: "Atividade cadastrada com sucesso!"',
@@ -1606,7 +1615,7 @@ Para contabilizar o esforço técnico dessa SS`,
               titulo: "Tentativa de cadastro sem informar nome da atividade",
               dado: "que o usuário deseja cadastrar uma atividade",
               e: "não preencheu o campo de nome da atividade",
-              quando: "o usuário clicar no botão Adicionar",
+              quando: "o usuário clicar no botão [btn:blue]Adicionar[/btn]",
               entao:
                 "o sistema deverá destacar o campo de nome da atividade em vermelho",
               e_entao:
@@ -1616,7 +1625,7 @@ Para contabilizar o esforço técnico dessa SS`,
               titulo: "Tentativa de cadastro com horas zeradas ou negativas",
               dado: "que o usuário deseja cadastrar uma atividade",
               e: "preencheu o valor de horas com zero ou um número negativo",
-              quando: "o usuário clicar no botão Adicionar",
+              quando: "o usuário clicar no botão [btn:blue]Adicionar[/btn]",
               entao: "o sistema deverá destacar o campo de horas em vermelho",
               e_entao:
                 'exibir a mensagem de erro: "O valor de horas deve ser maior que zero"',
@@ -1726,9 +1735,9 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
           caminhoAcesso: [
             "Acessar o sistema",
             "Selecionar #o#Documentação Técnica#",
-            "Na lista de atividades, clicar no ícone de edição (lápis) de uma atividade",
+            "Na lista de atividades, clicar no ícone de edição [btn:edit:pencil/] de uma atividade",
             "Modificar os campos desejados",
-            'Clicar em "Atualizar"',
+            "Clicar em [btn:green]Atualizar[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -1754,7 +1763,7 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
             },
             {
               descricao:
-                "O botão muda de 'Adicionar' para 'Atualizar' durante a edição",
+                "O botão muda de [btn:blue]Adicionar[/btn] para [btn:green]Atualizar[/btn] durante a edição",
             },
             {
               descricao:
@@ -1768,7 +1777,7 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
           regrasInterface: [
             {
               descricao:
-                "Ícone de lápis indica a opção de edição na tabela de atividades",
+                "Ícone de lápis :pencil: indica a opção de edição na tabela de atividades",
             },
             {
               descricao:
@@ -1783,7 +1792,8 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
             {
               titulo: "Edição bem-sucedida de atividade",
               dado: "que o usuário selecionou uma atividade para edição",
-              quando: "modifica os campos e clica em 'Atualizar'",
+              quando:
+                "modifica os campos e clica em [btn:green]Atualizar[/btn]",
               entao: "o sistema atualiza a atividade na lista",
               e_entao:
                 "recalcula os totais e limpa o formulário para nova entrada",
@@ -1824,16 +1834,16 @@ Para manter a documentação precisa e atualizada`,
             "Selecionar a opção #o#Documentação Técnica#",
             "Preencher o formulário de informações básicas da SS",
             'Na seção "Lista de Atividades", localizar a atividade desejada',
-            "Clicar no botão de remover (ícone de lixeira)",
+            "Clicar no botão de remover [btn:delete:trash/]",
           ],
           criteriosAceitacao: [
             {
               titulo: "Remoção: ao clicar no botão de remover, o sistema deve:",
               itens: [
                 '- Exibir um modal de confirmação com a mensagem "Tem certeza que deseja remover a atividade: [nome da atividade]?"',
-                '- Apresentar os botões "Cancelar" e "Remover"',
-                '- Se clicar em "Cancelar", fechar o modal sem realizar alterações',
-                '- Se clicar em "Remover", excluir a atividade da lista e recalcular o total de horas e pontos de função',
+                "- Apresentar os botões [btn:gray]Cancelar[/btn] e [btn:red]Remover[/btn]",
+                "- Se clicar em **Cancelar**, fechar o modal sem realizar alterações",
+                "- Se clicar em **Remover**, excluir a atividade da lista e recalcular o total de horas e pontos de função",
               ],
             },
           ],
@@ -1849,7 +1859,7 @@ Para manter a documentação precisa e atualizada`,
           regrasInterface: [
             {
               descricao:
-                "O botão de remoção é representado por um ícone de lixeira",
+                "O botão de remoção é representado por um ícone de lixeira :trash:",
             },
             {
               descricao:
@@ -1861,14 +1871,15 @@ Para manter a documentação precisa e atualizada`,
               titulo: "Remoção confirmada",
               dado: "que o usuário deseja remover uma atividade",
               quando:
-                'o usuário clica no botão de remoção e confirma no modal clicando em "Remover"',
+                "o usuário clica no botão de remoção e confirma no modal clicando em [btn:red]Remover[/btn]",
               entao: "o sistema remove a atividade da lista",
               e_entao: "recalcula o total de horas e pontos de função",
             },
             {
               titulo: "Remoção cancelada",
               dado: "que o usuário clica no botão de remoção de uma atividade",
-              quando: 'o usuário clica em "Cancelar" no modal de confirmação',
+              quando:
+                "o usuário clica em [btn:gray]Cancelar[/btn] no modal de confirmação",
               entao: "o sistema fecha o modal",
               e_entao: "a atividade permanece na lista sem alterações",
             },
@@ -2006,9 +2017,9 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
             "Acessar o sistema",
             "Selecionar a opção #g#Documentação de Desenvolvimento#",
             "Preencher o formulário de informações básicas da SS",
-            'Na aba "Requisitos Funcionais", clicar no botão "Adicionar Requisito Funcional"',
+            'Na aba "Requisitos Funcionais", clicar no botão [btn:blue]Adicionar Requisito Funcional[/btn]',
             "Preencher os campos no modal que será aberto",
-            'Clicar no botão "Salvar"',
+            "Clicar no botão [btn:blue]Salvar[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -2072,7 +2083,7 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
             },
             {
               descricao:
-                "Campos podem ser fixados como padrão clicando no ícone de cadeado ao lado do campo",
+                "Campos podem ser fixados como padrão clicando no ícone de cadeado :unlock: ao lado do campo",
             },
           ],
           cenariosTeste: [
@@ -2142,7 +2153,7 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de im
             {
               titulo: "Botão de adição: o sistema deve exibir:",
               itens: [
-                '- Um botão "Adicionar Requisito Funcional" acima ou abaixo da tabela',
+                "- Um botão [btn:blue]Adicionar Requisito Funcional[/btn] acima ou abaixo da tabela",
                 "- Este botão deve abrir o modal de cadastro de novo requisito quando clicado",
               ],
             },
@@ -2196,7 +2207,7 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de im
               dado: "que não existem requisitos funcionais cadastrados",
               quando: 'o usuário acessa a aba "Requisitos Funcionais"',
               entao:
-                "o sistema deve exibir apenas o botão de adicionar requisito",
+                "o sistema deve exibir apenas o botão [btn:blue]Adicionar Requisito Funcional[/btn]",
               e_entao: "não mostrar a tabela de listagem",
             },
           ],
@@ -2216,7 +2227,7 @@ Para verificar suas especificações sem risco de alteração acidental`,
             "Acessar o sistema",
             "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
-            "Clicar no botão de visualização (ícone de olho)",
+            "Clicar no botão de visualização [btn:view:eye/]",
           ],
           criteriosAceitacao: [
             {
@@ -2226,7 +2237,7 @@ Para verificar suas especificações sem risco de alteração acidental`,
                 "- Ter o título 'Visualizar Requisito Funcional'",
                 "- Exibir todos os dados do requisito, inclusive imagens",
                 "- Permitir navegação entre as abas mas não a edição dos campos",
-                '- Apresentar apenas o botão "Voltar" no rodapé',
+                "- Apresentar apenas o botão [btn:blue]Voltar[/btn] no rodapé",
               ],
             },
             {
@@ -2251,7 +2262,7 @@ Para verificar suas especificações sem risco de alteração acidental`,
           regrasInterface: [
             {
               descricao:
-                "O botão de visualização é representado por um ícone de olho na lista de requisitos",
+                "O botão de visualização é representado por um ícone de olho :eye: na lista de requisitos",
             },
             {
               descricao:
@@ -2259,7 +2270,7 @@ Para verificar suas especificações sem risco de alteração acidental`,
             },
             {
               descricao:
-                "Os ícones de cadeado para fixar campos como padrão não são exibidos no modo visualização",
+                "Os ícones de cadeado :unlock: para fixar campos como padrão não são exibidos no modo visualização",
             },
             {
               descricao:
@@ -2271,7 +2282,7 @@ Para verificar suas especificações sem risco de alteração acidental`,
               titulo: "Visualização de requisito completo",
               dado: "que existe um requisito funcional com todos os campos preenchidos",
               quando:
-                "o usuário clica no ícone de visualização desse requisito",
+                "o usuário clica no ícone de visualização desse requisito [btn:view:eye/]",
               entao: "o sistema deve abrir o modal no modo somente leitura",
               e_entao: "exibir todos os dados do requisito sem permitir edição",
             },
@@ -2280,14 +2291,14 @@ Para verificar suas especificações sem risco de alteração acidental`,
                 "Visualização de requisito com campos opcionais não preenchidos",
               dado: "que existe um requisito com alguns campos opcionais não preenchidos",
               quando:
-                "o usuário clica no ícone de visualização desse requisito",
+                "o usuário clica no ícone de visualização desse requisito [btn:view:eye/]",
               entao: "o sistema deve abrir o modal no modo somente leitura",
               e_entao: 'exibir "Não preenchido" nos campos opcionais vazios',
             },
             {
               titulo: "Retorno à lista de requisitos",
               dado: "que o usuário está visualizando um requisito",
-              quando: 'o usuário clica no botão "Voltar"',
+              quando: "o usuário clica no botão [btn:blue]Voltar[/btn]",
               entao: "o sistema deve fechar o modal de visualização",
               e_entao: "retornar à lista de requisitos",
             },
@@ -2308,9 +2319,9 @@ Para atualizar ou corrigir as especificações conforme necessário`,
             "Acessar o sistema",
             "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
-            "Clicar no botão de edição (ícone de lápis)",
+            "Clicar no botão de edição [btn:edit:pencil/]",
             "Alterar os campos desejados no modal que será aberto",
-            'Clicar no botão "Salvar"',
+            "Clicar no botão [btn:blue]Salvar[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -2355,7 +2366,7 @@ Para atualizar ou corrigir as especificações conforme necessário`,
           regrasInterface: [
             {
               descricao:
-                "O botão de edição é representado por um ícone de lápis na lista de requisitos",
+                "O botão de edição é representado por um ícone de lápis :pencil: na lista de requisitos",
             },
             {
               descricao:
@@ -2387,7 +2398,8 @@ Para atualizar ou corrigir as especificações conforme necessário`,
             {
               titulo: "Fixação de campo como padrão durante a edição",
               dado: "que o usuário está editando um requisito",
-              quando: "o usuário clica no ícone de cadeado ao lado de um campo",
+              quando:
+                "o usuário clica no ícone de cadeado :unlock: ao lado de um campo",
               entao:
                 "o sistema deve fixar aquele valor como padrão para novos requisitos",
               e_entao: 'exibir mensagem "Campo X definido como padrão"',
@@ -2409,7 +2421,7 @@ Para manter a documentação atualizada e relevante`,
             "Acessar o sistema",
             "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
-            "Clicar no botão de remoção (ícone de lixeira)",
+            "Clicar no botão de remoção [btn:delete:trash/]",
           ],
           criteriosAceitacao: [
             {
@@ -2418,9 +2430,9 @@ Para manter a documentação atualizada e relevante`,
               itens: [
                 '- Exibir um modal de confirmação com o título "Remover o [ID-Requisito]"',
                 '- Mostrar a mensagem "Tem certeza que deseja remover o requisito: [título do requisito]?"',
-                '- Apresentar os botões "Cancelar" e "Remover"',
-                '- Se o usuário clicar em "Cancelar", fechar o modal sem realizar alterações',
-                '- Se o usuário clicar em "Remover", excluir o requisito e atualizar a lista',
+                "- Apresentar os botões [btn:gray]Cancelar[/btn] e [btn:red]Remover[/btn]",
+                "- Se o usuário clicar em **Cancelar**, fechar o modal sem realizar alterações",
+                "- Se o usuário clicar em **Remover**, excluir o requisito e atualizar a lista",
               ],
             },
             {
@@ -2448,7 +2460,7 @@ Para manter a documentação atualizada e relevante`,
           regrasInterface: [
             {
               descricao:
-                "O botão de remoção é representado por um ícone de lixeira na lista de requisitos",
+                "O botão de remoção é representado por um ícone de lixeira :trash: na lista de requisitos",
             },
             {
               descricao:
@@ -2460,15 +2472,16 @@ Para manter a documentação atualizada e relevante`,
               titulo: "Remoção confirmada de requisito",
               dado: "que o usuário deseja remover um requisito",
               quando:
-                'o usuário clica no ícone de lixeira e confirma clicando em "Remover"',
+                "o usuário clica no ícone de lixeira [btn:delete:trash/] e confirma clicando em [btn:red]Remover[/btn]",
               entao: "o sistema deve remover o requisito da lista",
               e_entao:
                 "atualizar automaticamente os IDs dos requisitos restantes",
             },
             {
               titulo: "Cancelamento da remoção",
-              dado: "que o usuário clicou no ícone de lixeira de um requisito",
-              quando: 'o usuário clica em "Cancelar" no modal de confirmação',
+              dado: "que o usuário clicou no ícone de lixeira de um requisito :trash:",
+              quando:
+                "o usuário clica em [btn:gray]Cancelar[/btn] no modal de confirmação",
               entao: "o sistema deve fechar o modal",
               e_entao: "manter o requisito na lista sem alterações",
             },
@@ -2496,11 +2509,11 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
           caminhoAcesso: [
             "Acessar o sistema",
             "Selecionar a opção #g#Documentação de Desenvolvimento#",
-            'Na aba "Requisitos Funcionais", clicar em "Adicionar Requisito Funcional" ou editar um existente',
+            'Na aba "Requisitos Funcionais", clicar em [btn:blue]Adicionar Requisito Funcional[/btn] ou editar um existente',
             'Navegar para a aba "Imagens e Descrição"',
-            'Clicar no botão "Selecionar imagens"',
+            "Clicar no botão [btn:gray]Selecionar imagens[/btn]",
             "Escolher as imagens desejadas no explorador de arquivos",
-            'Clicar em "Salvar" para confirmar o requisito',
+            "Clicar em [btn:blue]Salvar[/btn] para confirmar o requisito",
           ],
           criteriosAceitacao: [
             {
@@ -2515,7 +2528,7 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
             {
               titulo: "Área de upload: o sistema deve apresentar:",
               itens: [
-                '- Botão "Selecionar imagens" claramente visível',
+                "- Botão [btn:gray]]Selecionar imagens[/btn] claramente visível",
                 "- Suporte a drag and drop para facilitar o upload",
                 "- Indicador visual quando imagens estão sendo processadas",
                 "- Grade de visualização das imagens após o upload",
@@ -2861,7 +2874,7 @@ Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
             'Navegar para a aba "Imagens e Descrição"',
             "Localizar a imagem a ser removida na grade",
             "Clicar no botão 'X' no canto superior direito da imagem",
-            'Clicar em "Salvar" para confirmar as alterações',
+            "Clicar em [btn:blue]Salvar[/btn] para confirmar as alterações",
           ],
           criteriosAceitacao: [
             {
@@ -2919,7 +2932,7 @@ Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
             {
               titulo: "Remoção de imagem individual",
               dado: "que um requisito possui múltiplas imagens",
-              quando: "o usuário clica no 'X' de uma imagem específica",
+              quando: "o usuário clica no #r#X# de uma imagem específica",
               entao: "o sistema deve remover apenas aquela imagem",
               e_entao: "reorganizar as imagens restantes na grade",
             },
@@ -2955,7 +2968,7 @@ Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
             "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Selecionar a aba "Requisitos Não Funcionais"',
             "Preencher os campos de título e descrição",
-            'Clicar no botão "Adicionar"',
+            "Clicar no botão [btn:blue]Adicionar[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -2964,7 +2977,7 @@ Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
               itens: [
                 "- #s#Título:# campo obrigatório de texto para o título do requisito não funcional",
                 "- #s#Descrição:# campo obrigatório de texto para a descrição detalhada do requisito",
-                '- Botão "Adicionar" para salvar o requisito',
+                "- Botão [btn:blue]Adicionar[/btn] para salvar o requisito",
               ],
             },
             {
@@ -3143,9 +3156,9 @@ Para atualizar ou corrigir as especificações conforme necessário`,
             "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Selecionar a aba "Requisitos Não Funcionais"',
             "Localizar o requisito desejado na lista",
-            "Clicar no botão de edição (ícone de lápis)",
+            "Clicar no botão de edição [btn:edit:pencil/]",
             "Alterar os campos desejados",
-            'Clicar no botão "Atualizar"',
+            "Clicar no botão [btn:green]Atualizar[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -3153,7 +3166,7 @@ Para atualizar ou corrigir as especificações conforme necessário`,
                 "Carregamento para edição: ao clicar no botão de edição, o sistema deve:",
               itens: [
                 "- Carregar os dados do requisito selecionado nos campos do formulário",
-                '- Mudar o texto do botão para "Atualizar"',
+                "- Mudar o texto do botão para [btn:green]Atualizar[/btn]",
                 "- Manter o foco no campo de título para facilitar a edição",
               ],
             },
@@ -3164,7 +3177,7 @@ Para atualizar ou corrigir as especificações conforme necessário`,
                 "- Se algum campo estiver vazio, destacá-lo em vermelho e focar nele",
                 "- Se ambos os campos estiverem preenchidos, atualizar o requisito mantendo o mesmo ID",
                 "- Limpar o formulário",
-                '- Reverter o botão para "Adicionar"',
+                "- Reverter o botão para [btn:blue]Adicionar[/btn]",
                 "- Exibir mensagem de sucesso",
               ],
             },
@@ -3185,7 +3198,7 @@ Para atualizar ou corrigir as especificações conforme necessário`,
           regrasInterface: [
             {
               descricao:
-                "O botão de edição é representado por um ícone de lápis na lista de requisitos",
+                "O botão de edição é representado por um ícone de lápis :pencil: na lista de requisitos",
             },
             {
               descricao:
@@ -3241,7 +3254,7 @@ Para manter a documentação atualizada e relevante`,
             "Selecionar a opção #g#Documentação de Desenvolvimento#",
             'Selecionar a aba "Requisitos Não Funcionais"',
             "Localizar o requisito desejado na lista",
-            "Clicar no botão de remoção (ícone de lixeira)",
+            "Clicar no botão de remoção [btn:delete:trash/]",
           ],
           criteriosAceitacao: [
             {
@@ -3250,9 +3263,9 @@ Para manter a documentação atualizada e relevante`,
               itens: [
                 '- Exibir um modal de confirmação com o título "Remover o [ID-Requisito]"',
                 '- Mostrar a mensagem "Tem certeza que deseja remover o requisito não funcional: [título do requisito]?"',
-                '- Apresentar os botões "Cancelar" e "Remover"',
-                '- Se o usuário clicar em "Cancelar", fechar o modal sem realizar alterações',
-                '- Se o usuário clicar em "Remover", excluir o requisito e atualizar a lista',
+                "- Apresentar os botões [btn:gray]Cancelar[/btn] e [btn:red]Remover[/btn]",
+                "- Se o usuário clicar em **Cancelar**, fechar o modal sem realizar alterações",
+                "- Se o usuário clicar em **Remover**, excluir o requisito e atualizar a lista",
               ],
             },
             {
@@ -3281,7 +3294,7 @@ Para manter a documentação atualizada e relevante`,
           regrasInterface: [
             {
               descricao:
-                "O botão de remoção é representado por um ícone de lixeira na lista de requisitos",
+                "O botão de remoção é representado por um ícone de lixeira :trash: na lista de requisitos",
             },
             {
               descricao:
@@ -3293,15 +3306,16 @@ Para manter a documentação atualizada e relevante`,
               titulo: "Remoção confirmada de requisito",
               dado: "que o usuário deseja remover um requisito não funcional",
               quando:
-                'o usuário clica no ícone de lixeira e confirma clicando em "Remover"',
+                "o usuário clica no ícone de lixeira [btn:delete:trash/] e confirma clicando em [btn:red]Remover[/btn]",
               entao: "o sistema deve remover o requisito da lista",
               e_entao:
                 "atualizar automaticamente os IDs dos requisitos restantes",
             },
             {
               titulo: "Cancelamento da remoção",
-              dado: "que o usuário clicou no ícone de lixeira de um requisito não funcional",
-              quando: 'o usuário clica em "Cancelar" no modal de confirmação',
+              dado: "que o usuário clicou no ícone de lixeira :trash: de um requisito não funcional",
+              quando:
+                "o usuário clica em [btn:gray]Cancelar[/btn] no modal de confirmação",
               entao: "o sistema deve fechar o modal",
               e_entao: "manter o requisito na lista sem alterações",
             },
@@ -3423,7 +3437,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
             "Preencher todos os campos obrigatórios do formulário",
             "Adicionar pelo menos um requisito funcional",
             "Selecionar os formatos desejados (JSON, DOCX, PDF)",
-            'Clicar no botão "Gerar Documentos"',
+            "Clicar no botão [btn:blue]Gerar Documentos[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -3443,8 +3457,8 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
                 "- #p#JSON# (sempre selecionado por padrão, não pode ser desmarcado)",
                 "- #b#DOCX# (opcional)",
                 "- #r#PDF# (opcional)",
-                '- O texto do botão muda para "Baixar JSON" quando apenas #p#JSON# está selecionado',
-                '- O texto do botão é "Gerar Documentos" quando #b#DOCX# e/ou #r#PDF# estão selecionados',
+                "- O texto do botão muda para [btn:blue:download]Baixar JSON[/btn] quando apenas #p#JSON# está selecionado",
+                "- O texto do botão é [btn:blue:download]Gerar Documentos[/btn] quando #b#DOCX# e/ou #r#PDF# estão selecionados",
               ],
             },
             {
