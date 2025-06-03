@@ -743,6 +743,8 @@ const iconesPorTipo = {
     "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z",
   remocao:
     "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16",
+  duplicacao:
+    "M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z",
   exportar: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12",
   importar: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12",
 
@@ -2403,6 +2405,135 @@ Para atualizar ou corrigir as especificações conforme necessário`,
               entao:
                 "o sistema deve fixar aquele valor como padrão para novos requisitos",
               e_entao: 'exibir mensagem "Campo X definido como padrão"',
+            },
+          ],
+        },
+
+        {
+          id: "duplicacao-requisito-funcional",
+          categoria: "doc-dev",
+          subgrupo: "requisitos-funcionais",
+          subsubgrupo: "crud-rf",
+          titulo: "Duplicação de Requisito Funcional",
+          icone: iconesPorTipo.duplicacao,
+          bdd: `Eu, como analista de requisitos,
+Quero duplicar requisitos funcionais existentes
+Para acelerar o cadastro de requisitos similares, aproveitando informações já preenchidas`,
+          caminhoAcesso: [
+            "Acessar o sistema",
+            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
+            "Clicar no botão de duplicação [btn:copy:duplicate/]",
+            "Revisar e alterar os campos no modal que será aberto",
+            "Clicar no botão [btn:blue]Salvar[/btn] para confirmar a duplicação",
+          ],
+          criteriosAceitacao: [
+            {
+              titulo:
+                "Criação da cópia: ao clicar no botão de duplicar, o sistema deve:",
+              itens: [
+                "- Abrir o modal de cadastro preenchido com todos os dados do requisito original",
+                "- Gerar um ID temporário (RF-XX) para o novo requisito",
+                "- Modificar o título adicionando o prefixo '(Cópia)' para indicar que é uma duplicação",
+                "- Manter todas as informações dos campos: tipo, local, usuário, perfil, descrição, validações, regras e banco",
+                "- Preservar todas as imagens anexadas ao requisito original",
+              ],
+            },
+            {
+              titulo: "Edição da cópia: o modal deve permitir:",
+              itens: [
+                "- Editar qualquer campo antes de salvar a duplicação",
+                "- Aplicar as mesmas validações do cadastro normal",
+                "- Permitir adicionar ou remover imagens da cópia",
+                "- Alterar o título removendo o prefixo '(Cópia)' se desejado",
+                "- Fixar novos valores como padrão usando o ícone de cadeado :unlock:",
+              ],
+            },
+            {
+              titulo: "Salvamento da duplicação: ao confirmar, o sistema deve:",
+              itens: [
+                "- Validar todos os campos obrigatórios",
+                "- Atribuir um ID sequencial definitivo (RF-XX)",
+                "- Adicionar o novo requisito ao final da lista",
+                "- Exibir mensagem de sucesso",
+                "- Fechar o modal e retornar à lista atualizada",
+              ],
+            },
+          ],
+          regrasNegocio: [
+            {
+              descricao:
+                "A duplicação cria um novo requisito independente do original",
+            },
+            {
+              descricao:
+                "O ID do requisito duplicado é sempre novo e sequencial",
+            },
+            {
+              descricao:
+                "Todas as imagens são copiadas como base64 para o novo requisito",
+            },
+            {
+              descricao:
+                "O prefixo '(Cópia)' é adicionado automaticamente ao título para identificação",
+            },
+            {
+              descricao:
+                "A duplicação não afeta o requisito original de forma alguma",
+            },
+          ],
+          regrasInterface: [
+            {
+              descricao:
+                "O botão de duplicação é representado por um ícone de cópia :duplicate: na lista de requisitos",
+            },
+            {
+              descricao:
+                "O modal de duplicação é idêntico ao de cadastro, mas com título 'Duplicar Requisito Funcional'",
+            },
+            {
+              descricao:
+                "Todos os campos são pré-preenchidos com os dados do requisito original",
+            },
+            {
+              descricao:
+                "O botão de salvar exibe o texto [btn:blue]Salvar[/btn] (não 'Atualizar' como na edição)",
+            },
+          ],
+          cenariosTeste: [
+            {
+              titulo: "Duplicação bem-sucedida de requisito completo",
+              dado: "que existe um requisito funcional com todos os campos preenchidos",
+              quando:
+                "o usuário clica no ícone de duplicação [btn:copy:duplicate/] e confirma salvando",
+              entao: "o sistema deve criar um novo requisito com ID sequencial",
+              e_entao:
+                "adicionar '(Cópia)' ao título e preservar todos os outros dados",
+            },
+            {
+              titulo: "Edição de campos durante a duplicação",
+              dado: "que o usuário iniciou a duplicação de um requisito",
+              quando: "altera o título, tipo e descrição antes de salvar",
+              entao:
+                "o sistema deve salvar o novo requisito com as alterações feitas",
+              e_entao:
+                "manter os campos não alterados com os valores originais",
+            },
+            {
+              titulo: "Duplicação de requisito com imagens",
+              dado: "que um requisito possui múltiplas imagens anexadas",
+              quando: "o usuário duplica esse requisito",
+              entao:
+                "o sistema deve copiar todas as imagens para o novo requisito",
+              e_entao:
+                "permitir adicionar, remover ou manter as imagens na duplicação",
+            },
+            {
+              titulo: "Cancelamento da duplicação",
+              dado: "que o usuário abriu o modal de duplicação",
+              quando: "fecha o modal sem salvar",
+              entao: "o sistema deve descartar a duplicação",
+              e_entao: "não criar nenhum novo requisito na lista",
             },
           ],
         },

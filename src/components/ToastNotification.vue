@@ -6,7 +6,15 @@
         :key="toast.id"
         :class="['toast', toast.type]"
       >
-        {{ toast.message }}
+        <!-- Adicionar esta estrutura flex para ícone + texto -->
+        <div class="flex items-center gap-3">
+          <span
+            v-if="mostrarIcone"
+            class="toast-icon flex-shrink-0"
+            v-html="getToastConfig(toast.type).icon"
+          ></span>
+          <span class="flex-1">{{ toast.message }}</span>
+        </div>
       </div>
     </transition-group>
   </div>
