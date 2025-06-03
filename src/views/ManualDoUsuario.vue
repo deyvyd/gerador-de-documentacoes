@@ -464,23 +464,9 @@
                 v-html="processarMarkdown(criterio.descricao)"
               ></div>
 
-              <ul class="list-disc pl-6">
-                <template
-                  v-for="(item, itemIndex) in criterio.itens"
-                  :key="itemIndex"
-                >
-                  <li
-                    v-if="!item.startsWith('- ')"
-                    class="text-gray-700 dark:text-gray-300 mb-1"
-                    v-html="processarMarkdown(item)"
-                  ></li>
-                  <li
-                    v-else
-                    class="text-gray-700 dark:text-gray-300 mb-1 ml-6 list-disc"
-                    v-html="processarMarkdown(item.substring(2))"
-                  ></li>
-                </template>
-              </ul>
+              <div
+                v-html="processarListasMistas(criterio.itens.join('\n'))"
+              ></div>
             </div>
           </section>
 
@@ -736,6 +722,7 @@ import ThemeToggle from "../components/ThemeToggle.vue";
 import InfoButton from "../components/InfoButton.vue";
 import TourGuide from "../components/TourGuide.vue";
 import appBase from "../mixins/appBase";
+import markdownProcessor from "../mixins/markdownProcessor";
 
 const iconesPorTipo = {
   // Ícones para funcionalidades comuns
@@ -768,7 +755,7 @@ const iconesPorTipo = {
 
 export default {
   name: "DocumentacaoFuncionalidades",
-  mixins: [appBase],
+  mixins: [appBase, markdownProcessor],
   components: {
     AppHeader,
     ThemeToggle,
@@ -854,18 +841,18 @@ Para aprender a usar o sistema de forma eficiente`,
             {
               titulo: "Inicialização do tour:",
               itens: [
-                "Iniciar automaticamente na primeira visita a cada tela",
-                "Disponibilizar botão para iniciar o tour manualmente",
-                "Manter registro das telas já visitadas para não repetir o tour",
+                "- Iniciar automaticamente na primeira visita a cada tela",
+                "- Disponibilizar botão para iniciar o tour manualmente",
+                "- Manter registro das telas já visitadas para não repetir o tour",
               ],
             },
             {
               titulo: "Navegação pelo tour:",
               itens: [
-                "Destacar elementos da interface sequencialmente",
-                "Fornecer descrições claras para cada elemento",
-                "Permitir avançar, voltar etapas",
-                "Permitir encerrar o tour a qualquer momento",
+                "- Destacar elementos da interface sequencialmente",
+                "- Fornecer descrições claras para cada elemento",
+                "- Permitir avançar, voltar etapas",
+                "- Permitir encerrar o tour a qualquer momento",
               ],
             },
           ],
@@ -951,18 +938,18 @@ Para adequar a interface às minhas preferências visuais`,
             {
               titulo: "Funcionalidade de alternância:",
               itens: [
-                "Botão com ícone intuitivo (sol para modo claro, lua para modo escuro)",
-                "Transição suave entre os temas",
-                "Mudança global afetando todos os elementos da interface",
-                "Persistência da preferência entre sessões",
+                "- Botão com ícone intuitivo (sol para modo claro, lua para modo escuro)",
+                "- Transição suave entre os temas",
+                "- Mudança global afetando todos os elementos da interface",
+                "- Persistência da preferência entre sessões",
               ],
             },
             {
               titulo: "Detecção automática de preferência:",
               itens: [
-                "Verificar preferência do sistema ao iniciar",
-                "Aplicar tema adequado automaticamente na primeira visita",
-                "Priorizar preferência salva do usuário sobre a do sistema",
+                "- Verificar preferência do sistema ao iniciar",
+                "- Aplicar tema adequado automaticamente na primeira visita",
+                "- Priorizar preferência salva do usuário sobre a do sistema",
               ],
             },
           ],
@@ -1034,7 +1021,7 @@ Para adequar a interface às minhas preferências visuais`,
           icone: iconesPorTipo.troca,
           bdd: `Eu, como usuário do sistema,
 Quero alternar entre os tipos de documentação disponíveis
-Para acessar a #o#documentação técnica# ou a #g#documentação de desenvolvimento# conforme minha necessidade`,
+Para acessar a documentação técnica ou a documentação de desenvolvimento conforme minha necessidade`,
           caminhoAcesso: [
             "Acessar o sistema",
             "Na tela inicial, selecionar entre #o#Documentação Técnica# ou #g#Documentação de Desenvolvimento#",
@@ -1044,17 +1031,17 @@ Para acessar a #o#documentação técnica# ou a #g#documentação de desenvolvim
             {
               titulo: "Seleção de tipo na tela inicial:",
               itens: [
-                "Exibir opções de #o#Documentação Técnica# e #g#Documentação de Desenvolvimento# na tela inicial",
-                "Permitir seleção através de botões destacados visualmente",
-                "Ao selecionar um tipo, o sistema deve carregar o formulário correspondente",
+                "- Exibir opções de #o#Documentação Técnica# e #g#Documentação de Desenvolvimento# na tela inicial",
+                "- Permitir seleção através de botões destacados visualmente",
+                "- Ao selecionar um tipo, o sistema deve carregar o formulário correspondente",
               ],
             },
             {
               titulo: "Alternância durante o preenchimento:",
               itens: [
-                "Disponibilizar botão de troca de tipo no topo da página durante o preenchimento",
-                "Ao tentar alternar com dados já preenchidos, exibir confirmação para evitar perda acidental",
-                "Após confirmação, carregar o formulário do novo tipo selecionado",
+                "- Disponibilizar botão de troca de tipo no topo da página durante o preenchimento",
+                "- Ao tentar alternar com dados já preenchidos, exibir confirmação para evitar perda acidental",
+                "- Após confirmação, carregar o formulário do novo tipo selecionado",
               ],
             },
           ],
@@ -1096,21 +1083,21 @@ Para acessar a #o#documentação técnica# ou a #g#documentação de desenvolvim
           ],
           cenariosTeste: [
             {
-              titulo: "Seleção inicial de #o#documentação técnica#",
+              titulo: "Seleção inicial de documentação técnica",
               dado: "que o usuário acessou o sistema",
               quando:
                 "seleciona a opção #o#Documentação Técnica# na tela inicial",
               entao:
-                "o sistema carrega o formulário específico para #o#documentação técnica#",
+                "o sistema carrega o formulário específico para documentação técnica",
               e_entao: "exibe as seções de atividades e pontos de função",
             },
             {
-              titulo: "Seleção inicial de #g#documentação de desenvolvimento#",
+              titulo: "Seleção inicial de documentação de desenvolvimento",
               dado: "que o usuário acessou o sistema",
               quando:
                 "seleciona a opção #g#Documentação de Desenvolvimento# na tela inicial",
               entao:
-                "o sistema carrega o formulário específico para #g#documentação de desenvolvimento#",
+                "o sistema carrega o formulário específico para documentação de desenvolvimento",
               e_entao:
                 "exibe as seções de requisitos funcionais e não funcionais",
             },
@@ -1152,19 +1139,19 @@ Para documentar os dados essenciais do trabalho realizado`,
               titulo:
                 "Campos obrigatórios: o usuário deve preencher os seguintes dados:",
               itens: [
-                "#s#Número SS:# campo numérico de 3 dígitos (preenchido com zeros à esquerda)",
-                "#s#Ano SS:# ano da solicitação (padrão é o ano atual)",
-                "#s#Título:# descrição breve da solicitação",
-                "#s#Descrição:# detalhamento da solicitação",
-                "#s#Data de Início:# data de início do trabalho",
-                "#s#Data de Fim:# data de conclusão do trabalho",
-                "#s#Autor(es):# ao menos um autor deve ser selecionado",
+                "- #s#Número SS:# campo numérico de 3 dígitos (preenchido com zeros à esquerda)",
+                "- #s#Ano SS:# ano da solicitação (padrão é o ano atual)",
+                "- #s#Título:# descrição breve da solicitação",
+                "- #s#Descrição:# detalhamento da solicitação",
+                "- #s#Data de Início:# data de início do trabalho",
+                "- #s#Data de Fim:# data de conclusão do trabalho",
+                "- #s#Autor(es):# ao menos um autor deve ser selecionado",
               ],
             },
             {
               titulo: "Campo opcional:",
               itens: [
-                "#s#Link do board:# URL opcional para o board do projeto (GitLab, Jira, etc.)",
+                "- #s#Link do board:# URL opcional para o board do projeto (GitLab, Jira, etc.)",
               ],
             },
           ],
@@ -1258,19 +1245,19 @@ Para registrar todos os contribuidores do trabalho`,
             {
               titulo: "Seleção de autores: o sistema deve permitir:",
               itens: [
-                "Pesquisar autores digitando parte do nome",
-                "Visualizar sugestões filtradas conforme o texto digitado",
-                "Selecionar autores da lista de sugestões",
-                "Adicionar múltiplos autores ao documento",
-                "Visualizar tags com os nomes dos autores selecionados",
+                "- Pesquisar autores digitando parte do nome",
+                "- Visualizar sugestões filtradas conforme o texto digitado",
+                "- Selecionar autores da lista de sugestões",
+                "- Adicionar múltiplos autores ao documento",
+                "- Visualizar tags com os nomes dos autores selecionados",
               ],
             },
             {
               titulo: "Gerenciamento de autores selecionados:",
               itens: [
-                "Remover autores individuais clicando no 'x' na tag",
-                "Não permitir duplicação de autores já selecionados",
-                "Exigir ao menos um autor selecionado para gerar documentos",
+                "- Remover autores individuais clicando no 'x' na tag",
+                "- Não permitir duplicação de autores já selecionados",
+                "- Exigir ao menos um autor selecionado para gerar documentos",
               ],
             },
           ],
@@ -1367,16 +1354,16 @@ Para distribuir e armazenar da maneira mais adequada`,
               titulo:
                 "Formatos disponíveis: o sistema deve permitir exportação nos seguintes formatos:",
               itens: [
-                "#p#JSON:# formato sempre disponível, útil para importação posterior",
-                "#b#DOCX:# documento Microsoft Word com formatação completa",
-                "#r#PDF:# documento em formato PDF para distribuição final",
+                "- #p#JSON#: formato sempre disponível, útil para importação posterior",
+                "- #b#DOCX#: documento Microsoft Word com formatação completa",
+                "- #r#PDF#: documento em formato PDF para distribuição final",
               ],
             },
             {
               titulo: "Validação antes da exportação:",
               itens: [
-                "Para exportação em #b#DOCX# ou #r#PDF#, todos os campos obrigatórios devem estar preenchidos",
-                "Para exportação apenas em #p#JSON#, a validação completa é opcional (útil para salvar rascunhos)",
+                "- Para exportação em #b#DOCX# ou #r#PDF#, todos os campos obrigatórios devem estar preenchidos",
+                "- Para exportação apenas em #p#JSON#, a validação completa é opcional (útil para salvar rascunhos)",
               ],
             },
           ],
@@ -1463,18 +1450,18 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
             {
               titulo: "Importação de dados: o sistema deve:",
               itens: [
-                "Carregar todos os dados do arquivo #p#JSON# nos campos correspondentes",
-                "Preencher informações básicas como número SS, título, descrição, datas, etc.",
-                "Recuperar listas de atividades ou requisitos conforme o tipo de documento",
-                "Preservar informações de autoria e datas originais",
+                "- Carregar todos os dados do arquivo #p#JSON# nos campos correspondentes",
+                "- Preencher informações básicas como número SS, título, descrição, datas, etc.",
+                "- Recuperar listas de atividades ou requisitos conforme o tipo de documento",
+                "- Preservar informações de autoria e datas originais",
               ],
             },
             {
               titulo: "Compatibilidade entre tipos de documento:",
               itens: [
-                "Verificar se o arquivo #p#JSON# é compatível com o tipo de documento atual",
-                "Impedir importação de #p#JSON# de #o#documentação técnica# em #g#documentação de desenvolvimento# e vice-versa",
-                "Exibir mensagem de erro caso tente importar arquivo incompatível",
+                "- Verificar se o arquivo #p#JSON# é compatível com o tipo de documento atual",
+                "- Impedir importação de #p#JSON# de #o#documentação técnica# em #g#documentação de desenvolvimento# e vice-versa",
+                "- Exibir mensagem de erro caso tente importar arquivo incompatível",
               ],
             },
           ],
@@ -1565,16 +1552,16 @@ Para contabilizar o esforço técnico dessa SS`,
               titulo:
                 "Dados gerais: o usuário deve realizar as seguintes ações nos campos abaixo:",
               itens: [
-                "#s#Atividade:# preenchimento obrigatório do campo do tipo texto com, no máximo, 255 caracteres",
-                "#s#Estimativa de horas:# preenchimento obrigatório do campo do tipo numérico, com valor positivo maior que zero",
+                "- #s#Atividade:# preenchimento obrigatório do campo do tipo texto com, no máximo, 255 caracteres",
+                "- #s#Estimativa de horas:# preenchimento obrigatório do campo do tipo numérico, com valor positivo maior que zero",
               ],
             },
             {
               titulo:
                 "Cadastrar: ao clicar no botão Adicionar, o sistema deve seguir as seguintes regras:",
               itens: [
-                "Enquanto existem campos obrigatórios que não preenchidos, o botão Adicionar deve permanecer habilitado mas mostrar mensagem de erro quando clicado",
-                "Quando todos os campos obrigatórios estão preenchidos e o usuário clicar no botão Adicionar, o sistema deve salvar a atividade na lista de atividades",
+                "- Enquanto existem campos obrigatórios que não preenchidos, o botão Adicionar deve permanecer habilitado mas mostrar mensagem de erro quando clicado",
+                "- Quando todos os campos obrigatórios estão preenchidos e o usuário clicar no botão Adicionar, o sistema deve salvar a atividade na lista de atividades",
               ],
             },
           ],
@@ -1656,25 +1643,25 @@ Para ter uma visão clara do trabalho realizado e poder reorganizá-las conforme
               titulo:
                 "Listagem: o sistema deve exibir as atividades com as seguintes informações:",
               itens: [
-                "#s#Atividade:# nome da atividade cadastrada",
-                "#s#Estimativa de horas:# horas registradas para a atividade",
-                "#s#Ações:# botões para editar e remover a atividade",
+                "- #s#Atividade:# nome da atividade cadastrada",
+                "- #s#Estimativa de horas:# horas registradas para a atividade",
+                "- #s#Ações:# botões para editar e remover a atividade",
               ],
             },
             {
               titulo:
                 "Reordenação: o sistema deve permitir a reorganização das atividades através de drag and drop:",
               itens: [
-                "Ao clicar e segurar em uma linha da tabela, o usuário deve poder arrastá-la para uma nova posição",
-                "Ao soltar a linha em uma nova posição, o sistema deve atualizar a ordem das atividades",
-                "A ordem das atividades deve ser preservada ao gerar a documentação",
+                "- Ao clicar e segurar em uma linha da tabela, o usuário deve poder arrastá-la para uma nova posição",
+                "- Ao soltar a linha em uma nova posição, o sistema deve atualizar a ordem das atividades",
+                "- A ordem das atividades deve ser preservada ao gerar a documentação",
               ],
             },
             {
               titulo: "Rodapé da tabela: o sistema deve exibir:",
               itens: [
-                "Total de horas: soma das horas de todas as atividades listadas",
-                "Quantidade de PF: cálculo automático dos pontos de função com base no total de horas",
+                "- **Total de horas:** soma das horas de todas as atividades listadas",
+                "- **Quantidade de PF:** cálculo automático dos pontos de função com base no total de horas",
               ],
             },
           ],
@@ -1747,16 +1734,16 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
             {
               titulo: "Edição de campos: o sistema deve permitir modificar:",
               itens: [
-                "#s#Nome da atividade#",
-                "#s#Quantidade de horas estimadas#",
-                "O botão 'Adicionar' deve mudar para 'Atualizar' durante a edição",
+                "- #s#Nome da atividade#",
+                "- #s#Quantidade de horas estimadas#",
+                "- O botão 'Adicionar' deve mudar para 'Atualizar' durante a edição",
               ],
             },
             {
               titulo: "Validações durante edição:",
               itens: [
-                "As mesmas validações do cadastro são aplicadas (campos obrigatórios, valores positivos, etc.)",
-                "Não permitir salvar se houver campos inválidos",
+                "- As mesmas validações do cadastro são aplicadas (campos obrigatórios, valores positivos, etc.)",
+                "- Não permitir salvar se houver campos inválidos",
               ],
             },
           ],
@@ -1843,10 +1830,10 @@ Para manter a documentação precisa e atualizada`,
             {
               titulo: "Remoção: ao clicar no botão de remover, o sistema deve:",
               itens: [
-                'Exibir um modal de confirmação com a mensagem "Tem certeza que deseja remover a atividade: [nome da atividade]?"',
-                'Apresentar os botões "Cancelar" e "Remover"',
-                'Se clicar em "Cancelar", fechar o modal sem realizar alterações',
-                'Se clicar em "Remover", excluir a atividade da lista e recalcular o total de horas e pontos de função',
+                '- Exibir um modal de confirmação com a mensagem "Tem certeza que deseja remover a atividade: [nome da atividade]?"',
+                '- Apresentar os botões "Cancelar" e "Remover"',
+                '- Se clicar em "Cancelar", fechar o modal sem realizar alterações',
+                '- Se clicar em "Remover", excluir a atividade da lista e recalcular o total de horas e pontos de função',
               ],
             },
           ],
@@ -1909,33 +1896,33 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
               titulo:
                 "Validação antes da geração: o sistema deve verificar se os seguintes requisitos estão atendidos:",
               itens: [
-                "Campos obrigatórios da SS estão preenchidos (Número, Ano, Título, Descrição, Data de Início, Data de Fim)",
-                "Pelo menos um autor está selecionado",
-                "Pelo menos uma atividade está adicionada",
-                "Caso algum requisito não seja atendido, exibir mensagem de erro destacando os campos com problema",
+                "- Campos obrigatórios da SS estão preenchidos (Número, Ano, Título, Descrição, Data de Início, Data de Fim)",
+                "- Pelo menos um autor está selecionado",
+                "- Pelo menos uma atividade está adicionada",
+                "- Caso algum requisito não seja atendido, exibir mensagem de erro destacando os campos com problema",
               ],
             },
             {
               titulo:
                 "Seleção de formatos: o sistema deve permitir a seleção de diferentes formatos:",
               itens: [
-                "#p#JSON# (sempre selecionado por padrão, não pode ser desmarcado)",
-                "#b#DOCX# (opcional)",
-                "#r#PDF# (opcional)",
-                'O texto do botão muda para "Baixar JSON" quando apenas #p#JSON# está selecionado',
-                'O texto do botão é "Gerar Documentos" quando #b#DOCX# e/ou #r#PDF# estão selecionados',
+                "- #p#JSON# (sempre selecionado por padrão, não pode ser desmarcado)",
+                "- #b#DOCX# (opcional)",
+                "- #r#PDF# (opcional)",
+                '- O texto do botão muda para "Baixar JSON" quando apenas #p#JSON# está selecionado',
+                '- O texto do botão é "Gerar Documentos" quando #b#DOCX# e/ou #r#PDF# estão selecionados',
               ],
             },
             {
               titulo:
                 "Geração de documentos: ao clicar no botão, o sistema deve:",
               itens: [
-                "Exibir indicador de carregamento durante o processamento",
-                "Se apenas #p#JSON# estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
-                "Se #b#DOCX# e/ou #r#PDF# estiverem selecionados, validar todos os campos obrigatórios",
-                "Gerar os documentos nos formatos selecionados",
-                "Disponibilizar os arquivos para download",
-                "Exibir mensagem de sucesso após a geração",
+                "- Exibir indicador de carregamento durante o processamento",
+                "- Se apenas #p#JSON# estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
+                "- Se #b#DOCX# e/ou #r#PDF# estiverem selecionados, validar todos os campos obrigatórios",
+                "- Gerar os documentos nos formatos selecionados",
+                "- Disponibilizar os arquivos para download",
+                "- Exibir mensagem de sucesso após a geração",
               ],
             },
           ],
@@ -2028,19 +2015,19 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
               titulo:
                 "Modal de cadastro: o modal deve conter as seguintes abas e campos:",
               itens: [
-                "Aba 1 - Informações básicas:",
+                "**Aba 1** - Informações básicas:",
                 "- #s#Título:# campo obrigatório de texto para o título do requisito",
                 "- #s#Tipo:# seleção obrigatória entre Alteração, Inclusão ou Remoção",
                 "- #s#Local:# campo obrigatório para informar onde o requisito será implementado",
                 "- #s#Usuário:# campo obrigatório para informar o perfil de usuário",
                 "- #s#Perfil:# campo obrigatório para informar o perfil de acesso",
-                "Aba 2 - Imagens e Descrição:",
+                "**Aba 2** - Imagens e Descrição:",
                 "- #s#Imagens:# área para upload de múltiplas imagens (opcional)",
                 "- #s#Descrição:# campo obrigatório com editor de texto rico para detalhar o requisito",
-                "Aba 3 - Regras:",
+                "**Aba 3** - Regras:",
                 "- #s#Regras de validações dos campos:# editor de texto rico (opcional)",
                 "- #s#Regras de negócio:# editor de texto rico (opcional)",
-                "Aba 4 - Banco de dados:",
+                "**Aba 4** - Banco de dados:",
                 "- #s#Mudança de banco:# editor de texto rico para detalhar mudanças no banco (opcional)",
               ],
             },
@@ -2048,11 +2035,11 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
               titulo:
                 "Validação e salvamento: ao clicar em salvar, o sistema deve:",
               itens: [
-                "Validar todos os campos obrigatórios",
-                "Se houver campos obrigatórios não preenchidos, destacar campos com erro e focar no primeiro campo com problema",
-                "Se todos os campos obrigatórios estiverem preenchidos, salvar o requisito",
-                "Atribuir ID sequencial no formato RF-XX (RF-01, RF-02, etc.)",
-                "Exibir mensagem de sucesso e fechar o modal",
+                "- Validar todos os campos obrigatórios",
+                "- Se houver campos obrigatórios não preenchidos, destacar campos com erro e focar no primeiro campo com problema",
+                "- Se todos os campos obrigatórios estiverem preenchidos, salvar o requisito",
+                "- Atribuir ID sequencial no formato RF-XX (RF-01, RF-02, etc.)",
+                "- Exibir mensagem de sucesso e fechar o modal",
               ],
             },
           ],
@@ -2137,26 +2124,26 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de im
               titulo:
                 "Exibição da lista: o sistema deve exibir os requisitos funcionais com as seguintes informações:",
               itens: [
-                "#s#ID:# identificador sequencial no formato RF-XX",
-                "#s#Título:# título do requisito funcional",
-                "#s#Local:# local de implementação do requisito",
-                "#s#Tipo:# tipo do requisito (Alteração, Inclusão ou Remoção)",
-                "#s#Ações:# botões para visualizar, editar, duplicar e remover o requisito",
+                "- #s#ID:# identificador sequencial no formato RF-XX",
+                "- #s#Título:# título do requisito funcional",
+                "- #s#Local:# local de implementação do requisito",
+                "- #s#Tipo:# tipo do requisito (Alteração, Inclusão ou Remoção)",
+                "- #s#Ações:# botões para visualizar, editar, duplicar e remover o requisito",
               ],
             },
             {
               titulo: "Reordenação por drag and drop: o sistema deve permitir:",
               itens: [
-                "Arrastar e soltar requisitos para reorganizá-los",
-                "Atualizar automaticamente os IDs para refletir a nova ordem",
-                "Por exemplo, se RF-03 for movido para a primeira posição, ele se torna RF-01, e os outros são renumerados sequencialmente",
+                "- Arrastar e soltar requisitos para reorganizá-los",
+                "- Atualizar automaticamente os IDs para refletir a nova ordem",
+                "- Por exemplo, se RF-03 for movido para a primeira posição, ele se torna RF-01, e os outros são renumerados sequencialmente",
               ],
             },
             {
               titulo: "Botão de adição: o sistema deve exibir:",
               itens: [
-                'Um botão "Adicionar Requisito Funcional" acima ou abaixo da tabela',
-                "Este botão deve abrir o modal de cadastro de novo requisito quando clicado",
+                '- Um botão "Adicionar Requisito Funcional" acima ou abaixo da tabela',
+                "- Este botão deve abrir o modal de cadastro de novo requisito quando clicado",
               ],
             },
           ],
@@ -2235,19 +2222,19 @@ Para verificar suas especificações sem risco de alteração acidental`,
             {
               titulo: "Modal de visualização: o modal deve:",
               itens: [
-                "Abrir no modo somente leitura (todos os campos desabilitados)",
-                "Ter o título 'Visualizar Requisito Funcional'",
-                "Exibir todos os dados do requisito, inclusive imagens",
-                "Permitir navegação entre as abas mas não a edição dos campos",
-                'Apresentar apenas o botão "Voltar" no rodapé',
+                "- Abrir no modo somente leitura (todos os campos desabilitados)",
+                "- Ter o título 'Visualizar Requisito Funcional'",
+                "- Exibir todos os dados do requisito, inclusive imagens",
+                "- Permitir navegação entre as abas mas não a edição dos campos",
+                '- Apresentar apenas o botão "Voltar" no rodapé',
               ],
             },
             {
               titulo: "Exibição de campos não preenchidos: o sistema deve:",
               itens: [
-                'Exibir a mensagem "Não preenchido" em campos opcionais que não possuem conteúdo',
-                "Mostrar todas as imagens anexadas, se houver",
-                'Exibir a mensagem "Não foram inseridas imagens nesse RF" se não houver imagens',
+                '- Exibir a mensagem "Não preenchido" em campos opcionais que não possuem conteúdo',
+                "- Mostrar todas as imagens anexadas, se houver",
+                '- Exibir a mensagem "Não foram inseridas imagens nesse RF" se não houver imagens',
               ],
             },
           ],
@@ -2329,22 +2316,22 @@ Para atualizar ou corrigir as especificações conforme necessário`,
             {
               titulo: "Modal de edição: o modal deve:",
               itens: [
-                "Abrir preenchido com todos os dados atuais do requisito",
-                "Ter o título 'Editar Requisito Funcional'",
-                "Manter o mesmo ID do requisito sendo editado",
-                "Permitir a edição de todos os campos",
-                "Aplicar as mesmas regras de validação do cadastro",
-                "Permitir salvar apenas se todos os campos obrigatórios estiverem preenchidos",
+                "- Abrir preenchido com todos os dados atuais do requisito",
+                "- Ter o título 'Editar Requisito Funcional'",
+                "- Manter o mesmo ID do requisito sendo editado",
+                "- Permitir a edição de todos os campos",
+                "- Aplicar as mesmas regras de validação do cadastro",
+                "- Permitir salvar apenas se todos os campos obrigatórios estiverem preenchidos",
               ],
             },
             {
               titulo:
                 "Salvamento das alterações: ao clicar em Salvar, o sistema deve:",
               itens: [
-                "Validar todos os campos obrigatórios",
-                "Se houver campos não preenchidos, destacar campos com erro",
-                "Se todos os campos obrigatórios estiverem preenchidos, atualizar o requisito mantendo o mesmo ID",
-                "Exibir mensagem de sucesso e fechar o modal",
+                "- Validar todos os campos obrigatórios",
+                "- Se houver campos não preenchidos, destacar campos com erro",
+                "- Se todos os campos obrigatórios estiverem preenchidos, atualizar o requisito mantendo o mesmo ID",
+                "- Exibir mensagem de sucesso e fechar o modal",
               ],
             },
           ],
@@ -2429,19 +2416,19 @@ Para manter a documentação atualizada e relevante`,
               titulo:
                 "Confirmação de remoção: ao clicar no botão de remover, o sistema deve:",
               itens: [
-                'Exibir um modal de confirmação com o título "Remover o [ID-Requisito]"',
-                'Mostrar a mensagem "Tem certeza que deseja remover o requisito: [título do requisito]?"',
-                'Apresentar os botões "Cancelar" e "Remover"',
-                'Se o usuário clicar em "Cancelar", fechar o modal sem realizar alterações',
-                'Se o usuário clicar em "Remover", excluir o requisito e atualizar a lista',
+                '- Exibir um modal de confirmação com o título "Remover o [ID-Requisito]"',
+                '- Mostrar a mensagem "Tem certeza que deseja remover o requisito: [título do requisito]?"',
+                '- Apresentar os botões "Cancelar" e "Remover"',
+                '- Se o usuário clicar em "Cancelar", fechar o modal sem realizar alterações',
+                '- Se o usuário clicar em "Remover", excluir o requisito e atualizar a lista',
               ],
             },
             {
               titulo: "Atualização de IDs após remoção: o sistema deve:",
               itens: [
-                "Remover o requisito da lista",
-                "Atualizar automaticamente os IDs dos requisitos restantes para manter a sequência",
-                "Por exemplo, se RF-02 for removido, o RF-03 passa a ser RF-02, RF-04 passa a ser RF-03, e assim por diante",
+                "- Remover o requisito da lista",
+                "- Atualizar automaticamente os IDs dos requisitos restantes para manter a sequência",
+                "- Por exemplo, se RF-02 for removido, o RF-03 passa a ser RF-02, RF-04 passa a ser RF-03, e assim por diante",
               ],
             },
           ],
@@ -2519,28 +2506,28 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
             {
               titulo: "Seleção de imagens: o sistema deve permitir:",
               itens: [
-                "Upload de múltiplas imagens simultaneamente",
-                "Aceitar formatos comuns: JPG, JPEG, PNG, GIF, WEBP",
-                "Validar tamanho máximo de 5MB para o total de todas as imagens",
-                "Exibir preview das imagens selecionadas imediatamente após o upload",
+                "- Upload de múltiplas imagens simultaneamente",
+                "- Aceitar formatos comuns: JPG, JPEG, PNG, GIF, WEBP",
+                "- Validar tamanho máximo de 5MB para o total de todas as imagens",
+                "- Exibir preview das imagens selecionadas imediatamente após o upload",
               ],
             },
             {
               titulo: "Área de upload: o sistema deve apresentar:",
               itens: [
-                'Botão "Selecionar imagens" claramente visível',
-                "Suporte a drag and drop para facilitar o upload",
-                "Indicador visual quando imagens estão sendo processadas",
-                "Grade de visualização das imagens após o upload",
+                '- Botão "Selecionar imagens" claramente visível',
+                "- Suporte a drag and drop para facilitar o upload",
+                "- Indicador visual quando imagens estão sendo processadas",
+                "- Grade de visualização das imagens após o upload",
               ],
             },
             {
               titulo: "Validações: o sistema deve:",
               itens: [
-                "Rejeitar arquivos que não sejam imagens válidas",
-                "Alertar quando o tamanho total exceder 5MB",
-                "Mostrar informações de tamanho de cada imagem",
-                "Preservar qualidade das imagens no formato base64",
+                "- Rejeitar arquivos que não sejam imagens válidas",
+                "- Alertar quando o tamanho total exceder 5MB",
+                "- Mostrar informações de tamanho de cada imagem",
+                "- Preservar qualidade das imagens no formato base64",
               ],
             },
           ],
@@ -2629,37 +2616,37 @@ Para ter uma visão geral das imagens anexadas e facilitar sua gestão`,
             {
               titulo: "Exibição da grade: o sistema deve mostrar:",
               itens: [
-                "Grade responsiva com até 3 colunas em telas grandes",
-                "Miniaturas das imagens com proporções mantidas",
-                "Indicador de tamanho no canto inferior de cada imagem",
-                "Efeito hover para indicar interatividade",
+                "- Grade responsiva com até 3 colunas em telas grandes",
+                "- Miniaturas das imagens com proporções mantidas",
+                "- Indicador de tamanho no canto inferior de cada imagem",
+                "- Efeito hover para indicar interatividade",
               ],
             },
             {
               titulo: "Informações visuais: cada imagem deve exibir:",
               itens: [
-                "Miniatura clara e bem definida",
-                "Tamanho formatado (ex: '245,3 KB' ou '1,2 MB')",
-                "Botão de remoção no modo edição",
-                "Indicação visual quando a imagem é clicável",
+                "- Miniatura clara e bem definida",
+                "- Tamanho formatado (ex: '245,3 KB' ou '1,2 MB')",
+                "- Botão de remoção no modo edição",
+                "- Indicação visual quando a imagem é clicável",
               ],
             },
             {
               titulo: "Estados da listagem:",
               itens: [
-                "Estado vazio: mensagem 'Nenhuma imagem foi inserida' quando não há imagens",
-                "Estado de carregamento durante upload de novas imagens",
-                "Estado de edição: botões de remoção visíveis",
-                "Estado de visualização: apenas visualização das imagens",
+                "- Estado vazio: mensagem 'Nenhuma imagem foi inserida' quando não há imagens",
+                "- Estado de carregamento durante upload de novas imagens",
+                "- Estado de edição: botões de remoção visíveis",
+                "- Estado de visualização: apenas visualização das imagens",
               ],
             },
             {
               titulo: "Responsividade: a grade deve adaptar-se:",
               itens: [
-                "3 colunas em telas grandes (desktop)",
-                "2 colunas em tablets",
-                "1 coluna em smartphones",
-                "Espaçamento adequado entre as imagens",
+                "- 3 colunas em telas grandes (desktop)",
+                "- 2 colunas em tablets",
+                "- 1 coluna em smartphones",
+                "- Espaçamento adequado entre as imagens",
               ],
             },
           ],
@@ -2756,37 +2743,36 @@ Para analisar detalhes e ter melhor compreensão das especificações`,
               titulo:
                 "Abertura do visualizador: ao clicar em uma imagem, o sistema deve:",
               itens: [
-                "Abrir um modal em tela cheia com fundo escuro semi-transparente",
-                "Exibir a imagem centralizada com tamanho otimizado",
-                "Mostrar botões de navegação se houver múltiplas imagens",
-                "Bloquear o scroll da página de fundo durante a visualização",
+                "- Abrir um modal em tela cheia com fundo escuro semi-transparente",
+                "- Exibir a imagem centralizada com tamanho otimizado",
+                "- Mostrar botões de navegação se houver múltiplas imagens",
+                "- Bloquear o scroll da página de fundo durante a visualização",
               ],
             },
             {
               titulo: "Navegação entre imagens: o visualizador deve permitir:",
               itens: [
-                "Navegar para imagem anterior/próxima com setas laterais",
-                "Usar teclas de seta do teclado para navegação",
-                "Exibir contador 'X de Y' para indicar posição atual",
-                "Loop infinito (após a última, volta para a primeira)",
+                "- Navegar para imagem anterior/próxima com setas laterais",
+                "- Usar teclas de seta do teclado para navegação",
+                "- Exibir contador 'X de Y' para indicar posição atual",
+                "- Loop infinito (após a última, volta para a primeira)",
               ],
             },
             {
               titulo: "Informações da imagem: o visualizador deve exibir:",
               itens: [
-                "Nome do arquivo gerado automaticamente",
-                "Tamanho do arquivo formatado (KB/MB)",
-                "Dimensões da imagem (largura × altura)",
-                "Quantidade de caracteres do base64",
+                "- Tamanho do arquivo formatado (KB/MB)",
+                "- Dimensões da imagem (largura × altura)",
+                "- Quantidade de caracteres do base64",
               ],
             },
             {
               titulo:
                 "Controles de fechamento: deve ser possível fechar através de:",
               itens: [
-                "Botão 'X' no canto superior direito",
-                "Tecla ESC do teclado",
-                "Clique fora da área da imagem (no overlay)",
+                "- Botão #r#X# no canto superior direito",
+                "- Tecla **ESC** do teclado",
+                "- Clique fora da área da imagem (no overlay)",
               ],
             },
           ],
@@ -2881,19 +2867,19 @@ Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
             {
               titulo: "Botão de remoção: cada imagem deve ter:",
               itens: [
-                "Botão 'X' vermelho no canto superior direito",
-                "Ícone claramente visível sobre a imagem",
-                "Tooltip explicativo ao passar o mouse",
-                "Remoção imediata sem necessidade de confirmação adicional",
+                "- Botão #r#X# vermelho no canto superior direito",
+                "- Ícone claramente visível sobre a imagem",
+                "- Tooltip explicativo ao passar o mouse",
+                "- Remoção imediata sem necessidade de confirmação adicional",
               ],
             },
             {
               titulo: "Feedback visual: o sistema deve:",
               itens: [
-                "Remover a imagem da grade imediatamente após o clique",
-                "Reorganizar automaticamente as imagens restantes",
-                "Atualizar o cálculo de tamanho total das imagens",
-                "Manter a numeração sequencial das imagens restantes",
+                "- Remover a imagem da grade imediatamente após o clique",
+                "- Reorganizar automaticamente as imagens restantes",
+                "- Atualizar o cálculo de tamanho total das imagens",
+                "- Manter a numeração sequencial das imagens restantes",
               ],
             },
           ],
@@ -2976,21 +2962,21 @@ Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
               titulo:
                 "Formulário de cadastro: o sistema deve exibir um formulário com os seguintes campos:",
               itens: [
-                "#s#Título:# campo obrigatório de texto para o título do requisito não funcional",
-                "#s#Descrição:# campo obrigatório de texto para a descrição detalhada do requisito",
-                'Botão "Adicionar" para salvar o requisito',
+                "- #s#Título:# campo obrigatório de texto para o título do requisito não funcional",
+                "- #s#Descrição:# campo obrigatório de texto para a descrição detalhada do requisito",
+                '- Botão "Adicionar" para salvar o requisito',
               ],
             },
             {
               titulo:
                 "Validação e salvamento: ao clicar em Adicionar, o sistema deve:",
               itens: [
-                "Validar se ambos os campos estão preenchidos",
-                "Se algum campo estiver vazio, destacá-lo em vermelho e focar nele",
-                "Se ambos os campos estiverem preenchidos, salvar o requisito",
-                "Atribuir ID sequencial no formato RNF-XX (RNF-01, RNF-02, etc.)",
-                "Limpar o formulário para permitir a adição de um novo requisito",
-                "Focar no campo de título para facilitar novas entradas",
+                "- Validar se ambos os campos estão preenchidos",
+                "- Se algum campo estiver vazio, destacá-lo em vermelho e focar nele",
+                "- Se ambos os campos estiverem preenchidos, salvar o requisito",
+                "- Atribuir ID sequencial no formato RNF-XX (RNF-01, RNF-02, etc.)",
+                "- Limpar o formulário para permitir a adição de um novo requisito",
+                "- Focar no campo de título para facilitar novas entradas",
               ],
             },
           ],
@@ -3069,18 +3055,18 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem de prioridade
               titulo:
                 "Exibição da lista: o sistema deve exibir os requisitos não funcionais (RNFs) com as seguintes informações:",
               itens: [
-                "#s#ID:# identificador sequencial no formato RNF-XX",
-                "#s#Título:# título do requisito não funcional",
-                "#s#Descrição:# descrição detalhada do requisito",
-                "#s#Ações:# botões para editar e remover o requisito",
+                "- #s#ID:# identificador sequencial no formato RNF-XX",
+                "- #s#Título:# título do requisito não funcional",
+                "- #s#Descrição:# descrição detalhada do requisito",
+                "- #s#Ações:# botões para editar e remover o requisito",
               ],
             },
             {
               titulo: "Reordenação por drag and drop: o sistema deve permitir:",
               itens: [
-                "Arrastar e soltar requisitos para reorganizá-los",
-                "Atualizar automaticamente os IDs para refletir a nova ordem",
-                "Por exemplo, se RNF-03 for movido para a primeira posição, ele se torna RNF-01, e os outros são renumerados sequencialmente",
+                "- Arrastar e soltar requisitos para reorganizá-los",
+                "- Atualizar automaticamente os IDs para refletir a nova ordem",
+                "- Por exemplo, se RNF-03 for movido para a primeira posição, ele se torna RNF-01, e os outros são renumerados sequencialmente",
               ],
             },
           ],
@@ -3166,20 +3152,20 @@ Para atualizar ou corrigir as especificações conforme necessário`,
               titulo:
                 "Carregamento para edição: ao clicar no botão de edição, o sistema deve:",
               itens: [
-                "Carregar os dados do requisito selecionado nos campos do formulário",
-                'Mudar o texto do botão para "Atualizar"',
-                "Manter o foco no campo de título para facilitar a edição",
+                "- Carregar os dados do requisito selecionado nos campos do formulário",
+                '- Mudar o texto do botão para "Atualizar"',
+                "- Manter o foco no campo de título para facilitar a edição",
               ],
             },
             {
               titulo: "Atualização: ao clicar em Atualizar, o sistema deve:",
               itens: [
-                "Validar se ambos os campos estão preenchidos",
-                "Se algum campo estiver vazio, destacá-lo em vermelho e focar nele",
-                "Se ambos os campos estiverem preenchidos, atualizar o requisito mantendo o mesmo ID",
-                "Limpar o formulário",
-                'Reverter o botão para "Adicionar"',
-                "Exibir mensagem de sucesso",
+                "- Validar se ambos os campos estão preenchidos",
+                "- Se algum campo estiver vazio, destacá-lo em vermelho e focar nele",
+                "- Se ambos os campos estiverem preenchidos, atualizar o requisito mantendo o mesmo ID",
+                "- Limpar o formulário",
+                '- Reverter o botão para "Adicionar"',
+                "- Exibir mensagem de sucesso",
               ],
             },
           ],
@@ -3262,20 +3248,20 @@ Para manter a documentação atualizada e relevante`,
               titulo:
                 "Confirmação de remoção: ao clicar no botão de remover, o sistema deve:",
               itens: [
-                'Exibir um modal de confirmação com o título "Remover o [ID-Requisito]"',
-                'Mostrar a mensagem "Tem certeza que deseja remover o requisito não funcional: [título do requisito]?"',
-                'Apresentar os botões "Cancelar" e "Remover"',
-                'Se o usuário clicar em "Cancelar", fechar o modal sem realizar alterações',
-                'Se o usuário clicar em "Remover", excluir o requisito e atualizar a lista',
+                '- Exibir um modal de confirmação com o título "Remover o [ID-Requisito]"',
+                '- Mostrar a mensagem "Tem certeza que deseja remover o requisito não funcional: [título do requisito]?"',
+                '- Apresentar os botões "Cancelar" e "Remover"',
+                '- Se o usuário clicar em "Cancelar", fechar o modal sem realizar alterações',
+                '- Se o usuário clicar em "Remover", excluir o requisito e atualizar a lista',
               ],
             },
             {
               titulo: "Atualização de IDs após remoção: o sistema deve:",
               itens: [
-                "Remover o requisito da lista",
-                "Atualizar automaticamente os IDs dos requisitos restantes para manter a sequência",
-                "Por exemplo, se RNF-02 for removido, o RNF-03 passa a ser RNF-02, RNF-04 passa a ser RNF-03, e assim por diante",
-                "Exibir mensagem de sucesso após a remoção",
+                "- Remover o requisito da lista",
+                "- Atualizar automaticamente os IDs dos requisitos restantes para manter a sequência",
+                "- Por exemplo, se RNF-02 for removido, o RNF-03 passa a ser RNF-02, RNF-04 passa a ser RNF-03, e assim por diante",
+                "- Exibir mensagem de sucesso após a remoção",
               ],
             },
           ],
@@ -3350,17 +3336,17 @@ Para documentar a complexidade funcional do sistema`,
             {
               titulo: "Preenchimento de pontos de função (PFs):",
               itens: [
-                "Campo numérico decimal que aceita valores como '12,50'",
-                "Formatação automática para o padrão brasileiro (vírgula como separador decimal)",
-                "Limitação a duas casas decimais",
+                "- Campo numérico decimal que aceita valores como '12,50'",
+                "- Formatação automática para o padrão brasileiro (vírgula como separador decimal)",
+                "- Limitação a duas casas decimais",
               ],
             },
             {
               titulo: "Histórico de modificação:",
               itens: [
-                "O sistema deve registrar a data da modificação quando os pontos são adicionados",
-                "O sistema deve registrar o autor que adicionou os pontos de função (PFs)",
-                "A exportação final deve incluir essas informações no documento",
+                "- O sistema deve registrar a data da modificação quando os pontos são adicionados",
+                "- O sistema deve registrar o autor que adicionou os pontos de função (PFs)",
+                "- A exportação final deve incluir essas informações no documento",
               ],
             },
           ],
@@ -3444,42 +3430,42 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               titulo:
                 "Validação antes da geração: o sistema deve verificar se os seguintes requisitos estão atendidos:",
               itens: [
-                "Campos obrigatórios da SS estão preenchidos (Número, Ano, Título, Descrição, Data de Início, Data de Fim)",
-                "Pelo menos um autor está selecionado",
-                "Pelo menos um requisito funcional está adicionado",
-                "Caso algum requisito não seja atendido, exibir mensagem de erro destacando os campos com problema",
+                "- Campos obrigatórios da SS estão preenchidos (Número, Ano, Título, Descrição, Data de Início, Data de Fim)",
+                "- Pelo menos um autor está selecionado",
+                "- Pelo menos um requisito funcional está adicionado",
+                "- Caso algum requisito não seja atendido, exibir mensagem de erro destacando os campos com problema",
               ],
             },
             {
               titulo:
                 "Seleção de formatos: o sistema deve permitir a seleção de diferentes formatos:",
               itens: [
-                "#p#JSON# (sempre selecionado por padrão, não pode ser desmarcado)",
-                "#b#DOCX# (opcional)",
-                "#r#PDF# (opcional)",
-                'O texto do botão muda para "Baixar JSON" quando apenas #p#JSON# está selecionado',
-                'O texto do botão é "Gerar Documentos" quando #b#DOCX# e/ou #r#PDF# estão selecionados',
+                "- #p#JSON# (sempre selecionado por padrão, não pode ser desmarcado)",
+                "- #b#DOCX# (opcional)",
+                "- #r#PDF# (opcional)",
+                '- O texto do botão muda para "Baixar JSON" quando apenas #p#JSON# está selecionado',
+                '- O texto do botão é "Gerar Documentos" quando #b#DOCX# e/ou #r#PDF# estão selecionados',
               ],
             },
             {
               titulo:
                 "Geração de documentos: ao clicar no botão, o sistema deve:",
               itens: [
-                "Exibir indicador de carregamento durante o processamento",
-                "Se apenas #p#JSON# estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
-                "Se #b#DOCX# e/ou #r#PDF# estiverem selecionados, validar todos os campos obrigatórios",
-                "Incluir todos os requisitos funcionais (RFs) e não funcionais (RNFs) nos documentos gerados",
-                "Gerar os documentos nos formatos selecionados",
-                "Disponibilizar os arquivos para download",
-                "Exibir mensagem de sucesso após a geração",
+                "- Exibir indicador de carregamento durante o processamento",
+                "- Se apenas #p#JSON# estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
+                "- Se #b#DOCX# e/ou #r#PDF# estiverem selecionados, validar todos os campos obrigatórios",
+                "- Incluir todos os requisitos funcionais (RFs) e não funcionais (RNFs) nos documentos gerados",
+                "- Gerar os documentos nos formatos selecionados",
+                "- Disponibilizar os arquivos para download",
+                "- Exibir mensagem de sucesso após a geração",
               ],
             },
             {
               titulo: "Controle de versão no histórico do documento:",
               itens: [
-                "Se o documento estiver sendo criado pela primeira vez, registrar a data atual e o autor atual como criador",
-                "Se o documento estiver sendo modificado (importado de #p#JSON# e alterado), registrar a data atual e o autor atual como modificador",
-                "Se houver um valor no campo 'Total de Pontos de Função', registrar também uma linha no histórico indicando a adição desse valor",
+                "- Se o documento estiver sendo criado pela primeira vez, registrar a data atual e o autor atual como criador",
+                "- Se o documento estiver sendo modificado (importado de #p#JSON# e alterado), registrar a data atual e o autor atual como modificador",
+                "- Se houver um valor no campo 'Total de Pontos de Função', registrar também uma linha no histórico indicando a adição desse valor",
               ],
             },
           ],
@@ -3963,121 +3949,6 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
       this.subsubgruposExpanded = [
         ...this.estadoAnteriorBusca.subsubgruposExpanded,
       ];
-    },
-
-    processarMarkdown(texto) {
-      if (!texto) return "";
-
-      let processado = texto;
-
-      // Novo sistema de cores com #c#texto# onde c é a inicial da cor
-      // Azul/Blue (#b#texto#)
-      processado = processado.replace(
-        /#b#([\s\S]*?)#/g,
-        '<span class="highlight-blue">$1</span>'
-      );
-
-      // Azul claro/Sky (#s#texto#)
-      processado = processado.replace(
-        /#s#([\s\S]*?)#/g,
-        '<span class="highlight-sky">$1</span>'
-      );
-
-      // Verde/Green (#g#texto#)
-      processado = processado.replace(
-        /#g#([\s\S]*?)#/g,
-        '<span class="highlight-green">$1</span>'
-      );
-
-      // Amarelo/Yellow (#y#texto#)
-      processado = processado.replace(
-        /#y#([\s\S]*?)#/g,
-        '<span class="highlight-amber">$1</span>'
-      );
-
-      // Vermelho/Red (#r#texto#)
-      processado = processado.replace(
-        /#r#([\s\S]*?)#/g,
-        '<span class="highlight-red">$1</span>'
-      );
-
-      // Roxo/Purple (#p#texto#)
-      processado = processado.replace(
-        /#p#([\s\S]*?)#/g,
-        '<span class="highlight-purple">$1</span>'
-      );
-
-      // Laranja/Orange (#o#texto#)
-      processado = processado.replace(
-        /#o#([\s\S]*?)#/g,
-        '<span class="highlight-orange">$1</span>'
-      );
-
-      processado = processado.replace(
-        /class="highlight-orange"/g,
-        'class="text-orange-600 dark:text-orange-400 font-medium"'
-      );
-
-      // Depois, processa negrito e itálico (que podem estar dentro dos destaques)
-      // Processa negrito (**texto**)
-      processado = processado.replace(
-        /\*\*([\s\S]*?)\*\*/g,
-        "<strong>$1</strong>"
-      );
-
-      // Processa itálico (*texto*)
-      processado = processado.replace(/\*([\s\S]*?)\*/g, "<em>$1</em>");
-
-      // Por último, aplica as classes CSS finais aos destaques
-      processado = processado.replace(
-        /class="highlight-blue"/g,
-        'class="text-blue-600 dark:text-blue-400 font-medium"'
-      );
-
-      processado = processado.replace(
-        /class="highlight-sky"/g,
-        'class="text-sky-600 dark:text-sky-400 font-medium"'
-      );
-
-      processado = processado.replace(
-        /class="highlight-green"/g,
-        'class="text-green-600 dark:text-green-400 font-medium"'
-      );
-      processado = processado.replace(
-        /class="highlight-amber"/g,
-        'class="text-amber-600 dark:text-amber-400 font-medium"'
-      );
-      processado = processado.replace(
-        /class="highlight-red"/g,
-        'class="text-red-700 dark:text-red-400 font-medium"'
-      );
-
-      processado = processado.replace(
-        /class="highlight-purple"/g,
-        'class="text-purple-600 dark:text-purple-400 font-medium"'
-      );
-
-      // Processa listas não ordenadas (- item)
-      processado = processado.replace(/^- (.+)$/gm, '<li class="ml-4">$1</li>');
-
-      // Processa listas ordenadas (1. item)
-      processado = processado.replace(/^\d+\.\s(.+)$/gm, () => {
-        return `<li class="ml-4" style="list-style-type: decimal; list-style-position: inside;">${arguments[1]}</li>`;
-      });
-
-      // Agrupa itens de lista consecutivos
-      processado = processado.replace(/(<li[^>]*>.*?<\/li>\s*)+/g, (match) => {
-        if (match.includes("list-style-type: decimal")) {
-          return `<ol class="list-decimal list-inside ml-4">${match}</ol>`;
-        } else {
-          return `<ul class="list-disc list-inside ml-4">${match}</ul>`;
-        }
-      });
-
-      // Quebras de linha
-      processado = processado.replace(/\n/g, "<br>");
-
-      return processado;
     },
 
     selecionarFuncionalidade(id) {

@@ -1002,6 +1002,31 @@
     @apply mb-4 bg-gray-50 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700;
   }
 
+  .markdown-infobox {
+    @apply flex my-3;
+    border-radius: 0.25rem;
+  }
+
+  .markdown-infobox-border {
+    border-left: 4px solid;
+  }
+
+  .markdown-infobox-content {
+    @apply flex-1 py-2 px-3;
+  }
+
+  .markdown-infobox-header {
+    @apply flex items-center mb-1;
+  }
+
+  .markdown-infobox-title {
+    @apply font-medium text-sm mr-2;
+  }
+
+  .markdown-infobox-text {
+    @apply text-gray-700 dark:text-gray-300 text-sm;
+  }
+
   /* Ajustes para telas pequenas */
   @media (max-width: 640px) {
     .base-section {
