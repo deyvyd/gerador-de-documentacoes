@@ -655,42 +655,12 @@ export default {
 
     processarCodigo(texto) {
       // Primeiro, processa blocos de código (para não interferir com código inline)
-      texto = this.processarBlocosCodigo(texto);
+      //texto = this.processarBlocosCodigo(texto);
 
       // Depois, processa código inline
       texto = this.processarCodigoInline(texto);
 
       return texto;
-    },
-
-    processarBlocosCodigo(texto) {
-      // Regex para capturar blocos de código com linguagem opcional
-      const regexBlocoCodigo = /```(\w+)?\n?([\s\S]*?)```/g;
-
-      return texto.replace(regexBlocoCodigo, (match, linguagem, codigo) => {
-        const codigoLimpo = codigo.trim();
-        const linguagemLimpa = linguagem ? linguagem.toLowerCase() : "text";
-        const linguagemExibicao = linguagem
-          ? linguagem.toUpperCase()
-          : "CÓDIGO";
-
-        // Escapa HTML no código para evitar problemas
-        const codigoEscapado = codigoLimpo
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#39;");
-
-        return `<div class="code-block code-block-${linguagemLimpa}">
-      <div class="code-block-header">
-        ${linguagemExibicao}
-      </div>
-      <div class="code-block-content">
-        <pre class="code-block-pre">${codigoEscapado}</pre>
-      </div>
-    </div>`;
-      });
     },
 
     processarCodigoInline(texto) {
@@ -699,6 +669,11 @@ export default {
       const regexCodigoInline = /(?<!<[^>]*)`([^`\n]+)`(?![^<]*>)/g;
 
       return texto.replace(regexCodigoInline, (match, codigo) => {
+        // Verifica se não está dentro de um bloco de código já processado
+        if (match.includes("code-block")) {
+          return match;
+        }
+
         // Escapa HTML no código
         const codigoEscapado = codigo
           .replace(/&/g, "&amp;")

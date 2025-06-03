@@ -1175,13 +1175,11 @@ Para documentar os dados essenciais do trabalho realizado`,
             {
               titulo:
                 "O campo de autor permite selecionar múltiplos autores da lista predefinida",
-              descricao: ">note: testando a busca",
             },
             {
               titulo:
                 "As iniciais dos autores são concatenadas para uso no documento.",
-              descricao:
-                "```sql select * from autores where nome like '%DMF%' or nome like '%PRO%'```",
+              descricao: "Exemplo: `DMF e JGC`",
             },
           ],
           regrasInterface: [
