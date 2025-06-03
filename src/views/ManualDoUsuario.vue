@@ -735,8 +735,10 @@ const iconesPorTipo = {
     "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2",
 
   // Ícones por tipo de operação
-  cadastro: "M12 4v16m8-8H4",
-  listagem: "M4 6h16M4 10h16M4 14h16M4 18h16",
+  cadastro:
+    "M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM12 8v8m-4-4h8",
+  listagem:
+    "M3.5 3h17A1.5 1.5 0 0122 4.5v15a1.5 1.5 0 01-1.5 1.5h-17A1.5 1.5 0 012 19.5v-15A1.5 1.5 0 013.5 3zM2 7h20M10 12h8M10 16h8M6 12h1M6 16h1",
   visualizacao:
     "M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z",
   edicao:
@@ -900,7 +902,8 @@ Para aprender a usar o sistema de forma eficiente`,
             {
               titulo: "Navegação completa pelo tour",
               dado: "que o tour está em andamento",
-              quando: "o usuário clica em 'Próximo' até o final",
+              quando:
+                "o usuário clica em [btn:tour_next]Próximo[/btn] até o final",
               entao: "o sistema apresenta todos os elementos em sequência",
               e_entao: "marca o tour como concluído ao final",
             },
@@ -1029,14 +1032,14 @@ Quero alternar entre os tipos de documentação disponíveis
 Para acessar a documentação técnica ou a documentação de desenvolvimento conforme minha necessidade`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Na tela inicial, selecionar entre #o#Documentação Técnica# ou #g#Documentação de Desenvolvimento#",
+            "Na tela inicial, selecionar entre [tc-orange]Documentação Técnica[/c] ou [tc-green]Documentação de Desenvolvimento[/c]",
             "Alternativamente, durante o preenchimento, clicar no botão de alternância :swap: no topo da página para trocar de tipo",
           ],
           criteriosAceitacao: [
             {
               titulo: "Seleção de tipo na tela inicial:",
               itens: [
-                "- Exibir opções de #o#Documentação Técnica# e #g#Documentação de Desenvolvimento# na tela inicial",
+                "- Exibir opções de [tc-orange]Documentação Técnica[/c] e [tc-green]Documentação de Desenvolvimento[/c] na tela inicial",
                 "- Permitir seleção através de botões destacados visualmente",
                 "- Ao selecionar um tipo, o sistema deve carregar o formulário correspondente",
               ],
@@ -1057,11 +1060,11 @@ Para acessar a documentação técnica ou a documentação de desenvolvimento co
             },
             {
               descricao:
-                "A #o#documentação técnica# é focada em atividades e pontos de função  (PFs)",
+                "A [tc-orange]documentação técnica[/c] é focada em atividades e pontos de função  (PFs)",
             },
             {
               descricao:
-                "A #g#documentação de desenvolvimento# é focada em requisitos funcionais (RFs) e não funcionais (RNFs)",
+                "A [tc-green]documentação de desenvolvimento[/c] é focada em requisitos funcionais (RFs) e não funcionais (RNFs)",
             },
             {
               descricao:
@@ -1091,7 +1094,7 @@ Para acessar a documentação técnica ou a documentação de desenvolvimento co
               titulo: "Seleção inicial de documentação técnica",
               dado: "que o usuário acessou o sistema",
               quando:
-                "seleciona a opção #o#Documentação Técnica# na tela inicial",
+                "seleciona a opção [tc-orange]Documentação Técnica[/c] na tela inicial",
               entao:
                 "o sistema carrega o formulário específico para documentação técnica",
               e_entao: "exibe as seções de atividades e pontos de função",
@@ -1100,7 +1103,7 @@ Para acessar a documentação técnica ou a documentação de desenvolvimento co
               titulo: "Seleção inicial de documentação de desenvolvimento",
               dado: "que o usuário acessou o sistema",
               quando:
-                "seleciona a opção #g#Documentação de Desenvolvimento# na tela inicial",
+                "seleciona a opção [tc-green]Documentação de Desenvolvimento[/c] na tela inicial",
               entao:
                 "o sistema carrega o formulário específico para documentação de desenvolvimento",
               e_entao:
@@ -1136,27 +1139,27 @@ Quero preencher as informações básicas da Solicitação de Serviço
 Para documentar os dados essenciais do trabalho realizado`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar qualquer tipo de documentação (#o#Técnica# ou #g#Desenvolvimento#)",
-            "A seção 'Informações básicas da SS' está sempre disponível no topo do formulário",
+            "Selecionar qualquer tipo de documentação ([tc-orange]Técnica[/c] ou [tc-green]Desenvolvimento[/c])",
+            "A seção **Informações básicas da SS** está sempre disponível no topo do formulário",
           ],
           criteriosAceitacao: [
             {
               titulo:
                 "Campos obrigatórios: o usuário deve preencher os seguintes dados:",
               itens: [
-                "- #s#Número SS:# campo numérico de 3 dígitos (preenchido com zeros à esquerda)",
-                "- #s#Ano SS:# ano da solicitação (padrão é o ano atual)",
-                "- #s#Título:# descrição breve da solicitação",
-                "- #s#Descrição:# detalhamento da solicitação",
-                "- #s#Data de Início:# data de início do trabalho",
-                "- #s#Data de Fim:# data de conclusão do trabalho",
-                "- #s#Autor(es):# ao menos um autor deve ser selecionado",
+                "- [tc-sky]Número SS:[/c] campo numérico de 3 dígitos (preenchido com zeros à esquerda)",
+                "- [tc-sky]Ano SS:[/c] ano da solicitação (padrão é o ano atual)",
+                "- [tc-sky]Título:[/c] descrição breve da solicitação",
+                "- [tc-sky]Descrição:[/c] detalhamento da solicitação",
+                "- [tc-sky]Data de Início:[/c] data de início do trabalho",
+                "- [tc-sky]Data de Fim:[/c] data de conclusão do trabalho",
+                "- [tc-sky]Autor(es):[/c] ao menos um autor deve ser selecionado",
               ],
             },
             {
               titulo: "Campo opcional:",
               itens: [
-                "- #s#Link do board:# URL opcional para o board do projeto (GitLab, Jira, etc.)",
+                "- [tc-sky]Link do board:[/c] URL opcional para o board do projeto (GitLab, Jira, etc.)",
               ],
             },
           ],
@@ -1170,12 +1173,15 @@ Para documentar os dados essenciais do trabalho realizado`,
                 "A data de início não pode ser posterior à data de fim",
             },
             {
-              descricao:
+              titulo:
                 "O campo de autor permite selecionar múltiplos autores da lista predefinida",
+              descricao: ">note: testando a busca",
             },
             {
+              titulo:
+                "As iniciais dos autores são concatenadas para uso no documento.",
               descricao:
-                "As iniciais dos autores são concatenadas para uso no documento (ex: 'DMF e PRO')",
+                "```sql select * from autores where nome like '%DMF%' or nome like '%PRO%'```",
             },
           ],
           regrasInterface: [
@@ -1209,7 +1215,7 @@ Para documentar os dados essenciais do trabalho realizado`,
               quando: "insere um valor no campo Número SS e sai do campo",
               entao:
                 "o sistema formata o número com zeros à esquerda se necessário",
-              e_entao: "mantém o formato 'NNN' (ex: '001', '042', '999')",
+              e_entao: "mantém o formato `NNN` (ex: `001`, `042`, `999`)",
             },
             {
               titulo: "Validação de datas inconsistentes",
@@ -1241,8 +1247,8 @@ Quero selecionar múltiplos autores para um documento
 Para registrar todos os contribuidores do trabalho`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar qualquer tipo de documentação (#o#Técnica# ou #g#Desenvolvimento#)",
-            'No campo "Autor(es)", começar a digitar o nome de um autor',
+            "Selecionar qualquer tipo de documentação ([tc-orange]Técnica[/c] ou [tc-green]Desenvolvimento[/c])",
+            "No campo [tc:sky]Autor(es)[/c], começar a digitar o nome de um autor",
             "Selecionar o autor na lista de sugestões",
             "Repetir o processo para adicionar mais autores se necessário",
           ],
@@ -1260,7 +1266,7 @@ Para registrar todos os contribuidores do trabalho`,
             {
               titulo: "Gerenciamento de autores selecionados:",
               itens: [
-                "- Remover autores individuais clicando no 'x' na tag",
+                "- Remover autores individuais clicando no [tc:blue]x[/c] na tag",
                 "- Não permitir duplicação de autores já selecionados",
                 "- Exigir ao menos um autor selecionado para gerar documentos",
               ],
@@ -1349,7 +1355,7 @@ Quero exportar a documentação em diferentes formatos
 Para distribuir e armazenar da maneira mais adequada`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar qualquer tipo de documentação (#o#Técnica# ou #g#Desenvolvimento#)",
+            "Selecionar qualquer tipo de documentação ([tc-orange]Técnica[/c] ou [tc-green]Desenvolvimento[/c])",
             "Preencher todos os campos obrigatórios",
             'Na seção "Formato dos arquivos", selecionar os formatos desejados',
             "Clicar no botão [btn:blue:download]Gerar Documentos[/btn]",
@@ -1359,31 +1365,31 @@ Para distribuir e armazenar da maneira mais adequada`,
               titulo:
                 "Formatos disponíveis: o sistema deve permitir exportação nos seguintes formatos:",
               itens: [
-                "- #p#JSON#: formato sempre disponível, útil para importação posterior",
-                "- #b#DOCX#: documento Microsoft Word com formatação completa",
-                "- #r#PDF#: documento em formato PDF para distribuição final",
+                "- [tc-purple]JSON[/c]: formato sempre disponível, útil para importação posterior",
+                "- [tc-blue]DOCX[/c]: documento Microsoft Word com formatação completa",
+                "- [tc-red]PDF[/c]: documento em formato PDF para distribuição final",
               ],
             },
             {
               titulo: "Validação antes da exportação:",
               itens: [
-                "- Para exportação em #b#DOCX# ou #r#PDF#, todos os campos obrigatórios devem estar preenchidos",
-                "- Para exportação apenas em #p#JSON#, a validação completa é opcional (útil para salvar rascunhos)",
+                "- Para exportação em [tc-blue]DOCX[/c] ou [tc-red]PDF[/c], todos os campos obrigatórios devem estar preenchidos",
+                "- Para exportação apenas em [tc-purple]JSON[/c], a validação completa é opcional (útil para salvar rascunhos)",
               ],
             },
           ],
           regrasNegocio: [
             {
               descricao:
-                "O formato #p#JSON# é sempre gerado, independente das opções selecionadas",
+                "O formato [tc-purple]JSON[/c] é sempre gerado, independente das opções selecionadas",
             },
             {
               descricao:
-                "A exportação em #b#DOCX#/#r#PDF# requer que todos os campos obrigatórios estejam preenchidos",
+                "A exportação em [tc-blue]DOCX[/c]/[tc-red]PDF[/c] requer que todos os campos obrigatórios estejam preenchidos",
             },
             {
               descricao:
-                "Se apenas o formato #p#JSON# for selecionado, é possível salvar documentos incompletos",
+                "Se apenas o formato [tc-purple]JSON[/c] for selecionado, é possível salvar documentos incompletos",
             },
             {
               descricao:
@@ -1393,7 +1399,7 @@ Para distribuir e armazenar da maneira mais adequada`,
           regrasInterface: [
             {
               descricao:
-                "O checkbox de #p#JSON# está sempre marcado e desabilitado (não pode ser desmarcado)",
+                "O checkbox de [tc-purple]JSON[/c] está sempre marcado e desabilitado (não pode ser desmarcado)",
             },
             {
               descricao:
@@ -1413,17 +1419,18 @@ Para distribuir e armazenar da maneira mais adequada`,
             {
               titulo: "Exportação apenas em formato JSON",
               dado: "que o usuário preencheu alguns campos mas não todos obrigatórios",
-              quando: "seleciona apenas #p#JSON# e clica em 'Baixar JSON'",
+              quando:
+                "seleciona apenas [tc-purple]JSON[/c] e clica em [btn:blue:download]Baixar JSON[/btn]",
               entao:
-                "o sistema gera o arquivo #p#JSON# sem validar todos os campos",
+                "o sistema gera o arquivo [tc-purple]JSON[/c] sem validar todos os campos",
               e_entao:
-                "inicia o download do arquivo #p#JSON# com o formato 'SS NNN-AAAA.json'",
+                "inicia o download do arquivo [tc-purple]JSON[/c] com o formato 'SS NNN-AAAA.json'",
             },
             {
               titulo: "Exportação em formatos DOCX e PDF",
               dado: "que o usuário preencheu todos os campos obrigatórios",
               quando:
-                "seleciona #b#DOCX# e #r#PDF# e clica em 'Gerar Documentos'",
+                "seleciona [tc-blue]DOCX[/c] e [tc-red]PDF[/c] e clica em [btn:blue:download]Gerar Documentos[/btn]",
               entao:
                 "o sistema valida todos os campos, gera os arquivos e os empacota",
               e_entao: "inicia o download do arquivo ZIP com todos os formatos",
@@ -1432,7 +1439,7 @@ Para distribuir e armazenar da maneira mais adequada`,
               titulo: "Tentativa de exportação DOCX/PDF com campos faltantes",
               dado: "que o usuário não preencheu todos os campos obrigatórios",
               quando:
-                "seleciona #b#DOCX# ou #r#PDF# e clica em 'Gerar Documentos'",
+                "seleciona [tc-blue]DOCX[/c] ou [tc-red]PDF[/c] e clica em [btn:blue:download]Gerar Documentos[/btn]",
               entao:
                 "o sistema valida os campos e destaca os obrigatórios não preenchidos",
               e_entao: "exibe mensagens de erro e não gera os documentos",
@@ -1451,7 +1458,7 @@ Quero importar dados a partir de um arquivo JSON salvo anteriormente
 Para continuar o trabalho sem precisar preencher tudo novamente`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar qualquer tipo de documentação (#o#Técnica# ou #g#Desenvolvimento#)",
+            "Selecionar qualquer tipo de documentação ([tc-orange]Técnica[/c] ou [tc-green]Desenvolvimento[/c])",
             "Clicar no botão de importação [btn:import:upload/] na barra superior",
             "Selecionar um arquivo JSON previamente gerado pelo sistema",
             "Confirmar a importação se solicitado",
@@ -1460,7 +1467,7 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
             {
               titulo: "Importação de dados: o sistema deve:",
               itens: [
-                "- Carregar todos os dados do arquivo #p#JSON# nos campos correspondentes",
+                "- Carregar todos os dados do arquivo [tc-purple]JSON[/c] nos campos correspondentes",
                 "- Preencher informações básicas como número SS, título, descrição, datas, etc.",
                 "- Recuperar listas de atividades ou requisitos conforme o tipo de documento",
                 "- Preservar informações de autoria e datas originais",
@@ -1469,8 +1476,8 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
             {
               titulo: "Compatibilidade entre tipos de documento:",
               itens: [
-                "- Verificar se o arquivo #p#JSON# é compatível com o tipo de documento atual",
-                "- Impedir importação de #p#JSON# de #o#documentação técnica# em #g#documentação de desenvolvimento# e vice-versa",
+                "- Verificar se o arquivo [tc-purple]JSON[/c] é compatível com o tipo de documento atual",
+                "- Impedir importação de [tc-purple]JSON[/c] de [tc-orange]documentação técnica[/c] em [tc-green]documentação de desenvolvimento[/c] e vice-versa",
                 "- Exibir mensagem de erro caso tente importar arquivo incompatível",
               ],
             },
@@ -1514,26 +1521,26 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
           cenariosTeste: [
             {
               titulo: "Importação bem-sucedida de arquivo JSON",
-              dado: "que o usuário tem um arquivo #p#JSON# válido e compatível",
+              dado: "que o usuário tem um arquivo [tc-purple]JSON[/c] válido e compatível",
               quando:
                 "clica no botão de importação [btn:import:upload/] e seleciona o arquivo",
               entao:
                 "o sistema carrega todos os dados nos campos correspondentes",
               e_entao:
-                "exibe mensagem de sucesso 'Dados importados com sucesso!'",
+                "exibe mensagem de sucesso [tst:success]Dados importados com sucesso![/tst]",
             },
             {
               titulo: "Importação com confirmação quando há dados existentes",
               dado: "que o usuário já preencheu alguns campos",
-              quando: "tenta importar um arquivo #p#JSON#",
+              quando: "tenta importar um arquivo [tc-purple]JSON[/c]",
               entao: "o sistema exibe modal de confirmação",
               e_entao: "substitui os dados apenas se o usuário confirmar",
             },
             {
               titulo: "Tentativa de importação de arquivo incompatível",
-              dado: "que o usuário tenta importar um #p#JSON# de tipo diferente",
+              dado: "que o usuário tenta importar um [tc-purple]JSON[/c] de tipo diferente",
               quando:
-                "seleciona um arquivo #p#JSON# de #o#documentação técnica# na tela de desenvolvimento",
+                "seleciona um arquivo [tc-purple]JSON[/c] de [tc-orange]documentação técnica[/c] na tela de desenvolvimento",
               entao: "o sistema detecta a incompatibilidade",
               e_entao: "exibe mensagem de erro explicando o problema",
             },
@@ -1553,7 +1560,7 @@ Quero registrar as atividades técnicas realizadas
 Para contabilizar o esforço técnico dessa SS`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #o#Documentação Técnica#",
+            "Selecionar a opção [tc-orange]Documentação Técnica[/c]",
             "Preencher o formulário de informações básicas da SS",
             'Na seção "Gerenciar Atividades", preencher o nome da atividade e estimativa de horas',
             "Clicar no botão [btn:blue]Adicionar[/btn]",
@@ -1563,8 +1570,8 @@ Para contabilizar o esforço técnico dessa SS`,
               titulo:
                 "Dados gerais: o usuário deve realizar as seguintes ações nos campos abaixo:",
               itens: [
-                "- #s#Atividade:# preenchimento obrigatório do campo do tipo texto com, no máximo, 255 caracteres",
-                "- #s#Estimativa de horas:# preenchimento obrigatório do campo do tipo numérico, com valor positivo maior que zero",
+                "- [tc-sky]Atividade:[/c] preenchimento obrigatório do campo do tipo texto com, no máximo, 255 caracteres",
+                "- [tc-sky]Estimativa de horas:[/c] preenchimento obrigatório do campo do tipo numérico, com valor positivo maior que zero",
               ],
             },
             {
@@ -1611,7 +1618,7 @@ Para contabilizar o esforço técnico dessa SS`,
               quando: "o usuário clicar no botão [btn:blue]Adicionar[/btn]",
               entao: "o sistema deverá adicionar a atividade à lista",
               e_entao:
-                'exibir a seguinte mensagem: "Atividade cadastrada com sucesso!"',
+                "exibir a seguinte mensagem: [tst:success]Atividade cadastrada com sucesso![/tst]",
             },
             {
               titulo: "Tentativa de cadastro sem informar nome da atividade",
@@ -1621,7 +1628,7 @@ Para contabilizar o esforço técnico dessa SS`,
               entao:
                 "o sistema deverá destacar o campo de nome da atividade em vermelho",
               e_entao:
-                'exibir a mensagem de erro: "O campo Atividade é obrigatório"',
+                "exibir a mensagem de erro: [tst:error]O campo Atividade é obrigatório[/tst]",
             },
             {
               titulo: "Tentativa de cadastro com horas zeradas ou negativas",
@@ -1630,7 +1637,7 @@ Para contabilizar o esforço técnico dessa SS`,
               quando: "o usuário clicar no botão [btn:blue]Adicionar[/btn]",
               entao: "o sistema deverá destacar o campo de horas em vermelho",
               e_entao:
-                'exibir a mensagem de erro: "O valor de horas deve ser maior que zero"',
+                "exibir a mensagem de erro: [tst:error]O valor de horas deve ser maior que zero[/tst]",
             },
           ],
         },
@@ -1646,7 +1653,7 @@ Quero visualizar todas as atividades cadastradas em uma lista ordenada
 Para ter uma visão clara do trabalho realizado e poder reorganizá-las conforme necessário`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #o#Documentação Técnica#",
+            "Selecionar a opção [tc-orange]Documentação Técnica[/c]",
             "As atividades já cadastradas são exibidas na tabela 'Lista de Atividades'",
           ],
           criteriosAceitacao: [
@@ -1654,9 +1661,9 @@ Para ter uma visão clara do trabalho realizado e poder reorganizá-las conforme
               titulo:
                 "Listagem: o sistema deve exibir as atividades com as seguintes informações:",
               itens: [
-                "- #s#Atividade:# nome da atividade cadastrada",
-                "- #s#Estimativa de horas:# horas registradas para a atividade",
-                "- #s#Ações:# botões para editar e remover a atividade",
+                "- [tc-sky]Atividade:[/c] nome da atividade cadastrada",
+                "- [tc-sky]Estimativa de horas:[/c] horas registradas para a atividade",
+                "- [tc-sky]Ações:[/c] botões para editar e remover a atividade",
               ],
             },
             {
@@ -1708,7 +1715,8 @@ Para ter uma visão clara do trabalho realizado e poder reorganizá-las conforme
             {
               titulo: "Visualização da lista com múltiplas atividades",
               dado: "que existem atividades cadastradas",
-              quando: "o usuário acessa a tela de #o#Documentação Técnica#",
+              quando:
+                "o usuário acessa a tela de [tc-orange]Documentação Técnica[/c]",
               entao:
                 "o sistema deve exibir todas as atividades cadastradas na tabela",
               e_entao:
@@ -1736,7 +1744,7 @@ Quero editar atividades já cadastradas
 Para corrigir ou atualizar informações sobre o trabalho realizado`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar #o#Documentação Técnica#",
+            "Selecionar [tc-orange]Documentação Técnica[/c]",
             "Na lista de atividades, clicar no ícone de edição [btn:edit:pencil/] de uma atividade",
             "Modificar os campos desejados",
             "Clicar em [btn:green]Atualizar[/btn]",
@@ -1745,8 +1753,8 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
             {
               titulo: "Edição de campos: o sistema deve permitir modificar:",
               itens: [
-                "- #s#Nome da atividade#",
-                "- #s#Quantidade de horas estimadas#",
+                "- [tc-sky]Nome da atividade[/c]",
+                "- [tc-sky]Quantidade de horas estimadas[/c]",
                 "- O botão 'Adicionar' deve mudar para 'Atualizar' durante a edição",
               ],
             },
@@ -1833,7 +1841,7 @@ Quero poder remover atividades técnicas incorretas ou desnecessárias
 Para manter a documentação precisa e atualizada`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #o#Documentação Técnica#",
+            "Selecionar a opção [tc-orange]Documentação Técnica[/c]",
             "Preencher o formulário de informações básicas da SS",
             'Na seção "Lista de Atividades", localizar a atividade desejada',
             "Clicar no botão de remover [btn:delete:trash/]",
@@ -1894,15 +1902,15 @@ Para manter a documentação precisa e atualizada`,
           titulo: "Geração de Documentação Técnica",
           icone: iconesPorTipo.exportar,
           bdd: `Eu, como líder de desenvolvimento / analista de requisitos,
-Quero gerar #o#documentação técnica# em diferentes formatos
+Quero gerar [tc-orange]documentação técnica[/c] em diferentes formatos
 Para facilitar a comunicação e o registro formal do trabalho realizado`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #o#Documentação Técnica#",
+            "Selecionar a opção [tc-orange]Documentação Técnica[/c]",
             "Preencher todos os campos obrigatórios do formulário",
             "Adicionar pelo menos uma atividade",
             "Selecionar os formatos desejados (JSON, DOCX, PDF)",
-            'Clicar no botão "Gerar Documentos"',
+            "Clicar no botão [btn:blue:download]Gerar Documentos[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -1919,11 +1927,11 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
               titulo:
                 "Seleção de formatos: o sistema deve permitir a seleção de diferentes formatos:",
               itens: [
-                "- #p#JSON# (sempre selecionado por padrão, não pode ser desmarcado)",
-                "- #b#DOCX# (opcional)",
-                "- #r#PDF# (opcional)",
-                '- O texto do botão muda para "Baixar JSON" quando apenas #p#JSON# está selecionado',
-                '- O texto do botão é "Gerar Documentos" quando #b#DOCX# e/ou #r#PDF# estão selecionados',
+                "- [tc-purple]JSON[/c] (sempre selecionado por padrão, não pode ser desmarcado)",
+                "- [tc-blue]DOCX[/c] (opcional)",
+                "- [tc-red]PDF[/c] (opcional)",
+                "- O texto do botão muda para [btn:blue:download]Baixar JSON[/btn] quando apenas [tc-purple]JSON[/c] está selecionado",
+                "- O texto do botão é [btn:blue:download]Gerar Documentos[/btn] quando [tc-blue]DOCX[/c] e/ou [tc-red]PDF[/c] estão selecionados",
               ],
             },
             {
@@ -1931,8 +1939,8 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
                 "Geração de documentos: ao clicar no botão, o sistema deve:",
               itens: [
                 "- Exibir indicador de carregamento durante o processamento",
-                "- Se apenas #p#JSON# estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
-                "- Se #b#DOCX# e/ou #r#PDF# estiverem selecionados, validar todos os campos obrigatórios",
+                "- Se apenas [tc-purple]JSON[/c] estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
+                "- Se [tc-blue]DOCX[/c] e/ou [tc-red]PDF[/c] estiverem selecionados, validar todos os campos obrigatórios",
                 "- Gerar os documentos nos formatos selecionados",
                 "- Disponibilizar os arquivos para download",
                 "- Exibir mensagem de sucesso após a geração",
@@ -1942,19 +1950,19 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
           regrasNegocio: [
             {
               descricao:
-                "#p#JSON# é sempre gerado, independentemente de outras seleções",
+                "[tc-purple]JSON[/c] é sempre gerado, independentemente de outras seleções",
             },
             {
               descricao:
-                "#b#DOCX# e #r#PDF# são opcionais e podem ser selecionados individualmente ou em conjunto",
+                "[tc-blue]DOCX[/c] e [tc-red]PDF[/c] são opcionais e podem ser selecionados individualmente ou em conjunto",
             },
             {
               descricao:
-                "Quando apenas #p#JSON# é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
+                "Quando apenas [tc-purple]JSON[/c] é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
             },
             {
               descricao:
-                "Quando #b#DOCX# e/ou #r#PDF# são selecionados, todos os campos obrigatórios devem ser preenchidos",
+                "Quando [tc-blue]DOCX[/c] e/ou [tc-red]PDF[/c] são selecionados, todos os campos obrigatórios devem ser preenchidos",
             },
           ],
           regrasInterface: [
@@ -1968,7 +1976,7 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
             },
             {
               descricao:
-                "Os formatos são selecionados através de checkboxes, com #p#JSON# sempre marcado e desabilitado",
+                "Os formatos são selecionados através de checkboxes, com [tc-purple]JSON[/c] sempre marcado e desabilitado",
             },
           ],
           cenariosTeste: [
@@ -1976,27 +1984,30 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
               titulo: "Geração de todos os formatos com dados completos",
               dado: "que o usuário preencheu todos os campos obrigatórios",
               e: "adicionou pelo menos uma atividade",
-              e: "selecionou os formatos #p#JSON#, #b#DOCX# e #r#PDF#",
-              quando: 'o usuário clica em "Gerar Documentos"',
+              e: "selecionou os formatos [tc-purple]JSON[/c], [tc-blue]DOCX[/c] e [tc-red]PDF[/c]",
+              quando:
+                "o usuário clica em [btn:blue:download]Gerar Documentos[/btn]",
               entao: "o sistema deve processar e gerar os três formatos",
               e_entao:
                 "disponibilizar um arquivo ZIP contendo todos os documentos para download",
             },
             {
-              titulo: "Geração apenas de #p#JSON# (rascunho)",
+              titulo: "Geração apenas de [tc-purple]JSON[/c] (rascunho)",
               dado: "que o usuário preencheu parcialmente os campos",
-              e: "manteve apenas o formato #p#JSON# selecionado",
-              quando: 'o usuário clica em "Baixar JSON"',
+              e: "manteve apenas o formato [tc-purple]JSON[/c] selecionado",
+              quando: "o usuário clica em [btn:blue:download]Baixar JSON[/btn]",
               entao:
-                "o sistema deve gerar o arquivo #p#JSON# mesmo com campos obrigatórios não preenchidos",
-              e_entao: "disponibilizar o arquivo #p#JSON# para download",
+                "o sistema deve gerar o arquivo [tc-purple]JSON[/c] mesmo com campos obrigatórios não preenchidos",
+              e_entao:
+                "disponibilizar o arquivo [tc-purple]JSON[/c] para download",
             },
             {
               titulo: "Tentativa de geração sem atividades",
               dado: "que o usuário preencheu todos os campos obrigatórios",
               e: "não adicionou nenhuma atividade",
-              e: "selecionou os formatos #p#JSON#, #b#DOCX# e #r#PDF#",
-              quando: 'o usuário clica em "Gerar Documentos"',
+              e: "selecionou os formatos [tc-purple]JSON[/c], [tc-blue]DOCX[/c] e [tc-red]PDF[/c]",
+              quando:
+                "o usuário clica em [btn:blue:download]Gerar Documentos[/btn]",
               entao: "o sistema deve exibir mensagem de erro",
               e_entao:
                 "destacar a área de atividades indicando que pelo menos uma atividade é necessária",
@@ -2017,9 +2028,9 @@ Quero cadastrar requisitos funcionais detalhados
 Para documentar as especificações do sistema que precisam ser implementadas`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             "Preencher o formulário de informações básicas da SS",
-            'Na aba "Requisitos Funcionais", clicar no botão [btn:blue]Adicionar Requisito Funcional[/btn]',
+            "Na aba **Requisitos Funcionais**, clicar no botão [btn:blue]Adicionar Requisito Funcional[/btn]",
             "Preencher os campos no modal que será aberto",
             "Clicar no botão [btn:blue]Salvar[/btn]",
           ],
@@ -2029,19 +2040,19 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
                 "Modal de cadastro: o modal deve conter as seguintes abas e campos:",
               itens: [
                 "**Aba 1** - Informações básicas:",
-                "- #s#Título:# campo obrigatório de texto para o título do requisito",
-                "- #s#Tipo:# seleção obrigatória entre Alteração, Inclusão ou Remoção",
-                "- #s#Local:# campo obrigatório para informar onde o requisito será implementado",
-                "- #s#Usuário:# campo obrigatório para informar o perfil de usuário",
-                "- #s#Perfil:# campo obrigatório para informar o perfil de acesso",
+                "- [tc-sky]Título:[/c] campo obrigatório de texto para o título do requisito",
+                "- [tc-sky]Tipo:[/c] seleção obrigatória entre Alteração, Inclusão ou Remoção",
+                "- [tc-sky]Local:[/c] campo obrigatório para informar onde o requisito será implementado",
+                "- [tc-sky]Usuário:[/c] campo obrigatório para informar o perfil de usuário",
+                "- [tc-sky]Perfil:[/c] campo obrigatório para informar o perfil de acesso",
                 "**Aba 2** - Imagens e Descrição:",
-                "- #s#Imagens:# área para upload de múltiplas imagens (opcional)",
-                "- #s#Descrição:# campo obrigatório com editor de texto rico para detalhar o requisito",
+                "- [tc-sky]Imagens:[/c] área para upload de múltiplas imagens (opcional)",
+                "- [tc-sky]Descrição:[/c] campo obrigatório com editor de texto rico para detalhar o requisito",
                 "**Aba 3** - Regras:",
-                "- #s#Regras de validações dos campos:# editor de texto rico (opcional)",
-                "- #s#Regras de negócio:# editor de texto rico (opcional)",
+                "- [tc-sky]Regras de validações dos campos:[/c] editor de texto rico (opcional)",
+                "- [tc-sky]Regras de negócio:[/c] editor de texto rico (opcional)",
                 "**Aba 4** - Banco de dados:",
-                "- #s#Mudança de banco:# editor de texto rico para detalhar mudanças no banco (opcional)",
+                "- [tc-sky]Mudança de banco:[/c] editor de texto rico para detalhar mudanças no banco (opcional)",
               ],
             },
             {
@@ -2093,16 +2104,16 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
               titulo: "Cadastro com todos os campos obrigatórios preenchidos",
               dado: "que o usuário deseja cadastrar um novo requisito funcional",
               e: "preencheu todos os campos obrigatórios",
-              quando: 'o usuário clica em "Salvar"',
+              quando: "o usuário clica em [btn:blue]Salvar[/btn]",
               entao: "o sistema deve salvar o requisito com um ID sequencial",
               e_entao:
-                'exibir mensagem "Requisito RF-XX adicionado com sucesso!"',
+                "exibir mensagem [tst:success]Requisito RF-XX adicionado com sucesso![/tst]",
             },
             {
               titulo: "Tentativa de cadastro sem preencher campos obrigatórios",
               dado: "que o usuário deseja cadastrar um novo requisito funcional",
               e: "não preencheu todos os campos obrigatórios",
-              quando: 'o usuário clica em "Salvar"',
+              quando: "o usuário clica em [btn:blue]Salvar[/btn]",
               entao:
                 "o sistema deve destacar os campos não preenchidos em vermelho",
               e_entao: "focar no primeiro campo com erro",
@@ -2129,19 +2140,19 @@ Quero visualizar todos os requisitos funcionais em uma lista ordenada
 Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de implementação`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
-            'Selecionar a aba "Requisitos Funcionais"',
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
+            "Selecionar a aba **Requisitos Funcionais**",
           ],
           criteriosAceitacao: [
             {
               titulo:
                 "Exibição da lista: o sistema deve exibir os requisitos funcionais com as seguintes informações:",
               itens: [
-                "- #s#ID:# identificador sequencial no formato RF-XX",
-                "- #s#Título:# título do requisito funcional",
-                "- #s#Local:# local de implementação do requisito",
-                "- #s#Tipo:# tipo do requisito (Alteração, Inclusão ou Remoção)",
-                "- #s#Ações:# botões para visualizar, editar, duplicar e remover o requisito",
+                "- [tc-sky]ID:[/c] identificador sequencial no formato RF-XX",
+                "- [tc-sky]Título:[/c] título do requisito funcional",
+                "- [tc-sky]Local:[/c] local de implementação do requisito",
+                "- [tc-sky]Tipo:[/c] tipo do requisito (Alteração, Inclusão ou Remoção)",
+                "- [tc-sky]Ações:[/c] botões para visualizar, editar, duplicar e remover o requisito",
               ],
             },
             {
@@ -2177,7 +2188,7 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de im
           regrasInterface: [
             {
               descricao:
-                "O cursor deve mudar para 'move' ao passar sobre as linhas da tabela para indicar que podem ser arrastadas",
+                "O cursor deve mudar para :move: ao passar sobre as linhas da tabela para indicar que podem ser arrastadas",
             },
             {
               descricao:
@@ -2227,7 +2238,7 @@ Quero visualizar os detalhes completos de um requisito funcional
 Para verificar suas especificações sem risco de alteração acidental`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
             "Clicar no botão de visualização [btn:view:eye/]",
           ],
@@ -2319,7 +2330,7 @@ Quero editar requisitos funcionais já cadastrados
 Para atualizar ou corrigir as especificações conforme necessário`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
             "Clicar no botão de edição [btn:edit:pencil/]",
             "Alterar os campos desejados no modal que será aberto",
@@ -2421,7 +2432,7 @@ Quero duplicar requisitos funcionais existentes
 Para acelerar o cadastro de requisitos similares, aproveitando informações já preenchidas`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
             "Clicar no botão de duplicação [btn:copy:duplicate/]",
             "Revisar e alterar os campos no modal que será aberto",
@@ -2550,7 +2561,7 @@ Quero remover requisitos funcionais que não são mais necessários
 Para manter a documentação atualizada e relevante`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Na aba "Requisitos Funcionais", localizar o requisito desejado na lista',
             "Clicar no botão de remoção [btn:delete:trash/]",
           ],
@@ -2639,7 +2650,7 @@ Quero adicionar imagens aos requisitos funcionais
 Para ilustrar melhor as especificações e facilitar o entendimento`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Na aba "Requisitos Funcionais", clicar em [btn:blue]Adicionar Requisito Funcional[/btn] ou editar um existente',
             'Navegar para a aba "Imagens e Descrição"',
             "Clicar no botão [btn:gray]Selecionar imagens[/btn]",
@@ -2877,7 +2888,7 @@ Quero visualizar imagens de requisitos funcionais em tamanho ampliado
 Para analisar detalhes e ter melhor compreensão das especificações`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Na aba "Requisitos Funcionais", visualizar ou editar um requisito que possui imagens',
             'Navegar para a aba "Imagens e Descrição"',
             "Clicar em qualquer imagem na grade para abrir o visualizador",
@@ -2914,7 +2925,7 @@ Para analisar detalhes e ter melhor compreensão das especificações`,
               titulo:
                 "Controles de fechamento: deve ser possível fechar através de:",
               itens: [
-                "- Botão #r#X# no canto superior direito",
+                "- Botão [tc-red]X[/c] no canto superior direito",
                 "- Tecla **ESC** do teclado",
                 "- Clique fora da área da imagem (no overlay)",
               ],
@@ -3000,7 +3011,7 @@ Quero remover imagens de requisitos funcionais
 Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Na aba "Requisitos Funcionais", editar um requisito que possui imagens',
             'Navegar para a aba "Imagens e Descrição"',
             "Localizar a imagem a ser removida na grade",
@@ -3011,7 +3022,7 @@ Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
             {
               titulo: "Botão de remoção: cada imagem deve ter:",
               itens: [
-                "- Botão #r#X# vermelho no canto superior direito",
+                "- Botão [tc-red]X[/c] vermelho no canto superior direito",
                 "- Ícone claramente visível sobre a imagem",
                 "- Tooltip explicativo ao passar o mouse",
                 "- Remoção imediata sem necessidade de confirmação adicional",
@@ -3063,7 +3074,8 @@ Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
             {
               titulo: "Remoção de imagem individual",
               dado: "que um requisito possui múltiplas imagens",
-              quando: "o usuário clica no #r#X# de uma imagem específica",
+              quando:
+                "o usuário clica no [tc-red]X[/c] de uma imagem específica",
               entao: "o sistema deve remover apenas aquela imagem",
               e_entao: "reorganizar as imagens restantes na grade",
             },
@@ -3096,7 +3108,7 @@ Quero cadastrar requisitos não funcionais
 Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Selecionar a aba "Requisitos Não Funcionais"',
             "Preencher os campos de título e descrição",
             "Clicar no botão [btn:blue]Adicionar[/btn]",
@@ -3106,8 +3118,8 @@ Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
               titulo:
                 "Formulário de cadastro: o sistema deve exibir um formulário com os seguintes campos:",
               itens: [
-                "- #s#Título:# campo obrigatório de texto para o título do requisito não funcional",
-                "- #s#Descrição:# campo obrigatório de texto para a descrição detalhada do requisito",
+                "- [tc-sky]Título:[/c] campo obrigatório de texto para o título do requisito não funcional",
+                "- [tc-sky]Descrição:[/c] campo obrigatório de texto para a descrição detalhada do requisito",
                 "- Botão [btn:blue]Adicionar[/btn] para salvar o requisito",
               ],
             },
@@ -3191,7 +3203,7 @@ Quero visualizar todos os requisitos não funcionais em uma lista ordenada
 Para ter uma visão geral e poder reorganizá-los conforme a ordem de prioridade`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Selecionar a aba "Requisitos Não Funcionais"',
           ],
           criteriosAceitacao: [
@@ -3199,10 +3211,10 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem de prioridade
               titulo:
                 "Exibição da lista: o sistema deve exibir os requisitos não funcionais (RNFs) com as seguintes informações:",
               itens: [
-                "- #s#ID:# identificador sequencial no formato RNF-XX",
-                "- #s#Título:# título do requisito não funcional",
-                "- #s#Descrição:# descrição detalhada do requisito",
-                "- #s#Ações:# botões para editar e remover o requisito",
+                "- [tc-sky]ID:[/c] identificador sequencial no formato RNF-XX",
+                "- [tc-sky]Título:[/c] título do requisito não funcional",
+                "- [tc-sky]Descrição:[/c] descrição detalhada do requisito",
+                "- [tc-sky]Ações:[/c] botões para editar e remover o requisito",
               ],
             },
             {
@@ -3284,7 +3296,7 @@ Quero editar requisitos não funcionais já cadastrados
 Para atualizar ou corrigir as especificações conforme necessário`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Selecionar a aba "Requisitos Não Funcionais"',
             "Localizar o requisito desejado na lista",
             "Clicar no botão de edição [btn:edit:pencil/]",
@@ -3382,7 +3394,7 @@ Quero remover requisitos não funcionais que não são mais necessários
 Para manter a documentação atualizada e relevante`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Selecionar a aba "Requisitos Não Funcionais"',
             "Localizar o requisito desejado na lista",
             "Clicar no botão de remoção [btn:delete:trash/]",
@@ -3472,10 +3484,10 @@ Quero registrar o total de pontos de função após contagem
 Para documentar a complexidade funcional do sistema`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar #g#Documentação de Desenvolvimento#",
+            "Selecionar [tc-green]Documentação de Desenvolvimento[/c]",
             "Preencher informações básicas e requisitos",
-            'Na seção "Pontos de Função", inserir o valor total contabilizado',
-            'Clicar em "Gerar Documentos"',
+            "Na seção **Pontos de Função**, inserir o valor total contabilizado",
+            "Clicar em [btn:blue:download]Gerar Documentos[/btn]",
           ],
           criteriosAceitacao: [
             {
@@ -3560,11 +3572,11 @@ Para documentar a complexidade funcional do sistema`,
           titulo: "Geração de Docucmentação de Desenvolvimento",
           icone: iconesPorTipo.exportar,
           bdd: `Eu, como analista de requisitos,
-Quero gerar #g#documentação de desenvolvimento# em diferentes formatos
+Quero gerar [tc-green]documentação de desenvolvimento[/c] em diferentes formatos
 Para formalizar e compartilhar as especificações do sistema a ser desenvolvido`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção #g#Documentação de Desenvolvimento#",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             "Preencher todos os campos obrigatórios do formulário",
             "Adicionar pelo menos um requisito funcional",
             "Selecionar os formatos desejados (JSON, DOCX, PDF)",
@@ -3585,11 +3597,11 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               titulo:
                 "Seleção de formatos: o sistema deve permitir a seleção de diferentes formatos:",
               itens: [
-                "- #p#JSON# (sempre selecionado por padrão, não pode ser desmarcado)",
-                "- #b#DOCX# (opcional)",
-                "- #r#PDF# (opcional)",
-                "- O texto do botão muda para [btn:blue:download]Baixar JSON[/btn] quando apenas #p#JSON# está selecionado",
-                "- O texto do botão é [btn:blue:download]Gerar Documentos[/btn] quando #b#DOCX# e/ou #r#PDF# estão selecionados",
+                "- [tc-purple]JSON[/c] (sempre selecionado por padrão, não pode ser desmarcado)",
+                "- [tc-blue]DOCX[/c] (opcional)",
+                "- [tc-red]PDF[/c] (opcional)",
+                "- O texto do botão muda para [btn:blue:download]Baixar JSON[/btn] quando apenas [tc-purple]JSON[/c] está selecionado",
+                "- O texto do botão é [btn:blue:download]Gerar Documentos[/btn] quando [tc-blue]DOCX[/c] e/ou [tc-red]PDF[/c] estão selecionados",
               ],
             },
             {
@@ -3597,8 +3609,8 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
                 "Geração de documentos: ao clicar no botão, o sistema deve:",
               itens: [
                 "- Exibir indicador de carregamento durante o processamento",
-                "- Se apenas #p#JSON# estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
-                "- Se #b#DOCX# e/ou #r#PDF# estiverem selecionados, validar todos os campos obrigatórios",
+                "- Se apenas [tc-purple]JSON[/c] estiver selecionado, não é necessário validar todos os campos obrigatórios (útil para salvar rascunhos)",
+                "- Se [tc-blue]DOCX[/c] e/ou [tc-red]PDF[/c] estiverem selecionados, validar todos os campos obrigatórios",
                 "- Incluir todos os requisitos funcionais (RFs) e não funcionais (RNFs) nos documentos gerados",
                 "- Gerar os documentos nos formatos selecionados",
                 "- Disponibilizar os arquivos para download",
@@ -3609,7 +3621,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               titulo: "Controle de versão no histórico do documento:",
               itens: [
                 "- Se o documento estiver sendo criado pela primeira vez, registrar a data atual e o autor atual como criador",
-                "- Se o documento estiver sendo modificado (importado de #p#JSON# e alterado), registrar a data atual e o autor atual como modificador",
+                "- Se o documento estiver sendo modificado (importado de [tc-purple]JSON[/c] e alterado), registrar a data atual e o autor atual como modificador",
                 "- Se houver um valor no campo 'Total de Pontos de Função', registrar também uma linha no histórico indicando a adição desse valor",
               ],
             },
@@ -3617,19 +3629,19 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
           regrasNegocio: [
             {
               descricao:
-                "#p#JSON# é sempre gerado, independentemente de outras seleções",
+                "[tc-purple]JSON[/c] é sempre gerado, independentemente de outras seleções",
             },
             {
               descricao:
-                "#b#DOCX# e #r#PDF# são opcionais e podem ser selecionados individualmente ou em conjunto",
+                "[tc-blue]DOCX[/c] e [tc-red]PDF[/c] são opcionais e podem ser selecionados individualmente ou em conjunto",
             },
             {
               descricao:
-                "Quando apenas #p#JSON# é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
+                "Quando apenas [tc-purple]JSON[/c] é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
             },
             {
               descricao:
-                "Quando #b#DOCX# e/ou #r#PDF# são selecionados, todos os campos obrigatórios devem ser preenchidos e pelo menos um requisito funcional deve estar cadastrado",
+                "Quando [tc-blue]DOCX[/c] e/ou [tc-red]PDF[/c] são selecionados, todos os campos obrigatórios devem ser preenchidos e pelo menos um requisito funcional deve estar cadastrado",
             },
             {
               descricao:
@@ -3647,7 +3659,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
             },
             {
               descricao:
-                "Os formatos são selecionados através de checkboxes, com #p#JSON# sempre marcado e desabilitado",
+                "Os formatos são selecionados através de checkboxes, com [tc-purple]JSON[/c] sempre marcado e desabilitado",
             },
           ],
           cenariosTeste: [
@@ -3655,7 +3667,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               titulo: "Geração de todos os formatos com dados completos",
               dado: "que o usuário preencheu todos os campos obrigatórios",
               e: "adicionou pelo menos um requisito funcional",
-              e: "selecionou os formatos #p#JSON#, #b#DOCX# e #r#PDF#",
+              e: "selecionou os formatos [tc-purple]JSON[/c], [tc-blue]DOCX[/c] e [tc-red]PDF[/c]",
               quando: 'o usuário clica em "Gerar Documentos"',
               entao: "o sistema deve processar e gerar os três formatos",
               e_entao:
@@ -3664,17 +3676,18 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
             {
               titulo: "Geração apenas de JSON (rascunho)",
               dado: "que o usuário preencheu parcialmente os campos",
-              e: "manteve apenas o formato #p#JSON# selecionado",
+              e: "manteve apenas o formato [tc-purple]JSON[/c] selecionado",
               quando: 'o usuário clica em "Baixar JSON"',
               entao:
-                "o sistema deve gerar o arquivo #p#JSON# mesmo com campos obrigatórios não preenchidos",
-              e_entao: "disponibilizar o arquivo #p#JSON# para download",
+                "o sistema deve gerar o arquivo [tc-purple]JSON[/c] mesmo com campos obrigatórios não preenchidos",
+              e_entao:
+                "disponibilizar o arquivo [tc-purple]JSON[/c] para download",
             },
             {
               titulo: "Geração com pontos de função (PFs) após importação",
-              dado: "que o usuário importou um documento #p#JSON# existente",
+              dado: "que o usuário importou um documento [tc-purple]JSON[/c] existente",
               e: "adicionou um valor no campo 'Total de Pontos de Função'",
-              e: "selecionou os formatos #b#DOCX# e #r#PDF#",
+              e: "selecionou os formatos [tc-blue]DOCX[/c] e [tc-red]PDF[/c]",
               quando: 'o usuário clica em "Gerar Documentos"',
               entao:
                 "o sistema deve incluir tanto o registro de criação original quanto o de adição de pontos de função (PFs) no histórico",
@@ -4153,6 +4166,9 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
 </script>
 
 <style scoped>
+/* Importe dos estilos de toast para as notificações inline */
+@import "../assets/css/toast.css";
+
 /* Transição para exibir/ocultar a lista de funcionalidades */
 .slide-enter-active,
 .slide-leave-active {

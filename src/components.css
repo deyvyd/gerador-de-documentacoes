@@ -1027,6 +1027,67 @@
     @apply text-gray-700 dark:text-gray-300 text-sm;
   }
 
+  /* ===== Código e blocos de código ===== */
+  .inline-code {
+    @apply bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 py-1 rounded text-sm font-mono;
+  }
+
+  .code-block {
+    @apply bg-gray-800 dark:bg-gray-900 rounded-md overflow-hidden my-3 border border-gray-600 dark:border-gray-700;
+  }
+
+  .code-block-header {
+    @apply bg-gray-700 dark:bg-gray-800 px-3 py-2 text-sm font-medium uppercase tracking-wide;
+  }
+
+  .code-block-content {
+    @apply px-3 py-2 overflow-x-auto;
+  }
+
+  .code-block-pre {
+    @apply text-sm font-mono text-gray-100 dark:text-gray-200 whitespace-pre-wrap m-0;
+    line-height: 1.4;
+  }
+
+  /* Cores específicas para diferentes linguagens no header */
+  .code-block-sql .code-block-header {
+    @apply text-pink-300;
+  }
+
+  .code-block-javascript .code-block-header {
+    @apply text-yellow-300;
+  }
+
+  .code-block-python .code-block-header {
+    @apply text-blue-300;
+  }
+
+  .code-block-html .code-block-header {
+    @apply text-orange-300;
+  }
+
+  .code-block-css .code-block-header {
+    @apply text-purple-300;
+  }
+
+  .code-block-json .code-block-header {
+    @apply text-green-300;
+  }
+
+  .code-block-php .code-block-header {
+    @apply text-indigo-300;
+  }
+
+  .code-block-bash .code-block-header,
+  .code-block-shell .code-block-header {
+    @apply text-gray-300;
+  }
+
+  /* Texto padrão para linguagens não especificadas */
+  .code-block-text .code-block-header {
+    @apply text-gray-300;
+  }
+
   /* Ajustes para telas pequenas */
   @media (max-width: 640px) {
     .base-section {

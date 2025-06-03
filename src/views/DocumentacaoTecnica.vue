@@ -525,24 +525,6 @@ export default {
     },
 
     // Gerenciamento de atividades
-    adicionarAtividade() {
-      if (this.novaAtividade.nome && this.novaAtividade.horas) {
-        // Cria um ID único se não existir
-        const newActivity = {
-          ...this.novaAtividade,
-          id: this.novaAtividade.id || Date.now().toString(),
-        };
-
-        if (this.editingIndex !== null) {
-          this.atividades[this.editingIndex] = newActivity;
-          this.editingIndex = null;
-        } else {
-          this.atividades.push(newActivity);
-        }
-        this.novaAtividade = { nome: "", horas: "" };
-      }
-    },
-
     editarAtividade(index) {
       this.editingIndex = index;
       this.novaAtividade = JSON.parse(JSON.stringify(this.atividades[index]));
@@ -600,6 +582,10 @@ export default {
         if (atividadeInput) {
           this.aplicarErroTemporario(atividadeInput);
           atividadeInput.focus();
+          this.notificationService.show(
+            "O campo Atividade é obrigatório",
+            "error"
+          );
         }
         isValid = false;
       } else if (
@@ -612,6 +598,18 @@ export default {
           horasInput.focus();
         }
         isValid = false;
+        if (this.novaAtividade.horas <= 0) {
+          // Exibe mensagem de erro se horas for menor ou igual a zero
+          this.notificationService.show(
+            "O valor de horas deve ser maior que zero",
+            "error"
+          );
+        } else {
+          this.notificationService.show(
+            "O campo Atividade é obrigatório",
+            "error"
+          );
+        }
       }
 
       // Se a validação falhar, interromper a função
@@ -628,6 +626,11 @@ export default {
         } else {
           this.atividades.push({ ...this.novaAtividade });
         }
+
+        this.notificationService.show(
+          "Atividade cadastrada com sucesso!",
+          "success"
+        );
 
         // Limpa o formulário
         this.novaAtividade = { nome: "", horas: "" };

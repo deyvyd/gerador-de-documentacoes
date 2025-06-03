@@ -9,56 +9,153 @@ export default {
       // Primeiro, processa os InfoBoxes antes de outros elementos
       processado = this.processarInfoBoxes(processado);
 
+      // Processa código ANTES de outros elementos para evitar conflitos
+      processado = this.processarCodigo(processado);
+
+      // Processa notificações inline
+      processado = this.processarNotificacoes(processado);
+
       // Por último, processa os ícones
       processado = this.processarIcones(processado);
 
-      // Novo sistema de cores com #c#texto# onde c é a inicial da cor
-      // Azul/Blue (#b#texto#)
+      /// Novo sistema de cores com [tc-cor]texto[/c], [bc-cor]texto[/c] e [fc-cor]texto[/c]
+
+      // Cores apenas no texto (tc - text color)
       processado = processado.replace(
-        /#b#([\s\S]*?)#/g,
-        '<span class="highlight-blue">$1</span>'
+        /\[tc-blue\]([\s\S]*?)\[\/c\]/g,
+        '<span class="text-blue-600 dark:text-blue-400">$1</span>'
       );
 
-      // Azul claro/Sky (#s#texto#)
       processado = processado.replace(
-        /#s#([\s\S]*?)#/g,
-        '<span class="highlight-sky">$1</span>'
+        /\[tc-sky\]([\s\S]*?)\[\/c\]/g,
+        '<span class="text-sky-700 dark:text-sky-400">$1</span>'
       );
 
-      // Verde/Green (#g#texto#)
       processado = processado.replace(
-        /#g#([\s\S]*?)#/g,
-        '<span class="highlight-green">$1</span>'
+        /\[tc-green\]([\s\S]*?)\[\/c\]/g,
+        '<span class="text-green-600 dark:text-green-400">$1</span>'
       );
 
-      // Amarelo/Yellow (#y#texto#)
       processado = processado.replace(
-        /#y#([\s\S]*?)#/g,
-        '<span class="highlight-amber">$1</span>'
+        /\[tc-amber\]([\s\S]*?)\[\/c\]/g,
+        '<span class="text-amber-600 dark:text-amber-400">$1</span>'
       );
 
-      // Vermelho/Red (#r#texto#)
       processado = processado.replace(
-        /#r#([\s\S]*?)#/g,
-        '<span class="highlight-red">$1</span>'
+        /\[tc-yellow\]([\s\S]*?)\[\/c\]/g,
+        '<span class="text-yellow-600 dark:text-yellow-400">$1</span>'
       );
 
-      // Roxo/Purple (#p#texto#)
       processado = processado.replace(
-        /#p#([\s\S]*?)#/g,
-        '<span class="highlight-purple">$1</span>'
+        /\[tc-red\]([\s\S]*?)\[\/c\]/g,
+        '<span class="text-red-600 dark:text-red-400">$1</span>'
       );
 
-      // Laranja/Orange (#o#texto#)
       processado = processado.replace(
-        /#o#([\s\S]*?)#/g,
-        '<span class="highlight-orange">$1</span>'
+        /\[tc-purple\]([\s\S]*?)\[\/c\]/g,
+        '<span class="text-purple-600 dark:text-purple-400">$1</span>'
       );
 
-      // Aplica classes CSS aos destaques de cor
       processado = processado.replace(
-        /class="highlight-orange"/g,
-        'class="text-orange-600 dark:text-orange-400 font-medium"'
+        /\[tc-orange\]([\s\S]*?)\[\/c\]/g,
+        '<span class="text-orange-600 dark:text-orange-400">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[tc-gray\]([\s\S]*?)\[\/c\]/g,
+        '<span class="text-gray-600 dark:text-gray-400">$1</span>'
+      );
+
+      // Cores de fundo (bc - background color)
+      processado = processado.replace(
+        /\[bc-blue\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-blue-100 dark:bg-blue-900/30 px-1 py-0.5 rounded">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[bc-sky\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-sky-100 dark:bg-sky-900/30 px-1 py-0.5 rounded">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[bc-green\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-green-100 dark:bg-green-900/30 px-1 py-0.5 rounded">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[bc-amber\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-amber-100 dark:bg-amber-900/30 px-1 py-0.5 rounded">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[bc-yellow\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-yellow-100 dark:bg-yellow-900/30 px-1 py-0.5 rounded">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[bc-red\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-red-100 dark:bg-red-900/30 px-1 py-0.5 rounded">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[bc-purple\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-purple-100 dark:bg-purple-900/30 px-1 py-0.5 rounded">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[bc-orange\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-orange-100 dark:bg-orange-900/30 px-1 py-0.5 rounded">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[bc-gray\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-gray-100 dark:bg-gray-900/30 px-1 py-0.5 rounded">$1</span>'
+      );
+
+      // Cores completas (fc - full color - texto + fundo com contraste)
+      processado = processado.replace(
+        /\[fc-blue\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-blue-600 text-white dark:bg-blue-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[fc-sky\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-sky-600 text-white dark:bg-sky-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[fc-green\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-green-600 text-white dark:bg-green-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[fc-amber\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-amber-600 text-white dark:bg-amber-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[fc-yellow\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-yellow-600 text-white dark:bg-yellow-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[fc-red\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-red-600 text-white dark:bg-red-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[fc-purple\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-purple-600 text-white dark:bg-purple-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[fc-orange\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-orange-600 text-white dark:bg-orange-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
+      );
+
+      processado = processado.replace(
+        /\[fc-gray\]([\s\S]*?)\[\/c\]/g,
+        '<span class="bg-gray-600 text-white dark:bg-gray-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
       );
 
       // Depois, processa negrito e itálico (que podem estar dentro dos destaques)
@@ -286,6 +383,8 @@ export default {
         up: `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>`,
         down: `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V4"/></svg>`,
 
+        move: `<svg class="h-4 w-4 inline-block" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M31.762 15.52l-0.265-0.252c-0.005-0.005-0.011-0.007-0.017-0.011l-4.055-3.701c-0.292-0.28-0.764-0.28-1.057 0l-0.172 0.252c-0.292 0.28-0.197 0.732 0.095 1.011l2.39 2.167h-11.605v-11.667l2.167 2.389c0.279 0.292 0.732 0.387 1.011 0.094l0.252-0.171c0.279-0.293 0.279-0.765 0-1.058l-3.537-3.874c-0.086-0.173-0.219-0.317-0.385-0.415l-0.044-0.046c-0.139-0.146-0.323-0.219-0.507-0.218-0.184-0.001-0.368 0.072-0.509 0.218l-0.253 0.264c-0.005 0.005-0.005 0.011-0.011 0.017l-3.61 3.992c-0.279 0.292-0.279 0.764 0 1.057l0.252 0.171c0.279 0.292 0.732 0.197 1.011-0.095l2.161-2.41v11.749h-11.759l2.389-2.167c0.292-0.28 0.387-0.732 0.095-1.011l-0.171-0.252c-0.293-0.28-0.766-0.28-1.058 0l-3.874 3.537c-0.173 0.085-0.317 0.219-0.415 0.384l-0.046 0.044c-0.146 0.139-0.219 0.324-0.218 0.508-0.001 0.184 0.071 0.368 0.218 0.509l0.265 0.253c0.005 0.005 0.011 0.006 0.016 0.011l3.992 3.61c0.292 0.279 0.764 0.279 1.058 0l0.171-0.252c0.292-0.279 0.197-0.733-0.095-1.012l-2.41-2.161h11.844v11.78l-2.161-2.41c-0.28-0.292-0.732-0.387-1.011-0.095l-0.252 0.171c-0.279 0.293-0.279 0.765 0 1.057l3.61 3.992c0.005 0.006 0.006 0.012 0.011 0.017l0.253 0.265c0.141 0.146 0.325 0.219 0.509 0.218 0.183 0.001 0.368-0.072 0.507-0.218l0.253-0.265c0.005-0.005 0.007-0.011 0.012-0.017l3.701-4.055c0.279-0.292 0.279-0.764 0-1.057l-0.252-0.172c-0.279-0.292-0.732-0.197-1.011 0.095l-2.167 2.39v-11.698h11.687l-2.41 2.161c-0.292 0.279-0.387 0.733-0.095 1.012l0.171 0.252c0.293 0.279 0.765 0.279 1.057 0l3.992-3.61c0.006-0.006 0.012-0.006 0.017-0.010l0.265-0.253c0.146-0.14 0.219-0.324 0.218-0.509 0.001-0.183-0.072-0.368-0.218-0.507z"/></svg>`,
+
         // Ícones técnicos
         code: `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>`,
         file: `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>`,
@@ -392,6 +491,13 @@ export default {
           "bg-purple-200 dark:bg-white text-purple-700 dark:text-blue-900 hover:bg-purple-600 hover:text-purple-300 dark:hover:bg-purple-600 dark:hover:text-purple-300",
 
         tour: "bg-transparent hover:text-blue-500 transition-colors duration-200",
+        tour_prev:
+          "bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 px-3 py-1.5 rounded-md font-medium transition-colors duration-200",
+        tour_next:
+          "bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 px-3 py-1.5 rounded-md font-medium transition-colors duration-200",
+        tour_close:
+          "bg-gray-500 text-white hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500 px-3 py-1.5 rounded-md font-medium transition-colors duration-200",
+
         light_theme:
           "hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-200",
 
@@ -474,6 +580,135 @@ export default {
       });
 
       return texto;
+    },
+
+    processarNotificacoes(texto) {
+      // Cores exatas para cada tipo (mesmo do ToastNotification.vue)
+      const typeColors = {
+        note: "#4493F8", // Azul
+        success: "#3FB950", // Verde
+        error: "#F85149", // Vermelho
+        warning: "#D29922", // Amarelo/âmbar
+        caution: "#F85149", // Vermelho
+        important: "#AB7DF8", // Roxo
+      };
+
+      // Ícones SVG para cada tipo (mesmo do ToastNotification.vue)
+      const getIcon = (type) => {
+        const iconColor = typeColors[type];
+
+        switch (type) {
+          case "note":
+            return `<svg style="color: ${iconColor}; height: 16px; width: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
+
+          case "success":
+            return `<svg style="color: ${iconColor}; height: 16px; width: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`;
+
+          case "error":
+            return `<svg style="color: ${iconColor}; height: 16px; width: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>`;
+
+          case "warning":
+            return `<svg style="color: ${iconColor}; height: 16px; width: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
+
+          case "caution":
+            return `<svg style="color: ${iconColor}; height: 16px; width: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2" /><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
+
+          case "important":
+            return `<svg style="color: ${iconColor}; height: 16px; width: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 4H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h3l3 3 3-3h5c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"></path><line x1="12" y1="7" x2="12" y2="11"></line><line x1="12" y1="14" x2="12.01" y2="14"></line></svg>`;
+
+          default:
+            return "";
+        }
+      };
+
+      const tiposNotificacao = [
+        "note",
+        "success",
+        "error",
+        "warning",
+        "caution",
+        "important",
+      ];
+
+      tiposNotificacao.forEach((tipo) => {
+        // Regex para capturar notificações no formato [tst:tipo]conteúdo[/tst]
+        const regex = new RegExp(`\\[tst:${tipo}\\](.*?)\\[/tst\\]`, "g");
+
+        texto = texto.replace(regex, (match, conteudo) => {
+          // O conteúdo já vem limpo da regex
+          const textoLimpo = conteudo.trim();
+
+          // Background cinza com transparência
+          const backgroundColor = "rgba(128, 128, 128, 0.1)"; // Cinza com 10% de opacidade
+
+          // Cria o HTML da notificação com ícone do lado esquerdo (igual ao toast)
+          return `<div class="flex my-3 rounded-md"><div class="border-l-4" style="border-color: ${
+            typeColors[tipo]
+          }"></div><div class="flex-1 py-2 px-3" style="background-color: ${backgroundColor}"><div class="flex items-center gap-3"><span class="flex-shrink-0">${getIcon(
+            tipo
+          )}</span><span class="flex-1 text-gray-700 dark:text-gray-300 text-sm">${textoLimpo}</span></div></div></div>`;
+        });
+      });
+
+      return texto;
+    },
+
+    processarCodigo(texto) {
+      // Primeiro, processa blocos de código (para não interferir com código inline)
+      texto = this.processarBlocosCodigo(texto);
+
+      // Depois, processa código inline
+      texto = this.processarCodigoInline(texto);
+
+      return texto;
+    },
+
+    processarBlocosCodigo(texto) {
+      // Regex para capturar blocos de código com linguagem opcional
+      const regexBlocoCodigo = /```(\w+)?\n?([\s\S]*?)```/g;
+
+      return texto.replace(regexBlocoCodigo, (match, linguagem, codigo) => {
+        const codigoLimpo = codigo.trim();
+        const linguagemLimpa = linguagem ? linguagem.toLowerCase() : "text";
+        const linguagemExibicao = linguagem
+          ? linguagem.toUpperCase()
+          : "CÓDIGO";
+
+        // Escapa HTML no código para evitar problemas
+        const codigoEscapado = codigoLimpo
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+
+        return `<div class="code-block code-block-${linguagemLimpa}">
+      <div class="code-block-header">
+        ${linguagemExibicao}
+      </div>
+      <div class="code-block-content">
+        <pre class="code-block-pre">${codigoEscapado}</pre>
+      </div>
+    </div>`;
+      });
+    },
+
+    processarCodigoInline(texto) {
+      // Regex para capturar código inline com backticks
+      // Evita processar se já estiver dentro de um bloco de código HTML
+      const regexCodigoInline = /(?<!<[^>]*)`([^`\n]+)`(?![^<]*>)/g;
+
+      return texto.replace(regexCodigoInline, (match, codigo) => {
+        // Escapa HTML no código
+        const codigoEscapado = codigo
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+
+        return `<code class="inline-code">${codigoEscapado}</code>`;
+      });
     },
   },
 };
