@@ -555,6 +555,42 @@
     @apply dark:bg-table-header-dark;
   }
 
+  /* ===== Estilos para drag & drop da tabela ===== */
+  .sortable-row {
+    @apply cursor-move;
+  }
+
+  .sortable-row:hover {
+    @apply bg-gray-100 dark:bg-gray-700/50;
+  }
+
+  /* Quando está sendo arrastado */
+  .sortable-ghost {
+    @apply opacity-50 bg-blue-100 dark:bg-blue-900/50;
+  }
+
+  .sortable-chosen {
+    @apply bg-blue-50 dark:bg-blue-900/30;
+  }
+
+  .sortable-drag {
+    @apply transform rotate-2 shadow-lg;
+  }
+
+  .sortable-fallback {
+    @apply cursor-grabbing;
+  }
+
+  /* Garantir que botões de ação não interfiram no drag */
+  .action-button {
+    @apply cursor-pointer;
+    pointer-events: auto;
+  }
+
+  .sortable-row .action-button {
+    @apply relative z-10;
+  }
+
   /* ===== Botões de ação ===== */
   .action-button {
     @apply h-5 w-5;

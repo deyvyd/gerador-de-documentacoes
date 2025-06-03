@@ -88,7 +88,7 @@
           <tr
             v-for="(item, index) in paginatedItems"
             :key="keyFunction(item, index)"
-            :class="{ 'cursor-move': draggable }"
+            :class="{ 'sortable-row': draggable }"
           >
             <td
               v-for="col in columns"
@@ -527,7 +527,10 @@ export default {
           // Inicializa o Sortable diretamente no elemento tbody
           this.sortableInstance = Sortable.create(this.$refs.tbodyRef, {
             animation: 150,
-            handle: ".cursor-move",
+            handle: ".sortable-row",
+            filter:
+              ".action-button, .suggestion-item, button, a, input, select, textarea",
+            preventOnFilter: false,
             ghostClass: "sortable-ghost",
             chosenClass: "sortable-chosen",
             dragClass: "sortable-drag",
