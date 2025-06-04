@@ -491,12 +491,8 @@ export default {
           "bg-purple-200 dark:bg-white text-purple-700 dark:text-blue-900 hover:bg-purple-600 hover:text-purple-300 dark:hover:bg-purple-600 dark:hover:text-purple-300",
 
         tour: "bg-transparent hover:text-blue-500 transition-colors duration-200",
-        tour_prev:
-          "bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 px-3 py-1.5 rounded-md font-medium transition-colors duration-200",
         tour_next:
-          "bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 px-3 py-1.5 rounded-md font-medium transition-colors duration-200",
-        tour_close:
-          "bg-gray-500 text-white hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500 px-3 py-1.5 rounded-md font-medium transition-colors duration-200",
+          "bg-[#4a74c7] text-white hover:bg-[#345ba7] dark:bg-blue-700 dark:hover:bg-blue-600 transition-colors duration-200",
 
         light_theme:
           "hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-200",
@@ -516,7 +512,7 @@ export default {
       };
 
       // Lista de tipos que não devem ter fundo
-      const tiposSemFundo = ["view", "edit", "copy", "delete", "about"];
+      const tiposSemFundo = ["tour", "view", "edit", "copy", "delete", "about"];
 
       // Função para determinar tamanho do ícone
       const getTamanhoIcone = (tipo, temTexto, semFundo) => {
@@ -684,6 +680,70 @@ export default {
 
         return `<code class="inline-code">${codigoEscapado}</code>`;
       });
+    },
+
+    processarItensComExemplos(itens) {
+      if (!itens || !Array.isArray(itens)) return "";
+
+      let resultado = [];
+
+      itens.forEach((item) => {
+        // Se é um exemplo
+        if (item.startsWith(">exemplo:")) {
+          const textoExemplo = item.substring(9).trim(); // Remove '>exemplo:'
+          resultado.push(`
+        <div class="flex my-3 rounded-md">
+          <div class="border-l-4 border-blue-700 dark:border-blue-300"></div>
+          <div class="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-900">
+            <div class="flex items-center mb-1">
+              <svg
+                class="h-4 w-4 mr-2 text-blue-700 dark:text-blue-300"
+                viewBox="0 0 32 32"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M26,12H22v2h4v2H23v2h3v2H22v2h4a2.0027,2.0027,0,0,0,2-2V14A2.0023,2.0023,0,0,0,26,12Z"></path>
+                <path d="M19,22H13V18a2.002,2.002,0,0,1,2-2h2V14H13V12h4a2.0023,2.0023,0,0,1,2,2v2a2.0023,2.0023,0,0,1-2,2H15v2h4Z"></path>
+                <polygon points="8 20 8 12 6 12 6 13 4 13 4 15 6 15 6 20 4 20 4 22 10 22 10 20 8 20"></polygon>
+              </svg>
+              <span class="font-medium text-sm text-blue-700 dark:text-blue-300">Exemplo</span>
+            </div>
+            <div class="text-gray-700 dark:text-gray-300 text-sm">${this.processarMarkdown(
+              textoExemplo
+            )}</div>
+          </div>
+        </div>
+      `);
+        } else {
+          // Processa item normal usando a lógica existente
+          const espacos = item.match(/^\s*/)[0].length;
+          const nivel = Math.floor(espacos / 2);
+          const margemEsquerda = nivel * 1.5;
+          const linhaTrimmed = item.trim();
+
+          if (linhaTrimmed.startsWith("- ")) {
+            const conteudo = this.processarMarkdown(linhaTrimmed.substring(2));
+            resultado.push(
+              `<div class="text-gray-700 dark:text-gray-300 mb-1 flex items-start" style="margin-left: ${margemEsquerda}rem;"><span class="mr-2 mt-0">•</span><span>${conteudo}</span></div>`
+            );
+          } else if (linhaTrimmed.match(/^\d+\.\s/)) {
+            const texto = linhaTrimmed.replace(/^\d+\.\s/, "");
+            const conteudo = this.processarMarkdown(texto);
+            resultado.push(
+              `<div class="text-gray-700 dark:text-gray-300 mb-1 flex items-start" style="margin-left: ${margemEsquerda}rem;"><span class="mr-2 mt-0">${
+                nivel + 1
+              }.</span><span>${conteudo}</span></div>`
+            );
+          } else {
+            const conteudo = this.processarMarkdown(linhaTrimmed);
+            resultado.push(
+              `<div class="text-gray-700 dark:text-gray-300 mb-2" style="margin-left: ${margemEsquerda}rem;">${conteudo}</div>`
+            );
+          }
+        }
+      });
+
+      return resultado.join("");
     },
   },
 };

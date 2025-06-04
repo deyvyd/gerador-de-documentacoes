@@ -464,9 +464,43 @@
                 v-html="processarMarkdown(criterio.descricao)"
               ></div>
 
-              <div
-                v-html="processarListasMistas(criterio.itens.join('\n'))"
-              ></div>
+              <!-- Exemplo após descrição (se existir como campo separado) -->
+              <div v-if="criterio.exemplo" class="flex my-3 rounded-md">
+                <div
+                  class="border-l-4 border-blue-700 dark:border-blue-300"
+                ></div>
+                <div class="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-900">
+                  <div class="flex items-center mb-1">
+                    <svg
+                      class="h-4 w-4 mr-2 text-blue-700 dark:text-blue-300"
+                      viewBox="0 0 32 32"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M26,12H22v2h4v2H23v2h3v2H22v2h4a2.0027,2.0027,0,0,0,2-2V14A2.0023,2.0023,0,0,0,26,12Z"
+                      ></path>
+                      <path
+                        d="M19,22H13V18a2.002,2.002,0,0,1,2-2h2V14H13V12h4a2.0023,2.0023,0,0,1,2,2v2a2.0023,2.0023,0,0,1-2,2H15v2h4Z"
+                      ></path>
+                      <polygon
+                        points="8 20 8 12 6 12 6 13 4 13 4 15 6 15 6 20 4 20 4 22 10 22 10 20 8 20"
+                      ></polygon>
+                    </svg>
+                    <span
+                      class="font-medium text-sm text-blue-700 dark:text-blue-300"
+                      >Exemplo</span
+                    >
+                  </div>
+                  <div
+                    class="text-gray-700 dark:text-gray-300 text-sm"
+                    v-html="processarMarkdown(criterio.exemplo)"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Itens do critério (com exemplos integrados) -->
+              <div v-html="processarItensComExemplos(criterio.itens)"></div>
             </div>
           </section>
 
@@ -508,34 +542,53 @@
                 - <span v-html="processarMarkdown(regra.titulo)"></span>
               </h3>
 
-              <!-- Descrição opcional (apenas se existir e for diferente do título) -->
+              <!-- Descrição opcional -->
               <div
                 v-if="regra.descricao && regra.descricao !== regra.titulo"
                 class="text-gray-700 dark:text-gray-300 mb-2 pl-4"
                 v-html="processarMarkdown(regra.descricao)"
               ></div>
 
-              <!-- Itens da regra -->
-              <ul
+              <!-- Exemplo após descrição (se existir como campo separado) -->
+              <div v-if="regra.exemplo" class="flex my-3 rounded-md">
+                <div
+                  class="border-l-4 border-blue-700 dark:border-blue-300"
+                ></div>
+                <div class="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-900">
+                  <div class="flex items-center mb-1">
+                    <svg
+                      class="h-4 w-4 mr-2 text-blue-700 dark:text-blue-300"
+                      viewBox="0 0 32 32"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M26,12H22v2h4v2H23v2h3v2H22v2h4a2.0027,2.0027,0,0,0,2-2V14A2.0023,2.0023,0,0,0,26,12Z"
+                      ></path>
+                      <path
+                        d="M19,22H13V18a2.002,2.002,0,0,1,2-2h2V14H13V12h4a2.0023,2.0023,0,0,1,2,2v2a2.0023,2.0023,0,0,1-2,2H15v2h4Z"
+                      ></path>
+                      <polygon
+                        points="8 20 8 12 6 12 6 13 4 13 4 15 6 15 6 20 4 20 4 22 10 22 10 20 8 20"
+                      ></polygon>
+                    </svg>
+                    <span
+                      class="font-medium text-sm text-blue-700 dark:text-blue-300"
+                      >Exemplo</span
+                    >
+                  </div>
+                  <div
+                    class="text-gray-700 dark:text-gray-300 text-sm"
+                    v-html="processarMarkdown(regra.exemplo)"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Itens da regra (com exemplos integrados) -->
+              <div
                 v-if="regra.itens && regra.itens.length > 0"
-                class="list-disc pl-6"
-              >
-                <template
-                  v-for="(item, itemIndex) in regra.itens"
-                  :key="itemIndex"
-                >
-                  <li
-                    v-if="!item.startsWith('- ')"
-                    class="text-gray-700 dark:text-gray-300 mb-1"
-                    v-html="processarMarkdown(item)"
-                  ></li>
-                  <li
-                    v-else
-                    class="text-gray-700 dark:text-gray-300 mb-1 ml-6 list-disc"
-                    v-html="processarMarkdown(item.substring(2))"
-                  ></li>
-                </template>
-              </ul>
+                v-html="processarItensComExemplos(regra.itens)"
+              ></div>
             </div>
           </section>
 
@@ -577,34 +630,53 @@
                 - <span v-html="processarMarkdown(regra.titulo)"></span>
               </h3>
 
-              <!-- Descrição opcional (apenas se existir e for diferente do título) -->
+              <!-- Descrição opcional -->
               <div
                 v-if="regra.descricao && regra.descricao !== regra.titulo"
                 class="text-gray-700 dark:text-gray-300 mb-2 pl-4"
                 v-html="processarMarkdown(regra.descricao)"
               ></div>
 
-              <!-- Itens da regra -->
-              <ul
+              <!-- Exemplo após descrição (se existir como campo separado) -->
+              <div v-if="regra.exemplo" class="flex my-3 rounded-md">
+                <div
+                  class="border-l-4 border-blue-700 dark:border-blue-300"
+                ></div>
+                <div class="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-900">
+                  <div class="flex items-center mb-1">
+                    <svg
+                      class="h-4 w-4 mr-2 text-blue-700 dark:text-blue-300"
+                      viewBox="0 0 32 32"
+                      fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M26,12H22v2h4v2H23v2h3v2H22v2h4a2.0027,2.0027,0,0,0,2-2V14A2.0023,2.0023,0,0,0,26,12Z"
+                      ></path>
+                      <path
+                        d="M19,22H13V18a2.002,2.002,0,0,1,2-2h2V14H13V12h4a2.0023,2.0023,0,0,1,2,2v2a2.0023,2.0023,0,0,1-2,2H15v2h4Z"
+                      ></path>
+                      <polygon
+                        points="8 20 8 12 6 12 6 13 4 13 4 15 6 15 6 20 4 20 4 22 10 22 10 20 8 20"
+                      ></polygon>
+                    </svg>
+                    <span
+                      class="font-medium text-sm text-blue-700 dark:text-blue-300"
+                      >Exemplo</span
+                    >
+                  </div>
+                  <div
+                    class="text-gray-700 dark:text-gray-300 text-sm"
+                    v-html="processarMarkdown(regra.exemplo)"
+                  ></div>
+                </div>
+              </div>
+
+              <!-- Itens da regra (com exemplos integrados) -->
+              <div
                 v-if="regra.itens && regra.itens.length > 0"
-                class="list-disc pl-6"
-              >
-                <template
-                  v-for="(item, itemIndex) in regra.itens"
-                  :key="itemIndex"
-                >
-                  <li
-                    v-if="!item.startsWith('- ')"
-                    class="text-gray-700 dark:text-gray-300 mb-1"
-                    v-html="processarMarkdown(item)"
-                  ></li>
-                  <li
-                    v-else
-                    class="text-gray-700 dark:text-gray-300 mb-1 ml-6 list-disc"
-                    v-html="processarMarkdown(item.substring(2))"
-                  ></li>
-                </template>
-              </ul>
+                v-html="processarItensComExemplos(regra.itens)"
+              ></div>
             </div>
           </section>
 
@@ -862,33 +934,32 @@ Para aprender a usar o sistema de forma eficiente`,
           ],
           regrasNegocio: [
             {
-              descricao: "Cada tela possui seu próprio tour personalizado",
+              titulo: "Cada tela possui seu próprio tour personalizado",
             },
             {
-              descricao:
+              titulo:
                 "O histórico de tours completados é salvo no armazenamento local",
             },
             {
-              descricao:
-                "O tour pode ser iniciado manualmente a qualquer momento",
+              titulo: "O tour pode ser iniciado manualmente a qualquer momento",
             },
             {
-              descricao:
+              titulo:
                 "O tour nunca impede o acesso à funcionalidade, apenas destaca",
             },
           ],
           regrasInterface: [
             {
-              descricao: "Destaque visual para o elemento sendo explicado",
+              titulo: "Destaque visual para o elemento sendo explicado",
             },
             {
-              descricao: "Overlay semi-transparente no restante da tela",
+              titulo: "Overlay semi-transparente no restante da tela",
             },
             {
-              descricao: "Popover com título e descrição para cada etapa",
+              titulo: "Popover com título e descrição para cada etapa",
             },
             {
-              descricao: "Botões de navegação (anterior, próximo, fechar)",
+              titulo: "Botões de navegação (anterior, próximo, fechar)",
             },
           ],
           cenariosTeste: [
@@ -961,36 +1032,34 @@ Para adequar a interface às minhas preferências visuais`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "A preferência do usuário é salva no armazenamento local (localStorage)",
             },
             {
-              descricao:
+              titulo:
                 "Na primeira visita, o tema padrão segue a preferência do sistema",
             },
             {
-              descricao:
+              titulo:
                 "A alternância é instantânea e não requer recarregamento da página",
             },
             {
-              descricao:
+              titulo:
                 "Todos os componentes visuais devem se adaptar ao tema selecionado",
             },
           ],
           regrasInterface: [
             {
-              descricao:
-                "Ícone de sol :sun: representa mudança para tema claro",
+              titulo: "Ícone de sol :sun: representa mudança para tema claro",
             },
             {
-              descricao:
-                "Ícone de lua :moon: representa mudança para tema escuro",
+              titulo: "Ícone de lua :moon: representa mudança para tema escuro",
             },
             {
-              descricao: "Tooltip explica a função ao passar o mouse",
+              titulo: "Tooltip explica a função ao passar o mouse",
             },
             {
-              descricao: "Animação suave na transição entre temas",
+              titulo: "Animação suave na transição entre temas",
             },
           ],
           cenariosTeste: [
@@ -1055,37 +1124,37 @@ Para acessar a documentação técnica ou a documentação de desenvolvimento co
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "Cada tipo de documentação possui campos e fluxos específicos baseados nas necessidades daquela documentação",
             },
             {
-              descricao:
+              titulo:
                 "A [tc-orange]documentação técnica[/c] é focada em atividades e pontos de função  (PFs)",
             },
             {
-              descricao:
+              titulo:
                 "A [tc-green]documentação de desenvolvimento[/c] é focada em requisitos funcionais (RFs) e não funcionais (RNFs)",
             },
             {
-              descricao:
+              titulo:
                 "Os campos básicos da solicitação são comuns a ambos os tipos de documentação",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "Botões de seleção de tipo com indicação visual clara do tipo selecionado",
             },
             {
-              descricao:
+              titulo:
                 "Na tela inicial, os tipos de documentação são apresentados como cards ou botões grandes",
             },
             {
-              descricao:
+              titulo:
                 "Durante o preenchimento, a opção de troca é apresentada como um seletor ou botão no cabeçalho",
             },
             {
-              descricao:
+              titulo:
                 "Modal de confirmação ao tentar trocar de tipo com dados não salvos",
             },
           ],
@@ -1165,12 +1234,11 @@ Para documentar os dados essenciais do trabalho realizado`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "O campo de Número SS é formatado automaticamente com zeros à esquerda",
             },
             {
-              descricao:
-                "A data de início não pode ser posterior à data de fim",
+              titulo: "A data de início não pode ser posterior à data de fim",
             },
             {
               titulo:
@@ -1179,24 +1247,23 @@ Para documentar os dados essenciais do trabalho realizado`,
             {
               titulo:
                 "As iniciais dos autores são concatenadas para uso no documento.",
-              descricao: "Exemplo: `DMF e JGC`",
+              exemplo: "DMF e JGC",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O campo de seleção de autores possui sugestão automática baseada no texto digitado",
             },
             {
-              descricao:
+              titulo:
                 "Os autores selecionados aparecem como tags que podem ser removidas individualmente",
             },
             {
-              descricao:
-                "Campos com erro de validação são destacados em vermelho",
+              titulo: "Campos com erro de validação são destacados em vermelho",
             },
             {
-              descricao: "O campo de ano SS é pré-preenchido com o ano atual",
+              titulo: "O campo de ano SS é pré-preenchido com o ano atual",
             },
           ],
           cenariosTeste: [
@@ -1246,7 +1313,7 @@ Para registrar todos os contribuidores do trabalho`,
           caminhoAcesso: [
             "Acessar o sistema",
             "Selecionar qualquer tipo de documentação ([tc-orange]Técnica[/c] ou [tc-green]Desenvolvimento[/c])",
-            "No campo [tc:sky]Autor(es)[/c], começar a digitar o nome de um autor",
+            "No campo [tc-sky]Autor(es)[/c], começar a digitar o nome de um autor",
             "Selecionar o autor na lista de sugestões",
             "Repetir o processo para adicionar mais autores se necessário",
           ],
@@ -1272,37 +1339,37 @@ Para registrar todos os contribuidores do trabalho`,
           ],
           regrasNegocio: [
             {
-              descricao:
-                "A lista de autores disponíveis é predefinida no sistema",
+              titulo: "A lista de autores disponíveis é predefinida no sistema",
             },
             {
-              descricao:
-                "As iniciais dos autores são concatenadas automaticamente (ex: 'DMF e PRO')",
+              titulo:
+                "As iniciais dos autores são concatenadas automaticamente:",
+              exemplo: "DMF e JGC",
             },
             {
-              descricao:
-                "Múltiplos autores são separados por vírgula e 'e' (ex: 'DMF, FSC e PRO')",
+              titulo: "Múltiplos autores são separados por vírgula `,` e `e`",
+              exemplo: "DMF, JGC e PRO",
             },
             {
-              descricao:
+              titulo:
                 "Pelo menos um autor é obrigatório para gerar documentação",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "A busca ignora acentuação e diferencia maiúsculas/minúsculas",
             },
             {
-              descricao:
+              titulo:
                 "As sugestões são exibidas em uma lista dropdown abaixo do campo",
             },
             {
-              descricao:
+              titulo:
                 "Autor selecionado aparece como tag colorida com botão de remoção",
             },
             {
-              descricao:
+              titulo:
                 "Tecla Backspace quando o campo está vazio remove o último autor adicionado",
             },
           ],
@@ -1378,29 +1445,29 @@ Para distribuir e armazenar da maneira mais adequada`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "O formato [tc-purple]JSON[/c] é sempre gerado, independente das opções selecionadas",
             },
             {
-              descricao:
+              titulo:
                 "A exportação em [tc-blue]DOCX[/c]/[tc-red]PDF[/c] requer que todos os campos obrigatórios estejam preenchidos",
             },
             {
-              descricao:
+              titulo:
                 "Se apenas o formato [tc-purple]JSON[/c] for selecionado, é possível salvar documentos incompletos",
             },
             {
-              descricao:
+              titulo:
                 "Quando múltiplos formatos são selecionados, os arquivos são empacotados em um arquivo ZIP",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O checkbox de [tc-purple]JSON[/c] está sempre marcado e desabilitado (não pode ser desmarcado)",
             },
             {
-              descricao:
+              titulo:
                 "O texto do botão muda conforme os formatos selecionados:",
               itens: [
                 "[btn:blue:download]Baixar JSON[/btn]",
@@ -1408,7 +1475,7 @@ Para distribuir e armazenar da maneira mais adequada`,
               ],
             },
             {
-              descricao:
+              titulo:
                 "Durante o processamento, o botão exibe um ícone de carregamento e texto:",
               itens: ["[btn:blue:loading]Processando...[/btn]"],
             },
@@ -1482,37 +1549,37 @@ Para continuar o trabalho sem precisar preencher tudo novamente`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "Ao importar, os dados existentes são completamente substituídos pelos dados do arquivo",
             },
             {
-              descricao:
+              titulo:
                 "Se há dados já preenchidos, o sistema solicita confirmação antes de substituí-los",
             },
             {
-              descricao:
+              titulo:
                 "O sistema verifica se o tipo de documento (técnico/desenvolvimento) é compatível",
             },
             {
-              descricao:
+              titulo:
                 "Informações de data original e autor são preservadas para manter histórico",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de importação [btn:import:upload/] está sempre visível na barra superior",
             },
             {
-              descricao:
+              titulo:
                 "Modal de confirmação é exibido se já houver dados preenchidos",
             },
             {
-              descricao:
+              titulo:
                 "Mensagem de sucesso é exibida após importação bem-sucedida",
             },
             {
-              descricao:
+              titulo:
                 "Mensagem de erro específica é exibida se o formato for incompatível",
             },
           ],
@@ -1583,28 +1650,28 @@ Para contabilizar o esforço técnico dessa SS`,
           ],
           regrasNegocio: [
             {
-              descricao: "A atividade recebe um ID interno para controle",
+              titulo: "A atividade recebe um ID interno para controle",
             },
             {
-              descricao:
+              titulo:
                 "O sistema atualiza automaticamente o total de horas e pontos de função (PFs)",
             },
             {
-              descricao:
+              titulo:
                 "O sistema calcula os pontos de função como: (Total de Horas / 10) * 2.5",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O campo de Atividade deve ter foco após adicionar uma nova atividade",
             },
             {
-              descricao:
+              titulo:
                 "Os campos com erro de validação são destacados em vermelho",
             },
             {
-              descricao:
+              titulo:
                 'O botão mostra o texto "Adicionar" para novas atividades e "Atualizar" durante edição',
             },
           ],
@@ -1683,29 +1750,29 @@ Para ter uma visão clara do trabalho realizado e poder reorganizá-las conforme
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "A lista sempre exibe todas as atividades cadastradas para a SS atual",
             },
             {
-              descricao:
+              titulo:
                 "A reordenação é salva automaticamente após arrastar e soltar",
             },
             {
-              descricao:
+              titulo:
                 "A quantidade de PF é calculada como (Total de Horas / 10) * 2.5",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O cursor deve mudar para 'move' quando passar sobre as linhas da tabela para indicar que podem ser arrastadas",
             },
             {
-              descricao:
+              titulo:
                 "Durante o arrasto, uma linha tracejada ou destacada deve indicar a posição onde a atividade será inserida",
             },
             {
-              descricao:
+              titulo:
                 "A tabela deve ter uma linha de rodapé com o total de horas e a quantidade de PF calculada",
             },
           ],
@@ -1766,33 +1833,33 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "Ao editar uma atividade, os campos são preenchidos com os valores atuais",
             },
             {
-              descricao:
+              titulo:
                 "O botão muda de [btn:blue]Adicionar[/btn] para [btn:green]Atualizar[/btn] durante a edição",
             },
             {
-              descricao:
+              titulo:
                 "Após salvar, o formulário é limpo e volta ao modo de adição",
             },
             {
-              descricao:
+              titulo:
                 "O sistema recalcula automaticamente o total de horas e pontos de função (PFs)",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "Ícone de lápis :pencil: indica a opção de edição na tabela de atividades",
             },
             {
-              descricao:
+              titulo:
                 "O botão principal tem cor diferente durante o modo de edição para destacar a operação",
             },
             {
-              descricao:
+              titulo:
                 "Validações visuais de campos são aplicadas durante a edição",
             },
           ],
@@ -1857,20 +1924,20 @@ Para manter a documentação precisa e atualizada`,
           ],
           regrasNegocio: [
             {
-              descricao: "A remoção é permanente e não pode ser desfeita",
+              titulo: "A remoção é permanente e não pode ser desfeita",
             },
             {
-              descricao:
+              titulo:
                 "O sistema atualiza automaticamente o total de horas e pontos de função após a remoção",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de remoção é representado por um ícone de lixeira :trash:",
             },
             {
-              descricao:
+              titulo:
                 'O modal de confirmação deve ter o tipo "caution" (vermelho)',
             },
           ],
@@ -1947,33 +2014,33 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "[tc-purple]JSON[/c] é sempre gerado, independentemente de outras seleções",
             },
             {
-              descricao:
+              titulo:
                 "[tc-blue]DOCX[/c] e [tc-red]PDF[/c] são opcionais e podem ser selecionados individualmente ou em conjunto",
             },
             {
-              descricao:
+              titulo:
                 "Quando apenas [tc-purple]JSON[/c] é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
             },
             {
-              descricao:
+              titulo:
                 "Quando [tc-blue]DOCX[/c] e/ou [tc-red]PDF[/c] são selecionados, todos os campos obrigatórios devem ser preenchidos",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de geração exibe um spinner de carregamento durante o processamento",
             },
             {
-              descricao:
+              titulo:
                 "O texto do botão muda de acordo com os formatos selecionados",
             },
             {
-              descricao:
+              titulo:
                 "Os formatos são selecionados através de checkboxes, com [tc-purple]JSON[/c] sempre marcado e desabilitado",
             },
           ],
@@ -2067,33 +2134,32 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "O ID do requisito funcional segue o formato RF-XX, onde XX é um número sequencial iniciando em 01",
             },
             {
-              descricao:
+              titulo:
                 "Os campos de regras e banco de dados são opcionais, mas a descrição é obrigatória",
             },
             {
-              descricao:
+              titulo:
                 "Campos fixados como padrão são aplicados a novos requisitos automaticamente",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O modal permite navegação entre abas por cliques ou usando TAB",
             },
             {
-              descricao:
+              titulo:
                 "O editor de texto rico permite formatação básica (negrito, itálico, listas, etc.)",
             },
             {
-              descricao:
-                "Campos com erro de validação são destacados em vermelho",
+              titulo: "Campos com erro de validação são destacados em vermelho",
             },
             {
-              descricao:
+              titulo:
                 "Campos podem ser fixados como padrão clicando no ícone de cadeado :unlock: ao lado do campo",
             },
           ],
@@ -2158,7 +2224,7 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de im
               itens: [
                 "- Arrastar e soltar requisitos para reorganizá-los",
                 "- Atualizar automaticamente os IDs para refletir a nova ordem",
-                "- Por exemplo, se RF-03 for movido para a primeira posição, ele se torna RF-01, e os outros são renumerados sequencialmente",
+                ">exemplo: Se `RF-03` for movido para a primeira posição, ele se torna `RF-01`, e os outros são renumerados sequencialmente",
               ],
             },
             {
@@ -2171,29 +2237,29 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de im
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "Os requisitos são sempre exibidos na ordem dos IDs, do menor para o maior",
             },
             {
-              descricao:
+              titulo:
                 "A reordenação sempre atualiza os IDs para manter a sequência contínua",
             },
             {
-              descricao:
+              titulo:
                 "A ordem dos requisitos é preservada ao gerar a documentação",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O cursor deve mudar para :move: ao passar sobre as linhas da tabela para indicar que podem ser arrastadas",
             },
             {
-              descricao:
+              titulo:
                 "Durante o arrasto, uma sombra ou linha destacada deve indicar a posição onde o requisito será inserido",
             },
             {
-              descricao:
+              titulo:
                 "A tabela tem paginação se houver muitos requisitos, mostrando até 10 por página por padrão",
             },
           ],
@@ -2262,29 +2328,29 @@ Para verificar suas especificações sem risco de alteração acidental`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "O modo de visualização não permite nenhuma alteração nos dados",
             },
             {
-              descricao:
+              titulo:
                 "Todos os dados são exibidos, mesmo os campos opcionais não preenchidos",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de visualização é representado por um ícone de olho :eye: na lista de requisitos",
             },
             {
-              descricao:
+              titulo:
                 "Os campos aparecem em modo somente leitura, com visual diferente dos campos editáveis",
             },
             {
-              descricao:
+              titulo:
                 "Os ícones de cadeado :unlock: para fixar campos como padrão não são exibidos no modo visualização",
             },
             {
-              descricao:
+              titulo:
                 "O botão de upload de imagens não é exibido no modo visualização",
             },
           ],
@@ -2359,32 +2425,31 @@ Para atualizar ou corrigir as especificações conforme necessário`,
           ],
           regrasNegocio: [
             {
-              descricao: "O ID do requisito não é alterado durante a edição",
+              titulo: "O ID do requisito não é alterado durante a edição",
             },
             {
-              descricao:
-                "Todos os campos podem ser editados, inclusive o título",
+              titulo: "Todos os campos podem ser editados, inclusive o título",
             },
             {
-              descricao:
+              titulo:
                 "As mesmas validações do cadastro são aplicadas na edição",
             },
             {
-              descricao:
+              titulo:
                 "O recurso de fixar campos como padrão está disponível também na edição",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de edição é representado por um ícone de lápis :pencil: na lista de requisitos",
             },
             {
-              descricao:
+              titulo:
                 "O modal de edição é visualmente idêntico ao de cadastro, mas com o título diferente",
             },
             {
-              descricao:
+              titulo:
                 'O botão de salvar exibe o texto "Atualizar" em vez de "Salvar" para indicar edição',
             },
           ],
@@ -2471,41 +2536,40 @@ Para acelerar o cadastro de requisitos similares, aproveitando informações já
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "A duplicação cria um novo requisito independente do original",
             },
             {
-              descricao:
-                "O ID do requisito duplicado é sempre novo e sequencial",
+              titulo: "O ID do requisito duplicado é sempre novo e sequencial",
             },
             {
-              descricao:
+              titulo:
                 "Todas as imagens são copiadas como base64 para o novo requisito",
             },
             {
-              descricao:
+              titulo:
                 "O prefixo '(Cópia)' é adicionado automaticamente ao título para identificação",
             },
             {
-              descricao:
+              titulo:
                 "A duplicação não afeta o requisito original de forma alguma",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de duplicação é representado por um ícone de cópia :duplicate: na lista de requisitos",
             },
             {
-              descricao:
+              titulo:
                 "O modal de duplicação é idêntico ao de cadastro, mas com título 'Duplicar Requisito Funcional'",
             },
             {
-              descricao:
+              titulo:
                 "Todos os campos são pré-preenchidos com os dados do requisito original",
             },
             {
-              descricao:
+              titulo:
                 "O botão de salvar exibe o texto [btn:blue]Salvar[/btn] (não 'Atualizar' como na edição)",
             },
           ],
@@ -2580,31 +2644,30 @@ Para manter a documentação atualizada e relevante`,
               itens: [
                 "- Remover o requisito da lista",
                 "- Atualizar automaticamente os IDs dos requisitos restantes para manter a sequência",
-                "- Por exemplo, se RF-02 for removido, o RF-03 passa a ser RF-02, RF-04 passa a ser RF-03, e assim por diante",
+                ">exemplo: Se `RF-02` for removido, o `RF-03` passa a ser `RF-02`, `RF-04` passa a ser `RF-03`, e assim por diante",
               ],
             },
           ],
           regrasNegocio: [
             {
-              descricao: "A remoção é permanente e não pode ser desfeita",
+              titulo: "A remoção é permanente e não pode ser desfeita",
             },
             {
-              descricao:
+              titulo:
                 "Os IDs são sempre atualizados para manter a sequência contínua",
             },
             {
-              descricao:
+              titulo:
                 "A sequência de IDs sempre começa em RF-01 e continua sem lacunas",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de remoção é representado por um ícone de lixeira :trash: na lista de requisitos",
             },
             {
-              descricao:
-                'O modal de confirmação tem o tipo "caution" (vermelho)',
+              titulo: 'O modal de confirmação tem o tipo "caution" (vermelho)',
             },
           ],
           cenariosTeste: [
@@ -2686,37 +2749,37 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "As imagens são convertidas para base64 e armazenadas junto com o requisito",
             },
             {
-              descricao:
+              titulo:
                 "O limite total de 5MB visa manter a performance do sistema",
             },
             {
-              descricao:
+              titulo:
                 "As imagens são opcionais - um requisito pode não ter imagens",
             },
             {
-              descricao:
+              titulo:
                 "A ordem das imagens na grade é preservada na documentação gerada",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "As imagens são exibidas em uma grade responsiva de 3 colunas",
             },
             {
-              descricao:
+              titulo:
                 "Cada imagem mostra uma miniatura com indicador de tamanho",
             },
             {
-              descricao:
+              titulo:
                 "Botão de upload usa ícones intuitivos e texto descritivo",
             },
             {
-              descricao:
+              titulo:
                 "Feedback visual imediato para uploads bem-sucedidos ou com erro",
             },
           ],
@@ -2805,37 +2868,34 @@ Para ter uma visão geral das imagens anexadas e facilitar sua gestão`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "As imagens são exibidas na ordem em que foram adicionadas",
             },
             {
-              descricao:
+              titulo:
                 "A reordenação manual não é suportada - ordem segue cronologia de upload",
             },
             {
-              descricao:
+              titulo:
                 "No modo visualização, as imagens não podem ser removidas",
             },
             {
-              descricao:
+              titulo:
                 "O estado vazio é exibido quando não há imagens cadastradas",
             },
           ],
           regrasInterface: [
             {
-              descricao:
-                "Hover effect nas imagens para indicar que são clicáveis",
+              titulo: "Hover effect nas imagens para indicar que são clicáveis",
             },
             {
-              descricao:
-                "Animações suaves ao adicionar/remover imagens da grade",
+              titulo: "Animações suaves ao adicionar/remover imagens da grade",
             },
             {
-              descricao: "Layout consistente com o restante do sistema",
+              titulo: "Layout consistente com o restante do sistema",
             },
             {
-              descricao:
-                "Cores e estilos adaptam-se ao tema atual (claro/escuro)",
+              titulo: "Cores e estilos adaptam-se ao tema atual (claro/escuro)",
             },
           ],
           cenariosTeste: [
@@ -2931,36 +2991,36 @@ Para analisar detalhes e ter melhor compreensão das especificações`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "As imagens são redimensionadas proporcionalmente para caber na tela",
             },
             {
-              descricao:
+              titulo:
                 "Imagens menores que o viewport são exibidas em tamanho original",
             },
             {
-              descricao:
+              titulo:
                 "A navegação por teclado funciona em ambos os modos (claro/escuro)",
             },
             {
-              descricao:
+              titulo:
                 "O visualizador é responsivo e funciona em diferentes tamanhos de tela",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "Indicação visual de que a imagem é clicável (cursor pointer + hover effect)",
             },
             {
-              descricao:
+              titulo:
                 "Botões de navegação só aparecem quando há múltiplas imagens",
             },
             {
-              descricao: "Interface adapta-se ao tema atual (claro/escuro)",
+              titulo: "Interface adapta-se ao tema atual (claro/escuro)",
             },
             {
-              descricao: "Transições suaves entre imagens e ao abrir/fechar",
+              titulo: "Transições suaves entre imagens e ao abrir/fechar",
             },
           ],
           cenariosTeste: [
@@ -3038,33 +3098,31 @@ Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
           ],
           regrasNegocio: [
             {
-              descricao:
-                "A remoção é imediata e não requer confirmação adicional",
+              titulo: "A remoção é imediata e não requer confirmação adicional",
             },
             {
-              descricao: "As imagens restantes mantêm sua ordem original",
+              titulo: "As imagens restantes mantêm sua ordem original",
             },
             {
-              descricao:
+              titulo:
                 "É possível remover todas as imagens, deixando o campo vazio",
             },
             {
-              descricao: "A remoção só é definitiva após salvar o requisito",
+              titulo: "A remoção só é definitiva após salvar o requisito",
             },
           ],
           regrasInterface: [
             {
-              descricao:
-                "Botão de remoção só aparece no modo de edição/criação",
+              titulo: "Botão de remoção só aparece no modo de edição/criação",
             },
             {
-              descricao: "Hover effect no botão para melhor usabilidade",
+              titulo: "Hover effect no botão para melhor usabilidade",
             },
             {
-              descricao: "Animação suave na remoção da imagem da grade",
+              titulo: "Animação suave na remoção da imagem da grade",
             },
             {
-              descricao:
+              titulo:
                 "Área de upload permanece visível mesmo após remover todas as imagens",
             },
           ],
@@ -3136,29 +3194,27 @@ Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "O ID do requisito não funcional segue o formato RNF-XX, onde XX é um número sequencial iniciando em 01",
             },
             {
-              descricao:
-                "Ambos os campos (título e descrição) são obrigatórios",
+              titulo: "Ambos os campos (título e descrição) são obrigatórios",
             },
             {
-              descricao:
+              titulo:
                 "A validação é feita apenas ao tentar salvar, não em tempo real",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O formulário de cadastro fica acima da listagem de requisitos não funcionais (RNFs)",
             },
             {
-              descricao:
-                "Campos com erro de validação são destacados em vermelho",
+              titulo: "Campos com erro de validação são destacados em vermelho",
             },
             {
-              descricao:
+              titulo:
                 'O botão mostra o texto "Adicionar" para novos requisitos e "Atualizar" durante edição',
             },
           ],
@@ -3220,39 +3276,39 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem de prioridade
               itens: [
                 "- Arrastar e soltar requisitos para reorganizá-los",
                 "- Atualizar automaticamente os IDs para refletir a nova ordem",
-                "- Por exemplo, se RNF-03 for movido para a primeira posição, ele se torna RNF-01, e os outros são renumerados sequencialmente",
+                ">exemplo: Se `RNF-03` for movido para a primeira posição, ele se torna `RNF-01`, e os outros são renumerados sequencialmente",
               ],
             },
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "Os requisitos são sempre exibidos na ordem dos IDs, do menor para o maior",
             },
             {
-              descricao:
+              titulo:
                 "A reordenação sempre atualiza os IDs para manter a sequência contínua",
             },
             {
-              descricao:
+              titulo:
                 "A ordem dos requisitos é preservada ao gerar a documentação",
             },
             {
-              descricao:
+              titulo:
                 "A lista só é exibida se houver pelo menos um requisito cadastrado",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O cursor deve mudar para 'move' ao passar sobre as linhas da tabela para indicar que podem ser arrastadas",
             },
             {
-              descricao:
+              titulo:
                 "Durante o arrasto, uma sombra ou linha destacada deve indicar a posição onde o requisito será inserido",
             },
             {
-              descricao:
+              titulo:
                 "A descrição pode ser truncada na visualização da tabela para evitar linhas muito longas",
             },
           ],
@@ -3325,29 +3381,28 @@ Para atualizar ou corrigir as especificações conforme necessário`,
           ],
           regrasNegocio: [
             {
-              descricao: "O ID do requisito não é alterado durante a edição",
+              titulo: "O ID do requisito não é alterado durante a edição",
             },
             {
-              descricao:
+              titulo:
                 "As mesmas validações do cadastro são aplicadas na edição",
             },
             {
-              descricao:
+              titulo:
                 "Se o usuário começar a editar um requisito e clicar em outro botão de edição, os dados do formulário são substituídos pelos do novo requisito selecionado",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de edição é representado por um ícone de lápis :pencil: na lista de requisitos",
             },
             {
-              descricao:
+              titulo:
                 'O botão de formulário exibe o texto "Atualizar" durante o modo de edição',
             },
             {
-              descricao:
-                "Campos com erro de validação são destacados em vermelho",
+              titulo: "Campos com erro de validação são destacados em vermelho",
             },
           ],
           cenariosTeste: [
@@ -3414,32 +3469,31 @@ Para manter a documentação atualizada e relevante`,
               itens: [
                 "- Remover o requisito da lista",
                 "- Atualizar automaticamente os IDs dos requisitos restantes para manter a sequência",
-                "- Por exemplo, se RNF-02 for removido, o RNF-03 passa a ser RNF-02, RNF-04 passa a ser RNF-03, e assim por diante",
+                ">exemplo: Se `RNF-02` for removido, o `RNF-03` passa a ser `RNF-02`, `RNF-04` passa a ser `RNF-03`, e assim por diante",
                 "- Exibir mensagem de sucesso após a remoção",
               ],
             },
           ],
           regrasNegocio: [
             {
-              descricao: "A remoção é permanente e não pode ser desfeita",
+              titulo: "A remoção é permanente e não pode ser desfeita",
             },
             {
-              descricao:
+              titulo:
                 "Os IDs são sempre atualizados para manter a sequência contínua",
             },
             {
-              descricao:
+              titulo:
                 "Se o requisito que está sendo removido estiver carregado no formulário de edição, o formulário é limpo",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de remoção é representado por um ícone de lixeira :trash: na lista de requisitos",
             },
             {
-              descricao:
-                'O modal de confirmação tem o tipo "caution" (vermelho)',
+              titulo: 'O modal de confirmação tem o tipo "caution" (vermelho)',
             },
           ],
           cenariosTeste: [
@@ -3507,33 +3561,33 @@ Para documentar a complexidade funcional do sistema`,
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "O campo de pontos de função é opcional, podendo ser preenchido após a contagem",
             },
             {
-              descricao:
+              titulo:
                 "O sistema registra a data e o autor quando os pontos de função são modificados",
             },
             {
-              descricao:
+              titulo:
                 "O fluxo ideal é primeiro gerar o documento e depois importá-lo para adicionar os pontos de função",
             },
             {
-              descricao:
+              titulo:
                 "O valor é formatado com vírgula como separador decimal no padrão brasileiro",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O campo aceita entrada tanto com ponto quanto com vírgula como separador decimal",
             },
             {
-              descricao:
+              titulo:
                 "A formatação é aplicada automaticamente após a saída do campo",
             },
             {
-              descricao:
+              titulo:
                 "O campo está posicionado próximo ao final do formulário, após os requisitos",
             },
           ],
@@ -3626,37 +3680,37 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
           ],
           regrasNegocio: [
             {
-              descricao:
+              titulo:
                 "[tc-purple]JSON[/c] é sempre gerado, independentemente de outras seleções",
             },
             {
-              descricao:
+              titulo:
                 "[tc-blue]DOCX[/c] e [tc-red]PDF[/c] são opcionais e podem ser selecionados individualmente ou em conjunto",
             },
             {
-              descricao:
+              titulo:
                 "Quando apenas [tc-purple]JSON[/c] é selecionado, o sistema permite salvar documentos incompletos (sem validar todos os campos)",
             },
             {
-              descricao:
+              titulo:
                 "Quando [tc-blue]DOCX[/c] e/ou [tc-red]PDF[/c] são selecionados, todos os campos obrigatórios devem ser preenchidos e pelo menos um requisito funcional deve estar cadastrado",
             },
             {
-              descricao:
+              titulo:
                 "O campo 'Total de Pontos de Função' é opcional e geralmente preenchido após a contagem formal de pontos de função (PFs)",
             },
           ],
           regrasInterface: [
             {
-              descricao:
+              titulo:
                 "O botão de geração exibe um spinner de carregamento durante o processamento",
             },
             {
-              descricao:
+              titulo:
                 "O texto do botão muda de acordo com os formatos selecionados",
             },
             {
-              descricao:
+              titulo:
                 "Os formatos são selecionados através de checkboxes, com [tc-purple]JSON[/c] sempre marcado e desabilitado",
             },
           ],
@@ -3840,7 +3894,8 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               c.titulo.toLowerCase().includes(filtro) ||
               (c.itens &&
                 c.itens.some((item) => item.toLowerCase().includes(filtro))) ||
-              (c.descricao && c.descricao.toLowerCase().includes(filtro))
+              (c.descricao && c.descricao.toLowerCase().includes(filtro)) ||
+              (c.exemplo && c.exemplo.toLowerCase().includes(filtro)) // NOVA LINHA
           )
         )
           return true;
@@ -3855,6 +3910,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
             return (
               (r.descricao && r.descricao.toLowerCase().includes(filtro)) ||
               (r.titulo && r.titulo.toLowerCase().includes(filtro)) ||
+              (r.exemplo && r.exemplo.toLowerCase().includes(filtro)) || // NOVA LINHA
               (r.itens &&
                 r.itens.some((item) => item.toLowerCase().includes(filtro)))
             );
@@ -3872,6 +3928,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
             return (
               (r.descricao && r.descricao.toLowerCase().includes(filtro)) ||
               (r.titulo && r.titulo.toLowerCase().includes(filtro)) ||
+              (r.exemplo && r.exemplo.toLowerCase().includes(filtro)) || // NOVA LINHA
               (r.itens &&
                 r.itens.some((item) => item.toLowerCase().includes(filtro)))
             );
@@ -3891,6 +3948,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               (c.entao && c.entao.toLowerCase().includes(filtro)) ||
               (c.e && c.e.toLowerCase().includes(filtro)) ||
               (c.e_entao && c.e_entao.toLowerCase().includes(filtro)) ||
+              (c.exemplo && c.exemplo.toLowerCase().includes(filtro)) || // NOVA LINHA
               (c.itens &&
                 c.itens.some((item) => item.toLowerCase().includes(filtro)))
             );
