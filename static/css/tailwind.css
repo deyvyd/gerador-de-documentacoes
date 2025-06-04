@@ -4493,6 +4493,11 @@ video {
   border-color: transparent;
 }
 
+.border-violet-700{
+  --tw-border-opacity: 1;
+  border-color: rgb(109 40 217 / var(--tw-border-opacity, 1));
+}
+
 .border-yellow-200{
   --tw-border-opacity: 1;
   border-color: rgb(254 240 138 / var(--tw-border-opacity, 1));
@@ -4506,6 +4511,11 @@ video {
 .border-yellow-700{
   --tw-border-opacity: 1;
   border-color: rgb(161 98 7 / var(--tw-border-opacity, 1));
+}
+
+.border-cyan-700{
+  --tw-border-opacity: 1;
+  border-color: rgb(14 116 144 / var(--tw-border-opacity, 1));
 }
 
 .bg-\[\#27447E\]{
@@ -5108,6 +5118,11 @@ video {
   color: rgb(31 41 55 / var(--tw-text-opacity, 1));
 }
 
+.text-fuchsia-700{
+  --tw-text-opacity: 1;
+  color: rgb(162 28 175 / var(--tw-text-opacity, 1));
+}
+
 .text-gray-200{
   --tw-text-opacity: 1;
   color: rgb(229 231 235 / var(--tw-text-opacity, 1));
@@ -5248,6 +5263,11 @@ video {
   color: rgb(12 74 110 / var(--tw-text-opacity, 1));
 }
 
+.text-violet-700{
+  --tw-text-opacity: 1;
+  color: rgb(109 40 217 / var(--tw-text-opacity, 1));
+}
+
 .text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
@@ -5266,6 +5286,11 @@ video {
 .text-yellow-800{
   --tw-text-opacity: 1;
   color: rgb(133 77 14 / var(--tw-text-opacity, 1));
+}
+
+.text-cyan-700{
+  --tw-text-opacity: 1;
+  color: rgb(14 116 144 / var(--tw-text-opacity, 1));
 }
 
 .underline{
@@ -5470,6 +5495,10 @@ video {
 
 .\[tst\:error\]{
   tst: error;
+}
+
+.\[tst\:info\]{
+  tst: info;
 }
 
 .\[tst\:success\]{
@@ -5841,6 +5870,11 @@ body{
   border-color: transparent;
 }
 
+.dark\:border-violet-300:is(.dark *){
+  --tw-border-opacity: 1;
+  border-color: rgb(196 181 253 / var(--tw-border-opacity, 1));
+}
+
 .dark\:border-yellow-600:is(.dark *){
   --tw-border-opacity: 1;
   border-color: rgb(202 138 4 / var(--tw-border-opacity, 1));
@@ -5849,6 +5883,16 @@ body{
 .dark\:border-yellow-800:is(.dark *){
   --tw-border-opacity: 1;
   border-color: rgb(133 77 14 / var(--tw-border-opacity, 1));
+}
+
+.dark\:border-cyan-300:is(.dark *){
+  --tw-border-opacity: 1;
+  border-color: rgb(103 232 249 / var(--tw-border-opacity, 1));
+}
+
+.dark\:border-cyan-400:is(.dark *){
+  --tw-border-opacity: 1;
+  border-color: rgb(34 211 238 / var(--tw-border-opacity, 1));
 }
 
 .dark\:bg-\[\#172935\]:is(.dark *){
@@ -5915,11 +5959,6 @@ body{
 .dark\:bg-gray-500:is(.dark *){
   --tw-bg-opacity: 1;
   background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
-}
-
-.dark\:bg-gray-600:is(.dark *){
-  --tw-bg-opacity: 1;
-  background-color: rgb(75 85 99 / var(--tw-bg-opacity, 1));
 }
 
 .dark\:bg-gray-700:is(.dark *){
@@ -6109,6 +6148,11 @@ body{
   color: rgb(14 22 33 / var(--tw-text-opacity, 1));
 }
 
+.dark\:text-fuchsia-300:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(240 171 252 / var(--tw-text-opacity, 1));
+}
+
 .dark\:text-gray-100:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(243 244 246 / var(--tw-text-opacity, 1));
@@ -6189,6 +6233,11 @@ body{
   color: rgb(56 189 248 / var(--tw-text-opacity, 1));
 }
 
+.dark\:text-violet-300:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(196 181 253 / var(--tw-text-opacity, 1));
+}
+
 .dark\:text-white:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
@@ -6202,6 +6251,21 @@ body{
 .dark\:text-yellow-400:is(.dark *){
   --tw-text-opacity: 1;
   color: rgb(250 204 21 / var(--tw-text-opacity, 1));
+}
+
+.dark\:text-cyan-300:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(103 232 249 / var(--tw-text-opacity, 1));
+}
+
+.dark\:text-cyan-400:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(34 211 238 / var(--tw-text-opacity, 1));
+}
+
+.dark\:text-violet-400:is(.dark *){
+  --tw-text-opacity: 1;
+  color: rgb(167 139 250 / var(--tw-text-opacity, 1));
 }
 
 .dark\:shadow:is(.dark *){
@@ -6222,11 +6286,6 @@ body{
 
 .dark\:hover\:bg-blue-900\/20:hover:is(.dark *){
   background-color: rgb(14 22 33 / 0.2);
-}
-
-.dark\:hover\:bg-gray-500:hover:is(.dark *){
-  --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
 }
 
 .dark\:hover\:bg-gray-700:hover:is(.dark *){

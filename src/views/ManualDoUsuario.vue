@@ -467,12 +467,12 @@
               <!-- Exemplo após descrição (se existir como campo separado) -->
               <div v-if="criterio.exemplo" class="flex my-3 rounded-md">
                 <div
-                  class="border-l-4 border-blue-700 dark:border-blue-300"
+                  class="border-l-4 border-cyan-700 dark:border-cyan-400"
                 ></div>
                 <div class="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-900">
                   <div class="flex items-center mb-1">
                     <svg
-                      class="h-4 w-4 mr-2 text-blue-700 dark:text-blue-300"
+                      class="h-4 w-4 mr-2 text-cyan-700 dark:text-cyan-400"
                       viewBox="0 0 32 32"
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
@@ -488,7 +488,7 @@
                       ></polygon>
                     </svg>
                     <span
-                      class="font-medium text-sm text-blue-700 dark:text-blue-300"
+                      class="font-medium text-sm text-cyan-700 dark:text-cyan-400"
                       >Exemplo</span
                     >
                   </div>
@@ -552,12 +552,12 @@
               <!-- Exemplo após descrição (se existir como campo separado) -->
               <div v-if="regra.exemplo" class="flex my-3 rounded-md">
                 <div
-                  class="border-l-4 border-blue-700 dark:border-blue-300"
+                  class="border-l-4 border-cyan-700 dark:border-cyan-400"
                 ></div>
                 <div class="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-900">
                   <div class="flex items-center mb-1">
                     <svg
-                      class="h-4 w-4 mr-2 text-blue-700 dark:text-blue-300"
+                      class="h-4 w-4 mr-2 text-cyan-700 dark:text-cyan-400"
                       viewBox="0 0 32 32"
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
@@ -573,7 +573,7 @@
                       ></polygon>
                     </svg>
                     <span
-                      class="font-medium text-sm text-blue-700 dark:text-blue-300"
+                      class="font-medium text-sm text-cyan-700 dark:text-cyan-400"
                       >Exemplo</span
                     >
                   </div>
@@ -640,12 +640,12 @@
               <!-- Exemplo após descrição (se existir como campo separado) -->
               <div v-if="regra.exemplo" class="flex my-3 rounded-md">
                 <div
-                  class="border-l-4 border-blue-700 dark:border-blue-300"
+                  class="border-l-4 border-cyan-700 dark:border-cyan-400"
                 ></div>
                 <div class="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-900">
                   <div class="flex items-center mb-1">
                     <svg
-                      class="h-4 w-4 mr-2 text-blue-700 dark:text-blue-300"
+                      class="h-4 w-4 mr-2 text-cyan-700 dark:text-cyan-400"
                       viewBox="0 0 32 32"
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
@@ -661,7 +661,7 @@
                       ></polygon>
                     </svg>
                     <span
-                      class="font-medium text-sm text-blue-700 dark:text-blue-300"
+                      class="font-medium text-sm text-cyan-700 dark:text-cyan-400"
                       >Exemplo</span
                     >
                   </div>
@@ -1331,7 +1331,7 @@ Para registrar todos os contribuidores do trabalho`,
             {
               titulo: "Gerenciamento de autores selecionados:",
               itens: [
-                "- Remover autores individuais clicando no [tc:blue]x[/c] na tag",
+                "- Remover autores individuais clicando no [tc-blue]x[/c] na tag",
                 "- Não permitir duplicação de autores já selecionados",
                 "- Exigir ao menos um autor selecionado para gerar documentos",
               ],
@@ -1871,7 +1871,7 @@ Para corrigir ou atualizar informações sobre o trabalho realizado`,
                 "modifica os campos e clica em [btn:green]Atualizar[/btn]",
               entao: "o sistema atualiza a atividade na lista",
               e_entao:
-                "recalcula os totais e limpa o formulário para nova entrada",
+                "recalcula os totais, limpa o formulário e exibe [tst:success]Atividade cadastrada com sucesso![/tst]",
             },
             {
               titulo: "Cancelamento de edição",
@@ -2054,7 +2054,7 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
                 "o usuário clica em [btn:blue:download]Gerar Documentos[/btn]",
               entao: "o sistema deve processar e gerar os três formatos",
               e_entao:
-                "disponibilizar um arquivo ZIP contendo todos os documentos para download",
+                "exibir: [tst:info]Gerando documentos...[/tst] durante o processamento e ao final: [tst:success]Documento gerado com sucesso![/tst]",
             },
             {
               titulo: "Geração apenas de [tc-purple]JSON[/c] (rascunho)",
@@ -2064,7 +2064,7 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
               entao:
                 "o sistema deve gerar o arquivo [tc-purple]JSON[/c] mesmo com campos obrigatórios não preenchidos",
               e_entao:
-                "disponibilizar o arquivo [tc-purple]JSON[/c] para download",
+                "exibir: [tst:info]Gerando JSON...[/tst] durante o processamento e ao final: [tst:success]Arquivo JSON gerado com sucesso![/tst]",
             },
             {
               titulo: "Tentativa de geração sem atividades",
@@ -2075,7 +2075,7 @@ Para facilitar a comunicação e o registro formal do trabalho realizado`,
                 "o usuário clica em [btn:blue:download]Gerar Documentos[/btn]",
               entao: "o sistema deve exibir mensagem de erro",
               e_entao:
-                "destacar a área de atividades indicando que pelo menos uma atividade é necessária",
+                "destacar a área de atividades com [tst:error]Adicione pelo menos uma atividade[/tst]",
             },
           ],
         },
@@ -2458,16 +2458,16 @@ Para atualizar ou corrigir as especificações conforme necessário`,
               titulo: "Edição bem-sucedida de requisito",
               dado: "que o usuário deseja editar um requisito existente",
               e: "alterou alguns campos mantendo todos os obrigatórios preenchidos",
-              quando: 'o usuário clica em "Atualizar"',
+              quando: "o usuário clica em [btn:blue]Salvar[/btn]",
               entao: "o sistema deve salvar as alterações do requisito",
               e_entao:
-                'exibir mensagem "O requisito RF-XX foi atualizado com sucesso!"',
+                "exibir mensagem [tst:success]O requisito RF-XX foi atualizado com sucesso![/tst]",
             },
             {
               titulo: "Tentativa de edição removendo dados obrigatórios",
               dado: "que o usuário está editando um requisito",
               e: "removeu o conteúdo de um campo obrigatório",
-              quando: 'o usuário clica em "Atualizar"',
+              quando: "o usuário clica em [btn:blue]Salvar[/btn]",
               entao: "o sistema deve destacar o campo obrigatório em vermelho",
               e_entao: "manter o modal aberto sem salvar as alterações",
             },
@@ -2478,7 +2478,8 @@ Para atualizar ou corrigir as especificações conforme necessário`,
                 "o usuário clica no ícone de cadeado :unlock: ao lado de um campo",
               entao:
                 "o sistema deve fixar aquele valor como padrão para novos requisitos",
-              e_entao: 'exibir mensagem "Campo X definido como padrão"',
+              e_entao:
+                'exibir mensagem [tst:success]Campo "tipo" definido como padrão[/tst]',
             },
           ],
         },
@@ -3223,25 +3224,28 @@ Para documentar os aspectos de qualidade, desempenho e restrições do sistema`,
               titulo: "Cadastro com todos os campos preenchidos",
               dado: "que o usuário deseja cadastrar um novo requisito não funcional",
               e: "preencheu o título e a descrição",
-              quando: 'o usuário clica em "Adicionar"',
+              quando: "o usuário clica em [btn:blue]Adicionar[/btn]",
               entao: "o sistema deve salvar o requisito com um ID sequencial",
-              e_entao: "limpar o formulário e focar no campo de título",
+              e_entao:
+                "limpar o formulário, focar no campo de título e exibir [tst:success]Requisito não funcional adicionado[/tst]",
             },
             {
               titulo: "Tentativa de cadastro sem título",
               dado: "que o usuário deseja cadastrar um novo requisito não funcional",
               e: "preencheu apenas o campo de descrição, deixando o título em branco",
-              quando: 'o usuário clica em "Adicionar"',
+              quando: "o usuário clica em [btn:blue]Adicionar[/btn]",
               entao: "o sistema deve destacar o campo de título em vermelho",
-              e_entao: "focar no campo de título sem salvar o requisito",
+              e_entao:
+                "focar no campo de título e exibir [tst:error]Preencha o campo de Título[/tst]",
             },
             {
               titulo: "Tentativa de cadastro sem descrição",
               dado: "que o usuário deseja cadastrar um novo requisito não funcional",
               e: "preencheu apenas o campo de título, deixando a descrição em branco",
-              quando: 'o usuário clica em "Adicionar"',
+              quando: "o usuário clica em [btn:blue]Adicionar[/btn]",
               entao: "o sistema deve destacar o campo de descrição em vermelho",
-              e_entao: "focar no campo de descrição sem salvar o requisito",
+              e_entao:
+                "focar no campo de descrição e exibir [tst:error]Preencha o campo de Descrição[/tst]",
             },
           ],
         },
@@ -3410,9 +3414,11 @@ Para atualizar ou corrigir as especificações conforme necessário`,
               titulo: "Edição bem-sucedida de requisito",
               dado: "que o usuário deseja editar um requisito não funcional existente",
               quando:
-                'o usuário seleciona o requisito para edição, altera os campos e clica em "Atualizar"',
+                "o usuário seleciona o requisito para edição, altera os campos",
+              e: "clica em [btn:green]Atualizar[/btn]",
               entao: "o sistema deve salvar as alterações mantendo o mesmo ID",
-              e_entao: "limpar o formulário e exibir mensagem de sucesso",
+              e_entao:
+                "limpar o formulário e exibir [tst:success]Requisito não funcional atualizado[/tst]",
             },
             {
               titulo: "Cancelamento implícito da edição",
@@ -3428,7 +3434,7 @@ Para atualizar ou corrigir as especificações conforme necessário`,
               titulo: "Tentativa de atualização com campo em branco",
               dado: "que o usuário está editando um requisito não funcional",
               e: "apagou o conteúdo de um dos campos obrigatórios",
-              quando: 'o usuário clica em "Atualizar"',
+              quando: "o usuário clica em [btn:green]Atualizar[/btn]",
               entao: "o sistema deve destacar o campo vazio em vermelho",
               e_entao: "manter o modo de edição sem salvar as alterações",
             },
@@ -3504,7 +3510,7 @@ Para manter a documentação atualizada e relevante`,
                 "o usuário clica no ícone de lixeira [btn:delete:trash/] e confirma clicando em [btn:red]Remover[/btn]",
               entao: "o sistema deve remover o requisito da lista",
               e_entao:
-                "atualizar automaticamente os IDs dos requisitos restantes",
+                "atualizar automaticamente os IDs dos requisitos restantes e exibir [tst:success]Requisito não funcional removido[/tst]",
             },
             {
               titulo: "Cancelamento da remoção",
@@ -3723,7 +3729,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               quando: 'o usuário clica em "Gerar Documentos"',
               entao: "o sistema deve processar e gerar os três formatos",
               e_entao:
-                "disponibilizar um arquivo ZIP contendo todos os documentos para download",
+                "exibir: [tst:info]Gerando documentos...[/tst] durante o processamento e ao final: [tst:success]Documento gerado com sucesso![/tst]",
             },
             {
               titulo: "Geração apenas de JSON (rascunho)",
@@ -3733,7 +3739,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
               entao:
                 "o sistema deve gerar o arquivo [tc-purple]JSON[/c] mesmo com campos obrigatórios não preenchidos",
               e_entao:
-                "disponibilizar o arquivo [tc-purple]JSON[/c] para download",
+                "exibir: [tst:info]Gerando JSON...[/tst] durante o processamento e ao final: [tst:success]Arquivo JSON gerado com sucesso![/tst]",
             },
             {
               titulo: "Geração com pontos de função (PFs) após importação",

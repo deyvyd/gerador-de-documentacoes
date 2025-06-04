@@ -587,6 +587,7 @@ export default {
         warning: "#D29922", // Amarelo/âmbar
         caution: "#F85149", // Vermelho
         important: "#AB7DF8", // Roxo
+        info: "#4493F8", // Azul (alias para note)
       };
 
       // Ícones SVG para cada tipo (mesmo do ToastNotification.vue)
@@ -595,6 +596,7 @@ export default {
 
         switch (type) {
           case "note":
+          case "info":
             return `<svg style="color: ${iconColor}; height: 16px; width: 16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
 
           case "success":
@@ -617,8 +619,10 @@ export default {
         }
       };
 
+      // Lista de tipos válidos (incluindo 'info' como alias)
       const tiposNotificacao = [
         "note",
+        "info",
         "success",
         "error",
         "warning",
@@ -626,11 +630,14 @@ export default {
         "important",
       ];
 
+      let resultado = texto;
+
+      // Processa cada tipo de notificação individualmente para garantir que funcione
       tiposNotificacao.forEach((tipo) => {
         // Regex para capturar notificações no formato [tst:tipo]conteúdo[/tst]
         const regex = new RegExp(`\\[tst:${tipo}\\](.*?)\\[/tst\\]`, "g");
 
-        texto = texto.replace(regex, (match, conteudo) => {
+        resultado = resultado.replace(regex, (match, conteudo) => {
           // O conteúdo já vem limpo da regex
           const textoLimpo = conteudo.trim();
 
@@ -646,7 +653,7 @@ export default {
         });
       });
 
-      return texto;
+      return resultado;
     },
 
     processarCodigo(texto) {
@@ -693,11 +700,11 @@ export default {
           const textoExemplo = item.substring(9).trim(); // Remove '>exemplo:'
           resultado.push(`
         <div class="flex my-3 rounded-md">
-          <div class="border-l-4 border-blue-700 dark:border-blue-300"></div>
+          <div class="border-l-4 border-cyan-700 dark:border-cyan-400"></div>
           <div class="flex-1 py-2 px-3 bg-gray-200 dark:bg-gray-900">
             <div class="flex items-center mb-1">
               <svg
-                class="h-4 w-4 mr-2 text-blue-700 dark:text-blue-300"
+                class="h-4 w-4 mr-2 text-cyan-700 dark:text-cyan-400"
                 viewBox="0 0 32 32"
                 fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg"
@@ -706,7 +713,7 @@ export default {
                 <path d="M19,22H13V18a2.002,2.002,0,0,1,2-2h2V14H13V12h4a2.0023,2.0023,0,0,1,2,2v2a2.0023,2.0023,0,0,1-2,2H15v2h4Z"></path>
                 <polygon points="8 20 8 12 6 12 6 13 4 13 4 15 6 15 6 20 4 20 4 22 10 22 10 20 8 20"></polygon>
               </svg>
-              <span class="font-medium text-sm text-blue-700 dark:text-blue-300">Exemplo</span>
+              <span class="font-medium text-sm text-cyan-700 dark:text-cyan-400">Exemplo</span>
             </div>
             <div class="text-gray-700 dark:text-gray-300 text-sm">${this.processarMarkdown(
               textoExemplo
