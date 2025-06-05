@@ -856,11 +856,15 @@
 
   /* ===== Modal de Requisitos ===== */
   .modal-requisito-overlay {
-    @apply fixed inset-0 z-50 overflow-auto bg-black bg-opacity-50 flex items-center justify-center;
+    @apply fixed inset-0 z-50 bg-black bg-opacity-50 flex items-start justify-center;
+    overflow-y: auto;
+    padding: 2rem 1rem;
   }
 
   .modal-requisito-container {
-    @apply rounded-lg shadow-xl max-w-2xl w-full mx-4 p-6 max-h-[95vh] overflow-hidden flex flex-col transform transition-all duration-300 scale-100;
+    @apply rounded-lg shadow-xl max-w-2xl w-full p-6 flex flex-col transform transition-all duration-300 scale-100;
+    min-height: fit-content;
+    margin: 0 auto;
   }
 
   .modal-requisito-light {
@@ -888,7 +892,7 @@
   }
 
   .modal-tabs-container {
-    @apply flex border-b mb-4;
+    @apply flex border-b mb-4 -mt-2;
   }
 
   .modal-tabs-border-light {
@@ -920,7 +924,19 @@
   }
 
   .modal-content-container {
-    @apply overflow-y-auto flex-grow;
+    @apply flex-grow;
+  }
+
+  /* Ajustes para mobile */
+  @media (max-width: 640px) {
+    .modal-requisito-overlay {
+      padding: 1rem 0.5rem;
+    }
+
+    .modal-requisito-container {
+      max-width: 100%;
+      margin: 0;
+    }
   }
 
   .modal-section {
@@ -987,7 +1003,7 @@
 
   .modal-image-grid {
     @apply mt-4 grid gap-2;
-    grid-template-columns: repeat(auto-fill, 145px);
+    grid-template-columns: repeat(auto-fill, 140px);
     justify-content: start;
   }
 
@@ -998,7 +1014,7 @@
   .modal-image {
     @apply w-full h-24 object-cover rounded;
     height: 96px; /* h-24 = 96px - tamanho fixo */
-    width: 145px; /* largura fixa */
+    width: 140px; /* largura fixa */
   }
 
   .modal-image-remove-button {
