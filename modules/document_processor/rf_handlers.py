@@ -508,37 +508,81 @@ def substituir_html_com_formatacao(tabela, marcador, html_texto):
         """Processa listas ordenadas ou não ordenadas"""
         nonlocal primeiro_processado, paragrafo_atual
         
-        contador = 1
+        contador_geral = 1
+        contador_por_nivel = {}  # Controla contadores por nível
+        ultimo_tipo_por_nivel = {}  # Controla o último tipo de lista por nível
+        
         for li in lista_elemento.find_all('li', recursive=False):
             if not primeiro_processado:
                 paragrafo_atual = celula_destino.add_paragraph()
             else:
                 primeiro_processado = False
             
-            # Detectar nível pela classe CSS em vez de usar nivel_recuo
+            # Detectar nível pela classe CSS
             nivel_real = detectar_nivel_por_classe(li)
-
-            # Verificar se o item da lista tem data-list="bullet"
-            if li.get('data-list') == 'bullet' or lista_elemento.get('data-list') == 'bullet':
+            
+            # Detectar o tipo de item atual
+            tipo_atual = li.get('data-list', 'ordered')
+            
+            # Inicializar contadores para este nível se necessário
+            if nivel_real not in contador_por_nivel:
+                contador_por_nivel[nivel_real] = 1
+                ultimo_tipo_por_nivel[nivel_real] = tipo_atual
+            
+            # Verificar se houve mudança de tipo no mesmo nível
+            if ultimo_tipo_por_nivel.get(nivel_real) != tipo_atual:
+                # Resetar contador quando muda o tipo
+                contador_por_nivel[nivel_real] = 1
+                ultimo_tipo_por_nivel[nivel_real] = tipo_atual
+                
+                # Resetar contadores de níveis mais profundos
+                niveis_a_resetar = [n for n in contador_por_nivel.keys() if n > nivel_real]
+                for n in niveis_a_resetar:
+                    contador_por_nivel[n] = 1
+            
+            # Obter o texto do item para verificar se é um "cabeçalho"
+            texto_item = li.get_text().strip()
+            eh_cabecalho = (texto_item.endswith(':') and 
+                        (texto_item.lower().startswith('anteriormente') or 
+                            texto_item.lower().startswith('atualmente') or
+                            len(texto_item.split()) <= 3))
+            
+            # Se é um cabeçalho, resetar contadores do próximo nível
+            if eh_cabecalho and nivel_real + 1 in contador_por_nivel:
+                contador_por_nivel[nivel_real + 1] = 1
+            
+            # Determinar o marcador a usar
+            if tipo_atual == 'bullet' or not usar_numeros:
                 # Lista não ordenada
-                paragrafo_atual.add_run("• ")
-            elif usar_numeros:
-                # Lista ordenada
-                paragrafo_atual.add_run(f"{contador}. ")
-                contador += 1
+                marcador = "• "
             else:
-                # Lista não ordenada (fallback)
-                paragrafo_atual.add_run("• ")
+                # Lista ordenada - usar o contador do nível atual
+                if nivel_real in contador_por_nivel:
+                    marcador = f"{contador_por_nivel[nivel_real]}. "
+                    # Só incrementar se não for um cabeçalho
+                    if not eh_cabecalho:
+                        contador_por_nivel[nivel_real] += 1
+                else:
+                    marcador = f"{contador_geral}. "
+                    contador_geral += 1
+            
+            # Adicionar o marcador
+            paragrafo_atual.add_run(marcador)
 
             # Processar o conteúdo do item de lista mantendo formatação
             for item in li.contents:
-                if item.name in ['strong', 'b', 'em', 'i', 'u', 'code', 'span']:  # Adicionado 'u', 'code' e 'span'
+                # Filtrar elementos ql-ui que são do próprio Quill
+                if (hasattr(item, 'get') and 
+                    item.get('class') and 'ql-ui' in item.get('class')):
+                    continue
+                    
+                if item.name in ['strong', 'b', 'em', 'i', 'u', 'code', 'span']:
                     processar_conteudo_formatado(item, paragrafo_atual)
                 elif item.name in ['ul', 'ol']:
                     # Lista aninhada - processar recursivamente
                     usar_numeros_aninhada = item.name == 'ol' and item.get('data-list') != 'bullet'
-                    processar_lista(item, usar_numeros_aninhada, nivel_real + 1)
-                elif item.string:
+                    processar_lista(item, usar_numeros_aninhada)
+                elif item.string and item.string.strip():
                     paragrafo_atual.add_run(item.string)
             
             # Aplicar recuo
@@ -603,6 +647,10 @@ def substituir_html_com_formatacao(tabela, marcador, html_texto):
         
         # Se for quebra de linha
         elif elemento.name == 'br':
+            if not primeiro_processado:
+                paragrafo_atual = celula_destino.add_paragraph()
+            else:
+                primeiro_processado = False
             if not primeiro_processado:
                 paragrafo_atual = celula_destino.add_paragraph()
             else:
