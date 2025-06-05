@@ -255,6 +255,191 @@
     @apply bg-orange-800;
   }
 
+  /* ===== Notification Button ===== */
+  .notification-toggle {
+    @apply relative p-2 rounded-lg cursor-pointer transition-all duration-200;
+    @apply text-white bg-transparent;
+    @apply hover:text-amber-400 hover:bg-white/10;
+    @apply flex items-center justify-center;
+  }
+
+  .notification-toggle-active {
+    @apply text-amber-400 bg-white/10;
+  }
+
+  .notification-icon {
+    @apply h-6 w-6 transition-colors duration-200;
+  }
+
+  .notification-badge {
+    @apply absolute -top-1 -right-1 bg-red-500 text-white text-xs;
+    @apply rounded-full h-5 w-5 flex items-center justify-center;
+    @apply font-medium min-w-[20px] px-1;
+    @apply animate-pulse;
+  }
+
+  .notification-tooltip {
+    @apply absolute invisible opacity-0;
+    @apply left-1/2 transform -translate-x-1/2 top-12 w-44;
+    @apply bg-amber-100 text-amber-800 rounded-lg p-4 shadow-lg;
+    @apply dark:bg-amber-800 dark:text-amber-100;
+    @apply z-50 text-center;
+    @apply transition-all duration-300;
+  }
+
+  .notification-toggle:hover .notification-tooltip {
+    @apply visible opacity-100;
+  }
+
+  .notification-tooltip .tooltip-arrow {
+    @apply absolute top-0 left-1/2 transform -translate-x-1/2 -mt-2 w-4 h-4 rotate-45;
+    @apply bg-amber-100 dark:bg-amber-800;
+  }
+
+  .notification-overlay {
+    @apply fixed inset-0 z-40;
+  }
+
+  /* ===== Notification Dropdown ===== */
+  .notification-dropdown {
+    @apply absolute -right-1 top-12 w-80 max-w-[90vw];
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700;
+    @apply rounded-lg shadow-xl z-50;
+    @apply max-h-96 flex flex-col;
+  }
+
+  .notification-dropdown-header {
+    @apply p-4 border-b border-gray-200 dark:border-gray-700;
+    @apply flex justify-between items-start;
+  }
+
+  .notification-dropdown-title {
+    @apply text-lg font-semibold text-gray-800 dark:text-white;
+  }
+
+  .notification-dropdown-actions {
+    @apply flex flex-col gap-1;
+  }
+
+  .notification-action-btn {
+    @apply text-xs text-blue-600 dark:text-blue-400;
+    @apply hover:text-blue-800 dark:hover:text-blue-200;
+    @apply cursor-pointer transition-colors;
+  }
+
+  .notification-clear-btn {
+    @apply text-red-600 dark:text-red-400;
+    @apply hover:text-red-800 dark:hover:text-red-200;
+  }
+
+  /* ===== Notification List ===== */
+  .notification-list {
+    @apply flex-1 overflow-y-auto max-h-72;
+  }
+
+  .notification-empty {
+    @apply flex flex-col items-center justify-center p-8;
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  .notification-empty-icon {
+    @apply h-12 w-12 mb-3 opacity-50;
+  }
+
+  .notification-empty-text {
+    @apply text-sm;
+  }
+
+  .notification-item {
+    @apply flex items-start gap-3 p-3 border-b border-gray-100 dark:border-gray-700;
+    @apply hover:bg-gray-50 dark:hover:bg-gray-700/50;
+    @apply cursor-pointer transition-colors relative;
+  }
+
+  .notification-item:last-child {
+    @apply border-b-0;
+  }
+
+  .notification-item-unread {
+    @apply bg-blue-50/50 dark:bg-blue-900/20;
+    @apply border-l-4 border-blue-500;
+  }
+
+  .notification-item-success {
+    @apply border-l-4 border-green-500;
+  }
+
+  .notification-item-error {
+    @apply border-l-4 border-red-500;
+  }
+
+  .notification-item-warning {
+    @apply border-l-4 border-yellow-500;
+  }
+
+  .notification-item-info {
+    @apply border-l-4 border-blue-500;
+  }
+
+  .notification-item-icon {
+    @apply flex-shrink-0 mt-0.5;
+  }
+
+  .notification-item-success .notification-item-icon {
+    @apply text-green-600 dark:text-green-400;
+  }
+
+  .notification-item-error .notification-item-icon {
+    @apply text-red-600 dark:text-red-400;
+  }
+
+  .notification-item-warning .notification-item-icon {
+    @apply text-yellow-600 dark:text-yellow-400;
+  }
+
+  .notification-item-info .notification-item-icon {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+
+  .notification-item-content {
+    @apply flex-1 min-w-0;
+  }
+
+  .notification-item-message {
+    @apply text-sm text-gray-800 dark:text-gray-200;
+    @apply font-medium mb-1 leading-tight;
+  }
+
+  .notification-item-time {
+    @apply text-xs text-gray-500 dark:text-gray-400;
+  }
+
+  .notification-item-unread-dot {
+    @apply absolute top-3 right-8 w-2 h-2;
+    @apply bg-blue-500 rounded-full;
+  }
+
+  .notification-item-remove {
+    @apply flex-shrink-0 p-1 rounded;
+    @apply text-gray-400 hover:text-gray-600;
+    @apply dark:text-gray-500 dark:hover:text-gray-300;
+    @apply hover:bg-gray-200 dark:hover:bg-gray-600;
+    @apply transition-colors opacity-0 group-hover:opacity-100;
+  }
+
+  .notification-item:hover .notification-item-remove {
+    @apply opacity-100;
+  }
+
+  .notification-dropdown-footer {
+    @apply p-3 border-t border-gray-200 dark:border-gray-700;
+    @apply text-center;
+  }
+
+  .notification-footer-text {
+    @apply text-xs text-gray-500 dark:text-gray-400;
+  }
+
   /* ===== Toggle de tema ===== */
   .theme-toggle {
     @apply relative p-2 rounded-lg cursor-pointer transition-colors duration-200;

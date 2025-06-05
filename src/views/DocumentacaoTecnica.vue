@@ -32,6 +32,18 @@
           "
           ref="uploadButton"
         />
+
+        <notification-button
+          id="notificationBtn"
+          :notifications="notificationService.notificationHistory"
+          @mark-as-read="(id) => notificationService.markAsRead(id)"
+          @mark-all-as-read="() => notificationService.markAllAsRead()"
+          @remove-notification="
+            (id) => notificationService.removeFromHistory(id)
+          "
+          @clear-all="() => notificationService.clearHistory()"
+        />
+
         <theme-toggle
           id="themeButtom"
           :is-dark="isDark"
@@ -227,6 +239,7 @@ import SwapButton from "../components/SwapButton.vue";
 import ThemeToggle from "../components/ThemeToggle.vue";
 import InfoButton from "../components/InfoButton.vue";
 import UploadButton from "../components/UploadButton.vue";
+import NotificationButton from "../components/NotificationButton.vue";
 import BasicFormSection from "../components/BasicFormSection.vue";
 import DataTable from "../components/DataTable.vue";
 import FormSubmitSection from "../components/FormSubmitSection.vue";
@@ -247,6 +260,7 @@ export default {
     ThemeToggle,
     InfoButton,
     UploadButton,
+    NotificationButton,
     BasicFormSection,
     AuthorSelector,
     DataTable,

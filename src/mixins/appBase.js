@@ -4,11 +4,34 @@ export default {
     const createNotificationService = () => {
       return {
         toasts: [],
+        notificationHistory: [], // NOVO
+
         show: (message, type = "info", duration = 3000) => {
-          const id = Date.now() + Math.random(); // Garante unicidade
+          const id = Date.now() + Math.random();
+
+          // NOVO: Criar notificação para o histórico
+          const notification = {
+            id,
+            message,
+            type,
+            timestamp: new Date(),
+            read: false,
+          };
+
+          // NOVO: Adicionar ao histórico
+          this.notificationService.notificationHistory.unshift(notification);
+
+          // NOVO: Limitar histórico a 100 notificações
+          if (this.notificationService.notificationHistory.length > 100) {
+            this.notificationService.notificationHistory =
+              this.notificationService.notificationHistory.slice(0, 100);
+          }
+
+          // Comportamento original: adicionar ao toast
           this.notificationService.toasts.push({ id, message, type });
           setTimeout(() => this.notificationService.closeToast(id), duration);
         },
+
         closeToast: (id) => {
           const index = this.notificationService.toasts.findIndex(
             (toast) => toast.id === id
@@ -16,6 +39,36 @@ export default {
           if (index !== -1) {
             this.notificationService.toasts.splice(index, 1);
           }
+        },
+
+        // NOVOS MÉTODOS
+        markAsRead: (notificationId) => {
+          const notification =
+            this.notificationService.notificationHistory.find(
+              (n) => n.id === notificationId
+            );
+          if (notification) {
+            notification.read = true;
+          }
+        },
+
+        markAllAsRead: () => {
+          this.notificationService.notificationHistory.forEach(
+            (n) => (n.read = true)
+          );
+        },
+
+        removeFromHistory: (notificationId) => {
+          const index = this.notificationService.notificationHistory.findIndex(
+            (n) => n.id === notificationId
+          );
+          if (index > -1) {
+            this.notificationService.notificationHistory.splice(index, 1);
+          }
+        },
+
+        clearHistory: () => {
+          this.notificationService.notificationHistory.splice(0);
         },
       };
     };
