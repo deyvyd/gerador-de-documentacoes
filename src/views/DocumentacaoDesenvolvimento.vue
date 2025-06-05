@@ -544,6 +544,16 @@ export default {
             align: "center",
           },
         },
+        {
+          element: "#notificationBtn",
+          popover: {
+            title: "Histórico de Notificações",
+            description:
+              "Visualize aqui o histórico de todas as notificações geradas durante o uso da aplicação.",
+            side: "bottom",
+            align: "center",
+          },
+        },
       ],
       tourCompleted: false,
     };
