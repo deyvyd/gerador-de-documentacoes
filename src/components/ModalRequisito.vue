@@ -1861,8 +1861,8 @@ export default {
 }
 
 .rf-tipo-alteracao {
-  @apply bg-yellow-100 text-yellow-900 border border-yellow-200;
-  @apply dark:bg-yellow-700 dark:text-yellow-50;
+  @apply bg-orange-100 text-orange-900 border border-orange-200;
+  @apply dark:bg-orange-700 dark:text-orange-50;
 }
 
 .rf-tipo-remocao {
