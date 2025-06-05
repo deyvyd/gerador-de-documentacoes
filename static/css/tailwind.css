@@ -2837,7 +2837,7 @@ video {
   margin-left: 1rem;
   margin-right: 1rem;
   display: flex;
-  max-height: 90vh;
+  max-height: 95vh;
   width: 100%;
   max-width: 42rem;
   --tw-scale-x: 1;
@@ -3226,14 +3226,9 @@ video {
   width: 100%;
   margin-top: 1rem;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
-}
-
-@media (min-width: 768px){
-  .modal-image-grid{
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+  grid-template-columns: repeat(auto-fill, 145px);
+  justify-content: start;
 }
 
 .modal-image-container{
@@ -3246,6 +3241,10 @@ video {
   border-radius: 0.25rem;
   -o-object-fit: cover;
      object-fit: cover;
+  height: 96px;
+  /* h-24 = 96px - tamanho fixo */
+  width: 145px;
+  /* largura fixa */
 }
 
 .modal-image-remove-button{
@@ -4053,14 +4052,6 @@ video {
     margin-bottom: 0.5rem;
   }
 
-  .modal-requisito-container{
-    max-height: 95vh;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-
   .modal-tabs{
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -4483,10 +4474,6 @@ video {
 
 .max-h-96{
   max-height: 24rem;
-}
-
-.max-h-\[90vh\]{
-  max-height: 90vh;
 }
 
 .max-h-\[95vh\]{
@@ -5488,11 +5475,6 @@ video {
 .py-3{
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-}
-
-.py-4{
-  padding-top: 1rem;
-  padding-bottom: 1rem;
 }
 
 .py-6{
@@ -6995,10 +6977,6 @@ body{
 
   .md\:grid-cols-3{
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .md\:grid-cols-4{
-    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .md\:text-4xl{

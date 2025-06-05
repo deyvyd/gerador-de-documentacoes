@@ -1645,7 +1645,10 @@ export default {
 }
 
 .image-clickable-area {
-  @apply relative w-full h-full cursor-pointer;
+  @apply relative cursor-pointer;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .image-hover-overlay {
