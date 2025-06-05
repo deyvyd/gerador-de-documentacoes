@@ -131,33 +131,46 @@
                 Tipo
                 <span class="text-red-600">*</span>
               </label>
-              <!-- Ícone de cadeado -->
-              <svg
+              <!-- Ícone de cadeado com tooltip -->
+              <div
                 v-if="!modoVisualizacao"
-                @click="toggleDefaultField('tipo')"
-                class="lock-icon-custom"
-                :class="{ 'locked-custom': isDefaultField('tipo') }"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+                class="lock-icon-container"
                 :style="getLockIconPosition('tipo', true)"
               >
-                <path
-                  v-if="isDefaultField('tipo')"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                ></path>
-                <path
-                  v-else
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
-                ></path>
-              </svg>
+                <svg
+                  @click="toggleDefaultField('tipo')"
+                  class="lock-icon-custom"
+                  :class="{ 'locked-custom': isDefaultField('tipo') }"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    v-if="isDefaultField('tipo')"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  ></path>
+                  <path
+                    v-else
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+                  ></path>
+                </svg>
+
+                <!-- Tooltip -->
+                <div class="lock-tooltip">
+                  {{
+                    isDefaultField("tipo")
+                      ? "Remover como padrão"
+                      : "Definir como padrão"
+                  }}
+                </div>
+              </div>
               <select
                 id="req-tipo"
                 v-model="requisito.tipo"
@@ -190,33 +203,46 @@
               Local
               <span class="text-red-600">*</span>
             </label>
-            <!-- Ícone de cadeado -->
-            <svg
+            <!-- Ícone de cadeado com tooltip -->
+            <div
               v-if="!modoVisualizacao"
-              @click="toggleDefaultField('local')"
-              class="lock-icon-custom"
-              :class="{ 'locked-custom': isDefaultField('local') }"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+              class="lock-icon-container"
               :style="getLockIconPosition('local')"
             >
-              <path
-                v-if="isDefaultField('local')"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-              ></path>
-              <path
-                v-else
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
-              ></path>
-            </svg>
+              <svg
+                @click="toggleDefaultField('local')"
+                class="lock-icon-custom"
+                :class="{ 'locked-custom': isDefaultField('local') }"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  v-if="isDefaultField('local')"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                ></path>
+                <path
+                  v-else
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+                ></path>
+              </svg>
+
+              <!-- Tooltip -->
+              <div class="lock-tooltip">
+                {{
+                  isDefaultField("local")
+                    ? "Remover como padrão"
+                    : "Definir como padrão"
+                }}
+              </div>
+            </div>
             <input
               type="text"
               id="req-local"
@@ -247,16 +273,10 @@
                 Usuário
                 <span class="text-red-600">*</span>
               </label>
-              <!-- Ícone de cadeado -->
-              <svg
+              <!-- Ícone de cadeado com tooltip -->
+              <div
                 v-if="!modoVisualizacao"
-                @click="toggleDefaultField('usuario')"
-                class="lock-icon-custom"
-                :class="{ 'locked-custom': isDefaultField('usuario') }"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+                class="lock-icon-container"
                 style="
                   position: absolute;
                   right: 10px;
@@ -267,21 +287,40 @@
                   z-index: 5;
                 "
               >
-                <path
-                  v-if="isDefaultField('usuario')"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                ></path>
-                <path
-                  v-else
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
-                ></path>
-              </svg>
+                <svg
+                  @click="toggleDefaultField('usuario')"
+                  class="lock-icon-custom"
+                  :class="{ 'locked-custom': isDefaultField('usuario') }"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    v-if="isDefaultField('usuario')"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  ></path>
+                  <path
+                    v-else
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+                  ></path>
+                </svg>
+
+                <!-- Tooltip -->
+                <div class="lock-tooltip">
+                  {{
+                    isDefaultField("usuario")
+                      ? "Remover como padrão"
+                      : "Definir como padrão"
+                  }}
+                </div>
+              </div>
               <input
                 type="text"
                 id="req-usuario-teste"
@@ -318,32 +357,46 @@
                 <span class="text-red-600">*</span>
               </label>
               <!-- Ícone de cadeado -->
-              <svg
+              <!-- Ícone de cadeado com tooltip -->
+              <div
                 v-if="!modoVisualizacao"
-                @click="toggleDefaultField('perfil')"
-                class="lock-icon-custom"
-                :class="{ 'locked-custom': isDefaultField('perfil') }"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+                class="lock-icon-container"
                 :style="getLockIconPosition('perfil')"
               >
-                <path
-                  v-if="isDefaultField('perfil')"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                ></path>
-                <path
-                  v-else
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
-                ></path>
-              </svg>
+                <svg
+                  @click="toggleDefaultField('perfil')"
+                  class="lock-icon-custom"
+                  :class="{ 'locked-custom': isDefaultField('perfil') }"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    v-if="isDefaultField('perfil')"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  ></path>
+                  <path
+                    v-else
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"
+                  ></path>
+                </svg>
+
+                <!-- Tooltip -->
+                <div class="lock-tooltip">
+                  {{
+                    isDefaultField("perfil")
+                      ? "Remover como padrão"
+                      : "Definir como padrão"
+                  }}
+                </div>
+              </div>
               <input
                 type="text"
                 id="req-perfil"
@@ -1676,6 +1729,15 @@ export default {
   position: relative;
 }
 
+/* Container para o ícone de cadeado com tooltip */
+.lock-icon-container {
+  position: absolute;
+  cursor: pointer;
+  z-index: 5;
+  width: 16px;
+  height: 16px;
+}
+
 .lock-icon-custom {
   transition: all 0.2s ease;
   color: #9ca3af; /* Cor padrão */
@@ -1691,6 +1753,32 @@ export default {
 
 .dark .locked-custom {
   color: #2a90de !important; /* Cor azul quando bloqueado no modo escuro */
+}
+
+/* Tooltip customizado para cadeados */
+.lock-tooltip {
+  @apply invisible absolute opacity-0;
+  @apply text-white text-xs rounded p-1 px-2;
+  @apply z-50 text-center transition-all duration-300;
+  @apply pointer-events-none whitespace-nowrap;
+  /* Posicionamento diagonal inferior direita */
+  top: 18px;
+  left: 18px;
+  /* Cores padrão do tooltip do sistema */
+  background-color: #1f2937; /* gray-800 mais escuro */
+  border: 1px solid #374151; /* gray-700 para borda mais clara */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.lock-icon-container:hover .lock-tooltip {
+  @apply visible opacity-100;
+}
+
+/* Tema escuro - mantém o mesmo estilo já que tooltip é sempre escuro */
+.dark .lock-tooltip {
+  background-color: #1f2937;
+  border-color: #374151;
 }
 
 .modal-image-container {
@@ -1734,84 +1822,6 @@ export default {
 .image-clickable-area:hover .modal-image {
   transform: scale(1.02);
   transition: transform 0.2s ease;
-}
-
-.modal-requisito-title {
-  /* Permitir quebra de linha para títulos longos */
-  word-wrap: break-word;
-  word-break: break-word;
-  hyphens: auto;
-
-  /* Limitar altura máxima se necessário */
-  max-height: 4.5em; /* Aproximadamente 3 linhas */
-  overflow: hidden;
-
-  /* Melhorar espaçamento entre linhas */
-  line-height: 1.4;
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 640px) {
-  .modal-requisito-title {
-    font-size: 1.1rem; /* Diminuir fonte em telas pequenas */
-    max-height: 6em; /* Mais espaço em mobile */
-  }
-}
-
-.modal-requisito-title {
-  /* Permitir quebra de linha para títulos longos */
-  word-wrap: break-word;
-  word-break: break-word;
-  hyphens: auto;
-
-  /* Limitar altura máxima se necessário */
-  max-height: 4.5em; /* Aproximadamente 3 linhas */
-  overflow: hidden;
-
-  /* Melhorar espaçamento entre linhas */
-  line-height: 1.4;
-}
-
-/* Título base - mantém o estilo original (negrito) */
-.titulo-base {
-  font-weight: bold;
-}
-
-/* Separador entre títulos */
-.titulo-separador {
-  font-weight: bold;
-  opacity: 0.7;
-}
-
-/* Título do RF - estilo diferenciado */
-.titulo-rf {
-  font-weight: normal; /* Remove negrito */
-  font-style: italic; /* Adiciona itálico */
-  font-size: 1.1rem; /* Tamanho de fonte um pouco maior */
-}
-
-/* Cores para modo claro */
-.titulo-rf-light {
-  @apply text-gray-700;
-}
-
-/* Cores para modo escuro */
-.titulo-rf-dark {
-  @apply text-gray-400;
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 640px) {
-  .modal-requisito-title {
-    font-size: 1.1rem; /* Diminuir fonte em telas pequenas */
-    max-height: 6em; /* Mais espaço em mobile */
-  }
-
-  /* Em telas muito pequenas, quebrar em linhas separadas */
-  .titulo-separador {
-    display: block;
-    margin: 0.2rem 0;
-  }
 }
 
 /* ===== RF Title Badge Styles ===== */
