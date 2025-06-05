@@ -15,12 +15,14 @@ export default {
         blue: {
           50: "#eff6ff",
           100: "#dbeafe",
+          125: "#cad8fc",
           200: "#bfdbfe",
           300: "#93c5fd",
           400: "#60a5fa",
           500: "#3b82f6",
           600: "#2563eb", // Azul principal usado nos botões
           700: "#1d4ed8",
+          725: "#2a4dad",
           750: "#1e3a87",
           800: "#1f2937",
           900: "#0e1621",

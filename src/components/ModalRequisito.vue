@@ -8,30 +8,50 @@
       ]"
     >
       <!-- Cabeçalho do modal -->
-      <div
-        class="modal-requisito-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2"
-      >
-        <h2
-          :class="[
-            'modal-requisito-title',
-            isDarkMode
-              ? 'modal-requisito-title-dark'
-              : 'modal-requisito-title-light',
-          ]"
-        >
-          <!-- Título base do modal -->
-          <span class="titulo-base">{{ tituloModalBase }} RF: </span>
+      <div class="modal-requisito-header">
+        <div class="flex flex-col gap-3">
+          <!-- Título principal do modal -->
+          <h2
+            :class="[
+              'modal-requisito-title',
+              isDarkMode
+                ? 'modal-requisito-title-dark'
+                : 'modal-requisito-title-light',
+            ]"
+          >
+            {{ tituloModalBase }}
+          </h2>
 
-          <!-- Separador e título do RF (se existir) -->
-          <template v-if="tituloRF">
-            <span
-              class="titulo-rf"
-              :class="isDarkMode ? 'titulo-rf-dark' : 'titulo-rf-light'"
-            >
-              {{ tituloRF }}
-            </span>
-          </template>
-        </h2>
+          <!-- Badge com informações do RF -->
+          <div v-if="tituloRF || !modoVisualizacao" class="flex flex-col gap-2">
+            <!-- Primeira linha: ID, Tipo e Perfil -->
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="rf-id-badge">{{
+                getDisplayId().toUpperCase()
+              }}</span>
+
+              <!-- Badge do Perfil -->
+              <span v-if="requisito.perfil" class="rf-perfil-badge">
+                {{ requisito.perfil.toUpperCase() }}
+              </span>
+
+              <!-- Badge do Tipo -->
+              <span v-if="requisito.tipo" :class="getTipoClass()">
+                {{ requisito.tipo.toUpperCase() }}
+              </span>
+            </div>
+
+            <!-- Segunda linha: Título -->
+            <div class="flex items-start">
+              <div v-if="tituloRF" class="rf-title-badge">
+                {{ tituloRF.toUpperCase() }}
+              </div>
+              <span v-else-if="!modoVisualizacao" class="rf-title-placeholder">
+                Preencha o título do requisito
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Navegação das abas -->
@@ -991,15 +1011,59 @@ export default {
         this.requisito.banco = newVal;
       }
     },
-    "requisito.tituloRF": {
-      handler(newVal) {
-        // O título será atualizado automaticamente pela computed property
-        // Este watcher garante que mudanças sejam detectadas
+    "requisito.tipo": {
+      handler() {
+        // Force re-render quando o tipo mudar
+        this.$forceUpdate();
       },
-      immediate: false,
+    },
+
+    "requisito.perfil": {
+      handler() {
+        // Force re-render quando o perfil mudar
+        this.$forceUpdate();
+      },
+    },
+
+    "requisito.tituloRF": {
+      handler() {
+        // Force re-render quando o título mudar
+        this.$forceUpdate();
+      },
     },
   },
   methods: {
+    getDisplayId() {
+      // Se estamos editando um requisito existente com ID válido
+      if (
+        this.requisito &&
+        this.requisito.id &&
+        this.requisito.id.startsWith("RF-") &&
+        this.requisito.id !== "RF-00"
+      ) {
+        return this.requisito.id;
+      }
+
+      // Se estamos criando um novo requisito, mostrar o próximo número disponível
+      const proximoNumero = this.totalRequisitos + 1;
+      return `RF-${String(proximoNumero).padStart(2, "0")}`;
+    },
+
+    getTipoClass() {
+      const baseClasses = "rf-tipo-badge";
+
+      switch (this.requisito.tipo) {
+        case "Inclusão":
+          return `${baseClasses} rf-tipo-inclusao`;
+        case "Alteração":
+          return `${baseClasses} rf-tipo-alteracao`;
+        case "Remoção":
+          return `${baseClasses} rf-tipo-remocao`;
+        default:
+          return baseClasses;
+      }
+    },
+
     // Métodos para o visualizador de imagens
     abrirVisualizadorImagem(imagemSrc) {
       // Encontrar o índice da imagem clicada
@@ -1748,5 +1812,82 @@ export default {
     display: block;
     margin: 0.2rem 0;
   }
+}
+
+/* ===== RF Title Badge Styles ===== */
+.rf-id-badge {
+  @apply inline-block px-2 py-1 text-xs font-bold rounded-lg;
+  @apply bg-indigo-100 text-indigo-800 border border-indigo-200;
+  @apply dark:bg-indigo-700 dark:text-indigo-50 dark:border-transparent;
+  @apply flex-shrink-0;
+  min-width: 3rem;
+  text-align: center;
+}
+
+.rf-id-badge-placeholder {
+  @apply inline-block px-2 py-1 text-xs font-bold rounded-lg;
+  @apply bg-gray-400 text-white;
+  @apply dark:bg-gray-600;
+  @apply flex-shrink-0;
+  min-width: 3rem;
+  text-align: center;
+}
+
+.rf-title-badge {
+  @apply inline-block px-2 py-1 text-xs font-medium rounded-lg;
+  @apply bg-blue-100 text-blue-900 border border-blue-200;
+  @apply dark:bg-blue-750 dark:text-blue-50 dark:border-transparent;
+  word-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.rf-title-placeholder {
+  @apply text-sm text-gray-500 italic;
+  @apply dark:text-gray-400;
+}
+
+.rf-tipo-badge {
+  @apply inline-block px-2 py-1 text-xs font-bold rounded-lg;
+  @apply flex-shrink-0 dark:border-transparent;
+  min-width: 4rem;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.rf-tipo-inclusao {
+  @apply bg-green-100 text-green-900 border border-green-200;
+  @apply dark:bg-green-700 dark:text-green-50;
+}
+
+.rf-tipo-alteracao {
+  @apply bg-yellow-100 text-yellow-900 border border-yellow-200;
+  @apply dark:bg-yellow-700 dark:text-yellow-50;
+}
+
+.rf-tipo-remocao {
+  @apply bg-red-100 text-red-900 border border-red-200;
+  @apply dark:bg-red-700 dark:text-red-50;
+}
+
+.rf-perfil-badge {
+  @apply inline-block px-2 py-1 text-xs font-bold rounded-lg;
+  @apply bg-purple-100 text-purple-900 border border-purple-200;
+  @apply dark:bg-purple-700 dark:text-purple-50 dark:border-transparent;
+  @apply flex-shrink-0;
+  min-width: 3rem;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.rf-info-placeholder {
+  @apply inline-block px-2 py-1 text-xs font-medium rounded;
+  @apply bg-gray-200 text-gray-500 border border-dashed border-gray-400;
+  @apply dark:bg-gray-700 dark:text-gray-400 dark:border-gray-500;
+  @apply flex-shrink-0;
+  min-width: 3rem;
+  text-align: center;
+  letter-spacing: 0.3px;
+  font-style: italic;
 }
 </style>
