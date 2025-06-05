@@ -61,6 +61,31 @@ export default {
     });
   },
   methods: {
+    initTooltips() {
+      // Aguardar o Quill inicializar
+      this.$nextTick(() => {
+        const tooltips = {
+          ".ql-bold": "Negrito (Ctrl+B)",
+          ".ql-italic": "Itálico (Ctrl+I)",
+          ".ql-underline": "Sublinhado (Ctrl+U)",
+          ".ql-color": "Cor do texto",
+          ".ql-code": "Código inline",
+          '.ql-list[value="ordered"]': "Lista numerada",
+          '.ql-list[value="bullet"]': "Lista com marcadores",
+          '.ql-indent[value="-1"]': "Diminuir recuo",
+          '.ql-indent[value="+1"]': "Aumentar recuo",
+          ".ql-align": "Alinhamento",
+          ".ql-clean": "Limpar formatação",
+        };
+
+        Object.entries(tooltips).forEach(([selector, text]) => {
+          const element = this.$el.querySelector(`.ql-toolbar ${selector}`);
+          if (element) {
+            element.setAttribute("title", text);
+          }
+        });
+      });
+    },
     initQuill() {
       // Verificar se o elemento existe no DOM antes de inicializar
       const element = document.getElementById(this.containerId);
@@ -129,6 +154,8 @@ export default {
 
       this.isInitialized = true;
       this.$emit("editor-ready", this.editor);
+
+      this.initTooltips();
     },
     focus() {
       if (this.editor && !this.disabled) {

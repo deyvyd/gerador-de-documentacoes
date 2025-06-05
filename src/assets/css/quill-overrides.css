@@ -319,3 +319,76 @@
   color: var(--dark-text-secondary) !important;
   border-color: var(--dark-border-primary) !important;
 }
+
+.ql-toolbar .ql-bold svg {
+  display: none;
+}
+
+.ql-toolbar .ql-bold::after {
+  content: "N";
+  font-weight: 900; /* Mais grosso */
+  color: inherit;
+  font-size: 15px;
+  font-family: "Arial", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.ql-toolbar .ql-underline svg {
+  display: none;
+}
+
+.ql-toolbar .ql-underline::after {
+  content: "S";
+  text-decoration: underline;
+  text-decoration-thickness: 2px; /* Sublinhado mais grosso */
+  color: inherit;
+  font-size: 15px;
+  font-family: "Arial", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Estados de hover */
+.ql-toolbar .ql-bold:hover::after {
+  color: #0066cc; /* Azul no hover */
+}
+
+.ql-toolbar .ql-underline:hover::after {
+  color: #0066cc; /* Azul no hover */
+}
+
+/* Estados ativos (quando a formatação está aplicada) */
+.ql-toolbar .ql-bold.ql-active::after {
+  color: #0066cc; /* Azul mais escuro quando ativo */
+}
+
+.ql-toolbar .ql-underline.ql-active::after {
+  color: #0066cc; /* Azul mais escuro quando ativo */
+}
+
+/* Para tema escuro */
+.dark .ql-toolbar .ql-bold:hover::after,
+.dark .ql-toolbar .ql-underline:hover::after {
+  color: #60a5fa; /* Azul claro no tema escuro */
+}
+
+.dark .ql-toolbar .ql-bold.ql-active::after,
+.dark .ql-toolbar .ql-underline.ql-active::after {
+  color: #60a5fa; /* Azul médio quando ativo no tema escuro */
+}
+
+/* Garantir que os botões mantenham o tamanho correto */
+.ql-toolbar .ql-bold,
+.ql-toolbar .ql-underline {
+  width: 28px;
+  height: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
