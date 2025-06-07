@@ -137,12 +137,12 @@ export default {
           title: this.titulo || "Aviso",
           colorClass: this.isDarkMode
             ? "text-yellow-400 bg-yellow-900/20"
-            : "text-yellow-600 bg-yellow-50",
+            : "text-yellow-650 bg-yellow-50",
           borderClass: this.isDarkMode
             ? "border-yellow-700"
             : "border-yellow-200",
           buttonClass:
-            "bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-500",
+            "bg-yellow-650 hover:bg-yellow-700 focus:ring-yellow-500",
         },
         caution: {
           icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-8 w-8">

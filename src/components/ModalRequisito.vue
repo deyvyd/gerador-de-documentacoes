@@ -46,8 +46,8 @@
 
             <!-- Segunda linha: Título -->
             <div class="flex items-start">
-              <div v-if="tituloRF" class="badge-base badge-title">
-                {{ tituloRF.toUpperCase() }}
+              <div v-if="tituloRF" class="rf-title">
+                {{ tituloRF }}
               </div>
               <span v-else-if="!modoVisualizacao" class="rf-title-placeholder">
                 Preencha o título do requisito
@@ -2066,6 +2066,13 @@ export default {
 /* ===== Estilos específico de badges no modal ===== */
 .xs-bagde {
   @apply text-[0.7rem];
+}
+
+.rf-title {
+  @apply text-sm text-gray-500 italic;
+  @apply dark:text-gray-200;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 .rf-title-placeholder {

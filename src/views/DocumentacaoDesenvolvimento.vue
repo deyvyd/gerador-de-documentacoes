@@ -152,16 +152,10 @@
                     label: 'Título',
                     width: 'w-4/12',
                     align: 'text-left',
-                    type: 'badge',
-                    badgeClass: (item) => {
-                      if (!item.tituloRF || item.tituloRF.trim() === '') {
-                        return 'badge-base badge-default';
-                      }
-                      return 'badge-base badge-title';
-                    },
+                    type: 'text',
                     render: (item) => {
                       if (!item.tituloRF || item.tituloRF.trim() === '') {
-                        return 'Sem título';
+                        return '-';
                       }
                       return item.tituloRF;
                     },
@@ -171,18 +165,12 @@
                     label: 'Local',
                     width: 'w-4/12',
                     align: 'text-left',
-                    type: 'badge',
-                    badgeClass: (item) => {
-                      if (!item.local || item.local.trim() === '') {
-                        return 'badge-base badge-default';
-                      }
-                      return 'badge-base badge-local';
-                    },
+                    type: 'text',
                     render: (item) => {
                       if (!item.local || item.local.trim() === '') {
-                        return 'NÃO ESPECIFICADO';
+                        return '-';
                       }
-                      return item.local.toUpperCase();
+                      return item.local;
                     },
                   },
                   {
@@ -317,7 +305,7 @@
                     width: 'w-1/12',
                     align: 'text-center',
                     type: 'badge',
-                    badgeClass: 'badge-base badge-rf-id',
+                    badgeClass: 'badge-base badge-rnf-id',
                     render: (item) => item.id,
                   },
                   {
@@ -325,9 +313,8 @@
                     label: 'Título',
                     width: 'w-3/12',
                     align: 'text-left',
-                    type: 'badge',
-                    badgeClass: 'badge-base badge-title',
-                    render: (item) => item.titulo.toUpperCase(),
+                    type: 'text',
+                    render: (item) => item.titulo,
                   },
                   {
                     key: 'descricao',

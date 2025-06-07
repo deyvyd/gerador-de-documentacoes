@@ -1330,7 +1330,7 @@ blue
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-10 w-10 mb-2 text-yellow-600 dark:text-yellow-400"
+                    class="h-10 w-10 mb-2 text-yellow-650 dark:text-yellow-400"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

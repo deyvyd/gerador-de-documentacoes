@@ -43,7 +43,7 @@ export default {
 
       processado = processado.replace(
         /\[tc-yellow\]([\s\S]*?)\[\/c\]/g,
-        '<span class="text-yellow-600 dark:text-yellow-400">$1</span>'
+        '<span class="text-yellow-650 dark:text-yellow-400">$1</span>'
       );
 
       processado = processado.replace(
@@ -135,7 +135,7 @@ export default {
 
       processado = processado.replace(
         /\[fc-yellow\]([\s\S]*?)\[\/c\]/g,
-        '<span class="bg-yellow-600 text-white dark:bg-yellow-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
+        '<span class="bg-yellow-650 text-white dark:bg-yellow-500 dark:text-white px-1 py-0.5 rounded font-medium">$1</span>'
       );
 
       processado = processado.replace(
@@ -483,7 +483,7 @@ export default {
         gray: "bg-gray-500 text-white hover:bg-gray-600",
         green: "bg-green-600 text-white hover:bg-green-700",
         red: "bg-red-600 text-white hover:bg-red-700",
-        yellow: "bg-yellow-600 text-white hover:bg-yellow-700",
+        yellow: "bg-yellow-650 text-white hover:bg-yellow-700",
         sky: "bg-sky-500 text-white hover:bg-sky-600",
         tech: "bg-orange-600 text-white hover:bg-orange-700 dark:bg-orange-700 dark:hover:bg-orange-600",
         dev: "bg-green-600 text-white hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600",
@@ -498,7 +498,7 @@ export default {
           "hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-200",
 
         dark_theme:
-          "hover:text-yellow-600 dark:hover:text-yellow-500 transition-colors duration-200",
+          "hover:text-yellow-650 dark:hover:text-yellow-500 transition-colors duration-200",
 
         // Novos tipos para ícones sem fundo (baseados no DataTable)
         view: "text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300",
