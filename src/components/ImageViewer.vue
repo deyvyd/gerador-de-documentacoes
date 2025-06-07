@@ -71,7 +71,6 @@
         <div class="image-container" @click.stop>
           <img
             :src="imagemAtual"
-            :alt="nomeArquivo"
             class="image-viewer-img"
             :style="imagemStyle"
             @load="onImageLoad"

@@ -473,57 +473,38 @@
             <div
               v-if="requisito.imagens && requisito.imagens.length > 0"
               class="modal-image-grid"
+              ref="imageGrid"
+              :key="`images-${requisito.imagens.length}-${requisito.imagens
+                .map((img, i) => i)
+                .join('-')}`"
             >
               <div
                 v-for="(imagem, idx) in requisito.imagens"
-                :key="idx"
+                :key="`img-${idx}-${imagem.substring(0, 50)}`"
                 class="modal-image-container relative"
+                :data-image-index="idx"
               >
-                <!-- Área clicável para visualizar a imagem -->
-                <div
-                  class="image-clickable-area group"
-                  @click="abrirVisualizadorImagem(imagem)"
-                >
-                  <img
-                    :src="imagem"
-                    alt="Preview"
-                    class="modal-image group-hover:opacity-80 group-hover:scale-105 transition-all duration-200"
-                  />
+                <!-- Imagem principal - área completa clicável/arrastável -->
+                <img
+                  :src="imagem"
+                  alt="Preview"
+                  class="modal-image"
+                  @click="!isImageDragging && abrirVisualizadorImagem(imagem)"
+                />
 
-                  <!-- Indicador de clique -->
-                  <div
-                    class="image-hover-overlay group-hover:bg-black group-hover:bg-opacity-20 transition-all duration-200"
-                  >
-                    <svg
-                      class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
-                      ></path>
-                    </svg>
-                  </div>
-                </div>
-
-                <!-- Botão de remover (fora da área clicável) -->
+                <!-- Botão de remover (único indicador visual) -->
                 <button
                   @click.stop="removerImagem(idx)"
-                  class="modal-image-remove-button group"
+                  class="modal-image-remove-button"
                   :tabindex="tabIndexes.selectImagens + 1 + idx"
                   title="Remover imagem"
+                  v-if="!modoVisualizacao"
                 >
                   ×
                 </button>
 
-                <!-- Indicador de tamanho -->
-                <div
-                  class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white text-xs p-1 text-center pointer-events-none"
-                >
+                <!-- Indicador de ordem (apenas número) -->
+                <div class="image-order-indicator">
                   {{ String(idx + 1).padStart(2, "0") }}
                 </div>
               </div>
@@ -890,6 +871,7 @@
 import RichTextEditor from "../components/RichTextEditor.vue";
 import ImageViewer from "../components/ImageViewer.vue";
 import defaultFieldMixin from "../mixins/defaultFieldMixin";
+import Sortable from "sortablejs";
 export default {
   name: "ModalRequisito",
   mixins: [defaultFieldMixin],
@@ -945,6 +927,11 @@ export default {
       showImageViewer: false,
       indiceInicialVisualizacao: 0,
       imagemVisualizacao: "",
+      // Controle do Sortable para imagens
+      imageSortableInstance: null,
+      isImageDragging: false,
+      sortableInitTimeout: null,
+      skipImageWatcher: false,
     };
   },
   computed: {
@@ -999,6 +986,33 @@ export default {
     },
   },
   watch: {
+    "requisito.imagens": {
+      handler(newVal, oldVal) {
+        // Ignorar mudanças durante drag ou quando explicitamente solicitado
+        if (this.isImageDragging || this.skipImageWatcher) {
+          return;
+        }
+
+        // Se estivermos na aba de imagens E temos 2+ imagens
+        if (this.tabAtiva === 1 && newVal && newVal.length > 1) {
+          // Debounce para evitar múltiplas inicializações
+          if (this.sortableInitTimeout) {
+            clearTimeout(this.sortableInitTimeout);
+          }
+
+          this.sortableInitTimeout = setTimeout(() => {
+            this.initImageSortable();
+          }, 200);
+        }
+        // Se temos menos de 2 imagens, destruir sortable
+        else if (!newVal || newVal.length < 2) {
+          this.destroyImageSortable();
+        }
+      },
+      deep: true,
+      immediate: false,
+    },
+
     show(newVal) {
       if (newVal) {
         // Bloquear rolagem quando o modal abrir
@@ -1015,6 +1029,7 @@ export default {
 
         // Dar tempo para o DOM renderizar antes de tentar inicializar o editor
         this.$nextTick(() => {
+          this.initImageSortable();
           // Verificar se o editor já está inicializado
           if (!this.editor) {
             // Tentar encontrar o editor no DOM
@@ -1035,6 +1050,16 @@ export default {
       } else {
         // Desbloquear rolagem quando o modal fechar
         document.body.classList.remove("modal-open");
+      }
+    },
+
+    modoVisualizacao(newVal) {
+      if (newVal) {
+        this.destroyImageSortable();
+      } else {
+        this.$nextTick(() => {
+          this.initImageSortable();
+        });
       }
     },
     requisito: {
@@ -1095,6 +1120,186 @@ export default {
     },
   },
   methods: {
+    // ===== Sortable para Imagens =====
+
+    // Método para verificar se deve inicializar o sortable
+    checkAndInitSortable() {
+      if (
+        this.tabAtiva === 1 &&
+        !this.modoVisualizacao &&
+        this.requisito.imagens &&
+        this.requisito.imagens.length > 1
+      ) {
+        this.initImageSortable();
+      } else {
+      }
+    },
+
+    initImageSortable() {
+      if (this.modoVisualizacao) {
+        return;
+      }
+
+      if (this.tabAtiva !== 1) {
+        return;
+      }
+
+      // Tentar encontrar o elemento de várias formas
+      let gridElement = this.$refs.imageGrid;
+
+      if (!gridElement) {
+        gridElement = document.querySelector(".modal-image-grid");
+      }
+
+      if (!gridElement) {
+        return;
+      }
+
+      if (!this.requisito.imagens || this.requisito.imagens.length < 2) {
+        return;
+      }
+
+      // Destruir instância anterior
+      this.destroyImageSortable();
+
+      try {
+        this.imageSortableInstance = Sortable.create(gridElement, {
+          animation: 200,
+          handle: ".modal-image-container",
+          ghostClass: "sortable-ghost-image",
+          chosenClass: "sortable-chosen-image",
+          dragClass: "sortable-drag-image",
+
+          filter: ".modal-image-remove-button",
+          preventOnFilter: false,
+
+          forceFallback: false,
+          fallbackTolerance: 3,
+
+          onStart: (evt) => {
+            this.isImageDragging = true;
+            this.showImageSlots();
+          },
+
+          onEnd: (evt) => {
+            this.isImageDragging = false;
+            this.hideImageSlots();
+
+            if (evt.oldIndex !== evt.newIndex) {
+              this.reorderImages(evt.oldIndex, evt.newIndex);
+            }
+          },
+        });
+      } catch (error) {
+        console.error("❌ Erro ao criar sortable:", error);
+      }
+    },
+
+    destroyImageSortable() {
+      if (this.imageSortableInstance) {
+        try {
+          this.imageSortableInstance.destroy();
+        } catch (error) {
+          console.warn("Aviso ao destruir sortable de imagens:", error);
+        } finally {
+          this.imageSortableInstance = null;
+        }
+      }
+
+      // Limpar qualquer estado de drag restante
+      this.isImageDragging = false;
+
+      // Remover slots vazios se existirem
+      this.hideImageSlots();
+    },
+
+    reorderImages(oldIndex, newIndex) {
+      if (!this.requisito.imagens) return;
+
+      // Fazer uma cópia do array
+      const images = [...this.requisito.imagens];
+      const totalImagens = images.length;
+
+      // Cenário 1: Arrastar para um slot vazio (posição além das imagens existentes)
+      if (newIndex >= totalImagens) {
+        // Remove a imagem da posição original
+        const movedImage = images.splice(oldIndex, 1)[0];
+        // Adiciona no final
+        images.push(movedImage);
+      }
+      // Cenário 2: Mover para a direita (newIndex > oldIndex)
+      else if (newIndex > oldIndex) {
+        // Remove a imagem da posição original
+        const movedImage = images.splice(oldIndex, 1)[0];
+        // Insere na nova posição
+        images.splice(newIndex, 0, movedImage);
+      }
+      // Cenário 3: Mover para a esquerda (newIndex < oldIndex)
+      else if (newIndex < oldIndex) {
+        // Remove a imagem da posição original
+        const movedImage = images.splice(oldIndex, 1)[0];
+        // Insere na nova posição
+        images.splice(newIndex, 0, movedImage);
+      } else {
+        return;
+      }
+
+      // Atualizar de forma que force a reatividade
+      this.requisito.imagens.splice(
+        0,
+        this.requisito.imagens.length,
+        ...images
+      );
+    },
+
+    // Mostrar slots visuais durante o drag
+    showImageSlots() {
+      const gridElement = this.$refs.imageGrid;
+      if (!gridElement) return;
+
+      // Adicionar classe que mostra os slots
+      gridElement.classList.add("show-drag-slots");
+
+      // Calcular quantos slots mostrar (múltiplos de 4, mínimo 4)
+      const currentImages = this.requisito.imagens.length;
+      const slotsToShow = Math.max(4, Math.ceil(currentImages / 4) * 4);
+
+      // Adicionar slots vazios apenas se necessário
+      const slotsVaziosNecessarios = slotsToShow - currentImages;
+
+      for (let i = 0; i < slotsVaziosNecessarios; i++) {
+        const slotIndex = currentImages + i; // Índice correto baseado nas imagens existentes
+        const emptySlot = document.createElement("div");
+        emptySlot.className = "modal-image-empty-slot";
+        emptySlot.innerHTML = `
+      <div class="empty-slot-content">
+        <span class="empty-slot-number">${String(slotIndex + 1).padStart(
+          2,
+          "0"
+        )}</span>
+      </div>
+    `;
+        emptySlot.setAttribute("data-empty-slot", "true");
+        emptySlot.setAttribute("data-slot-index", slotIndex);
+        gridElement.appendChild(emptySlot);
+      }
+    },
+
+    // Esconder slots visuais após o drag
+    hideImageSlots() {
+      const gridElement = this.$refs.imageGrid;
+      if (!gridElement) return;
+
+      // Remover classe dos slots
+      gridElement.classList.remove("show-drag-slots");
+
+      // Remover slots vazios temporários
+      const emptySlots = gridElement.querySelectorAll(
+        '[data-empty-slot="true"]'
+      );
+      emptySlots.forEach((slot) => slot.remove());
+    },
+
     getDisplayId() {
       // Se estamos editando um requisito existente com ID válido
       if (
@@ -1180,7 +1385,6 @@ export default {
             validacoesField.selectionStart = validacoesField.selectionEnd =
               validacoesField.value.length;
           }
-          console.log("Focused on validacoes field");
         } else {
           console.warn("Validacoes field not found in the DOM");
           // Fallback: try to find any textarea in the current tab content
@@ -1189,7 +1393,6 @@ export default {
             const textarea = abaConteudo.querySelector("textarea");
             if (textarea) {
               textarea.focus();
-              console.log("Focused on textarea via fallback");
             } else {
               console.warn("No textarea found in tab content");
             }
@@ -1265,6 +1468,9 @@ export default {
       this.$nextTick(() => {
         // Restaurar valores nos novos editores
         if (id === 1) {
+          setTimeout(() => {
+            this.checkAndInitSortable();
+          }, 200);
           this.descricaoContent = this.requisito.descricao || "";
         } else if (id === 2) {
           this.validacoesContent = this.requisito.validacoes || "";
@@ -1557,10 +1763,21 @@ export default {
     // Método para lidar com upload de arquivos
     handleFileUpload(event) {
       this.$emit("upload-imagem", event);
+
+      // Reinicializar sortable após adicionar imagens
+      this.$nextTick(() => {
+        this.initImageSortable();
+      });
     },
 
+    // Atualizar método de remoção
     removerImagem(index) {
       this.$emit("remover-imagem", index);
+
+      // Reinicializar sortable após remover imagem
+      this.$nextTick(() => {
+        this.initImageSortable();
+      });
     },
 
     updateDescricaoContent(content) {
@@ -1721,6 +1938,10 @@ export default {
         this.onCancelButtonKeydown
       );
     }
+    this.destroyImageSortable();
+    if (this.sortableInitTimeout) {
+      clearTimeout(this.sortableInitTimeout);
+    }
   },
 };
 </script>
@@ -1842,5 +2063,95 @@ export default {
 .rf-title-placeholder {
   @apply text-sm text-gray-500 italic;
   @apply dark:text-gray-400;
+}
+
+/* ===== Grid e Container de Imagens ===== */
+.modal-image-grid {
+  @apply mt-4 grid gap-2;
+  grid-template-columns: repeat(auto-fill, 140px);
+  justify-content: start;
+  transition: all 0.3s ease;
+}
+
+.modal-image-container {
+  @apply relative;
+  width: 140px;
+  height: 96px;
+  cursor: pointer;
+}
+
+.modal-image {
+  @apply w-full h-full object-cover rounded;
+  width: 140px;
+  height: 96px;
+  transition: all 0.2s ease;
+}
+
+/* Hover sutil apenas na imagem */
+.modal-image-container:hover .modal-image {
+  @apply transform scale-105;
+}
+
+/* ===== Indicadores mínimos ===== */
+.image-order-indicator {
+  @apply absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white text-xs p-1 text-center pointer-events-none font-bold;
+}
+
+.modal-image-remove-button {
+  @apply absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg z-10 cursor-pointer;
+  @apply hover:bg-red-600 transition-colors duration-200;
+}
+
+/* ===== Estados do Drag ===== */
+.show-drag-slots {
+  @apply bg-blue-50 dark:bg-blue-900/20 border-2 border-dashed border-blue-300 dark:border-blue-600;
+  @apply rounded-lg p-2;
+}
+
+.modal-image-empty-slot {
+  @apply border-2 border-dashed border-gray-300 dark:border-gray-600;
+  @apply rounded-lg flex items-center justify-center;
+  @apply bg-gray-50 dark:bg-gray-700/50;
+  @apply transition-all duration-200;
+  width: 140px;
+  height: 96px;
+}
+
+.empty-slot-content {
+  @apply flex flex-col items-center justify-center text-gray-400 dark:text-gray-500;
+}
+
+.empty-slot-number {
+  @apply text-sm font-bold;
+}
+
+/* ===== Estados do Sortable ===== */
+.sortable-ghost-image {
+  @apply opacity-30;
+}
+
+.sortable-chosen-image {
+  @apply cursor-grabbing;
+}
+
+.sortable-chosen-image .modal-image {
+  @apply transform scale-110 shadow-lg;
+}
+
+.sortable-drag-image {
+  @apply transform rotate-2 shadow-xl z-50;
+}
+
+/* ===== Melhorar feedback visual durante drag ===== */
+.modal-image-container.sortable-chosen {
+  @apply z-10;
+}
+
+.modal-image-grid.show-drag-slots .modal-image-container:not(.sortable-chosen) {
+  @apply opacity-70;
+}
+
+.modal-image-grid.show-drag-slots .modal-image-empty-slot:hover {
+  @apply border-blue-400 bg-blue-100 dark:border-blue-500 dark:bg-blue-800/30;
 }
 </style>
