@@ -1301,17 +1301,25 @@ export default {
     },
 
     getDisplayId() {
-      // Se estamos editando um requisito existente com ID válido
+      // Se estamos editando um requisito existente com ID válido (não temporário)
       if (
         this.requisito &&
         this.requisito.id &&
         this.requisito.id.startsWith("RF-") &&
         this.requisito.id !== "RF-00"
       ) {
-        return this.requisito.id;
+        const idParts = this.requisito.id.split("-");
+        if (idParts.length === 2) {
+          const numPart = parseInt(idParts[1]);
+          // Verifica se é um número válido maior que zero
+          if (!isNaN(numPart) && numPart > 0) {
+            return this.requisito.id;
+          }
+        }
       }
 
-      // Se estamos criando um novo requisito, mostrar o próximo número disponível
+      // Para novos requisitos ou IDs temporários (como duplicações),
+      // mostrar o próximo número disponível
       const proximoNumero = this.totalRequisitos + 1;
       return `RF-${String(proximoNumero).padStart(2, "0")}`;
     },
