@@ -524,7 +524,7 @@
                 <div
                   class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white text-xs p-1 text-center pointer-events-none"
                 >
-                  {{ calcularTamanhoImagem(imagem) }}
+                  {{ String(idx + 1).padStart(2, "0") }}
                 </div>
               </div>
             </div>
@@ -583,6 +583,12 @@
                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
                       ></path>
                     </svg>
+                  </div>
+                  <!-- Indicador de ordem -->
+                  <div
+                    class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white text-xs p-1 text-center pointer-events-none font-bold"
+                  >
+                    {{ String(idx + 1).padStart(2, "0") }}
                   </div>
                 </div>
               </div>

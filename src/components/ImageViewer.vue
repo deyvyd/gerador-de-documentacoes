@@ -154,6 +154,11 @@ export default {
       }
       return `${sizeInKB.toFixed(2)} KB`;
     },
+
+    ordemImagem() {
+      return String(this.indiceAtual + 1).padStart(2, "0");
+    },
+
     caracteresBase64() {
       if (!this.imagemAtual) return 0;
 
