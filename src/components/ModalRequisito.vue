@@ -26,12 +26,15 @@
           <div v-if="tituloRF || !modoVisualizacao" class="flex flex-col gap-2">
             <!-- Primeira linha: ID, Tipo e Perfil -->
             <div class="flex items-center gap-2 flex-wrap">
-              <span class="rf-id-badge">{{
+              <span class="badge-base badge-rf-id xs-bagde">{{
                 getDisplayId().toUpperCase()
               }}</span>
 
               <!-- Badge do Perfil -->
-              <span v-if="requisito.perfil" class="rf-perfil-badge">
+              <span
+                v-if="requisito.perfil"
+                class="badge-base badge-perfil xs-bagde"
+              >
                 {{ requisito.perfil.toUpperCase() }}
               </span>
 
@@ -43,7 +46,7 @@
 
             <!-- Segunda linha: Título -->
             <div class="flex items-start">
-              <div v-if="tituloRF" class="rf-title-badge">
+              <div v-if="tituloRF" class="badge-base badge-title">
                 {{ tituloRF.toUpperCase() }}
               </div>
               <span v-else-if="!modoVisualizacao" class="rf-title-placeholder">
@@ -1103,15 +1106,15 @@ export default {
     },
 
     getTipoClass() {
-      const baseClasses = "rf-tipo-badge";
+      const baseClasses = "badge-base badge-tipo xs-bagde";
 
       switch (this.requisito.tipo) {
         case "Inclusão":
-          return `${baseClasses} rf-tipo-inclusao`;
+          return `${baseClasses} badge-tipo-inclusao`;
         case "Alteração":
-          return `${baseClasses} rf-tipo-alteracao`;
+          return `${baseClasses} badge-tipo-alteracao`;
         case "Remoção":
-          return `${baseClasses} rf-tipo-remocao`;
+          return `${baseClasses} badge-tipo-remocao`;
         default:
           return baseClasses;
       }
@@ -1718,6 +1721,7 @@ export default {
 
 <style scoped>
 @import "../assets/css/colors.css";
+@import "../assets/css/styles.css";
 @import "../assets/css/modal.css";
 
 .modal-open {
@@ -1824,80 +1828,13 @@ export default {
   transition: transform 0.2s ease;
 }
 
-/* ===== RF Title Badge Styles ===== */
-.rf-id-badge {
-  @apply inline-block px-2 py-1 text-[0.7rem] font-bold rounded-lg;
-  @apply bg-indigo-100 text-indigo-800 border border-indigo-200;
-  @apply dark:bg-indigo-900 dark:text-indigo-100 dark:border-transparent;
-  @apply flex-shrink-0;
-  min-width: 3rem;
-  text-align: center;
-}
-
-.rf-id-badge-placeholder {
-  @apply inline-block px-2 py-1 text-[0.7rem] font-bold rounded-lg;
-  @apply bg-gray-400 text-white;
-  @apply dark:bg-gray-600;
-  @apply flex-shrink-0;
-  min-width: 3rem;
-  text-align: center;
-}
-
-.rf-title-badge {
-  @apply inline-block px-2 py-1 text-xs font-medium rounded-lg;
-  @apply bg-blue-100 text-blue-900 border border-blue-200;
-  @apply dark:bg-blue-750 dark:text-blue-50 dark:border-transparent;
-  word-wrap: break-word;
-  word-break: break-word;
-  line-height: 1.4;
+/* ===== Estilos específico de badges no modal ===== */
+.xs-bagde {
+  @apply text-[0.7rem];
 }
 
 .rf-title-placeholder {
   @apply text-sm text-gray-500 italic;
   @apply dark:text-gray-400;
-}
-
-.rf-tipo-badge {
-  @apply inline-block px-2 py-1 text-[0.7rem] font-bold rounded-lg;
-  @apply flex-shrink-0 dark:border-transparent;
-  min-width: 4rem;
-  text-align: center;
-  letter-spacing: 0.3px;
-}
-
-.rf-tipo-inclusao {
-  @apply bg-green-100 text-green-900 border border-green-200;
-  @apply dark:bg-green-700 dark:text-green-50;
-}
-
-.rf-tipo-alteracao {
-  @apply bg-orange-100 text-orange-900 border border-orange-200;
-  @apply dark:bg-orange-700 dark:text-orange-50;
-}
-
-.rf-tipo-remocao {
-  @apply bg-red-100 text-red-900 border border-red-200;
-  @apply dark:bg-red-700 dark:text-red-50;
-}
-
-.rf-perfil-badge {
-  @apply inline-block px-2 py-1 text-[0.7rem] font-bold rounded-lg;
-  @apply bg-purple-100 text-purple-900 border border-purple-200;
-  @apply dark:bg-purple-900 dark:text-purple-100 dark:border-transparent;
-  @apply flex-shrink-0;
-  min-width: 3rem;
-  text-align: center;
-  letter-spacing: 0.3px;
-}
-
-.rf-info-placeholder {
-  @apply inline-block px-2 py-1 text-[0.7rem] font-medium rounded;
-  @apply bg-gray-200 text-gray-500 border border-dashed border-gray-400;
-  @apply dark:bg-gray-700 dark:text-gray-400 dark:border-gray-500;
-  @apply flex-shrink-0;
-  min-width: 3rem;
-  text-align: center;
-  letter-spacing: 0.3px;
-  font-style: italic;
 }
 </style>

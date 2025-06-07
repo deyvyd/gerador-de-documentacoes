@@ -141,7 +141,7 @@
                   {
                     key: 'id',
                     label: '#',
-                    width: 'w-1/12',
+                    width: 'w-18',
                     align: 'text-center',
                     type: 'badge',
                     badgeClass: 'badge-base badge-rf-id',
@@ -150,7 +150,7 @@
                   {
                     key: 'tituloRF',
                     label: 'Título',
-                    width: 'w-3/12',
+                    width: 'w-4/12',
                     align: 'text-left',
                     type: 'badge',
                     badgeClass: (item) => {
@@ -188,7 +188,7 @@
                   {
                     key: 'tipo',
                     label: 'Tipo',
-                    width: 'w-2/12',
+                    width: 'w-21',
                     align: 'text-center',
                     type: 'badge',
                     badgeClass: (item) => {
@@ -218,7 +218,7 @@
                   {
                     key: 'actions',
                     label: 'Ações',
-                    width: 'w-2/12',
+                    width: 'w-22',
                     align: 'text-center',
                     type: 'buttons',
                     actions: {

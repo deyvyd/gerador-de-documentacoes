@@ -126,8 +126,8 @@ export default {
         screens: {
           sm: "100%",
           md: "100%",
-          lg: "1050px",
-          xl: "1050px",
+          lg: "1400px",
+          xl: "1400px",
         },
       },
     },

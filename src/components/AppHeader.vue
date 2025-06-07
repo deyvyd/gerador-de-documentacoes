@@ -16,7 +16,9 @@
     @mouseenter="handleHeaderEnter"
     @mouseleave="handleHeaderLeave"
   >
-    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+    <div
+      class="max-w-[1050px] mx-auto px-4 py-3 flex items-center justify-between"
+    >
       <div class="flex items-center">
         <router-link to="/" class="flex items-center">
           <img src="/static/dark-logo.svg" alt="Logo" class="h-12 mr-4" />

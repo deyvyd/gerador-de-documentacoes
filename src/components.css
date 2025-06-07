@@ -1237,14 +1237,78 @@
     @apply bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 py-1 rounded text-sm font-mono;
   }
 
+  /* ===== Number Cell System ===== */
+  .number-cell {
+    @apply font-mono text-right;
+    @apply text-gray-900 dark:text-gray-100;
+    @apply transition-colors duration-200;
+  }
+
+  .number-invalid {
+    @apply text-gray-400 dark:text-gray-500 italic;
+  }
+
   /* ===== Badge System para DataTable ===== */
   .badge-base {
     @apply inline-block px-2 py-1 text-xs font-medium rounded-lg;
-    @apply border border-transparent;
+    @apply border dark:border-transparent;
     @apply transition-colors duration-200;
     word-wrap: break-word;
     word-break: break-word;
     line-height: 1.4;
+  }
+
+  .badge-default {
+    @apply bg-gray-100 text-gray-800 border-gray-200;
+    @apply dark:bg-gray-700 dark:text-gray-200 dark:border-transparent;
+  }
+
+  .badge-rf-id {
+    @apply bg-indigo-100 text-indigo-800 border-indigo-200;
+    @apply dark:bg-indigo-900 dark:text-indigo-100;
+    @apply font-bold;
+    min-width: 3rem;
+    text-align: center;
+  }
+
+  .badge-title {
+    @apply bg-blue-100 text-blue-900 border-blue-200;
+    @apply dark:bg-blue-750 dark:text-blue-50;
+    max-width: none;
+  }
+
+  .badge-local {
+    @apply bg-gray-100 text-gray-800 border-gray-200;
+    @apply dark:bg-gray-700 dark:text-gray-200;
+    max-width: none;
+  }
+
+  .badge-tipo {
+    @apply font-bold;
+    min-width: 4rem;
+    max-width: 6rem;
+    text-align: center;
+    letter-spacing: 0.3px;
+  }
+
+  .badge-tipo-inclusao {
+    @apply bg-green-100 text-green-900 border-green-200;
+    @apply dark:bg-green-700 dark:text-green-50;
+  }
+
+  .badge-tipo-alteracao {
+    @apply bg-orange-100 text-orange-900 border-orange-200;
+    @apply dark:bg-orange-700 dark:text-orange-50;
+  }
+
+  .badge-tipo-remocao {
+    @apply bg-red-100 text-red-900 border-red-200;
+    @apply dark:bg-red-700 dark:text-red-50;
+  }
+
+  .badge-perfil {
+    @apply bg-purple-100 text-purple-900 border border-purple-200;
+    @apply dark:bg-purple-900 dark:text-purple-100;
   }
 
   /* Ajustes para telas pequenas */
