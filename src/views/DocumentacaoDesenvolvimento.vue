@@ -134,37 +134,86 @@
               >
                 Lista de Requisitos Funcionais
               </h3>
-              <!-- Tabela de requisitos (exibida apenas se houver itens) -->
+              <!-- Tabela de requisitos com badges -->
               <data-table
                 :items="requisitos"
                 :columns="[
                   {
                     key: 'id',
                     label: '#',
-                    width: 'w-2/12',
+                    width: 'w-1/12',
                     align: 'text-center',
-                    type: 'text',
+                    type: 'badge',
+                    badgeClass: 'badge-base badge-rf-id',
+                    render: (item) => item.id,
                   },
                   {
                     key: 'tituloRF',
                     label: 'Título',
                     width: 'w-3/12',
                     align: 'text-left',
-                    type: 'text',
+                    type: 'badge',
+                    badgeClass: (item) => {
+                      if (!item.tituloRF || item.tituloRF.trim() === '') {
+                        return 'badge-base badge-default';
+                      }
+                      return 'badge-base badge-title';
+                    },
+                    render: (item) => {
+                      if (!item.tituloRF || item.tituloRF.trim() === '') {
+                        return 'Sem título';
+                      }
+                      return item.tituloRF;
+                    },
                   },
                   {
                     key: 'local',
                     label: 'Local',
-                    width: 'w-3/12',
+                    width: 'w-4/12',
                     align: 'text-left',
-                    type: 'text',
+                    type: 'badge',
+                    badgeClass: (item) => {
+                      if (!item.local || item.local.trim() === '') {
+                        return 'badge-base badge-default';
+                      }
+                      return 'badge-base badge-local';
+                    },
+                    render: (item) => {
+                      if (!item.local || item.local.trim() === '') {
+                        return 'NÃO ESPECIFICADO';
+                      }
+                      return item.local.toUpperCase();
+                    },
                   },
                   {
                     key: 'tipo',
                     label: 'Tipo',
                     width: 'w-2/12',
                     align: 'text-center',
-                    type: 'text',
+                    type: 'badge',
+                    badgeClass: (item) => {
+                      const baseClass = 'badge-base badge-tipo';
+                      if (!item.tipo || item.tipo.trim() === '') {
+                        return `${baseClass} badge-default`;
+                      }
+
+                      switch (item.tipo) {
+                        case 'Inclusão':
+                          return `${baseClass} badge-tipo-inclusao`;
+                        case 'Alteração':
+                          return `${baseClass} badge-tipo-alteracao`;
+                        case 'Remoção':
+                          return `${baseClass} badge-tipo-remocao`;
+                        default:
+                          return `${baseClass} badge-default`;
+                      }
+                    },
+                    render: (item) => {
+                      if (!item.tipo || item.tipo.trim() === '') {
+                        return '-';
+                      }
+                      return item.tipo.toUpperCase();
+                    },
                   },
                   {
                     key: 'actions',
@@ -189,7 +238,7 @@
                 :key-function="(requisito) => requisito.id"
                 drag-ref="dragArea"
                 :draggable="true"
-                :enable-truncation="true"
+                :enable-truncation="false"
                 :non-truncated-columns="['actions']"
                 @view="visualizarRequisito"
                 @duplicate="duplicarRequisito"
@@ -267,14 +316,18 @@
                     label: '#',
                     width: 'w-1/12',
                     align: 'text-center',
-                    type: 'text',
+                    type: 'badge',
+                    badgeClass: 'badge-base badge-rf-id',
+                    render: (item) => item.id,
                   },
                   {
                     key: 'titulo',
                     label: 'Título',
                     width: 'w-3/12',
                     align: 'text-left',
-                    type: 'text',
+                    type: 'badge',
+                    badgeClass: 'badge-base badge-title',
+                    render: (item) => item.titulo.toUpperCase(),
                   },
                   {
                     key: 'descricao',

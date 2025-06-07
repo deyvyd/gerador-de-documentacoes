@@ -97,8 +97,7 @@
                 col.align === 'text-left' ? 'relative group' : col.align,
               ]"
             >
-              <!-- Conteúdo da célula: text, buttons ou custom -->
-              <!-- (mantém o código existente) -->
+              <!-- Conteúdo da célula: text, number, badge, buttons ou custom -->
               <div
                 v-if="col.type === 'text'"
                 :class="{ 'pl-2 py-2': col.align === 'text-left' }"
@@ -118,6 +117,64 @@
                   {{ getValueByPath(item, col.key) }}
                 </template>
               </div>
+
+              <!-- Renderização de número -->
+              <div
+                v-else-if="col.type === 'number'"
+                :class="{ 'pl-2 py-2': col.align === 'text-left' }"
+              >
+                <span
+                  :class="[
+                    'number-cell',
+                    col.numberClass || '',
+                    {
+                      'number-invalid': !isValidNumber(
+                        getValueByPath(item, col.key)
+                      ),
+                    },
+                  ]"
+                >
+                  {{
+                    formatNumber(
+                      getValueByPath(item, col.key),
+                      col.numberFormat
+                    )
+                  }}
+                </span>
+              </div>
+
+              <!-- Renderização de badge -->
+              <div
+                v-else-if="col.type === 'badge'"
+                :class="{ 'pl-2 py-2': col.align === 'text-left' }"
+              >
+                <span
+                  :class="[
+                    getBadgeClass(col, item),
+                    {
+                      'truncate-badge':
+                        enableTruncation &&
+                        !nonTruncatedColumns.includes(col.key),
+                    },
+                  ]"
+                  :title="
+                    enableTruncation && !nonTruncatedColumns.includes(col.key)
+                      ? renderBadgeContent(col, item)
+                      : undefined
+                  "
+                >
+                  {{ renderBadgeContent(col, item) }}
+                </span>
+              </div>
+
+              <!-- Renderização HTML customizada -->
+              <div
+                v-else-if="col.type === 'html'"
+                :class="{ 'pl-2 py-2': col.align === 'text-left' }"
+                v-html="
+                  col.render ? col.render(item) : getValueByPath(item, col.key)
+                "
+              ></div>
 
               <div v-else-if="col.type === 'buttons'" class="text-center">
                 <slot
@@ -320,8 +377,8 @@ export default {
     columns: {
       type: Array,
       required: true,
-      // Cada coluna deve ter: key, label, width, align
-      // Ex: [{ key: 'nome', label: 'Atividade', width: 'w-8/12', align: 'text-left' }]
+      // Cada coluna deve ter: key, label, width, align, type
+      // type: 'text' | 'number' | 'badge' | 'buttons' | 'html'
     },
     // Classe de referência para dragdrop
     dragRef: {
@@ -348,15 +405,23 @@ export default {
       type: Array,
       default: () => [],
     },
-    // NOVO: Habilitar truncamento de texto com tooltip em todas as colunas
+    // Habilitar truncamento de texto com tooltip em todas as colunas
     enableTruncation: {
       type: Boolean,
       default: true,
     },
-    // NOVO: Colunas que devem ignorar o truncamento (array de keys)
+    // Colunas que devem ignorar o truncamento (array de keys)
     nonTruncatedColumns: {
       type: Array,
       default: () => [],
+    },
+    // Configuração de estilos para badges
+    badgeConfig: {
+      type: Object,
+      default: () => ({
+        baseClass: "badge-base",
+        defaultClass: "badge-default",
+      }),
     },
   },
   data() {
@@ -515,6 +580,80 @@ export default {
       }, obj);
     },
 
+    // Método para validar se é um número válido
+    isValidNumber(value) {
+      return (
+        !isNaN(value) &&
+        isFinite(value) &&
+        value !== null &&
+        value !== undefined &&
+        value !== ""
+      );
+    },
+
+    // Método para formatar números
+    formatNumber(value, format = {}) {
+      if (!this.isValidNumber(value)) {
+        return format.emptyText || "-";
+      }
+
+      const num = Number(value);
+
+      // Configurações padrão
+      const config = {
+        decimals: format.decimals || 0,
+        thousandsSeparator: format.thousandsSeparator || "",
+        decimalSeparator: format.decimalSeparator || ",",
+        prefix: format.prefix || "",
+        suffix: format.suffix || "",
+        ...format,
+      };
+
+      // Aplica formatação
+      let formatted = num.toFixed(config.decimals);
+
+      // Troca separador decimal se necessário
+      if (config.decimalSeparator !== ".") {
+        formatted = formatted.replace(".", config.decimalSeparator);
+      }
+
+      // Adiciona separador de milhares
+      if (config.thousandsSeparator) {
+        const parts = formatted.split(config.decimalSeparator);
+        parts[0] = parts[0].replace(
+          /\B(?=(\d{3})+(?!\d))/g,
+          config.thousandsSeparator
+        );
+        formatted = parts.join(config.decimalSeparator);
+      }
+
+      // Adiciona prefixo e sufixo
+      return `${config.prefix}${formatted}${config.suffix}`;
+    },
+
+    // Método para obter classe do badge baseado no valor
+    getBadgeClass(column, item) {
+      if (column.badgeClass) {
+        // Se for uma função, executa com o item como parâmetro
+        if (typeof column.badgeClass === "function") {
+          return column.badgeClass(item);
+        }
+        // Se for string, retorna diretamente
+        return column.badgeClass;
+      }
+
+      // Classe padrão
+      return this.badgeConfig.defaultClass || "badge-default";
+    },
+
+    // Método para renderizar conteúdo do badge
+    renderBadgeContent(column, item) {
+      if (column.render && typeof column.render === "function") {
+        return column.render(item);
+      }
+      return this.getValueByPath(item, column.key);
+    },
+
     initSortable() {
       // Verifica se o draggable está habilitado
       if (!this.draggable) return;
@@ -613,6 +752,75 @@ export default {
 </script>
 
 <style scoped>
+/* ===== Number Cell System ===== */
+.number-cell {
+  @apply font-mono text-right;
+  @apply text-gray-900 dark:text-gray-100;
+  @apply transition-colors duration-200;
+}
+
+.number-invalid {
+  @apply text-gray-400 dark:text-gray-500 italic;
+}
+
+/* ===== Badge System para DataTable ===== */
+.badge-base {
+  @apply inline-block px-2 py-1 text-xs font-medium rounded-lg;
+  @apply border border-transparent;
+  @apply transition-colors duration-200;
+  word-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+.badge-default {
+  @apply bg-gray-100 text-gray-800 border-gray-200;
+  @apply dark:bg-gray-700 dark:text-gray-200 dark:border-transparent;
+}
+
+.badge-rf-id {
+  @apply bg-indigo-100 text-indigo-800 border-indigo-200;
+  @apply dark:bg-indigo-900 dark:text-indigo-100 dark:border-transparent;
+  @apply font-bold;
+  min-width: 3rem;
+  text-align: center;
+}
+
+.badge-title {
+  @apply bg-blue-100 text-blue-900 border-blue-200;
+  @apply dark:bg-blue-750 dark:text-blue-50 dark:border-transparent;
+  max-width: none;
+}
+
+.badge-local {
+  @apply bg-gray-100 text-gray-800 border-gray-200;
+  @apply dark:bg-gray-700 dark:text-gray-200 dark:border-transparent;
+  max-width: none;
+}
+
+.badge-tipo {
+  @apply font-bold;
+  min-width: 4rem;
+  max-width: 6rem;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.badge-tipo-inclusao {
+  @apply bg-green-100 text-green-900 border-green-200;
+  @apply dark:bg-green-700 dark:text-green-50 dark:border-transparent;
+}
+
+.badge-tipo-alteracao {
+  @apply bg-orange-100 text-orange-900 border-orange-200;
+  @apply dark:bg-orange-700 dark:text-orange-50 dark:border-transparent;
+}
+
+.badge-tipo-remocao {
+  @apply bg-red-100 text-red-900 border-red-200;
+  @apply dark:bg-red-700 dark:text-red-50 dark:border-transparent;
+}
+
 @media (max-width: 640px) {
   .truncate-text {
     max-width: 120px;

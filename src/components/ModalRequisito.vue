@@ -1826,16 +1826,16 @@ export default {
 
 /* ===== RF Title Badge Styles ===== */
 .rf-id-badge {
-  @apply inline-block px-2 py-1 text-xs font-bold rounded-lg;
+  @apply inline-block px-2 py-1 text-[0.7rem] font-bold rounded-lg;
   @apply bg-indigo-100 text-indigo-800 border border-indigo-200;
-  @apply dark:bg-indigo-700 dark:text-indigo-50 dark:border-transparent;
+  @apply dark:bg-indigo-900 dark:text-indigo-100 dark:border-transparent;
   @apply flex-shrink-0;
   min-width: 3rem;
   text-align: center;
 }
 
 .rf-id-badge-placeholder {
-  @apply inline-block px-2 py-1 text-xs font-bold rounded-lg;
+  @apply inline-block px-2 py-1 text-[0.7rem] font-bold rounded-lg;
   @apply bg-gray-400 text-white;
   @apply dark:bg-gray-600;
   @apply flex-shrink-0;
@@ -1858,7 +1858,7 @@ export default {
 }
 
 .rf-tipo-badge {
-  @apply inline-block px-2 py-1 text-xs font-bold rounded-lg;
+  @apply inline-block px-2 py-1 text-[0.7rem] font-bold rounded-lg;
   @apply flex-shrink-0 dark:border-transparent;
   min-width: 4rem;
   text-align: center;
@@ -1881,9 +1881,9 @@ export default {
 }
 
 .rf-perfil-badge {
-  @apply inline-block px-2 py-1 text-xs font-bold rounded-lg;
+  @apply inline-block px-2 py-1 text-[0.7rem] font-bold rounded-lg;
   @apply bg-purple-100 text-purple-900 border border-purple-200;
-  @apply dark:bg-purple-700 dark:text-purple-50 dark:border-transparent;
+  @apply dark:bg-purple-900 dark:text-purple-100 dark:border-transparent;
   @apply flex-shrink-0;
   min-width: 3rem;
   text-align: center;
@@ -1891,7 +1891,7 @@ export default {
 }
 
 .rf-info-placeholder {
-  @apply inline-block px-2 py-1 text-xs font-medium rounded;
+  @apply inline-block px-2 py-1 text-[0.7rem] font-medium rounded;
   @apply bg-gray-200 text-gray-500 border border-dashed border-gray-400;
   @apply dark:bg-gray-700 dark:text-gray-400 dark:border-gray-500;
   @apply flex-shrink-0;

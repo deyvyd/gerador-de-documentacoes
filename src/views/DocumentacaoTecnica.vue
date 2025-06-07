@@ -166,14 +166,20 @@
                   label: 'Atividade',
                   width: 'w-8/12',
                   align: 'text-left',
-                  type: 'text',
+                  type: 'text', // ← Texto puro para nomes
                 },
                 {
                   key: 'horas',
                   label: 'Estimativa de horas',
                   width: 'w-2/12',
                   align: 'text-center',
-                  type: 'text',
+                  type: 'number', // ← Novo tipo número
+                  numberClass: 'number-hours',
+                  numberFormat: {
+                    decimals: 0, // ← Sem casas decimais
+                    emptyText: '0', // ← Mostra 0 quando vazio
+                    // Sem suffix para manter números puros nos cálculos
+                  },
                 },
                 {
                   key: 'actions',

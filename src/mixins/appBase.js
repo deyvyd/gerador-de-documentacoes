@@ -303,10 +303,17 @@ export default {
 
         // Verifica se o tipo do JSON é compatível com a aplicação atual
         if (tipoJSON !== "desconhecido" && tipoJSON !== tipoAplicacao) {
-          this.notificationService.show(
-            `Este JSON é para documentação "${tipoJSON}" mas a aplicação atual é para documentação "${tipoAplicacao}".`,
-            "error"
-          );
+          if (tipoJSON === "tecnica") {
+            this.notificationService.show(
+              "Este JSON é para Documentação Técnica, mas a tela atual é para Documentação de Desenvolvimento.",
+              "error"
+            );
+          } else {
+            this.notificationService.show(
+              "Este JSON é para Documentação de Desenvolvimento, mas a tela atual é para Documentação Técnica.",
+              "error"
+            );
+          }
           return;
         }
 

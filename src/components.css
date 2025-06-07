@@ -1237,6 +1237,16 @@
     @apply bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-2 py-1 rounded text-sm font-mono;
   }
 
+  /* ===== Badge System para DataTable ===== */
+  .badge-base {
+    @apply inline-block px-2 py-1 text-xs font-medium rounded-lg;
+    @apply border border-transparent;
+    @apply transition-colors duration-200;
+    word-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.4;
+  }
+
   /* Ajustes para telas pequenas */
   @media (max-width: 640px) {
     .base-section {
