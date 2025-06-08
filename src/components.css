@@ -577,6 +577,7 @@
     @apply dark:bg-purple-900 dark:text-purple-100;
     @apply z-50 flex items-center justify-center text-center;
     @apply transition-all duration-300;
+    pointer-events: none;
   }
 
   .app-header .upload-tooltip .tooltip-arrow {
