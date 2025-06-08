@@ -1301,6 +1301,73 @@
     @apply bg-red-700 text-red-50;
   }
 
+  /* ===== Image Viewer com Zoom e Pan ===== */
+  .image-viewer-zoom-container {
+    @apply relative overflow-hidden cursor-grab;
+    @apply active:cursor-grabbing;
+    /* Prevenir seleção de texto durante drag */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .image-viewer-zoom-container.zoomed {
+    @apply cursor-move;
+  }
+
+  .image-viewer-img-zoomable {
+    @apply transition-transform duration-200 ease-out;
+    transform-origin: center center;
+    pointer-events: none;
+  }
+
+  .image-viewer-controls {
+    @apply absolute bottom-4 left-1/2 transform -translate-x-1/2;
+    @apply flex items-center gap-2 px-3 py-2 rounded-lg shadow-lg;
+    @apply bg-white dark:bg-gray-800;
+    @apply border border-gray-200 dark:border-gray-600;
+  }
+
+  .zoom-button {
+    @apply w-8 h-8 rounded flex items-center justify-center;
+    @apply bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600;
+    @apply text-gray-700 dark:text-gray-200;
+    @apply transition-colors duration-200 cursor-pointer;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .zoom-level {
+    @apply text-sm font-medium text-gray-700 dark:text-gray-200 min-w-[3rem] text-center;
+  }
+
+  .zoom-reset-hint {
+    @apply absolute top-4 left-1/2 transform -translate-x-1/2;
+    @apply bg-black bg-opacity-70 text-white text-sm px-3 py-1 rounded;
+    @apply opacity-0 transition-opacity duration-300;
+  }
+
+  .image-viewer-zoom-container.zoomed .zoom-reset-hint {
+    @apply opacity-100;
+  }
+
+  /* Botão de fechar */
+  .image-viewer-close-btn {
+    @apply absolute w-10 h-10 top-4 right-4 rounded-full flex items-center justify-center z-10 transition-all duration-200;
+  }
+
+  /* Estados de drag */
+  .image-viewer-img-zoomable.dragging {
+    @apply transition-none;
+  }
+
+  /* ===== Image Viewer com Zoom e Pan ===== */
+  .image-viewer-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center;
+    z-index: 60;
+    backdrop-filter: blur(4px);
+  }
+
   /* Ajustes para telas pequenas */
   @media (max-width: 640px) {
     .base-section {
@@ -1317,6 +1384,14 @@
 
     .modal-tab {
       @apply whitespace-nowrap;
+    }
+
+    .image-viewer-controls {
+      @apply bottom-2 scale-90;
+    }
+
+    .zoom-reset-hint {
+      @apply top-2 text-xs px-2;
     }
   }
 }
