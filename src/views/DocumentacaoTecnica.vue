@@ -448,6 +448,7 @@ export default {
 
   beforeUnmount() {
     this.destroySortable();
+    this.removeEscapeListener(); // Para atividades
   },
 
   methods: {
@@ -544,9 +545,20 @@ export default {
       // Atualiza o array com a nova referência (isso força a re-renderização)
       this.atividades = [...atividades];
 
+      // Função para truncar o nome da atividade
+      const truncarNome = (nome) => {
+        const palavras = nome.trim().split(" ");
+        if (palavras.length <= 3) {
+          return nome;
+        }
+        return palavras.slice(0, 3).join(" ") + "...";
+      };
+
       // Adicionar notificação de reordenação
       this.notificationService.show(
-        `Atividade "${movedItem.nome}" movida para a posição ${newIndex + 1}`,
+        `Atividade "${truncarNome(movedItem.nome)}" movida para a posição ${
+          newIndex + 1
+        }`,
         "success"
       );
 
@@ -564,6 +576,38 @@ export default {
     editarAtividade(index) {
       this.editingIndex = index;
       this.novaAtividade = JSON.parse(JSON.stringify(this.atividades[index]));
+
+      // Adicionar listener para ESC
+      this.addEscapeListener();
+    },
+
+    addEscapeListener() {
+      document.addEventListener("keydown", this.handleEscapeKey);
+    },
+
+    removeEscapeListener() {
+      document.removeEventListener("keydown", this.handleEscapeKey);
+    },
+
+    handleEscapeKey(event) {
+      if (event.key === "Escape" && this.editingIndex !== null) {
+        this.cancelarEdicao();
+      }
+    },
+
+    cancelarEdicao() {
+      this.editingIndex = null;
+      this.novaAtividade = { nome: "", horas: "" };
+      this.removeEscapeListener();
+
+      // Focar no campo de atividade após cancelar
+      this.$nextTick(() => {
+        if (this.$refs.atividadeInput) {
+          this.$refs.atividadeInput.focus();
+        }
+      });
+
+      this.notificationService.show("Edição cancelada", "info");
     },
 
     // Método modificado para mostrar confirmação antes de remover

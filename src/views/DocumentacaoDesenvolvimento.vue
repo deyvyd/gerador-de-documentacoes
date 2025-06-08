@@ -637,6 +637,7 @@ export default {
 
   beforeUnmount() {
     this.destroySortable();
+    this.removeEscapeListenerRNF(); // Para RNF
   },
 
   methods: {
@@ -935,6 +936,8 @@ export default {
       this.requisitosNaoFuncionais.titulo = "";
       this.requisitosNaoFuncionais.descricao = "";
 
+      this.removeEscapeListenerRNF();
+
       // Focar no campo de título para facilitar a adição de outro requisito
       this.$nextTick(() => {
         tituloInput.focus();
@@ -1194,12 +1197,46 @@ export default {
       this.requisitosNaoFuncionais.descricao =
         this.listaRequisitosNaoFuncionais[index].descricao;
 
+      // Adicionar listener para ESC
+      this.addEscapeListenerRNF();
+
       // Focar no campo de título
       if (tituloInput) {
         this.$nextTick(() => {
           tituloInput.focus();
         });
       }
+    },
+
+    addEscapeListenerRNF() {
+      document.addEventListener("keydown", this.handleEscapeKeyRNF);
+    },
+
+    removeEscapeListenerRNF() {
+      document.removeEventListener("keydown", this.handleEscapeKeyRNF);
+    },
+
+    handleEscapeKeyRNF(event) {
+      if (event.key === "Escape" && this.editIndexRNF !== -1) {
+        this.cancelarEdicaoRNF();
+      }
+    },
+
+    cancelarEdicaoRNF() {
+      this.editIndexRNF = -1;
+      this.requisitosNaoFuncionais.titulo = "";
+      this.requisitosNaoFuncionais.descricao = "";
+      this.removeEscapeListenerRNF();
+
+      // Focar no campo de título após cancelar
+      this.$nextTick(() => {
+        const tituloInput = document.getElementById("tituloRNF");
+        if (tituloInput) {
+          tituloInput.focus();
+        }
+      });
+
+      this.notificationService.show("Edição cancelada", "info");
     },
 
     // Método para remover um requisito não funcional com confirmação
