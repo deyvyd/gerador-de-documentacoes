@@ -2820,117 +2820,272 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
           titulo: "Listagem de Imagens em Requisito Funcional",
           icone: iconesPorTipo.listagem,
           bdd: `Eu, como usuário do sistema,
-Quero visualizar todas as imagens de um requisito funcional organizadas em grade
-Para ter uma visão geral das imagens anexadas e facilitar sua gestão`,
+Quero visualizar e reorganizar todas as imagens de um requisito funcional em grade
+Para ter controle total sobre a ordem de inserção e facilitar sua gestão`,
           caminhoAcesso: [
             "Acessar o sistema",
-            "Selecionar a opção Documentação de Desenvolvimento",
+            "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Na aba "Requisitos Funcionais", visualizar ou editar qualquer requisito',
             'Navegar para a aba "Imagens e Descrição"',
-            "As imagens cadastradas são exibidas automaticamente na grade",
+            "As imagens cadastradas são exibidas automaticamente na grade com recursos de reordenação",
           ],
           criteriosAceitacao: [
             {
-              titulo: "Exibição da grade: o sistema deve mostrar:",
+              titulo: "Exibição da grade responsiva: o sistema deve mostrar:",
               itens: [
                 "- Grade responsiva com até 3 colunas em telas grandes",
-                "- Miniaturas das imagens com proporções mantidas",
-                "- Indicador de tamanho no canto inferior de cada imagem",
-                "- Efeito hover para indicar interatividade",
+                "- Miniaturas das imagens com proporções mantidas (140x96px)",
+                "- Badge de ordem :hash: no canto inferior esquerdo de cada imagem",
+                "- Efeito hover :pointer: para indicar interatividade",
+                "- Layout organizado com espaçamento adequado entre imagens",
               ],
             },
             {
-              titulo: "Informações visuais: cada imagem deve exibir:",
+              titulo: "Sistema de badges de ordem: cada imagem deve exibir:",
               itens: [
-                "- Miniatura clara e bem definida",
-                "- Tamanho formatado (ex: '245,3 KB' ou '1,2 MB')",
-                "- Botão de remoção no modo edição",
-                "- Indicação visual quando a imagem é clicável",
+                "- Badge numérico [badge:dblue]01[/b], [badge:dblue]02[/b], [badge:dblue]03[/b] etc. no canto inferior esquerdo",
+                "- Badge com fundo semi-transparente escuro para contraste",
+                "- Numeração sequencial baseada na ordem atual de inserção",
+                "- Atualização automática dos números após reordenação",
+                "- Formatação com zero à esquerda para números de 1 a 9",
               ],
             },
             {
-              titulo: "Estados da listagem:",
+              titulo: "Reordenação por drag and drop: o sistema deve permitir:",
               itens: [
-                "- Estado vazio: mensagem 'Nenhuma imagem foi inserida' quando não há imagens",
+                "- Arrastar e soltar imagens para reorganizar a ordem :move:",
+                "- Feedback visual durante o arrasto com slots vazios",
+                "- Highlight das áreas de destino durante o drag",
+                "- Animações suaves de 200ms durante reordenação",
+                "- Cursor :grab: normal, cursor :grabbing: durante arrasto",
+                "- Atualização imediata dos badges após cada movimento",
+              ],
+            },
+            {
+              titulo: "Estados visuais durante drag: o sistema deve exibir:",
+              itens: [
+                "- Slots vazios [tc-gray]numerados[/c] para indicar posições disponíveis",
+                "- Borda azul tracejada [tc-blue]border-dashed[/c] ao redor da grade durante drag",
+                "- Imagem sendo arrastada com rotação sutil :rotate_2: e sombra",
+                "- Outras imagens com opacidade reduzida (70%) durante operação",
+                "- Slot de destino com highlight azul ao passar o mouse",
+              ],
+            },
+            {
+              titulo: "Informações e controles: cada imagem deve ter:",
+              itens: [
+                "- Miniatura clara e bem definida com bordas arredondadas",
+                "- Badge de ordem sempre visível em ambos os modos",
+                "- Botão [tc-red]X[/c] de remoção no modo edição (canto superior direito)",
+                "- Indicação visual quando a imagem é clicável para visualização",
+                "- Tooltip [tc-gray]Remover imagem[/c] no botão de exclusão",
+              ],
+            },
+            {
+              titulo: "Estados da listagem aprimorados:",
+              itens: [
+                "- Estado vazio: mensagem [tc-gray]Nenhuma imagem foi inserida[/c] quando não há imagens",
                 "- Estado de carregamento durante upload de novas imagens",
-                "- Estado de edição: botões de remoção visíveis",
-                "- Estado de visualização: apenas visualização das imagens",
+                "- Estado de edição: arrastar habilitado + botões de remoção visíveis",
+                "- Estado de visualização: apenas visualização das imagens (sem drag/remoção)",
+                "- Estado de drag ativo: slots vazios visíveis + feedback visual",
               ],
             },
             {
-              titulo: "Responsividade: a grade deve adaptar-se:",
+              titulo: "Responsividade da grade: deve adaptar-se a:",
               itens: [
-                "- 3 colunas em telas grandes (desktop)",
-                "- 2 colunas em tablets",
-                "- 1 coluna em smartphones",
-                "- Espaçamento adequado entre as imagens",
+                "- 3 colunas em telas grandes (desktop ≥ 1024px)",
+                "- 2 colunas em tablets (768px - 1023px)",
+                "- 1 coluna em smartphones (< 768px)",
+                "- Redimensionamento proporcional dos controles em mobile",
+                "- Manutenção da funcionalidade drag em todos os tamanhos",
               ],
             },
           ],
           regrasNegocio: [
             {
-              titulo:
-                "As imagens são exibidas na ordem em que foram adicionadas",
+              titulo: "Gerenciamento de ordem e numeração",
+              descricao:
+                "Sistema inteligente de controle da ordem das imagens com numeração automática",
+              itens: [
+                "- As imagens seguem ordem sequencial definida pelo usuário via drag and drop",
+                "- Numeração automática de **01** a **99** conforme posição atual",
+                "- Renumeração automática após qualquer operação de reordenação",
+                "- Nova imagem sempre adicionada no final da sequência existente",
+                "- Remoção de imagem resulta em renumeração das imagens subsequentes",
+              ],
             },
             {
-              titulo:
-                "A reordenação manual não é suportada - ordem segue cronologia de upload",
+              titulo: "Controle de reordenação e limites",
+              descricao:
+                "Regras para operações de drag and drop e limites do sistema",
+              itens: [
+                "- Reordenação só é permitida no modo edição/criação",
+                "- Mínimo de 2 imagens necessário para habilitar drag and drop",
+                "- Slots vazios são criados dinamicamente durante operação de drag",
+                "- Sistema suporta até 99 imagens por requisito funcional",
+                "- Operações de drag são bloqueadas no modo visualização",
+              ],
             },
             {
-              titulo:
-                "No modo visualização, as imagens não podem ser removidas",
+              titulo: "Persistência e sincronização de estado",
+              descricao:
+                "Como o sistema mantém a integridade da ordem das imagens",
+              itens: [
+                "- Ordem das imagens é preservada ao salvar o requisito",
+                "- Estado de drag é resetado após cada operação para evitar conflitos",
+                "- Numeração é recalculada automaticamente após add/remove/reorder",
+                "- A ordem definida é mantida na documentação gerada ([tc-blue]DOCX[/c]/[tc-red]PDF[/c])",
+                "- Cancelar edição restaura ordem original das imagens",
+              ],
             },
             {
-              titulo:
-                "O estado vazio é exibido quando não há imagens cadastradas",
+              titulo: "Validações e controle de qualidade",
+              descricao:
+                "Regras para manter a qualidade e consistência do sistema",
+              itens: [
+                "- Sistema previne conflitos durante operações simultâneas de drag",
+                "- Timeout de 200ms aplicado para evitar múltiplas operações rápidas",
+                "- Validação de índices antes de executar reordenação",
+                "- Fallback automático em caso de erro durante drag and drop",
+                "- Log de erros para debugging de problemas de reordenação",
+              ],
             },
           ],
           regrasInterface: [
             {
-              titulo: "Hover effect nas imagens para indicar que são clicáveis",
+              titulo: "Feedback visual e indicadores de interação",
+              descricao:
+                "Sistema completo de feedback para melhorar a experiência do usuário",
+              itens: [
+                "- Hover effect com escala 105% :scale: nas imagens para indicar clicabilidade",
+                "- Cursor :grab: em repouso, :grabbing: durante arrasto",
+                "- Badge de ordem com fonte bold e contraste adequado",
+                "- Transições suaves de 200ms para todas as animações",
+              ],
             },
             {
-              titulo: "Animações suaves ao adicionar/remover imagens da grade",
+              titulo: "Estados visuais durante operações de drag",
+              descricao:
+                "Interface rica com feedback contextual durante reordenação",
+              itens: [
+                "- Grade recebe borda azul tracejada durante drag ativo",
+                "- Slots vazios aparecem com numeração e ícone :move:",
+                "- Imagem sendo arrastada recebe rotação 2° e sombra destacada",
+                "- Outras imagens ficam semi-transparentes durante operação",
+              ],
             },
             {
-              titulo: "Layout consistente com o restante do sistema",
+              titulo: "Adaptação responsiva e acessibilidade",
+              descricao:
+                "Interface que funciona bem em todos os dispositivos e contextos",
+              itens: [
+                "- Layout responsivo que mantém funcionalidade em todos os tamanhos",
+                "- Controles proporcionalmente redimensionados em mobile",
+                "- Cores e estilos adaptam-se ao tema atual (claro/escuro) :sun:",
+                "- Tooltips descritivos em todos os elementos interativos",
+              ],
             },
             {
-              titulo: "Cores e estilos adaptam-se ao tema atual (claro/escuro)",
+              titulo: "Consistência visual com o sistema",
+              descricao:
+                "Integração harmoniosa com o design geral da aplicação",
+              itens: [
+                "- Badges seguem paleta de cores do sistema",
+                "- Botões de ação consistentes com outros componentes",
+                "- Espaçamentos e proporções alinhados com design system",
+                "- Animações seguem timing e easing padrão (ease, 200ms)",
+              ],
             },
           ],
           cenariosTeste: [
             {
-              titulo: "Exibição de grade com múltiplas imagens",
+              titulo: "Exibição de grade com múltiplas imagens ordenadas",
               dado: "que um requisito possui várias imagens cadastradas",
               quando: "o usuário acessa a aba 'Imagens e Descrição'",
               entao:
                 "o sistema deve exibir todas as imagens em grade organizada",
-              e_entao: "mostrar o tamanho individual de cada imagem",
+              e_entao:
+                "mostrar badges numerados [badge:dblue]01[/b], [badge:dblue]02[/b], [badge:dblue]03[/b] etc. em cada imagem",
             },
             {
-              titulo: "Comportamento responsivo",
-              dado: "que há imagens na grade",
-              quando: "o usuário redimensiona a janela do navegador",
+              titulo: "Reordenação básica por drag and drop",
+              dado: "que há pelo menos 2 imagens na grade no modo edição",
+              quando:
+                "o usuário arrasta a imagem [badge:dblue]03[/b] para a posição da imagem [badge:dblue]01[/b]",
               entao:
-                "o sistema deve ajustar automaticamente o número de colunas",
-              e_entao: "manter a proporção e qualidade das miniaturas",
+                "o sistema deve mover a imagem e renumerar todas as posições",
+              e_entao:
+                "a imagem movida deve se tornar [badge:dblue]01[/b] e as outras serem renumeradas sequencialmente",
             },
             {
-              titulo: "Estado vazio",
-              dado: "que um requisito não possui imagens cadastradas",
-              quando: "o usuário acessa a aba 'Imagens e Descrição'",
-              entao: "o sistema deve exibir a mensagem de estado vazio",
-              e_entao: "manter visível a área de upload para adicionar imagens",
+              titulo: "Feedback visual durante operação de drag",
+              dado: "que o usuário está arrastando uma imagem",
+              quando: "move o cursor sobre diferentes posições na grade",
+              entao:
+                "o sistema deve mostrar slots vazios numerados e borda azul tracejada",
+              e_entao:
+                "highlighting das áreas de destino conforme movimento do cursor",
             },
             {
-              titulo: "Diferenciação entre modos",
+              titulo: "Adição de nova imagem mantendo ordem",
+              dado: "que já existem imagens numeradas de [badge:dblue]01[/b] a [badge:dblue]05[/b]",
+              quando: "o usuário adiciona uma nova imagem",
+              entao:
+                "o sistema deve atribuir automaticamente o número [badge:dblue]06[/b]",
+              e_entao:
+                "posicionar a nova imagem no final da grade mantendo ordem sequencial",
+            },
+            {
+              titulo: "Remoção com renumeração automática",
+              dado: "que há imagens numeradas de [badge:dblue]01[/b] a [badge:dblue]05[/b]",
+              quando: "o usuário remove a imagem [badge:dblue]03[/b]",
+              entao: "o sistema deve remover a imagem da grade",
+              e_entao:
+                "renumerar automaticamente: antigas [badge:dblue]04[/b] e [badge:dblue]05[/b] se tornam [badge:dblue]03[/b] e [badge:dblue]04[/b]",
+            },
+            {
+              titulo: "Comportamento responsivo em dispositivos móveis",
+              dado: "que há imagens na grade",
+              quando: "o usuário acessa em dispositivo móvel :smartphone:",
+              entao:
+                "o sistema deve adaptar para 1 coluna mantendo funcionalidade drag",
+              e_entao:
+                "redimensionar controles proporcionalmente preservando badges e botões",
+            },
+            {
+              titulo: "Diferenciação entre modos edição e visualização",
               dado: "que há imagens na grade",
               quando: "o usuário alterna entre modo edição e visualização",
               entao:
-                "o sistema deve mostrar/ocultar os botões de remoção adequadamente",
+                "o sistema deve mostrar/ocultar botões [btn:delete:x/] e habilitar/desabilitar drag",
               e_entao:
-                "manter a funcionalidade de clique para visualização em ambos os modos",
+                "manter badges numerados visíveis e funcionalidade de clique para visualização em ambos os modos",
+            },
+            {
+              titulo: "Estado vazio com call-to-action",
+              dado: "que um requisito não possui imagens cadastradas",
+              quando: "o usuário acessa a aba 'Imagens e Descrição'",
+              entao:
+                "o sistema deve exibir mensagem [tc-gray]Nenhuma imagem foi inserida[/c]",
+              e_entao:
+                "manter visível e destacada a área de upload [btn:gray]Selecionar imagens[/btn]",
+            },
+            {
+              titulo: "Drag para slot vazio (expandir grade)",
+              dado: "que há 3 imagens na grade",
+              quando:
+                "o usuário arrasta uma imagem para uma posição vazia além das existentes",
+              entao: "o sistema deve mover a imagem para o final da sequência",
+              e_entao: "renumerar mantendo ordem sequencial sem lacunas",
+            },
+            {
+              titulo: "Prevenção de conflitos durante múltiplas operações",
+              dado: "que o usuário está realizando operação de drag",
+              quando: "tenta iniciar outra operação antes da conclusão",
+              entao:
+                "o sistema deve bloquear nova operação até conclusão da atual",
+              e_entao: "manter estado consistente e exibir feedback apropriado",
             },
           ],
         },
@@ -2943,117 +3098,268 @@ Para ter uma visão geral das imagens anexadas e facilitar sua gestão`,
           titulo: "Visualização de Imagens de Requisito Funcional",
           icone: iconesPorTipo.visualizacao,
           bdd: `Eu, como usuário do sistema,
-Quero visualizar imagens de requisitos funcionais em tamanho ampliado
-Para analisar detalhes e ter melhor compreensão das especificações`,
+Quero visualizar imagens de requisitos funcionais com recursos avançados de zoom e navegação
+Para analisar detalhes visuais e ter melhor compreensão das especificações técnicas`,
           caminhoAcesso: [
             "Acessar o sistema",
             "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             'Na aba "Requisitos Funcionais", visualizar ou editar um requisito que possui imagens',
             'Navegar para a aba "Imagens e Descrição"',
-            "Clicar em qualquer imagem na grade para abrir o visualizador",
+            "Clicar em qualquer imagem na grade para abrir o visualizador avançado",
           ],
           criteriosAceitacao: [
             {
               titulo:
-                "Abertura do visualizador: ao clicar em uma imagem, o sistema deve:",
+                "Abertura do visualizador avançado: ao clicar em uma imagem, o sistema deve:",
               itens: [
-                "- Abrir um modal em tela cheia com fundo escuro semi-transparente",
-                "- Exibir a imagem centralizada com tamanho otimizado",
-                "- Mostrar botões de navegação se houver múltiplas imagens",
+                "- Abrir um modal em tela cheia com fundo escuro semi-transparente e efeito blur",
+                "- Exibir a imagem centralizada com tamanho otimizado para o viewport",
+                "- Mostrar [btn:view:chevron_left/] e [btn:view:chevron_right/] para navegação se houver múltiplas imagens",
                 "- Bloquear o scroll da página de fundo durante a visualização",
+                "- Aplicar efeito backdrop-filter para melhor contraste visual",
               ],
             },
             {
-              titulo: "Navegação entre imagens: o visualizador deve permitir:",
+              titulo: "Sistema de zoom avançado: o visualizador deve permitir:",
               itens: [
-                "- Navegar para imagem anterior/próxima com setas laterais",
-                "- Usar teclas de seta do teclado para navegação",
-                "- Exibir contador 'X de Y' para indicar posição atual",
-                "- Loop infinito (após a última, volta para a primeira)",
-              ],
-            },
-            {
-              titulo: "Informações da imagem: o visualizador deve exibir:",
-              itens: [
-                "- Tamanho do arquivo formatado (KB/MB)",
-                "- Dimensões da imagem (largura × altura)",
-                "- Quantidade de caracteres do base64",
+                "- [btn:gray:zoom_in]Aumentar zoom[/btn] até 500% com controles visuais",
+                "- [btn:gray:zoom_out]Diminuir zoom[/btn] até 50% para visão panorâmica",
+                "- [btn:gray:refresh_cw]Resetar zoom[/btn] para 100% com um clique ou duplo clique na imagem",
+                "- Zoom por roda do mouse :mouse: centrado na posição do cursor",
+                "- Controles de zoom com ícones intuitivos e estados desabilitados",
+                "- Indicador visual de nível de zoom em tempo real (ex: **150%**)",
               ],
             },
             {
               titulo:
-                "Controles de fechamento: deve ser possível fechar através de:",
+                "Sistema de pan (arrastar imagem): quando a imagem estiver com zoom > 100%, o sistema deve:",
               itens: [
-                "- Botão [tc-red]X[/c] no canto superior direito",
-                "- Tecla **ESC** do teclado",
-                "- Clique fora da área da imagem (no overlay)",
+                "- Permitir arrastar a imagem para visualizar diferentes áreas",
+                "- Mudar o cursor para :move: quando em modo pan",
+                "- Constrainear o movimento dentro dos limites da imagem ampliada",
+                "- Exibir hint visual [tc-gray]Clique duas vezes para resetar o zoom[/c] quando aplicável",
+                "- Prevenir fechamento acidental durante operações de drag",
+              ],
+            },
+            {
+              titulo:
+                "Navegação entre imagens aprimorada: o visualizador deve permitir:",
+              itens: [
+                "- Navegar com setas laterais [btn:view:chevron_left/] [btn:view:chevron_right/] quando há múltiplas imagens",
+                "- Usar teclas do teclado para navegação:",
+                "  - `←` `→` para imagem anterior/próxima",
+                "  - `+` ou `=` para aumentar zoom",
+                "  - `-` para diminuir zoom",
+                "  - `0` para resetar zoom",
+                "  - `ESC` para fechar",
+                "- Exibir contador dinâmico **X de Y** para indicar posição atual",
+                "- Manter nível de zoom ao navegar entre imagens da mesma sessão",
+              ],
+            },
+            {
+              titulo:
+                "Informações técnicas detalhadas: o visualizador deve exibir painel de informações com:",
+              itens: [
+                "- **Tamanho do arquivo:** formatado em KB/MB (ex: [tc-blue]245,3 KB[/c] ou [tc-blue]1,2 MB[/c])",
+                "- **Dimensões da imagem:** largura × altura em pixels (ex: [tc-blue]1920 × 1080px[/c])",
+                "- **Nível de zoom atual:** porcentagem em tempo real (ex: [tc-blue]150%[/c])",
+                "- **Caracteres Base64:** quantidade formatada para desenvolvedores (ex: [tc-blue]87.456 caracteres[/c])",
+                "- Painel adaptável ao tema claro/escuro :sun: do sistema",
+              ],
+            },
+            {
+              titulo:
+                "Controles de fechamento melhorados: deve ser possível fechar através de:",
+              itens: [
+                "- Botão [tc-red]X[/c] no canto superior direito com hover effect",
+                "- Tecla `ESC` do teclado em qualquer momento",
+                "- Clique inteligente fora da área da imagem (apenas quando não há drag ativo)",
+                "- Prevenção de fechamento acidental durante zoom/pan",
+              ],
+            },
+            {
+              titulo: "Responsividade e adaptabilidade: o visualizador deve:",
+              itens: [
+                "- Adaptar-se automaticamente a diferentes tamanhos de tela",
+                "- Redimensionar controles proporcionalmente em dispositivos móveis :smartphone:",
+                "- Manter funcionalidade touch para zoom/pan em tablets",
+                "- Preservar proporções da imagem em qualquer resolução",
+                "- Ajustar posicionamento de elementos UI conforme viewport",
               ],
             },
           ],
           regrasNegocio: [
             {
-              titulo:
-                "As imagens são redimensionadas proporcionalmente para caber na tela",
+              titulo: "Cálculo de dimensões inteligente",
+              descricao:
+                "Imagens menores que o viewport são exibidas em tamanho original, enquanto imagens maiores são redimensionadas proporcionalmente para caber na tela",
+              itens: [
+                "- Manter sempre a proporção original (aspect ratio) da imagem",
+                "- Calcular limites baseados no viewport disponível",
+                "- Reservar espaço para elementos da UI (controles, informações)",
+              ],
             },
             {
-              titulo:
-                "Imagens menores que o viewport são exibidas em tamanho original",
+              titulo: "Limites e incrementos de zoom",
+              descricao:
+                "Sistema de zoom com limites e incrementos controlados para melhor experiência",
+              itens: [
+                "- Zoom mínimo: **50%** para visão panorâmica",
+                "- Zoom máximo: **500%** para análise detalhada",
+                "- Incrementos de zoom: **20%** para controle fino",
+                "- Zoom por roda do mouse: incrementos menores para precisão",
+              ],
             },
             {
-              titulo:
-                "A navegação por teclado funciona em ambos os modos (claro/escuro)",
+              titulo: "Gerenciamento de estado de visualização",
+              descricao:
+                "Controle inteligente do estado durante navegação e interações",
+              itens: [
+                "- Estado de zoom é resetado ao mudar de imagem",
+                "- Posição de pan é centrada ao aplicar novo zoom",
+                "- Flags de drag são limpas após operações para prevenir bugs",
+                "- Detecção de tema é atualizada dinamicamente",
+              ],
             },
             {
-              titulo:
-                "O visualizador é responsivo e funciona em diferentes tamanhos de tela",
+              titulo: "Prevenção de conflitos de interação",
+              descricao:
+                "Sistema inteligente para evitar fechamentos acidentais e conflitos",
+              itens: [
+                "- Distinguir entre clique e drag para evitar fechamento acidental",
+                "- Threshold de movimento para detectar drag real",
+                "- Timeout para reset de flags após operações",
+                "- Propagação de eventos controlada durante interações",
+              ],
             },
           ],
           regrasInterface: [
             {
-              titulo:
-                "Indicação visual de que a imagem é clicável (cursor pointer + hover effect)",
+              titulo: "Indicadores visuais intuitivos e contextuais",
+              descricao: "Sistema de feedback visual claro e responsivo",
+              itens: [
+                "- Cursor :pointer: + hover effect nas imagens da grade",
+                "- Cursor :grab: em zoom 100%, :move: quando ampliado",
+                "- Botões de navegação só aparecem quando necessários (múltiplas imagens)",
+                "- Estados desabilitados claros nos controles de zoom",
+              ],
             },
             {
-              titulo:
-                "Botões de navegação só aparecem quando há múltiplas imagens",
+              titulo: "Transições e animações suaves",
+              descricao: "Experiência visual polida com transições responsivas",
+              itens: [
+                "- Transições suaves entre imagens (200ms ease-out)",
+                "- Animações de zoom centradas no cursor",
+                "- Hint contextual para duplo clique quando em zoom",
+                "- Indicadores de loading durante carregamento de imagens",
+              ],
             },
             {
-              titulo: "Interface adapta-se ao tema atual (claro/escuro)",
+              titulo: "Hierarquia visual e posicionamento estratégico",
+              descricao: "Layout organizado para máxima usabilidade",
+              itens: [
+                "- Painel de informações posicionado estrategicamente",
+                "- Controles de zoom centralizados na parte inferior",
+                "- Botão de fechar proeminente no canto superior direito",
+                "- Contador de imagens discreto mas visível",
+              ],
             },
             {
-              titulo: "Transições suaves entre imagens e ao abrir/fechar",
+              titulo: "Acessibilidade e suporte a tecnologias assistivas",
+              descricao: "Interface inclusiva e acessível",
+              itens: [
+                "- Titles descritivos em todos os botões interativos",
+                "- Navegação por teclado completa e intuitiva",
+                "- Contraste adequado para leitura em ambos os temas",
+                "- Suporte a screen readers e outras tecnologias assistivas",
+              ],
             },
           ],
           cenariosTeste: [
             {
-              titulo: "Visualização de imagem única",
-              dado: "que um requisito possui apenas uma imagem",
-              quando: "o usuário clica na imagem",
+              titulo: "Visualização com zoom básico e controles visuais",
+              dado: "que um requisito possui uma imagem",
+              quando:
+                "o usuário clica na imagem e usa os controles de zoom [btn:gray:zoom_in/] [btn:gray:zoom_out/]",
               entao:
-                "o sistema deve abrir o visualizador sem setas de navegação",
+                "o sistema deve permitir ampliar/reduzir com controles visuais responsivos",
               e_entao:
-                "mostrar apenas as informações da imagem e botão de fechar",
+                "mostrar nível de zoom atual e informações técnicas da imagem em tempo real",
             },
             {
-              titulo: "Navegação entre múltiplas imagens",
-              dado: "que um requisito possui várias imagens",
-              quando: "o usuário abre o visualizador e navega com as setas",
-              entao: "o sistema deve alternar entre as imagens sequencialmente",
-              e_entao: "atualizar o contador e as informações de cada imagem",
+              titulo: "Navegação com pan em imagem ampliada",
+              dado: "que uma imagem está com zoom > 100%",
+              quando: "o usuário arrasta a imagem com o mouse",
+              entao:
+                "o sistema deve mover a visualização suavemente dentro dos limites",
+              e_entao:
+                "manter o cursor em modo :move: e constrainear movimento adequadamente",
             },
             {
-              titulo: "Fechamento com tecla ESC",
-              dado: "que o visualizador está aberto",
-              quando: "o usuário pressiona a tecla ESC",
-              entao: "o sistema deve fechar o visualizador",
-              e_entao: "retornar o foco para a grade de imagens",
-            },
-            {
-              titulo: "Navegação por teclado",
+              titulo: "Navegação por teclado avançada com atalhos",
               dado: "que o visualizador está aberto com múltiplas imagens",
-              quando: "o usuário usa as setas do teclado (← →)",
-              entao: "o sistema deve navegar entre as imagens",
-              e_entao: "funcionar da mesma forma que os botões na tela",
+              quando:
+                "o usuário usa atalhos de teclado (`←`, `→`, `+`, `-`, `0`, `ESC`)",
+              entao:
+                "o sistema deve responder apropriadamente a cada comando de forma instantânea",
+              e_entao:
+                "manter estado consistente entre navegação, zoom e informações exibidas",
+            },
+            {
+              titulo: "Zoom por roda do mouse centrado no cursor",
+              dado: "que uma imagem está sendo visualizada",
+              quando:
+                "o usuário usa a roda do mouse :mouse: sobre diferentes áreas da imagem",
+              entao:
+                "o sistema deve aplicar zoom centrado na posição exata do cursor",
+              e_entao:
+                "atualizar controles visuais e informações em tempo real",
+            },
+            {
+              titulo: "Responsividade em dispositivos móveis e tablets",
+              dado: "que o usuário acessa em dispositivo móvel :smartphone: ou tablet",
+              quando: "abre o visualizador de imagens",
+              entao:
+                "o sistema deve adaptar controles para touch e redimensionar adequadamente",
+              e_entao:
+                "manter funcionalidade completa com gestos de zoom/pan nativos",
+            },
+            {
+              titulo: "Prevenção inteligente de fechamento acidental",
+              dado: "que o usuário está fazendo zoom/pan na imagem",
+              quando: "realiza movimentos de drag na área da imagem",
+              entao: "o sistema deve detectar drag real vs clique simples",
+              e_entao:
+                "manter o visualizador aberto durante operações e só fechar com ação deliberada",
+            },
+            {
+              titulo: "Informações técnicas precisas e formatadas",
+              dado: "que uma imagem está sendo visualizada",
+              quando:
+                "o sistema calcula e exibe informações técnicas no painel",
+              entao:
+                "deve mostrar tamanho, dimensões, zoom e base64 com formatação adequada",
+              e_entao:
+                "atualizar todas as informações dinamicamente conforme interações do usuário",
+            },
+            {
+              titulo: "Múltiplas imagens com navegação fluida",
+              dado: "que um requisito possui várias imagens",
+              quando:
+                "o usuário navega entre elas usando [btn:view:chevron_left/] [btn:view:chevron_right/] ou teclas",
+              entao:
+                "o sistema deve trocar imagens suavemente mantendo controles consistentes",
+              e_entao:
+                "resetar zoom/pan adequadamente e atualizar contador **X de Y**",
+            },
+            {
+              titulo: "Adaptação automática ao tema do sistema",
+              dado: "que o usuário tem tema claro ou escuro ativo",
+              quando: "abre o visualizador de imagens",
+              entao:
+                "o sistema deve adaptar todos os elementos visuais ao tema atual :swap:",
+              e_entao:
+                "manter contraste adequado e legibilidade em ambos os modos",
             },
           ],
         },
@@ -3637,7 +3943,7 @@ Para formalizar e compartilhar as especificações do sistema a ser desenvolvido
             "Selecionar a opção [tc-green]Documentação de Desenvolvimento[/c]",
             "Preencher todos os campos obrigatórios do formulário",
             "Adicionar pelo menos um requisito funcional",
-            "Selecionar os formatos desejados (JSON, DOCX, PDF)",
+            "Selecionar os formatos desejados ([tc-purple]JSON[/c], [tc-blue]DOCX[/c], [tc-red]PDF[/c])",
             "Clicar no botão [btn:blue]Gerar Documentos[/btn]",
           ],
           criteriosAceitacao: [

@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-    <toast-notification
-      :toasts="notificationService.toasts"
-    ></toast-notification>
     <div class="container">
       <router-view />
     </div>

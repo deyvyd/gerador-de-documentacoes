@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      // dados
+      isProcessing: false,
     };
   },
   methods: {

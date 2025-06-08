@@ -1285,6 +1285,16 @@
     @apply bg-red-700 text-red-50;
   }
 
+  /* ===== Badge para o número das miniaturas de imagens ===== */
+  .badge-square {
+    @apply px-1.5 py-1 rounded;
+    min-width: 1.75rem;
+    aspect-ratio: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   /* ===== Image Viewer com Zoom e Pan ===== */
   .image-viewer-zoom-container {
     @apply relative overflow-hidden cursor-grab;

@@ -392,6 +392,7 @@
       @update-requisito="atualizarRequisito"
       @upload-imagem="handleFileUpload"
       @remover-imagem="removerImagem"
+      @imagem-reordenada="handleImagemReordenada"
     ></modal-requisito>
 
     <!-- Modal de Mensagem para confirmação -->
@@ -665,6 +666,17 @@ export default {
       );
     },
 
+    handleImagemReordenada(dadosReordenacao) {
+      const { posicaoOriginal, novaPosicao } = dadosReordenacao;
+
+      if (posicaoOriginal !== novaPosicao) {
+        this.notificationService.show(
+          `A imagem ${posicaoOriginal} foi movida para a posição ${novaPosicao}`,
+          "success"
+        );
+      }
+    },
+
     startTour() {
       if (this.$refs.tourGuide) {
         this.$refs.tourGuide.startTour();
@@ -930,8 +942,6 @@ export default {
     },
 
     reordenarRequisitosNaoFuncionais({ oldIndex, newIndex }) {
-      console.log(`Reordenando RNF de ${oldIndex} para ${newIndex}`);
-
       // Faz uma cópia profunda da lista para garantir que todos os objetos
       // e suas propriedades sejam copiados sem referências
       const listaAtualizada = JSON.parse(
@@ -959,19 +969,18 @@ export default {
           ...this.listaRequisitosNaoFuncionais,
         ];
 
-        console.log(
-          "RNFs reordenados e IDs atualizados:",
-          this.listaRequisitosNaoFuncionais
-            .map((req) => `${req.id} - ${req.titulo}`)
-            .join(", ")
+        this.notificationService.show(
+          `O RNF-${String(oldIndex + 1).padStart(
+            2,
+            "0"
+          )} foi movido para a posição ${newIndex + 1}`,
+          "success"
         );
       });
     },
 
     // Função para reordenar requisitos e atualizar os IDs sequenciais
     reordenarRequisitos({ oldIndex, newIndex }) {
-      console.log(`Reordenando de ${oldIndex} para ${newIndex}`);
-
       // Faz uma cópia profunda dos requisitos para garantir que todos os objetos
       // e suas propriedades sejam copiados sem referências
       const requisitosAtualizados = JSON.parse(JSON.stringify(this.requisitos));
@@ -994,10 +1003,14 @@ export default {
         // Forçar novamente a renderização após a atualização dos IDs
         this.requisitos = [...this.requisitos];
 
-        console.log(
-          "Requisitos reordenados e IDs atualizados:",
-          this.requisitos.map((req) => `${req.id} - ${req.tituloRF}`).join(", ")
-        );
+        this,
+          this.notificationService.show(
+            `${
+              this.requisitos[oldIndex].numero ||
+              `O ${String(this.requisitos[oldIndex].id).padStart(2, "0")}`
+            } foi movido para a posição ${newIndex + 1}`,
+            "success"
+          );
       });
     },
 
@@ -1129,11 +1142,25 @@ export default {
         this.requisitoAtual.imagens = [];
       }
 
+      let processedFiles = 0;
+      const totalFiles = files.length;
+
       // Converter cada arquivo para base64
       Array.from(files).forEach((file) => {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.requisitoAtual.imagens.push(e.target.result);
+          processedFiles++;
+
+          // Notificação apenas quando todos os arquivos forem processados
+          if (processedFiles === totalFiles) {
+            const mensagem =
+              totalFiles === 1
+                ? "1 imagem adicionada com sucesso"
+                : `${totalFiles} imagens adicionadas com sucesso`;
+
+            this.notificationService.show(mensagem, "success");
+          }
         };
         reader.readAsDataURL(file);
       });
@@ -1143,7 +1170,12 @@ export default {
     },
 
     removerImagem(index) {
+      const numeroImagem = String(index + 1).padStart(2, "0");
       this.requisitoAtual.imagens.splice(index, 1);
+      this.notificationService.show(
+        `Imagem ${numeroImagem} removida com sucesso`,
+        "success"
+      );
     },
 
     editarRequisitoNaoFuncional(index) {

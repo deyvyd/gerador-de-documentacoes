@@ -504,7 +504,9 @@
                 </button>
 
                 <!-- Indicador de ordem (apenas número) -->
-                <div class="image-order-indicator">
+                <div
+                  class="image-order-indicator badge-base badge-rf-id badge-square"
+                >
                   {{ String(idx + 1).padStart(2, "0") }}
                 </div>
               </div>
@@ -562,7 +564,9 @@
                   </div>
 
                   <!-- Indicador de ordem -->
-                  <div class="image-order-indicator">
+                  <div
+                    class="image-order-indicator badge-base badge-rf-id badge-square"
+                  >
                     {{ String(idx + 1).padStart(2, "0") }}
                   </div>
                 </div>
@@ -1214,12 +1218,17 @@ export default {
       const images = [...this.requisito.imagens];
       const totalImagens = images.length;
 
+      // Armazenar a posição original para a notificação
+      const posicaoOriginal = String(oldIndex + 1).padStart(2, "0");
+      let novaPosicao;
+
       // Cenário 1: Arrastar para um slot vazio (posição além das imagens existentes)
       if (newIndex >= totalImagens) {
         // Remove a imagem da posição original
         const movedImage = images.splice(oldIndex, 1)[0];
         // Adiciona no final
         images.push(movedImage);
+        novaPosicao = String(images.length).padStart(2, "0");
       }
       // Cenário 2: Mover para a direita (newIndex > oldIndex)
       else if (newIndex > oldIndex) {
@@ -1227,6 +1236,7 @@ export default {
         const movedImage = images.splice(oldIndex, 1)[0];
         // Insere na nova posição
         images.splice(newIndex, 0, movedImage);
+        novaPosicao = String(newIndex + 1).padStart(2, "0");
       }
       // Cenário 3: Mover para a esquerda (newIndex < oldIndex)
       else if (newIndex < oldIndex) {
@@ -1234,6 +1244,7 @@ export default {
         const movedImage = images.splice(oldIndex, 1)[0];
         // Insere na nova posição
         images.splice(newIndex, 0, movedImage);
+        novaPosicao = String(newIndex + 1).padStart(2, "0");
       } else {
         return;
       }
@@ -1244,6 +1255,12 @@ export default {
         this.requisito.imagens.length,
         ...images
       );
+
+      // Emitir notificação de reordenação
+      this.$emit("imagem-reordenada", {
+        posicaoOriginal,
+        novaPosicao,
+      });
     },
 
     // Mostrar slots visuais durante o drag
@@ -2103,10 +2120,22 @@ export default {
 
 /* ===== Indicadores mínimos ===== */
 .image-order-indicator {
-  @apply absolute bottom-0 left-0 bg-blue-750 bg-opacity-85 text-white text-xs px-1.5 py-1 text-center pointer-events-none font-bold rounded;
-  width: auto;
+  /* Manter posicionamento original (absoluto no canto inferior) */
+  @apply absolute bottom-0 left-0;
+
+  /* Sobrescrever estilos específicos para manter comportamento na imagem */
+  @apply pointer-events-none; /* Não interferir com cliques na imagem */
+  @apply text-xs; /* Fonte menor para caber bem na miniatura */
+  @apply shadow-sm; /* Sombra sutil para destacar sobre a imagem */
+
+  /* Garantir que fique sempre visível sobre qualquer imagem */
+  z-index: 10;
+
+  /* Tamanho otimizado para miniaturas */
   min-width: 1.5rem;
-  height: auto;
+  min-height: 1.5rem;
+  font-size: 0.7rem;
+  line-height: 1;
 }
 
 .modal-image-remove-button {

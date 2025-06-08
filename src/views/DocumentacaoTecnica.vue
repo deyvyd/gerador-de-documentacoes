@@ -544,6 +544,12 @@ export default {
       // Atualiza o array com a nova referência (isso força a re-renderização)
       this.atividades = [...atividades];
 
+      // Adicionar notificação de reordenação
+      this.notificationService.show(
+        `Atividade "${movedItem.nome}" movida para a posição ${newIndex + 1}`,
+        "success"
+      );
+
       // Para garantir, forçamos a reinicialização do Sortable
       this.$nextTick(() => {
         this.destroySortable().then(() => {
