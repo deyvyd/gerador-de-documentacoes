@@ -1046,23 +1046,6 @@
     @apply text-gray-400;
   }
 
-  /* View mode image display */
-  .modal-view-images-grid {
-    @apply mt-2 grid grid-cols-2 md:grid-cols-3 gap-4;
-  }
-
-  .modal-view-image {
-    @apply w-full h-32 object-cover rounded border;
-  }
-
-  .modal-view-image-light {
-    @apply border-gray-300;
-  }
-
-  .modal-view-image-dark {
-    @apply border-gray-600;
-  }
-
   .modal-no-images {
     @apply mt-2 p-4 rounded border;
   }
