@@ -524,27 +524,22 @@
             <!-- Quando há imagens -->
             <div
               v-if="requisito.imagens && requisito.imagens.length > 0"
-              class="modal-view-images-grid"
+              class="modal-image-grid"
             >
               <div
                 v-for="(imagem, idx) in requisito.imagens"
                 :key="idx"
-                class="modal-image-container relative"
+                class="modal-image-container"
               >
                 <!-- Área clicável para visualizar a imagem -->
                 <div
-                  class="image-clickable-area group cursor-pointer"
+                  class="image-clickable-area group cursor-pointer w-full h-full"
                   @click="abrirVisualizadorImagem(imagem)"
                 >
                   <img
                     :src="imagem"
                     alt="Imagem do requisito"
-                    :class="[
-                      'modal-view-image group-hover:opacity-80 group-hover:scale-105 transition-all duration-200',
-                      isDarkMode
-                        ? 'modal-view-image-dark'
-                        : 'modal-view-image-light',
-                    ]"
+                    class="modal-image group-hover:opacity-80 group-hover:scale-105 transition-all duration-200"
                   />
 
                   <!-- Indicador de clique para visualização -->
@@ -565,10 +560,9 @@
                       ></path>
                     </svg>
                   </div>
+
                   <!-- Indicador de ordem -->
-                  <div
-                    class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white text-xs p-1 text-center pointer-events-none font-bold"
-                  >
+                  <div class="image-order-indicator">
                     {{ String(idx + 1).padStart(2, "0") }}
                   </div>
                 </div>
@@ -2109,7 +2103,10 @@ export default {
 
 /* ===== Indicadores mínimos ===== */
 .image-order-indicator {
-  @apply absolute bottom-0 left-0 right-0 bg-black bg-opacity-60 text-white text-xs p-1 text-center pointer-events-none font-bold;
+  @apply absolute bottom-0 left-0 bg-blue-750 bg-opacity-85 text-white text-xs px-1.5 py-1 text-center pointer-events-none font-bold rounded;
+  width: auto;
+  min-width: 1.5rem;
+  height: auto;
 }
 
 .modal-image-remove-button {
