@@ -673,7 +673,7 @@ export default {
       if (posicaoOriginal !== novaPosicao) {
         this.notificationService.show(
           `A imagem ${posicaoOriginal} foi movida para a posição ${novaPosicao}`,
-          "success"
+          "info"
         );
       }
     },
@@ -977,7 +977,7 @@ export default {
             2,
             "0"
           )} foi movido para a posição ${newIndex + 1}`,
-          "success"
+          "info"
         );
       });
     },
@@ -1012,7 +1012,7 @@ export default {
               this.requisitos[oldIndex].numero ||
               `O ${String(this.requisitos[oldIndex].id).padStart(2, "0")}`
             } foi movido para a posição ${newIndex + 1}`,
-            "success"
+            "info"
           );
       });
     },

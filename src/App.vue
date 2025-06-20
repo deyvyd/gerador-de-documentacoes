@@ -53,23 +53,6 @@ export default {
     UploadButton,
     TourGuide,
   },
-  methods: {
-    startTour() {
-      console.log("Tentando iniciar o tour");
-      const route = this.$route.name;
-      console.log("Rota atual:", route);
-
-      // Usar a função global
-      if (
-        route === "DocumentacaoTecnica" &&
-        window.startDocumentacaoTecnicaTour
-      ) {
-        console.log("Função do tour encontrada, iniciando...");
-        window.startDocumentacaoTecnicaTour();
-      } else {
-        console.log("Função do tour não encontrada para esta página");
-      }
-    },
-  },
+  methods: {},
 };
 </script>

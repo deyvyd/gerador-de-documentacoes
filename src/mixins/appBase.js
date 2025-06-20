@@ -280,6 +280,7 @@ export default {
         usuario: null,
         perfil: null,
       };
+
       try {
         // Validação básica da estrutura do JSON
         if (!data || typeof data !== "object") {
@@ -448,8 +449,15 @@ export default {
             .replace(".", ",");
         }
 
+        // Limpar histórico de notificações ao importar JSON
+        this.notificationService.clearHistory();
+
+        // Determinar o tipo de documentação para exibir na mensagem
+        const tipoDocumentacao =
+          tipoJSON === "desenvolvimento" ? "Desenvolvimento" : "Técnica";
+
         this.notificationService.show(
-          "Dados importados com sucesso!",
+          `Dados da Doc. ${tipoDocumentacao} da SS ${this.formData.numeroSS}/${this.formData.anoSS} importados com sucesso!`,
           "success"
         );
       } catch (error) {

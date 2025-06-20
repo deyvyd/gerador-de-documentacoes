@@ -556,10 +556,10 @@ export default {
 
       // Adicionar notificação de reordenação
       this.notificationService.show(
-        `Atividade "${truncarNome(movedItem.nome)}" movida para a posição ${
-          newIndex + 1
-        }`,
-        "success"
+        `A atividade "${truncarNome(
+          movedItem.nome
+        )}" foi movida para a posição ${newIndex + 1}`,
+        "info"
       );
 
       // Para garantir, forçamos a reinicialização do Sortable

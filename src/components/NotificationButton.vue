@@ -298,21 +298,27 @@ export default {
       const now = new Date();
       const diff = now - date;
 
+      // Menos de 2 segundos
+      if (diff < 2000) {
+        return "Agora";
+      }
+
       // Menos de 1 minuto
       if (diff < 60000) {
-        return "Agora";
+        const seconds = Math.floor(diff / 1000);
+        return `${seconds} s atrás`;
       }
 
       // Menos de 1 hora
       if (diff < 3600000) {
         const minutes = Math.floor(diff / 60000);
-        return `${minutes}min atrás`;
+        return `${minutes} min atrás`;
       }
 
       // Menos de 24 horas
       if (diff < 86400000) {
         const hours = Math.floor(diff / 3600000);
-        return `${hours}h atrás`;
+        return `${hours} h atrás`;
       }
 
       // Mesmo dia
@@ -326,7 +332,7 @@ export default {
       // Dias anteriores
       const days = Math.floor(diff / 86400000);
       if (days < 7) {
-        return `${days}d atrás`;
+        return `${days} d atrás`;
       }
 
       // Mais de uma semana
