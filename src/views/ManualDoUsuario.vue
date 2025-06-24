@@ -1489,7 +1489,7 @@ Para distribuir e armazenar da maneira mais adequada`,
               entao:
                 "o sistema gera o arquivo [tc-purple]JSON[/c] sem validar todos os campos",
               e_entao:
-                "inicia o download do arquivo [tc-purple]JSON[/c] com o formato 'SS NNN-AAAA.json'",
+                "inicia o download do arquivo [tc-purple]JSON[/c] com o formato `SS NNN-AAAA.json`",
             },
             {
               titulo: "Exportação em formatos DOCX e PDF",
@@ -2127,7 +2127,7 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
                 "- Validar todos os campos obrigatórios",
                 "- Se houver campos obrigatórios não preenchidos, destacar campos com erro e focar no primeiro campo com problema",
                 "- Se todos os campos obrigatórios estiverem preenchidos, salvar o requisito",
-                "- Atribuir ID sequencial no formato RF-XX (RF-01, RF-02, etc.)",
+                "- Atribuir ID sequencial no formato `RF-[tc-purple]XX[/c]` (`RF-01`, `RF-02`, etc.)",
                 "- Exibir mensagem de sucesso e fechar o modal",
               ],
             },
@@ -2135,7 +2135,7 @@ Para documentar as especificações do sistema que precisam ser implementadas`,
           regrasNegocio: [
             {
               titulo:
-                "O ID do requisito funcional segue o formato RF-XX, onde XX é um número sequencial iniciando em 01",
+                "O ID do requisito funcional segue o formato `RF-[tc-purple]XX[/c]`, onde [tc-purple]XX[/c] é um número sequencial iniciando em 01",
             },
             {
               titulo:
@@ -2212,7 +2212,7 @@ Para ter uma visão geral e poder reorganizá-los conforme a ordem lógica de im
               titulo:
                 "Exibição da lista: o sistema deve exibir os requisitos funcionais com as seguintes informações:",
               itens: [
-                "- [tc-sky]ID:[/c] identificador sequencial no formato RF-XX",
+                "- [tc-sky]ID:[/c] identificador sequencial no formato `RF-[tc-purple]XX[/c]`",
                 "- [tc-sky]Título:[/c] título do requisito funcional",
                 "- [tc-sky]Local:[/c] local de implementação do requisito",
                 "- [tc-sky]Tipo:[/c] tipo do requisito (Alteração, Inclusão ou Remoção)",
@@ -2450,7 +2450,7 @@ Para atualizar ou corrigir as especificações conforme necessário`,
             },
             {
               titulo:
-                'O botão de salvar exibe o texto "Atualizar" em vez de "Salvar" para indicar edição',
+                "O botão de salvar exibe o texto [btn:green]Atualizar[/btn] em vez de [btn:blue]Salvar[/btn] para indicar edição",
             },
           ],
           cenariosTeste: [
@@ -2508,8 +2508,8 @@ Para acelerar o cadastro de requisitos similares, aproveitando informações já
                 "Criação da cópia: ao clicar no botão de duplicar, o sistema deve:",
               itens: [
                 "- Abrir o modal de cadastro preenchido com todos os dados do requisito original",
-                "- Gerar um ID temporário (RF-XX) para o novo requisito",
-                "- Modificar o título adicionando o prefixo '(Cópia)' para indicar que é uma duplicação",
+                "- Gerar um ID temporário (`RF-[tc-purple]XX[/c]`) para o novo requisito",
+                "- Modificar o título adicionando o prefixo `(Cópia)` para indicar que é uma duplicação",
                 "- Manter todas as informações dos campos: tipo, local, usuário, perfil, descrição, validações, regras e banco",
                 "- Preservar todas as imagens anexadas ao requisito original",
               ],
@@ -2520,7 +2520,7 @@ Para acelerar o cadastro de requisitos similares, aproveitando informações já
                 "- Editar qualquer campo antes de salvar a duplicação",
                 "- Aplicar as mesmas validações do cadastro normal",
                 "- Permitir adicionar ou remover imagens da cópia",
-                "- Alterar o título removendo o prefixo '(Cópia)' se desejado",
+                "- Alterar o título removendo o prefixo `(Cópia)` se desejado",
                 "- Fixar novos valores como padrão usando o ícone de cadeado :unlock:",
               ],
             },
@@ -2528,7 +2528,7 @@ Para acelerar o cadastro de requisitos similares, aproveitando informações já
               titulo: "Salvamento da duplicação: ao confirmar, o sistema deve:",
               itens: [
                 "- Validar todos os campos obrigatórios",
-                "- Atribuir um ID sequencial definitivo (RF-XX)",
+                "- Atribuir um ID sequencial definitivo (`RF-[tc-purple]XX[/c]`)",
                 "- Adicionar o novo requisito ao final da lista",
                 "- Exibir mensagem de sucesso",
                 "- Fechar o modal e retornar à lista atualizada",
@@ -2549,7 +2549,7 @@ Para acelerar o cadastro de requisitos similares, aproveitando informações já
             },
             {
               titulo:
-                "O prefixo '(Cópia)' é adicionado automaticamente ao título para identificação",
+                "O prefixo `(Cópia)` é adicionado automaticamente ao título para identificação",
             },
             {
               titulo:
@@ -2571,7 +2571,7 @@ Para acelerar o cadastro de requisitos similares, aproveitando informações já
             },
             {
               titulo:
-                "O botão de salvar exibe o texto [btn:blue]Salvar[/btn] (não 'Atualizar' como na edição)",
+                "O botão de salvar exibe o texto [btn:blue]Salvar[/btn] (não [btn:green]Atualizar[/btn] como na edição)",
             },
           ],
           cenariosTeste: [
@@ -2582,7 +2582,7 @@ Para acelerar o cadastro de requisitos similares, aproveitando informações já
                 "o usuário clica no ícone de duplicação [btn:copy:duplicate/] e confirma salvando",
               entao: "o sistema deve criar um novo requisito com ID sequencial",
               e_entao:
-                "adicionar '(Cópia)' ao título e preservar todos os outros dados",
+                "adicionar `(Cópia)` ao título e preservar todos os outros dados",
             },
             {
               titulo: "Edição de campos durante a duplicação",
@@ -2721,30 +2721,33 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
           ],
           criteriosAceitacao: [
             {
-              titulo: "Seleção de imagens: o sistema deve permitir:",
+              titulo: "Seleção de imagens aprimorada: o sistema deve permitir:",
               itens: [
                 "- Upload de múltiplas imagens simultaneamente",
                 "- Aceitar formatos comuns: JPG, JPEG, PNG, GIF, WEBP",
                 "- Validar tamanho máximo de 5MB para o total de todas as imagens",
                 "- Exibir preview das imagens selecionadas imediatamente após o upload",
+                "- Feedback visual imediato para uploads bem-sucedidos",
               ],
             },
             {
-              titulo: "Área de upload: o sistema deve apresentar:",
+              titulo: "Área de upload aprimorada: o sistema deve apresentar:",
               itens: [
                 "- Botão [btn:gray]Selecionar imagens[/btn] claramente visível",
-                "- Suporte a drag and drop para facilitar o upload",
+                "- Suporte completo a drag and drop para facilitar o upload",
                 "- Indicador visual quando imagens estão sendo processadas",
-                "- Grade de visualização das imagens após o upload",
+                "- Grade de visualização automática das imagens após o upload",
+                "- Contador dinâmico do espaço utilizado vs disponível",
               ],
             },
             {
-              titulo: "Validações: o sistema deve:",
+              titulo: "Validações aprimoradas: o sistema deve:",
               itens: [
                 "- Rejeitar arquivos que não sejam imagens válidas",
                 "- Alertar quando o tamanho total exceder 5MB",
-                "- Mostrar informações de tamanho de cada imagem",
+                "- Mostrar informações de tamanho de cada imagem individualmente",
                 "- Preservar qualidade das imagens no formato base64",
+                "- Barra de progresso durante processamento de múltiplas imagens",
               ],
             },
           ],
@@ -2755,7 +2758,7 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
             },
             {
               titulo:
-                "O limite total de 5MB visa manter a performance do sistema",
+                "O limite total de [tc-blue]5MB[/c] visa manter a performance do sistema",
             },
             {
               titulo:
@@ -2768,20 +2771,14 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
           ],
           regrasInterface: [
             {
-              titulo:
-                "As imagens são exibidas em uma grade responsiva de 3 colunas",
-            },
-            {
-              titulo:
-                "Cada imagem mostra uma miniatura com indicador de tamanho",
-            },
-            {
-              titulo:
-                "Botão de upload usa ícones intuitivos e texto descritivo",
-            },
-            {
-              titulo:
-                "Feedback visual imediato para uploads bem-sucedidos ou com erro",
+              titulo: "Interface rica com indicadores visuais em tempo real",
+              itens: [
+                "- As imagens são exibidas em uma grade responsiva de 3 colunas",
+                "- Cada imagem mostra uma miniatura com indicador de tamanho individual",
+                "- Botão de upload usa ícones intuitivos e texto descritivo",
+                "- Feedback visual imediato para uploads bem-sucedidos ou com erro",
+                "- Barra de progresso durante processamento de múltiplas imagens",
+              ],
             },
           ],
           cenariosTeste: [
@@ -2797,7 +2794,8 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
             {
               titulo: "Tentativa de upload excedendo limite de tamanho",
               dado: "que o usuário tenta adicionar imagens",
-              quando: "o tamanho total das imagens selecionadas excede 5MB",
+              quando:
+                "o tamanho total das imagens selecionadas excede [tc-blue]5MB[/c]",
               entao: "o sistema deve rejeitar o upload",
               e_entao:
                 "exibir mensagem informando o limite e sugerindo usar imagens menores",
@@ -2833,7 +2831,8 @@ Para ter controle total sobre a ordem de inserção e facilitar sua gestão`,
             {
               titulo: "Exibição da grade responsiva: o sistema deve mostrar:",
               itens: [
-                "- Grade responsiva com até 3 colunas em telas grandes",
+                "- Grade responsiva com até 3 colunas em telas grandes (desktop ≥ 1024px)",
+                "- 2 colunas em tablets (768px - 1023px) e 1 coluna em smartphones (< 768px)",
                 "- Miniaturas das imagens com proporções mantidas (140x96px)",
                 "- Badge de ordem :hash: no canto inferior esquerdo de cada imagem",
                 "- Efeito hover :pointer: para indicar interatividade",
@@ -2841,34 +2840,36 @@ Para ter controle total sobre a ordem de inserção e facilitar sua gestão`,
               ],
             },
             {
-              titulo: "Sistema de badges de ordem: cada imagem deve exibir:",
+              titulo:
+                "Sistema de badges de ordem aprimorado: cada imagem deve exibir:",
               itens: [
                 "- Badge numérico [badge:dblue]01[/b], [badge:dblue]02[/b], [badge:dblue]03[/b] etc. no canto inferior esquerdo",
-                "- Badge com fundo semi-transparente escuro para contraste",
+                "- Badge com fundo semi-transparente escuro para contraste adequado",
                 "- Numeração sequencial baseada na ordem atual de inserção",
-                "- Atualização automática dos números após reordenação",
-                "- Formatação com zero à esquerda para números de 1 a 9",
+                "- Formatação com zero à esquerda para números de 1 a 9 (01-09)",
+                "- Atualização automática dos números após cada reordenação",
               ],
             },
             {
-              titulo: "Reordenação por drag and drop: o sistema deve permitir:",
+              titulo:
+                "Reordenação avançada por drag and drop: o sistema deve permitir:",
               itens: [
                 "- Arrastar e soltar imagens para reorganizar a ordem :move:",
-                "- Feedback visual durante o arrasto com slots vazios",
+                "- Sistema de slots vazios com feedback visual durante o arrasto",
                 "- Highlight das áreas de destino durante o drag",
                 "- Animações suaves de 200ms durante reordenação",
                 "- Cursor :grab: normal, cursor :grabbing: durante arrasto",
-                "- Atualização imediata dos badges após cada movimento",
+                "- Borda azul tracejada [tc-blue]border-dashed[/c] ao redor da grade durante drag",
               ],
             },
             {
-              titulo: "Estados visuais durante drag: o sistema deve exibir:",
+              titulo: "Estados visuais aprimorados: o sistema deve exibir:",
               itens: [
-                "- Slots vazios [tc-gray]numerados[/c] para indicar posições disponíveis",
-                "- Borda azul tracejada [tc-blue]border-dashed[/c] ao redor da grade durante drag",
-                "- Imagem sendo arrastada com rotação sutil :rotate_2: e sombra",
-                "- Outras imagens com opacidade reduzida (70%) durante operação",
-                "- Slot de destino com highlight azul ao passar o mouse",
+                "- Estado vazio: mensagem [tc-gray]Nenhuma imagem foi inserida[/c] quando não há imagens",
+                "- Estado de carregamento durante upload de novas imagens",
+                "- Estado de edição: arrastar habilitado + botões de remoção visíveis",
+                "- Estado de visualização: apenas visualização das imagens (sem drag/remoção)",
+                "- Estado de drag ativo: slots vazios visíveis + feedback visual completo",
               ],
             },
             {
@@ -2881,42 +2882,22 @@ Para ter controle total sobre a ordem de inserção e facilitar sua gestão`,
                 "- Tooltip [tc-gray]Remover imagem[/c] no botão de exclusão",
               ],
             },
-            {
-              titulo: "Estados da listagem aprimorados:",
-              itens: [
-                "- Estado vazio: mensagem [tc-gray]Nenhuma imagem foi inserida[/c] quando não há imagens",
-                "- Estado de carregamento durante upload de novas imagens",
-                "- Estado de edição: arrastar habilitado + botões de remoção visíveis",
-                "- Estado de visualização: apenas visualização das imagens (sem drag/remoção)",
-                "- Estado de drag ativo: slots vazios visíveis + feedback visual",
-              ],
-            },
-            {
-              titulo: "Responsividade da grade: deve adaptar-se a:",
-              itens: [
-                "- 3 colunas em telas grandes (desktop ≥ 1024px)",
-                "- 2 colunas em tablets (768px - 1023px)",
-                "- 1 coluna em smartphones (< 768px)",
-                "- Redimensionamento proporcional dos controles em mobile",
-                "- Manutenção da funcionalidade drag em todos os tamanhos",
-              ],
-            },
           ],
           regrasNegocio: [
             {
-              titulo: "Gerenciamento de ordem e numeração",
+              titulo: "Gerenciamento inteligente de ordem e numeração",
               descricao:
                 "Sistema inteligente de controle da ordem das imagens com numeração automática",
               itens: [
                 "- As imagens seguem ordem sequencial definida pelo usuário via drag and drop",
-                "- Numeração automática de **01** a **99** conforme posição atual",
+                "- Numeração automática de [badge:dblue]01[/b] a [badge:dblue]99[/b] conforme posição atual",
                 "- Renumeração automática após qualquer operação de reordenação",
                 "- Nova imagem sempre adicionada no final da sequência existente",
                 "- Remoção de imagem resulta em renumeração das imagens subsequentes",
               ],
             },
             {
-              titulo: "Controle de reordenação e limites",
+              titulo: "Controle avançado de reordenação e limites",
               descricao:
                 "Regras para operações de drag and drop e limites do sistema",
               itens: [
@@ -3385,21 +3366,23 @@ Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
           ],
           criteriosAceitacao: [
             {
-              titulo: "Botão de remoção: cada imagem deve ter:",
+              titulo: "Botão de remoção aprimorado: cada imagem deve ter:",
               itens: [
                 "- Botão [tc-red]X[/c] vermelho no canto superior direito",
                 "- Ícone claramente visível sobre a imagem",
-                "- Tooltip explicativo ao passar o mouse",
+                "- Tooltip explicativo [tc-gray]Remover imagem[/c] ao passar o mouse",
                 "- Remoção imediata sem necessidade de confirmação adicional",
+                "- Animação suave na remoção da imagem da grade",
               ],
             },
             {
-              titulo: "Feedback visual: o sistema deve:",
+              titulo: "Feedback visual melhorado: o sistema deve:",
               itens: [
                 "- Remover a imagem da grade imediatamente após o clique",
-                "- Reorganizar automaticamente as imagens restantes",
-                "- Atualizar o cálculo de tamanho total das imagens",
-                "- Manter a numeração sequencial das imagens restantes",
+                "- Reorganizar automaticamente as imagens restantes com animação",
+                "- Atualizar o cálculo de tamanho total das imagens em tempo real",
+                "- Manter a numeração sequencial das imagens restantes automaticamente",
+                "- Preservar a funcionalidade de reordenação após remoções",
               ],
             },
           ],
@@ -3420,17 +3403,16 @@ Para corrigir uploads incorretos ou otimizar o tamanho do documento`,
           ],
           regrasInterface: [
             {
-              titulo: "Botão de remoção só aparece no modo de edição/criação",
-            },
-            {
-              titulo: "Hover effect no botão para melhor usabilidade",
-            },
-            {
-              titulo: "Animação suave na remoção da imagem da grade",
-            },
-            {
-              titulo:
-                "Área de upload permanece visível mesmo após remover todas as imagens",
+              titulo: "Interface responsiva e intuitiva",
+              descricao:
+                "Controles adaptados para melhor experiência do usuário",
+              itens: [
+                "- Botão de remoção só aparece no modo de edição/criação",
+                "- Hover effect no botão para melhor usabilidade",
+                "- Animação suave na remoção da imagem da grade",
+                "- Área de upload permanece visível mesmo após remover todas as imagens",
+                "- Feedback visual consistente com o resto do sistema",
+              ],
             },
           ],
           cenariosTeste: [
@@ -3709,7 +3691,7 @@ Para atualizar ou corrigir as especificações conforme necessário`,
             },
             {
               titulo:
-                'O botão de formulário exibe o texto "Atualizar" durante o modo de edição',
+                "O botão de formulário exibe o texto [btn:green]Atualizar[/btn] durante o modo de edição",
             },
             {
               titulo: "Campos com erro de validação são destacados em vermelho",
@@ -3857,7 +3839,7 @@ Para documentar a complexidade funcional do sistema`,
             {
               titulo: "Preenchimento de pontos de função (PFs):",
               itens: [
-                "- Campo numérico decimal que aceita valores como '12,50'",
+                "- Campo numérico decimal que aceita valores como `12,50`",
                 "- Formatação automática para o padrão brasileiro (vírgula como separador decimal)",
                 "- Limitação a duas casas decimais",
               ],
@@ -3907,15 +3889,15 @@ Para documentar a complexidade funcional do sistema`,
             {
               titulo: "Preenchimento de pontos de função com valor válido",
               dado: "que o usuário está documentando uma SS",
-              quando: "insere '15,75' no campo de pontos de função",
+              quando: "insere `15,75` no campo de pontos de função",
               entao: "o sistema aceita e formata o valor corretamente",
               e_entao: "registra o valor para inclusão no documento final",
             },
             {
               titulo: "Formatação automática de valor com ponto",
               dado: "que o usuário insere um valor com ponto como separador",
-              quando: "digita '12.25' e sai do campo",
-              entao: "o sistema converte automaticamente para '12,25'",
+              quando: "digita `12.25` e sai do campo",
+              entao: "o sistema converte automaticamente para `12,25`",
               e_entao: "armazena o valor numérico correto (12.25) internamente",
             },
             {

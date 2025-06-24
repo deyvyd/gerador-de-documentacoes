@@ -6447,10 +6447,6 @@ video {
   btn: tour next;
 }
 
-.\[tc\:red\]{
-  tc: red;
-}
-
 .\[tst\:error\]{
   tst: error;
 }
