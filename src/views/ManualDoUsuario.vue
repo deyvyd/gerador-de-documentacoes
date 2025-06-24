@@ -2732,7 +2732,7 @@ Para ilustrar melhor as especificações e facilitar o entendimento`,
             {
               titulo: "Área de upload: o sistema deve apresentar:",
               itens: [
-                "- Botão [btn:gray]]Selecionar imagens[/btn] claramente visível",
+                "- Botão [btn:gray]Selecionar imagens[/btn] claramente visível",
                 "- Suporte a drag and drop para facilitar o upload",
                 "- Indicador visual quando imagens estão sendo processadas",
                 "- Grade de visualização das imagens após o upload",
@@ -3058,7 +3058,7 @@ Para ter controle total sobre a ordem de inserção e facilitar sua gestão`,
               dado: "que há imagens na grade",
               quando: "o usuário alterna entre modo edição e visualização",
               entao:
-                "o sistema deve mostrar/ocultar botões [btn:delete:x/] e habilitar/desabilitar drag",
+                "o sistema deve mostrar/ocultar botões [tc-red]X[/c] e habilitar/desabilitar drag",
               e_entao:
                 "manter badges numerados visíveis e funcionalidade de clique para visualização em ambos os modos",
             },
