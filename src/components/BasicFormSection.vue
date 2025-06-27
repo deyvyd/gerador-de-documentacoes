@@ -4,7 +4,7 @@
     <div class="base-section mb-4">
       <h2 class="base-title">Informações básicas da SS</h2>
 
-      <!-- Primeira linha: Número SS, Ano SS e Título -->
+      <!-- Primeira linha: Número SS, Ano SS, Sistema e Título -->
       <div class="grid grid-cols-1 sm:grid-cols-12 gap-4">
         <div class="form-group col-span-1 sm:col-span-1">
           <label for="numeroSS" class="form-label">
@@ -38,7 +38,20 @@
           />
         </div>
 
-        <div class="form-group col-span-1 sm:col-span-10">
+        <div class="form-group col-span-1 sm:col-span-2">
+          <label for="sistema" class="form-label">Sistema</label>
+          <input
+            type="text"
+            v-model="formData.sistema"
+            id="sistema"
+            ref="sistema"
+            class="form-input"
+            placeholder="Nome do sistema"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="form-group col-span-1 sm:col-span-8">
           <label for="tituloSS" class="form-label">
             Título <span class="text-red-600">*</span>
           </label>

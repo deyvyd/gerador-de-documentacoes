@@ -79,6 +79,7 @@ export default {
       formData: {
         numeroSS: "",
         anoSS: new Date().getFullYear().toString(),
+        sistema: "",
         iniciaisAutor: "",
         tituloSS: "",
         descricao: "",
@@ -212,6 +213,7 @@ export default {
       // Verifica se há dados básicos preenchidos
       if (
         this.formData.numeroSS ||
+        this.formData.sistema ||
         this.formData.tituloSS ||
         this.formData.descricao ||
         this.formData.dataInicio ||
@@ -365,6 +367,7 @@ export default {
           const fieldsMapping = {
             numeroSS: "numeroSS",
             anoSS: "anoSS",
+            sistema: "sistema",
             tituloSS: "tituloSS",
             descricao: "descricao",
             //dataInicio: "dataInicio",
@@ -1124,6 +1127,7 @@ export default {
       // Adiciona dados básicos da SS
       formData.append("numeroSS", this.formData.numeroSS);
       formData.append("anoSS", this.formData.anoSS);
+      formData.append("sistema", this.formData.sistema);
       formData.append("iniciaisAutor", this.formData.iniciaisAutor);
       formData.append("tituloSS", this.formData.tituloSS);
       formData.append("descricao", this.formData.descricao);

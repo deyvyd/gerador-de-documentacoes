@@ -67,6 +67,7 @@ def gerar_documentos_tec():
                     'info': {
                         'numeroSS': dados.get('numeroSS', ''),
                         'anoSS': dados.get('anoSS', ''), 
+                        'sistema': dados.get('sistema', ''), 
                         'tituloSS': dados.get('tituloSS', ''),
                         'descricao': dados.get('descricao', ''),
                         'dataInicio': data_inicio_formatada,
@@ -79,7 +80,8 @@ def gerar_documentos_tec():
                 }
                 
                 # Caminho e nome do arquivo JSON
-                json_filename = f"SS {dados.get('numeroSS', '').zfill(3)}-{dados.get('anoSS', '')}.json"
+                sistema_prefix = f"[{dados.get('sistema')}] " if dados.get('sistema') else ""
+                json_filename = f"{sistema_prefix}SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json"
                 json_path = os.path.join(tempfile.gettempdir(), json_filename)
                 
                 # Salvar arquivo JSON
@@ -111,6 +113,7 @@ def gerar_documentos_tec():
                 'info': {
                     'numeroSS': dados['numeroSS'],
                     'anoSS': dados['anoSS'], 
+                    'sistema': dados.get('sistema', ''),
                     'tituloSS': dados['tituloSS'],
                     'descricao': dados['descricao'],
                     'dataInicio': data_inicio_formatada,
@@ -123,7 +126,8 @@ def gerar_documentos_tec():
             }
             
             # Caminho do arquivo JSON
-            json_path = os.path.join(tempfile.gettempdir(), f"SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json")
+            sistema_prefix = f"[{dados.get('sistema')}] " if dados.get('sistema') else ""
+            json_path = os.path.join(tempfile.gettempdir(), f"{sistema_prefix}SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json")
             
             # Salvar arquivo JSON
             with open(json_path, 'w', encoding='utf-8') as json_file:
@@ -143,6 +147,7 @@ def gerar_documentos_tec():
         documentacao = DocumentacaoTecnica(
             numero_ss=dados['numeroSS'],
             ano_ss=dados['anoSS'],
+            sistema=dados.get('sistema', ''),
             iniciais_autor=dados['iniciaisAutor'],
             titulo_ss=dados['tituloSS'],
             descricao=dados['descricao'],
@@ -247,7 +252,8 @@ def gerar_documentos_tec():
             return {"error": "Nenhum arquivo foi gerado com sucesso"}, 500
         
         # Cria nome do arquivo ZIP
-        zip_filename = f"SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.zip"
+        sistema_prefix = f"[{dados.get('sistema')}] " if dados.get('sistema') else ""
+        zip_filename = f"{sistema_prefix}SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.zip"
         zip_path = os.path.join(tempfile.gettempdir(), zip_filename)
         
         # Cria o arquivo ZIP com os documentos gerados

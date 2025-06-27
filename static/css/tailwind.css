@@ -6626,11 +6626,6 @@ body{
   color: rgb(153 27 27 / var(--tw-text-opacity, 1));
 }
 
-.hover\:text-sky-400:hover{
-  --tw-text-opacity: 1;
-  color: rgb(56 189 248 / var(--tw-text-opacity, 1));
-}
-
 .hover\:text-sky-700:hover{
   --tw-text-opacity: 1;
   color: rgb(3 105 161 / var(--tw-text-opacity, 1));

@@ -2,10 +2,11 @@
 from datetime import date, datetime
 
 class DocumentacaoTecnica:
-    def __init__(self, numero_ss, ano_ss, iniciais_autor, titulo_ss, descricao,
+    def __init__(self, numero_ss, ano_ss, sistema, iniciais_autor, titulo_ss, descricao,
                  data_inicio, data_fim, total_horas, link_board, atividades=None):
         self.numero_ss = numero_ss
         self.ano_ss = ano_ss
+        self.sistema = sistema
         self.iniciais_autor = iniciais_autor
         self.titulo_ss = titulo_ss
         self.descricao = descricao

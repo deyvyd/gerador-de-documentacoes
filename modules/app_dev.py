@@ -81,6 +81,7 @@ def gerar_documentos_dev():
                         'info': {
                             'numeroSS': dados['numeroSS'],
                             'anoSS': dados['anoSS'], 
+                            'sistema': dados.get('sistema', ''),
                             'tituloSS': dados['tituloSS'],
                             'descricao': dados['descricao'],
                             'dataInicio': data_inicio_formatada,
@@ -106,6 +107,7 @@ def gerar_documentos_dev():
                         'info': {
                             'numeroSS': dados['numeroSS'],
                             'anoSS': dados['anoSS'], 
+                            'sistema': dados.get('sistema', ''),
                             'tituloSS': dados['tituloSS'],
                             'descricao': dados['descricao'],
                             'dataInicio': data_inicio_formatada,
@@ -120,7 +122,8 @@ def gerar_documentos_dev():
                     }
                 
                 # Caminho e nome do arquivo JSON
-                json_filename = f"SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json"
+                sistema_prefix = f"[{dados.get('sistema')}] " if dados.get('sistema') else ""
+                json_filename = f"{sistema_prefix}SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json"
                 json_path = os.path.join(tempfile.gettempdir(), json_filename)
                 
                 # Salvar arquivo JSON
@@ -157,6 +160,7 @@ def gerar_documentos_dev():
                     'info': {
                         'numeroSS': dados['numeroSS'],
                         'anoSS': dados['anoSS'], 
+                        'sistema': dados.get('sistema', ''),
                         'tituloSS': dados['tituloSS'],
                         'descricao': dados['descricao'],
                         'dataInicio': data_inicio_formatada,
@@ -181,6 +185,7 @@ def gerar_documentos_dev():
                     'info': {
                         'numeroSS': dados['numeroSS'],
                         'anoSS': dados['anoSS'], 
+                        'sistema': dados.get('sistema', ''),
                         'tituloSS': dados['tituloSS'],
                         'descricao': dados['descricao'],
                         'dataInicio': data_inicio_formatada,
@@ -195,7 +200,8 @@ def gerar_documentos_dev():
                 }
             
             # Caminho do arquivo JSON
-            json_path = os.path.join(tempfile.gettempdir(), f"SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json")
+            sistema_prefix = f"[{dados.get('sistema')}] " if dados.get('sistema') else ""
+            json_path = os.path.join(tempfile.gettempdir(), f"{sistema_prefix}SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.json")
             
             # Salvar arquivo JSON
             with open(json_path, 'w', encoding='utf-8') as json_file:
@@ -213,14 +219,14 @@ def gerar_documentos_dev():
         
         class DocumentacaoDesenvolvimento(DocumentacaoTecnica):
             """Extensão da classe DocumentacaoTecnica com campos específicos de desenvolvimento"""
-            def __init__(self, numero_ss, ano_ss, iniciais_autor, titulo_ss, descricao, 
+            def __init__(self, numero_ss, ano_ss, sistema, iniciais_autor, titulo_ss, descricao, 
                         data_inicio, data_fim, link_board, requisitos=None, 
                         requisitos_nao_funcionais=None, total_pontos_funcao=0,
                         data_criacao=None, data_modificacao=None, 
                         iniciais_autor_criacao=None, iniciais_autor_modificacao=None):
                 
                 # Chama o construtor da classe pai
-                super().__init__(numero_ss, ano_ss, iniciais_autor, titulo_ss, descricao,
+                super().__init__(numero_ss, ano_ss, sistema, iniciais_autor, titulo_ss, descricao,
                                 data_inicio, data_fim, 0, link_board)  # Total horas 0
                 
                 # Campos específicos de desenvolvimento
@@ -297,6 +303,7 @@ def gerar_documentos_dev():
         documentacao = DocumentacaoDesenvolvimento(
             numero_ss=dados['numeroSS'],
             ano_ss=dados['anoSS'],
+            sistema=dados.get('sistema', ''), 
             iniciais_autor=dados['iniciaisAutor'],
             titulo_ss=dados['tituloSS'],
             descricao=dados['descricao'],
@@ -416,7 +423,8 @@ def gerar_documentos_dev():
             return {"error": "Nenhum arquivo foi gerado com sucesso"}, 500
         
         # Cria nome do arquivo ZIP
-        zip_filename = f"SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.zip"
+        sistema_prefix = f"[{dados.get('sistema')}] " if dados.get('sistema') else ""
+        zip_filename = f"{sistema_prefix}SS {dados['numeroSS'].zfill(3)}-{dados['anoSS']}.zip"
         zip_path = os.path.join(tempfile.gettempdir(), zip_filename)
         
         # Cria o arquivo ZIP com os documentos gerados
