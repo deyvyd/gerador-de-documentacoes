@@ -73,8 +73,20 @@ def gerar_documentos_dev():
                     # Garantir que temos iniciaisAutorCriacao
                     iniciais_autor_criacao = dados.get('iniciaisAutorCriacao') or dados.get('iniciaisAutor')
                     # Converter para o formato brasileiro antes de salvar no JSON
-                    data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
-                    data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    data_inicio_formatada = ''
+                    data_fim_formatada = ''
+
+                    if dados.get('dataInicio') and dados.get('dataInicio').strip():
+                        try:
+                            data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                        except ValueError:
+                            data_inicio_formatada = dados['dataInicio']  # Mantém o valor original se não conseguir converter
+
+                    if dados.get('dataFim') and dados.get('dataFim').strip():
+                        try:
+                            data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                        except ValueError:
+                            data_fim_formatada = dados['dataFim']  # Mantém o valor original se não conseguir converter
 
                     dados_json = {
                         'tipo': tipo_formulario,
@@ -100,8 +112,21 @@ def gerar_documentos_dev():
                     from datetime import datetime
                     data_atual = datetime.now().strftime('%d/%m/%Y')
                     # Converter para o formato brasileiro antes de salvar no JSON
-                    data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
-                    data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    data_inicio_formatada = ''
+                    data_fim_formatada = ''
+
+                    if dados.get('dataInicio') and dados.get('dataInicio').strip():
+                        try:
+                            data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                        except ValueError:
+                            data_inicio_formatada = dados['dataInicio']  # Mantém o valor original se não conseguir converter
+
+                    if dados.get('dataFim') and dados.get('dataFim').strip():
+                        try:
+                            data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                        except ValueError:
+                            data_fim_formatada = dados['dataFim']  # Mantém o valor original se não conseguir converter
+
                     dados_json = {
                         'tipo': tipo_formulario,
                         'info': {
@@ -152,8 +177,20 @@ def gerar_documentos_dev():
                 data_atual = datetime.now().strftime('%d/%m/%Y')
                 iniciais_autor_criacao = dados.get('iniciaisAutorCriacao') or dados.get('iniciaisAutor')
                 # Converter para o formato brasileiro antes de salvar no JSON
-                data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
-                data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                data_inicio_formatada = ''
+                data_fim_formatada = ''
+
+                if dados.get('dataInicio') and dados.get('dataInicio').strip():
+                    try:
+                        data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    except ValueError:
+                        data_inicio_formatada = dados['dataInicio']  # Mantém o valor original se não conseguir converter
+
+                if dados.get('dataFim') and dados.get('dataFim').strip():
+                    try:
+                        data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    except ValueError:
+                        data_fim_formatada = dados['dataFim']  # Mantém o valor original se não conseguir converter
 
                 dados_json = {
                     'tipo': tipo_formulario,
@@ -178,8 +215,20 @@ def gerar_documentos_dev():
             else:
                 from datetime import datetime
                 # Converter para o formato brasileiro antes de salvar no JSON
-                data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
-                data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                data_inicio_formatada = ''
+                data_fim_formatada = ''
+
+                if dados.get('dataInicio') and dados.get('dataInicio').strip():
+                    try:
+                        data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    except ValueError:
+                        data_inicio_formatada = dados['dataInicio']  # Mantém o valor original se não conseguir converter
+
+                if dados.get('dataFim') and dados.get('dataFim').strip():
+                    try:
+                        data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    except ValueError:
+                        data_fim_formatada = dados['dataFim']  # Mantém o valor original se não conseguir converter
                 dados_json = {
                     'tipo': tipo_formulario,
                     'info': {
@@ -296,8 +345,20 @@ def gerar_documentos_dev():
                 return substituicoes
                 
         # Converter para o formato brasileiro antes de salvar no JSON
-        data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
-        data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+        data_inicio_formatada = ''
+        data_fim_formatada = ''
+
+        if dados.get('dataInicio') and dados.get('dataInicio').strip():
+            try:
+                data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+            except ValueError:
+                data_inicio_formatada = dados['dataInicio']  # Mantém o valor original se não conseguir converter
+
+        if dados.get('dataFim') and dados.get('dataFim').strip():
+            try:
+                data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+            except ValueError:
+                data_fim_formatada = dados['dataFim']  # Mantém o valor original se não conseguir converter
 
         # Cria a instância de documentação de desenvolvimento
         documentacao = DocumentacaoDesenvolvimento(

@@ -58,8 +58,20 @@ def gerar_documentos_tec():
             try:
                 from datetime import datetime
                 # Converter para o formato brasileiro antes de salvar no JSON
-                data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
-                data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                data_inicio_formatada = ''
+                data_fim_formatada = ''
+
+                if dados.get('dataInicio') and dados.get('dataInicio').strip():
+                    try:
+                        data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    except ValueError:
+                        data_inicio_formatada = dados['dataInicio']  # Mantém o valor original se não conseguir converter
+
+                if dados.get('dataFim') and dados.get('dataFim').strip():
+                    try:
+                        data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                    except ValueError:
+                        data_fim_formatada = dados['dataFim']  # Mantém o valor original se não conseguir converter
 
                 # Criamos um dicionário com os dados disponíveis
                 dados_json = {
@@ -104,8 +116,20 @@ def gerar_documentos_tec():
         try:
             from datetime import datetime
             # Converter para o formato brasileiro antes de salvar no JSON
-            data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
-            data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+            data_inicio_formatada = ''
+            data_fim_formatada = ''
+
+            if dados.get('dataInicio') and dados.get('dataInicio').strip():
+                try:
+                    data_inicio_formatada = datetime.strptime(dados['dataInicio'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                except ValueError:
+                    data_inicio_formatada = dados['dataInicio']  # Mantém o valor original se não conseguir converter
+
+            if dados.get('dataFim') and dados.get('dataFim').strip():
+                try:
+                    data_fim_formatada = datetime.strptime(dados['dataFim'], '%Y-%m-%d').strftime('%d/%m/%Y')
+                except ValueError:
+                    data_fim_formatada = dados['dataFim']  # Mantém o valor original se não conseguir converter
 
             # Criamos um dicionário com todos os dados
             dados_json = {

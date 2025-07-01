@@ -1503,10 +1503,14 @@ export default {
             a.style.display = "none";
             a.href = url;
 
-            // Determinar nome do arquivo
-            const filename = `SS ${this.formData.numeroSS.padStart(3, "0")}-${
-              this.formData.anoSS
-            }.json`;
+            // Determinar nome do arquivo (incluindo sistema se preenchido)
+            const sistemaPrefix = this.formData.sistema
+              ? `[${this.formData.sistema}] `
+              : "";
+            const filename = `${sistemaPrefix}SS ${this.formData.numeroSS.padStart(
+              3,
+              "0"
+            )}-${this.formData.anoSS}.json`;
             a.download = filename;
 
             document.body.appendChild(a);

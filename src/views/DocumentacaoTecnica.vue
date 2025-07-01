@@ -911,10 +911,14 @@ export default {
             const a = document.createElement("a");
             a.href = url;
 
-            // Determinar nome do arquivo
-            let filename = `SS ${self.formData.numeroSS.padStart(3, "0")}-${
-              self.formData.anoSS
-            }.json`;
+            // Determinar nome do arquivo (incluindo sistema se preenchido)
+            const sistemaPrefix = self.formData.sistema
+              ? `[${self.formData.sistema}] `
+              : "";
+            let filename = `${sistemaPrefix}SS ${self.formData.numeroSS.padStart(
+              3,
+              "0"
+            )}-${self.formData.anoSS}.json`;
 
             // Tentar obter nome do cabeçalho Content-Disposition
             const response = window.lastResponse;

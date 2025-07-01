@@ -283,6 +283,60 @@ export default {
         perfil: null,
       };
 
+      // Resetar formData para valores iniciais
+      this.formData = {
+        numeroSS: "",
+        anoSS: new Date().getFullYear().toString(),
+        sistema: "",
+        iniciaisAutor: "",
+        tituloSS: "",
+        descricao: "",
+        dataInicio: "",
+        dataFim: "",
+        linkBoard: "",
+        gerarJson: true,
+        gerarDocx: false,
+        gerarPdf: false,
+      };
+
+      // Limpar seleção de autores
+      this.selectedAutores = [];
+
+      // Limpar atividades (se existir)
+      if (this.atividades !== undefined) {
+        this.atividades = [];
+      }
+
+      // Limpar requisitos (se existir)
+      if (this.requisitos !== undefined) {
+        this.requisitos = [];
+      }
+
+      // Limpar requisitos não funcionais (se existir)
+      if (this.listaRequisitosNaoFuncionais !== undefined) {
+        this.listaRequisitosNaoFuncionais = [];
+      }
+
+      // Limpar pontos de função (se existir)
+      if (this.totalPontosFuncao !== undefined) {
+        this.totalPontosFuncao = 0;
+        this.totalPontosFuncaoFormatado = "0";
+      }
+
+      // Limpar campos específicos de desenvolvimento (se existirem)
+      if (this.dataCriacao !== undefined) {
+        this.dataCriacao = "";
+      }
+      if (this.iniciaisAutorCriacao !== undefined) {
+        this.iniciaisAutorCriacao = "";
+      }
+      if (this.dataModificacao !== undefined) {
+        this.dataModificacao = "";
+      }
+      if (this.iniciaisAutorModificacao !== undefined) {
+        this.iniciaisAutorModificacao = "";
+      }
+
       try {
         // Validação básica da estrutura do JSON
         if (!data || typeof data !== "object") {
