@@ -117,6 +117,13 @@ export default {
                   return false; // Impedir o comportamento padrão do TAB no editor
                 },
               },
+              enter: {
+                key: 13,
+                handler: (range, context) => {
+                  // Permitir o comportamento padrão do Enter no editor (nova linha)
+                  return true;
+                },
+              },
             },
           },
         },

@@ -326,7 +326,7 @@
               </div>
               <input
                 type="text"
-                id="req-usuario-teste"
+                id="req-usuario"
                 v-model="requisito.usuario"
                 :style="getDefaultFieldStyle('usuario')"
                 :class="[
@@ -456,6 +456,7 @@
                 id="btn-select-images"
                 @click="$refs.fileInput.click()"
                 @keydown.enter.prevent="$refs.fileInput.click()"
+                @keydown="onUploadButtonKeydown"
                 type="button"
                 :class="[
                   'modal-upload-button',
@@ -951,7 +952,7 @@ export default {
 
         // Aba 2: Imagens e Descrição
         selectImagens: 211,
-        descricao: 220,
+        descricao: 212,
 
         // Aba 3: Regras
         validacoes: 311,
@@ -1365,19 +1366,11 @@ export default {
     },
 
     focarPrimeiroElementoDaAba() {
-      // Encontra o primeiro campo focável da aba atual
-      const seletores = [
-        "input:not([disabled])",
-        "select:not([disabled])",
-        "textarea:not([disabled])",
-        "button:not([disabled])",
-        ".ql-editor",
-      ];
-
       const conteudoAba = this.$refs[`abaConteudo${this.tabAtiva}`];
       if (conteudoAba) {
-        const primeiroElemento = this.$el.querySelector(
-          "button, input, select, textarea, .ql-editor"
+        // ✅ Buscar DENTRO da aba específica, não em todo o modal
+        const primeiroElemento = conteudoAba.querySelector(
+          "input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), .ql-editor"
         );
         if (primeiroElemento) {
           primeiroElemento.focus();
@@ -1393,33 +1386,24 @@ export default {
       // Move to the next tab when TAB is pressed in the editor
       this.trocarAba(2); // Move to the "Regras" tab
 
-      // Use a longer delay to ensure the DOM has fully updated
       setTimeout(() => {
-        // Try to focus specifically on the validacoes field by ID
-        const validacoesField = document.getElementById("req-validacoes");
-        if (validacoesField) {
-          validacoesField.focus();
-          // Place cursor at the end of any existing text
-          if (validacoesField.value) {
-            validacoesField.selectionStart = validacoesField.selectionEnd =
-              validacoesField.value.length;
-          }
+        // Focar especificamente no editor de validações
+        const validacoesEditor = document.querySelector(
+          "#validacoes-editor .ql-editor"
+        );
+        if (validacoesEditor) {
+          validacoesEditor.focus();
         } else {
-          console.warn("Validacoes field not found in the DOM");
-          // Fallback: try to find any textarea in the current tab content
-          const abaConteudo = this.$refs.abaConteudo2;
-          if (abaConteudo) {
-            const textarea = abaConteudo.querySelector("textarea");
-            if (textarea) {
-              textarea.focus();
-            } else {
-              console.warn("No textarea found in tab content");
+          // Fallback: buscar qualquer .ql-editor na aba de regras
+          const abaRegras = this.$refs.abaConteudo2;
+          if (abaRegras) {
+            const primeiroEditor = abaRegras.querySelector(".ql-editor");
+            if (primeiroEditor) {
+              primeiroEditor.focus();
             }
-          } else {
-            console.warn("Tab content ref not found");
           }
         }
-      }, 200); // Increased delay to ensure DOM is fully updated
+      }, 200);
     },
 
     // Navegação por teclado entre abas
@@ -1444,6 +1428,21 @@ export default {
             }
           }
         }
+      }
+    },
+
+    onUploadButtonKeydown(event) {
+      if (event.key === "Tab" && !event.shiftKey) {
+        // Tab no botão de upload vai para o campo de descrição
+        event.preventDefault();
+
+        // Focar no editor de descrição
+        this.$nextTick(() => {
+          const descricaoEditor = document.querySelector(".ql-editor");
+          if (descricaoEditor) {
+            descricaoEditor.focus();
+          }
+        });
       }
     },
 
@@ -1871,8 +1870,15 @@ export default {
     },
 
     handleRegrasTab() {
-      // Passar para o próximo campo (banco)
+      // Passar para a aba do banco de dados (aba 3)
       this.trocarAba(3); // Muda para aba do banco
+
+      setTimeout(() => {
+        const bancoEditor = document.querySelector("#banco-editor .ql-editor");
+        if (bancoEditor) {
+          bancoEditor.focus();
+        }
+      }, 200);
     },
 
     handleBancoTab() {
