@@ -197,6 +197,6 @@ Desenvolvido com ❤️ para automatizar e padronizar a criação de documentaç
 
 ## 🧑‍💻 Desenvolvedores:
 
-[Deyvyd Moura](https://github.com/deyvyd) - Desenvolvedor principal
-[Thiago Nascimento](https://github.com/Txiag) - Responsável pela geração do sumário
-[Carlos Henrique](https://github.com/carlosbda99) - Responsável pelo ajuste na limitação do tamanho dos arquivos aceitos pelo servidor
+- [Deyvyd Moura](https://github.com/deyvyd) - Desenvolvedor principal
+- [Thiago Nascimento](https://github.com/Txiag) - Responsável pela geração do sumário
+- [Carlos Henrique](https://github.com/carlosbda99) - Responsável pelo ajuste na limitação do tamanho dos arquivos aceitos pelo servidor
