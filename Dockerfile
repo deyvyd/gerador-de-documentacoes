@@ -1,5 +1,5 @@
 # Use uma imagem oficial do Python como base
-FROM python:3.11-slim-buster
+FROM python:3.11-slim-bullseye
 
 # Define o diretório de trabalho no contêiner
 WORKDIR /app

@@ -2,12 +2,11 @@
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![Flask](https://img.shields.io/badge/Flask-3.1+-darkgreen?logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![HTML5](https://img.shields.io/badge/HTML-5-E34F26?logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![Vue.js](https://img.shields.io/badge/Vue.js-3.0+-4FC08D?logo=vue.js&logoColor=white)](https://vuejs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.1+-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 
-Uma aplicação web para geração automática de documentos técnicos e de desenvolvimento a partir de modelos com marcadores, otimizando o fluxo de trabalho para relatórios e especificações de projetos.
+Uma aplicação web para geração automática de documentos técnicos e de desenvolvimento a partir de modelos padronizados, otimizando o fluxo de trabalho para relatórios e especificações de projetos.
 
 Tela Inicial:
 ![Screenshot da aplicação](screenshot-app.png)
@@ -16,292 +15,165 @@ Tela de Documentações de Desenvolvimento
 Tela de Documentações Técnicas
 ![Screenshot da aplicação](screenshot-tec.png)
 
-> [!NOTE]  
-> Este projeto foi desenvolvido para padronizar e automatizar o processo de criação de documentos para Solicitações de Serviço (SS), reduzindo o tempo gasto na documentação e garantindo consistência nos documentos gerados.
-
 ## 📋 Sumário
 
 - [Visão Geral](#-visão-geral)
-- [Funcionalidades](#-funcionalidades)
-- [Tipos de Documentação](#-tipos-de-documentação)
 - [Tecnologias](#-tecnologias)
 - [Requisitos](#-requisitos)
 - [Instalação e Execução](#-instalação-e-execução)
-- [Estrutura de Arquivos](#-estrutura-de-arquivos)
+- [Estrutura Principal](#-estrutura-principal)
+- [Principais Funcionalidades](#-principais-funcionalidades)
+- [Como Usar](#-como-usar)
 - [Modelos e Marcadores](#-modelos-e-marcadores)
-- [Contribuição](#-contribuição)
+- [Desenvolvedores](#-desenvolvedores)
 
 ## 🔍 Visão Geral
 
-O Gerador de Documentações é uma aplicação web que facilita a criação de documentos padronizados para projetos de tecnologia. A aplicação oferece interfaces específicas para dois tipos principais de documentação:
+O Gerador de Documentações automatiza a criação de documentos padronizados para Solicitações de Serviço (SS), oferecendo dois tipos principais de documentação:
 
-- **Documentação Técnica**: Para registro detalhado de atividades realizadas, horas trabalhadas e cálculos de pontos de função.
-- **Documentação de Desenvolvimento**: Para especificação de requisitos funcionais e não funcionais, incluindo detalhes de implementação e integração com banco de dados.
+- **Documentação Técnica**: Registro de atividades, horas trabalhadas e cálculos de pontos de função
+- **Documentação de Desenvolvimento**: Especificação de requisitos funcionais e não funcionais
 
-A aplicação automatiza o preenchimento dos documentos, substituindo marcadores com os dados fornecidos pelo usuário e preservando a formatação original dos modelos.
-
-## ✨ Funcionalidades
-
-### Interface e Usabilidade
-
-- **Interface responsiva**: Experiência consistente em dispositivos desktop e móveis
-- **Tema claro/escuro**: Alternância entre temas para conforto visual
-- **Navegação intuitiva**: Troca simples entre tipos de documentação
-- **Exportação flexível**: Documentos em formato JSON, DOCX e/ou PDF
-
-### Formulário Base
-
-- **Informações da SS**: Campos para número, ano e título da solicitação
-- **Datas e descrição**: Campos para período de execução e descrição detalhada
-- **Link do board**: Integração com sistemas de gerenciamento de projetos
-- **Seleção de autores**: Sistema de autocompletar com sugestões e tags
-
-> [!TIP]
-> Você pode salvar seu trabalho a qualquer momento exportando apenas o arquivo JSON, que poderá ser importado posteriormente para continuar o preenchimento.
-
-## 🗂 Tipos de Documentação
-
-### Documentação Técnica
-
-- **Gerenciamento de atividades**: Adicionar, editar, remover e reordenar atividades
-- **Estimativa de horas**: Registro de horas por atividade
-- **Cálculos automáticos**: Soma total de horas e conversão para pontos de função
-- **Reordenação via drag-and-drop**: Reorganização intuitiva da lista de atividades
-
-### Documentação de Desenvolvimento
-
-- **Requisitos Funcionais (RF)**:
-  - Especificação detalhada com ID automático
-  - Reordenação via drag-and-drop: Reorganização intuitiva do RFs com atualização automática do ID
-  - Editor rich text para descrição, regras e validações
-  - Upload de imagens para diagramas e screenshots
-  - Campos para tipo de alteração, local, usuário e perfil
-  - Mudanças de banco de dados necessárias
-- **Requisitos Não Funcionais (RNF)**:
-  - Registro de título e descrição com ID sequencial
-  - Reordenação via drag-and-drop: Reorganização intuitiva do RNFs com atualização automática do ID
-  - Gerenciamento simples via interface de adição/remoção
-- **Pontos de Função**: Campo para registrar o total após análise e contagem
-
-> [!IMPORTANT]  
-> Todos os documentos gerados incluem sumários que são automaticamente atualizados com os números de página corretos, garantindo navegação eficiente nos documentos finais.
+A aplicação substitui marcadores nos modelos com dados fornecidos pelo usuário, preservando a formatação original e gerando documentos em formatos DOCX e PDF.
 
 ## 🛠 Tecnologias
 
 ### Backend
 
 - **Python 3.11+**
-- **Flask**: Framework web leve e flexível
-- **python-docx**: Manipulação programática de documentos Word
-- **LibreOffice**: Conversão de documentos para PDF (Docker)
+- **Flask**: Framework web
+- **python-docx**: Manipulação de documentos Word
+- **LibreOffice**: Conversão para PDF (Docker)
 
 ### Frontend
 
 - **Vue.js 3**: Framework JavaScript progressivo
 - **Tailwind CSS**: Framework CSS utilitário
-- **Sortable.js**: Funcionalidade de drag-and-drop
-- **Quill**: Editor rich text para requisitos funcionais
+- **Quill**: Editor rich text
 
 ### Infraestrutura
 
-- **Docker**: Containerização para implantação simplificada
-- **Docker Compose**: Orquestração de contêineres
+- **Docker** e **Docker Compose**: Containerização
 
 ## 📋 Requisitos
 
-### Para Desenvolvimento Local
+- **Docker Desktop** instalado e em execução
+- **Git** para clonagem do repositório
 
-- **Python 3.11+**
-- **Node.js 18+** e **npm**
-- **LibreOffice** (para conversão de documentos)
+## 🚀 Instalação e Execução
 
-### Para Execução via Docker
+### 1. Clone o repositório
 
-- **Docker** e **Docker Compose**
-- **Windows** (para executar o script `deploy.bat`) ou conhecimento de Docker para ambientes Linux/Mac
+```bash
+git clone <url-do-repositorio>
+cd gerador-de-documentacoes
+```
 
-## 💻 Instalação e Execução
+### 2. Execute com Docker
 
-> [!CAUTION]
-> Certifique-se de ter os requisitos instalados antes de prosseguir. O uso incorreto dos comandos de instalação pode afetar outros projetos no mesmo ambiente.
+**Windows:**
 
-### Método 1: Usando Docker 🐋 (Recomendado)
+```bash
+.\deploy.bat
+```
 
-A maneira mais simples de executar a aplicação é usando Docker, que encapsula todas as dependências:
-
-> [!IMPORTANT]  
-> Antes de mais nada é importante ter o [Docker Desktop](https://docs.docker.com/desktop/setup/install/) instalado e colocá-lo em execução no sistema
-
-1. **Clone o repositório**:
-
-   ```bash
-   git clone https://github.com/deyvyd/gerador-de-documentacoes.git
-   cd gerador-de-documentacoes
-   ```
-
-2. **Execute o script de implantação** (Windows):
-
-   ```bash
-   .\deploy.bat
-   ```
-
-> O script `deploy.bat` automatiza todo o processo de:
->
-> - Construir os assets frontend
-> - Verificar a instalação do Docker
-> - Construir e iniciar o contêiner Docker
-
-Para ambientes Linux/Mac, execute os comandos equivalentes:
+**Linux/Mac:**
 
 ```bash
 npm run build
 docker-compose up --build -d
 ```
 
-3. **Acesse a aplicação**:
-   Abra seu navegador e acesse http://localhost:5000
+### 3. Acesse a aplicação
 
-### Método 2: Execução em Ambiente de Desenvolvimento
+Abra seu navegador e acesse: **http://localhost:5000**
 
-Para desenvolvimento ou contribuição ao projeto:
+> O script `deploy.bat` automatiza todo o processo de build do frontend e inicialização dos contêineres Docker.
 
-1. **Clone o repositório**:
-
-   ```bash
-   git clone https://github.com/deyvyd/gerador-de-documentacoes.git
-   cd gerador-de-documentacoes
-   ```
-
-2. **Configure o ambiente backend**:
-
-   ```bash
-   # Crie e ative o ambiente virtual
-   python -m venv venv
-
-   # Windows
-   venv\Scripts\activate
-
-   # Linux/Mac
-   source venv/bin/activate
-
-   # Instale as dependências
-   pip install -r requirements.txt
-   ```
-
-3. **Instale o Concurrently**:
-> [!IMPORTANT]  
-> Antes de mais nada é importante ter o [Node.js](https://nodejs.org/pt/download/current/) e o [LibreOffice](https://pt-br.libreoffice.org/baixe-ja/libreoffice-novo/) instalados
-   ```bash
-   # Para rodar os servidores de front e back com apenas um comando
-   npm install concurrently
-   ```
-4. **Configure o ambiente frontend**:
-
-   ```bash
-   # Instale as dependências
-   npm install
-
-   # Inicie o servidor de desenvolvimento
-   npm run dev
-   ```
-
-5. **Acesse a aplicação de desenvolvimento**:
-   Abra seu navegador e acesse `http://localhost:5173`
-
-> [!WARNING]  
-> Ao executar em ambiente de desenvolvimento, certifique-se de que o LibreOffice esteja instalado para a conversão de documentos DOCX para PDF. No ambiente Docker, isso é configurado automaticamente.
-
-## 🚀 Uso
-
-1. **Selecione o tipo de documentação**:
-
-   - Técnica (foco em atividades e horas)
-   - Desenvolvimento (foco em requisitos)
-
-2. **Preencha as informações básicas**:
-
-   - Número da SS, ano e título
-   - Autor(es)
-   - Datas de início e fim
-   - Link do board
-   - Descrição detalhada
-> [!NOTE]
-> Você pode também carregar os dados de um JSON salvo anteriormente clicando no botão de "Importar" no cabeçalho da página
-
-3. **Preencha as informações específicas de acordo com o tipo de documentação**:
-
-   - **Técnica**: Adicione atividades e horas
-   - **Desenvolvimento**: Especifique requisitos funcionais, não funcionais e total de pontos de função
-
-4. **Selecione os formatos de saída**:
-
-   - DOCX (editável posteriormente)
-   - PDF (versão final para distribuição)
-   - JSON é sempre gerado para importação futura
-
-5. **Gere a documentação**:
-   Clique em "Gerar Documento" e aguarde o download do arquivo ZIP contendo os documentos.
-
-## 📁 Estrutura de Arquivos
+## 📁 Estrutura Principal
 
 ```
 gerador-de-documentacoes/
 ├── app.py                 # Aplicação Flask principal
-├── deploy.bat             # Script para implantação automatizada
-├── Dockerfile             # Configuração do contêiner Docker
-├── docker-compose.yml     # Configuração dos serviços Docker
+├── deploy.bat             # Script de implantação automatizada
+├── Dockerfile             # Configuração do contêiner
+├── docker-compose.yml     # Orquestração dos serviços
 ├── requirements.txt       # Dependências Python
 ├── package.json           # Dependências JavaScript
-├── static/                # Arquivos estáticos compilados
 ├── src/                   # Código-fonte Vue.js
-│   ├── components/        # Componentes Vue reutilizáveis
+│   ├── components/        # Componentes reutilizáveis
 │   ├── views/             # Páginas principais
-│   ├── router/            # Configuração de rotas
-│   ├── assets/            # Recursos estáticos (CSS, imagens)
-│   └── main.js            # Ponto de entrada do Vue.js
-├── templates/             # Templates HTML
-│   └── index.html         # Página principal
-└── modelos/               # Modelos de documentos
-    ├── tecnica/           # Modelos técnicos
-    │   ├── ModeloTec - Estimativa de Esforço e Cronograma.docx
-    │   ├── ModeloTec - Estratégia de solução.docx
-    │   └── ModeloTec - Relatório de Acompanhamento de Projeto.docx
-    └── desenvolvimento/   # Modelos de desenvolvimento
-        ├── ModeloDev - Estimativa de Esforço e Cronograma.docx
-        ├── ModeloDev - Estratégia de solução.docx
-        └── ModeloDev - Relatório de Acompanhamento de Projeto.docx
+│   └── assets/           # Recursos estáticos
+├── static/               # Arquivos compilados
+└── modelos/              # Modelos de documentos
+    ├── tecnica/          # Modelos técnicos
+    └── desenvolvimento/  # Modelos de desenvolvimento
 ```
+
+## ✨ Principais Funcionalidades
+
+### Interface e Usabilidade
+
+- Interface responsiva com tema claro/escuro
+- Navegação intuitiva entre tipos de documentação
+- Exportação em JSON, DOCX e PDF
+- Sistema de importação/exportação para continuidade do trabalho
+
+### Documentação Técnica
+
+- Gerenciamento de atividades com drag-and-drop
+- Estimativa de horas por atividade
+- Cálculos automáticos de pontos de função
+
+### Documentação de Desenvolvimento
+
+- **Requisitos Funcionais (RF)**:
+  - Especificação detalhada com ID automático
+  - Editor rich text para descrição, regras e validações
+  - Upload de imagens para diagramas e screenshots
+  - Campos para tipo, local, usuário e perfil
+  - Reordenação via drag-and-drop com atualização automática de IDs
+- **Requisitos Não Funcionais (RNF)**:
+  - Registro com título e descrição
+  - ID sequencial automático
+  - Reordenação via drag-and-drop
+- **Pontos de Função**: Campo para total após análise
+
+## 🔄 Como Usar
+
+1. **Selecione o tipo** de documentação (Técnica ou Desenvolvimento)
+2. **Preencha informações básicas**: SS, autor(es), datas, descrição
+3. **Configure dados específicos**: atividades/horas ou requisitos
+4. **Escolha formatos** de saída (DOCX, PDF, JSON)
+5. **Gere a documentação** e faça o download do arquivo ZIP
+
+> [!TIP]
+> Use a exportação JSON para salvar progresso e continuar posteriormente via importação.
 
 ## 📝 Modelos e Marcadores
 
-### Documentos Suportados
+A aplicação suporta três tipos de documentos para cada categoria:
 
-A aplicação suporta a geração de três tipos de documentos para cada categoria:
-
-- **Relatório de Acompanhamento de Projeto**
-- **Estratégia de Solução**
-- **Estimativa de Esforço e Cronograma**
+- Relatório de Acompanhamento de Projeto
+- Estratégia de Solução
+- Estimativa de Esforço e Cronograma
 
 ### Marcadores Básicos
 
-Os seguintes marcadores são substituídos automaticamente nos documentos:
+| Marcador        | Descrição                |
+| --------------- | ------------------------ |
+| `[NNN]`         | Número da SS formatado   |
+| `[AAAA]`        | Ano da SS                |
+| `[TITULO]`      | Título da SS             |
+| `[DESCRICAO]`   | Descrição da atividade   |
+| `[TOTAL_HORAS]` | Total de horas calculado |
+| `[N_PF]`        | Pontos de função         |
+| `[LINK_BOARD]`  | Link do board do projeto |
+| `[DATA_INICIO]` | Data de início formatada |
+| `[DATA_FIM]`    | Data de fim formatada    |
+| `[DIAS_UTEIS]`  | Dias úteis calculados    |
 
-| Marcador           | Descrição                                   |
-| ------------------ | ------------------------------------------- |
-| `[NNN]`            | Número da SS formatado com zeros à esquerda |
-| `[AAAA]`           | Ano da SS                                   |
-| `[INICIAIS_AUTOR]` | Iniciais do(s) autor(es) formatadas         |
-| `[TITULO]`         | Título da SS                                |
-| `[DESCRICAO]`      | Descrição da atividade                      |
-| `[DATA_ATUAL]`     | Data atual formatada                        |
-| `[DATA_INICIO]`    | Data de início formatada                    |
-| `[DATA_FIM]`       | Data de fim formatada                       |
-| `[DIAS_UTEIS]`     | Dias úteis calculados entre as datas        |
-| `[TOTAL_HORAS]`    | Total de horas das atividades               |
-| `[N_PF]`           | Número de pontos de função calculados       |
-| `[LINK_BOARD]`     | Link do board do projeto                    |
-
-### Marcadores Específicos por Tipo
+### Marcadores Específicos
 
 #### Documentação Técnica
 
@@ -319,27 +191,12 @@ Os seguintes marcadores são substituídos automaticamente nos documentos:
 | `[INICIAIS_AUTOR_MODIFICACAO]` | Iniciais do autor da modificação |
 | `[DATA_MODIFICACAO]`           | Data da última atualização       |
 
-## 🔄 Importação e Exportação
-
-A aplicação permite salvar todo o progresso em arquivos JSON que podem ser importados posteriormente:
-
-1. **Exportação**: Selecione apenas JSON ao gerar documentos para obter um arquivo de backup
-2. **Importação**: Clique no ícone de upload na barra superior e selecione o arquivo JSON
-3. **Continuidade**: Continue o trabalho a partir do ponto onde parou
-
-> [!NOTE]  
-> Os arquivos JSON incluem metadados sobre o tipo de documentação. Não é possível importar um arquivo JSON de documentação técnica em um formulário de desenvolvimento e vice-versa.
-
-## 👥 Contribuição
-
-Contribuições são bem-vindas! Para contribuir:
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/nova-funcionalidade`)
-3. Faça commit das alterações (`git commit -m 'Adiciona nova funcionalidade'`)
-4. Faça push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
-
 ---
 
-Desenvolvido com ❤️ por [Deyvyd Moura](https://github.com/deyvyd) com apoio do [Thiago Nascimento](https://github.com/Txiag) na parte de geração do sumário
+Desenvolvido com ❤️ para automatizar e padronizar a criação de documentações técnicas.
+
+## 🧑‍💻 Desenvolvedores:
+
+[Deyvyd Moura](https://github.com/deyvyd) - Desenvolvedor principal
+[Thiago Nascimento](https://github.com/Txiag) - Responsável pela geração do sumário
+[Carlos Henrique](https://github.com/carlosbda99) - Responsável pelo ajuste na limitação do tamanho dos arquivos aceitos pelo servidor
