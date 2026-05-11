@@ -70,6 +70,7 @@
           id="infoSS"
           :formData="formData"
           @update:numeroSS="formData.numeroSS = $event"
+          @update:descricao="formData.descricao = $event"
           @format-ss="formatSS"
         />
 

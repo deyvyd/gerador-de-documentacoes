@@ -300,8 +300,20 @@
               :colspan="footerItem.colspan || 1"
               :class="footerItem.class || 'text-center font-medium'"
             >
-              <span class="total-label">{{ footerItem.label }}: </span>
-              <span class="total-value">{{ footerItem.value }}</span>
+              <div
+                v-if="index === processedFooterItems.length - 1 && $slots['footer-extra']"
+                class="flex items-center justify-end gap-2"
+              >
+                <span>
+                  <span class="total-label">{{ footerItem.label }}: </span>
+                  <span class="total-value">{{ footerItem.value }}</span>
+                </span>
+                <slot name="footer-extra" />
+              </div>
+              <template v-else>
+                <span class="total-label">{{ footerItem.label }}: </span>
+                <span class="total-value">{{ footerItem.value }}</span>
+              </template>
             </td>
           </tr>
         </tfoot>

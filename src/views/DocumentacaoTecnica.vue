@@ -71,6 +71,7 @@
           id="infoSS"
           :formData="formData"
           @update:numeroSS="formData.numeroSS = $event"
+          @update:descricao="formData.descricao = $event"
           @format-ss="formatSS"
         />
 
@@ -204,6 +205,66 @@
               @delete="removerAtividade"
               @reorder="reordenarAtividades"
             >
+              <template #footer-extra>
+                <div ref="pfSettingsWrapper">
+                  <button
+                    type="button"
+                    ref="pfSettingsBtn"
+                    class="pf-settings-btn flex items-center justify-center w-6 h-6 rounded border cursor-pointer transition-colors duration-150"
+                    :class="{ active: showPfSettings }"
+                    @click="togglePfSettings"
+                    :title="`Configurar fator multiplicador de PF (atual: ${pfMultiplier})`"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                      />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </button>
+                  <Teleport to="body">
+                    <div
+                      v-if="showPfSettings"
+                      ref="pfPopover"
+                      :style="pfPopoverStyle"
+                      class="fixed z-[9999] min-w-[220px] overflow-hidden rounded-lg border border-gray-300 bg-white shadow-lg dark:bg-dark-200 dark:border-dark-border-primary"
+                    >
+                      <div class="flex items-center justify-between px-3 py-2 bg-gray-100 border-b border-gray-300 text-xs font-semibold text-gray-900 dark:bg-dark-400 dark:border-gray-600 dark:text-white">
+                        <span>Multiplicador de PF</span>
+                        <button
+                          type="button"
+                          class="flex items-center justify-center p-0.5 rounded border-0 bg-transparent text-gray-500 cursor-pointer transition-colors duration-150 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-gray-700"
+                          @click="closePfSettings"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                      <div class="p-3 flex flex-col gap-2">
+                        <label class="text-xs text-gray-500 dark:text-gray-400">Fator (horas × fator = PF)</label>
+                        <div class="flex gap-1.5">
+                          <input
+                            type="number"
+                            v-model.number="pfMultiplierInput"
+                            min="0.01"
+                            step="0.01"
+                            class="flex-1 min-w-0 px-2 py-1.5 rounded border border-gray-300 bg-white text-sm text-gray-900 focus:outline-none focus:border-blue-500 dark:bg-dark-400 dark:border-gray-600 dark:text-white"
+                            @keydown.enter="applyPfMultiplier"
+                          />
+                          <button type="button" class="px-3 py-1.5 rounded border-0 bg-blue-500 text-white text-sm font-semibold cursor-pointer transition-colors duration-150 hover:bg-blue-600" @click="applyPfMultiplier">OK</button>
+                        </div>
+                        <button
+                          v-if="pfMultiplier !== 0.25"
+                          type="button"
+                          class="text-[0.7rem] bg-transparent border-0 cursor-pointer text-left p-0 underline underline-offset-2 transition-colors duration-150 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                          @click="resetPfMultiplier"
+                        >Restaurar padrão (0,25)</button>
+                      </div>
+                    </div>
+                  </Teleport>
+                </div>
+              </template>
             </data-table>
           </div>
         </div>
@@ -289,6 +350,10 @@ export default {
       },
       atividades: [],
       atividadesChangeCounter: 0,
+      pfMultiplier: 0.25,
+      pfMultiplierInput: 0.25,
+      showPfSettings: false,
+      pfPopoverStyle: {},
       tourSteps: [
         {
           element: "#infoSS",
@@ -384,9 +449,7 @@ export default {
     },
 
     pontosFuncao() {
-      // Calcula os pontos de função: (horas / 10) * (250 / 100)
-      const pf = (this.totalHoras / 10) * (250 / 100);
-      // Formata para sempre mostrar 2 casas decimais
+      const pf = this.totalHoras * this.pfMultiplier;
       return this.formatarNumeroPF(pf);
     },
 
@@ -448,11 +511,72 @@ export default {
 
   beforeUnmount() {
     this.destroySortable();
-    this.removeEscapeListener(); // Para atividades
+    this.removeEscapeListener();
+    document.removeEventListener("click", this.handlePfSettingsClickOutside);
   },
 
   methods: {
     // Métodos específicos deste app
+    togglePfSettings() {
+      this.showPfSettings = !this.showPfSettings;
+      if (this.showPfSettings) {
+        this.pfMultiplierInput = this.pfMultiplier;
+        this.$nextTick(() => {
+          const btn = this.$refs.pfSettingsBtn;
+          if (btn) {
+            const rect = btn.getBoundingClientRect();
+            this.pfPopoverStyle = {
+              bottom: `${window.innerHeight - rect.top + 8}px`,
+              right: `${window.innerWidth - rect.right}px`,
+            };
+          }
+          document.addEventListener("click", this.handlePfSettingsClickOutside);
+        });
+      } else {
+        document.removeEventListener("click", this.handlePfSettingsClickOutside);
+      }
+    },
+
+    handlePfSettingsClickOutside(event) {
+      const wrapper = this.$refs.pfSettingsWrapper;
+      const popover = this.$refs.pfPopover;
+      const insideWrapper = wrapper && wrapper.contains(event.target);
+      const insidePopover = popover && popover.contains(event.target);
+      if (!insideWrapper && !insidePopover) {
+        this.showPfSettings = false;
+        document.removeEventListener("click", this.handlePfSettingsClickOutside);
+      }
+    },
+
+    closePfSettings() {
+      this.showPfSettings = false;
+      document.removeEventListener("click", this.handlePfSettingsClickOutside);
+    },
+
+    applyPfMultiplier() {
+      const val = parseFloat(this.pfMultiplierInput);
+      if (!isNaN(val) && val > 0) {
+        this.pfMultiplier = val;
+        this.closePfSettings();
+        this.notificationService.show(
+          `Multiplicador de PF atualizado para ${val}`,
+          "success"
+        );
+      } else {
+        this.notificationService.show(
+          "Informe um valor maior que zero",
+          "error"
+        );
+      }
+    },
+
+    resetPfMultiplier() {
+      this.pfMultiplier = 0.25;
+      this.pfMultiplierInput = 0.25;
+      this.closePfSettings();
+      this.notificationService.show("Multiplicador de PF restaurado para 0,25", "info");
+    },
+
     startTour() {
       if (this.$refs.tourGuide) {
         this.$refs.tourGuide.startTour();
@@ -1094,8 +1218,6 @@ export default {
 </script>
 
 <style scoped>
-/* Importe ou copie os estilos necessários */
 @import "../assets/css/styles.css";
 @import "../assets/css/colors.css";
-/* ... */
 </style>

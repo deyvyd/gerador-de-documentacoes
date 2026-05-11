@@ -403,6 +403,31 @@ a {
   }
 }
 
+/* ===== Botão de configurações de PF ===== */
+.pf-settings-btn {
+  color: var(--light-text-secondary);
+  border-color: var(--light-border-secondary);
+  background-color: transparent;
+}
+
+.pf-settings-btn:hover,
+.pf-settings-btn.active {
+  background-color: var(--light-bg-secondary);
+  color: var(--light-text-primary);
+  border-color: var(--light-border-primary);
+}
+
+.dark .pf-settings-btn {
+  color: var(--dark-text-secondary);
+  border-color: var(--dark-border-primary);
+}
+
+.dark .pf-settings-btn:hover,
+.dark .pf-settings-btn.active {
+  background-color: var(--dark-bg-secondary);
+  color: var(--dark-text-primary);
+}
+
 /* Upload de arquivo */
 .file-upload {
   padding: 1rem;
