@@ -92,22 +92,23 @@ def gerar_pdf_do_docx(caminho_arquivo):
                 caminho_arquivo
             ]
         
-        logger.debug(f"Executando comando: {' '.join(cmd)}")
-        
-        # Executa o comando com shell=True para Windows
+        logger.debug(f"Executando comando: {cmd}")
+
+        # Executa o comando sem shell para evitar problemas de encoding com caracteres
+        # especiais (é, ç, ó, etc.) nos caminhos de arquivo no Windows
         process = subprocess.run(
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True,
             timeout=60,  # Timeout de 60 segundos
             check=False,  # Não levanta exceção se o comando falhar
-            shell=(platform.system() == 'Windows')  # Usa shell no Windows
+            shell=False
         )
-        
+
         # Verifica se o processo foi bem-sucedido
         if process.returncode != 0:
-            logger.error(f"Erro ao gerar PDF: {process.stderr}")
+            stderr_msg = process.stderr.decode('utf-8', errors='replace')
+            logger.error(f"Erro ao gerar PDF: {stderr_msg}")
             return None
         
         # Verifica se o arquivo foi realmente criado

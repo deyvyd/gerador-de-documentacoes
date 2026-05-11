@@ -68,6 +68,8 @@ def encontrar_pagina_pdf(file, text: str, pag_min):
     return None
 
 def obter_paginas_pdf(caminho_pdf, titulos):
+    if not caminho_pdf:
+        return titulos
     titulos_aux = []
     for titulo in titulos:
         pagina = encontrar_pagina_pdf(caminho_pdf, titulo["texto"], titulo["pagina"])
