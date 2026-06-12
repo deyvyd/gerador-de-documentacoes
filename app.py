@@ -2,7 +2,6 @@ import logging
 import os
 import re
 from flask import Flask, send_from_directory, request, make_response
-from flask_cors import CORS
 
 # Configuração de logging
 logging.basicConfig(
@@ -13,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 # Inicialização da aplicação Flask
 app = Flask(__name__, static_folder='static')
-CORS(app, origins=["https://trabalho.deyvyd.com", "http://localhost:5173"])
 app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024
 app.config['MAX_FORM_PARTS'] = None
 app.config['MAX_FORM_MEMORY_SIZE'] = None
