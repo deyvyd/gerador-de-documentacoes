@@ -278,11 +278,6 @@
         </div>
       </div>
 
-      <!-- Version Info -->
-      <div class="text-center text-gray-600 dark:text-gray-500 text-sm mt-8">
-        <p>Versão 1.0.0</p>
-        <p>© 2025 Gerador de Documentações</p>
-      </div>
     </div>
   </div>
 </template>
