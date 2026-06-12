@@ -5,6 +5,7 @@ import { fileURLToPath, URL } from "url";
 
 export default defineConfig({
   plugins: [vue()],
+  base: "/aiyra/docgen/",
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
