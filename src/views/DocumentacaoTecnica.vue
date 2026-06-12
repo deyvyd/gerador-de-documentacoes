@@ -1006,7 +1006,7 @@ export default {
         const self = this;
 
         // Envia a requisição
-        fetch("/gerar_documentos", {
+        fetch((import.meta.env.VITE_API_URL || "") + "/gerar_documentos", {
           method: "POST",
           body: formData,
         })
@@ -1117,7 +1117,7 @@ export default {
         this.notificationService.show("Gerando documentos...", "info");
 
         // Envia a requisição
-        fetch("/gerar_documentos", {
+        fetch((import.meta.env.VITE_API_URL || "") + "/gerar_documentos", {
           method: "POST",
           body: formData,
         })
