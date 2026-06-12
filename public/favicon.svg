@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 76">
+  <path d="M6 2H42L54 14V70H6V2Z" fill="white" stroke="#C5D0E0" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M42 2V14H54" fill="none" stroke="#C5D0E0" stroke-width="2" stroke-linejoin="round"/>
+  <line x1="14" y1="22" x2="46" y2="22" stroke="#D8E2EE" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="14" y1="30" x2="46" y2="30" stroke="#D8E2EE" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="14" y1="38" x2="40" y2="38" stroke="#D8E2EE" stroke-width="1.5" stroke-linecap="round"/>
+  <polygon points="34,18 26,34 31,34 25,52 39,30 33,30" fill="#F59E0B"/>
+  <rect x="4" y="50" width="22" height="22" rx="3" fill="#27447E"/>
+  <text x="15" y="65" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="white" font-weight="700">D</text>
+</svg>
