@@ -1,5 +1,7 @@
 # Use uma imagem oficial do Python como base
-FROM python:3.14-slim-bookworm
+# trixie: LibreOffice 25.x — o 7.4 do bookworm não converte hyperlinks
+# internos (âncoras do sumário) para links no PDF
+FROM python:3.14-slim-trixie
 
 # Define o diretório de trabalho no contêiner
 WORKDIR /app
