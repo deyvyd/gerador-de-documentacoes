@@ -38,9 +38,9 @@ def encontrar_pagina_pdf(file, text, pag_min):
         Número da página (0-indexed) ou None se não encontrado
     """
     import re
-    import PyPDF2
+    import pypdf
 
-    pdf = PyPDF2.PdfReader(file)
+    pdf = pypdf.PdfReader(file)
 
     num_pages = len(pdf.pages)
     for i in range(0, num_pages):

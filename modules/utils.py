@@ -51,9 +51,9 @@ def identificar_quebras_pagina(doc):
 def encontrar_pagina_pdf(file, text: str, pag_min):
     import re
 
-    import PyPDF2
+    import pypdf
 
-    pdf = PyPDF2.PdfReader(file)
+    pdf = pypdf.PdfReader(file)
     print(f"Pesquisando título {text}")
 
     num_pages = len(pdf.pages)
