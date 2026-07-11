@@ -6,7 +6,6 @@
 
 <script>
 import Quill from "quill";
-import { Delta } from "quill";
 import Link from "quill/formats/link";
 
 export default {

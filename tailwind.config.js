@@ -126,9 +126,8 @@ export default {
       container: {
         center: true,
         padding: "1.5rem",
+        // sm/md omitidos = largura total até lg ("100%" gera media query inválida)
         screens: {
-          sm: "100%",
-          md: "100%",
           lg: "1400px",
           xl: "1400px",
         },

@@ -16,8 +16,14 @@ export default defineConfig({
     rollupOptions: {
       input: "./src/main.js",
       output: {
-        manualChunks: {
-          vendor: ["vue", "axios"], // separa libs grandes
+        // rolldown (vite 8) não aceita manualChunks em objeto; usar advancedChunks
+        advancedChunks: {
+          groups: [
+            {
+              name: "vendor",
+              test: /node_modules[\\/](vue|axios)[\\/]/,
+            },
+          ],
         },
       },
     },
