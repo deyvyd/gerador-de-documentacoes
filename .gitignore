@@ -28,3 +28,6 @@ tailwind.css
 
 # Histórico
 .history/
+# Ambientes e artefatos de teste
+.venv*/
+pdf-teste/
