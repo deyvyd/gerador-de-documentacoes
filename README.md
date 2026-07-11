@@ -9,11 +9,11 @@
 Uma aplicação web para geração automática de documentos técnicos e de desenvolvimento a partir de modelos padronizados, otimizando o fluxo de trabalho para relatórios e especificações de projetos.
 
 Tela Inicial:
-![Screenshot da aplicação](screenshot-app.png)
+![Screenshot da aplicação](static/screenshot-app.png)
 Tela de Documentações de Desenvolvimento
-![Screenshot da aplicação](screenshot-dev.png)
+![Screenshot da aplicação](static/screenshot-dev.png)
 Tela de Documentações Técnicas
-![Screenshot da aplicação](screenshot-tec.png)
+![Screenshot da aplicação](static/screenshot-tec.png)
 
 ## 📋 Sumário
 
