@@ -73,22 +73,32 @@ def gerar_pdf_do_docx(caminho_arquivo):
                 return None
             
             logger.info(f"Usando LibreOffice em: {soffice_path}")
-            
-            # Comando para converter usando o LibreOffice no Windows
+
+        # ConvertOOoTargetToPDFTarget: converte hyperlinks internos (âncoras do
+        # sumário, ex. #_Toc123) em destinos dentro do PDF — sem isso os links
+        # do índice ficam mortos. ExportBookmarksToPDFDestination exporta os
+        # bookmarks como destinos nomeados.
+        pdf_filter = (
+            'pdf:writer_pdf_Export:'
+            '{"ConvertOOoTargetToPDFTarget":{"type":"boolean","value":"true"},'
+            '"ExportBookmarksToPDFDestination":{"type":"boolean","value":"true"}}'
+        )
+
+        if platform.system() == 'Windows':
             cmd = [
-                soffice_path, 
-                '--headless', 
-                '--convert-to', 'pdf',
-                '--outdir', diretorio, 
+                soffice_path,
+                '--headless',
+                '--convert-to', pdf_filter,
+                '--outdir', diretorio,
                 caminho_arquivo
             ]
         else:
-            # Linux/Docker - mais simples
+            # Linux/Docker
             cmd = [
-                'libreoffice', 
-                '--headless', 
-                '--convert-to', 'pdf',
-                '--outdir', diretorio, 
+                'libreoffice',
+                '--headless',
+                '--convert-to', pdf_filter,
+                '--outdir', diretorio,
                 caminho_arquivo
             ]
         
