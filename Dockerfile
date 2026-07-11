@@ -49,4 +49,5 @@ EXPOSE 5000
 ENV FLASK_ENV=production
 
 # Comando para iniciar a aplicação
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "app:app"]
+# timeout alto: geração de docx/pdf (LibreOffice) passa fácil dos 30s default
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--threads", "2", "--timeout", "300", "app:app"]
