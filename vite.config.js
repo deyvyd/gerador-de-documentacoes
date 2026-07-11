@@ -16,8 +16,8 @@ export default defineConfig({
     rollupOptions: {
       input: "./src/main.js",
       output: {
-        // rolldown (vite 8) não aceita manualChunks em objeto; usar advancedChunks
-        advancedChunks: {
+        // rolldown (vite 8) não aceita manualChunks; codeSplitting substitui
+        codeSplitting: {
           groups: [
             {
               name: "vendor",

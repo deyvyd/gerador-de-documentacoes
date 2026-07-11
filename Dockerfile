@@ -1,5 +1,5 @@
 # Use uma imagem oficial do Python como base
-FROM python:3.11-slim-bullseye
+FROM python:3.14-slim-bookworm
 
 # Define o diretório de trabalho no contêiner
 WORKDIR /app
@@ -11,9 +11,9 @@ RUN apt-get install -y tzdata \
 
 RUN apt install -y gcc libreoffice
 
-# Instalar Node.js na versão LTS
+# Instalar Node.js na versão LTS (vite 8 exige Node >= 20.19)
 RUN apt-get update && apt-get install -y curl gnupg
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
 RUN apt-get install -y nodejs \
     && node --version \
     && npm --version
