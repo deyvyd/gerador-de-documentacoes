@@ -8,7 +8,7 @@ click==8.4.2
 
 # Manipulação de documentos
 python-docx==1.2.0
-pypdf==6.14.2
+pypdf==6.15.0
 Pillow==12.3.0
 
 # Utilitários de texto e formatação
