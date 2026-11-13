@@ -1,0 +1,16 @@
+name: Registrar deployment
+
+# O deploy em si é feito pelo Render (auto-deploy). Este workflow apenas
+# registra o deployment na aba "Deployments" do GitHub a cada push no main.
+on:
+  push:
+    branches: [main]
+
+jobs:
+  registrar:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://docgen.ferramentas.deyvyd.com
+    steps:
+      - run: echo "Deploy do commit ${{ github.sha }} disparado no Render"
